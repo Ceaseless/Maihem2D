@@ -1,0 +1,56 @@
+﻿using System;
+using UnityEngine;
+
+namespace Maihem.Extensions
+{
+    public static class FacingExtensions
+    {
+        public static Vector2Int GetFacingVector(this Facing facing)
+        {
+            return facing switch
+            {
+                Facing.East => Vector2Int.right,
+                Facing.West => Vector2Int.left,
+                Facing.North => Vector2Int.up,
+                Facing.South => Vector2Int.down,
+                Facing.NorthEast => new Vector2Int(1,1),
+                Facing.SouthEast => new Vector2Int(1,-1),
+                Facing.SouthWest => new Vector2Int(-1,-1),
+                Facing.NorthWest => new Vector2Int(-1,1),
+                _ => throw new ArgumentOutOfRangeException(nameof(facing), facing, null)
+            };
+        }
+
+        public static Facing GetFacingFromDirection(this Facing facing, Vector2Int direction)
+        {
+            return (direction.x, direction.y) switch
+            {
+                (1, 0) => Facing.East,
+                (-1, 0) => Facing.West,
+                (0, 1) => Facing.North,
+                (0, -1) => Facing.South,
+                (1,1) => Facing.NorthEast,
+                (1,-1) => Facing.SouthEast,
+                (-1,-1) => Facing.SouthWest,
+                (-1,1) => Facing.NorthWest,
+                _ => throw new ArgumentOutOfRangeException(nameof(direction), direction, null)
+            };
+        }
+
+        public static float GetZAngleFromFacing(this Facing facing)
+        {
+            return facing switch
+            {
+                Facing.East => -90f,
+                Facing.West => 90f,
+                Facing.North => 0,
+                Facing.South => 180f,
+                Facing.NorthEast => -45f,
+                Facing.SouthEast => -135f,
+                Facing.SouthWest => 135f,
+                Facing.NorthWest => 45f,
+                _ => throw new ArgumentOutOfRangeException(nameof(facing), facing, null)
+            };
+        }
+    }
+}
