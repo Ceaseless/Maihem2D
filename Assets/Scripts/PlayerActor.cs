@@ -13,6 +13,7 @@ namespace Maihem
         [SerializeField] private InputActionAsset inputActions;
         [SerializeField] private GameObject aimMarker;
         [SerializeField] private GameObject aimGrid;
+        [SerializeField] private GameObject diagonalModeMarker;
         [SerializeField] private GameObject stickObject;
         
         private PlayerControlState _controlState = PlayerControlState.Normal;
@@ -83,12 +84,14 @@ namespace Maihem
         {
             if (_controlState == PlayerControlState.Aiming) return;
             _controlState = PlayerControlState.Diagonal;
+            diagonalModeMarker.SetActive(true);
         }
         
         private void EndDiagonalModeMode(InputAction.CallbackContext ctx)
         {
             if (_controlState != PlayerControlState.Diagonal) return;
             _controlState = PlayerControlState.Normal;
+            diagonalModeMarker.SetActive(false);
         }
         
         private void Update()
