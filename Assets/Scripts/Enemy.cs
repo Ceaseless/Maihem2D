@@ -36,7 +36,7 @@ namespace Maihem
         {
             var player = GameManager.Instance.Player;
             var shortestPath = MapManager.Instance.FindShortestDistance(MapManager.Instance.GetGridPositionFromWorldPosition(transform.position), MapManager.Instance.GetGridPositionFromWorldPosition(player.transform.position));
-
+            
             if (shortestPath != null )
             {
                 var newPosition = MapManager.Instance.GetWorldPositionFromGridPosition(shortestPath.Last());
