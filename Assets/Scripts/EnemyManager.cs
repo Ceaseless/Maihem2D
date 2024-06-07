@@ -25,9 +25,9 @@ namespace Maihem
             var randomCell = MapManager.Instance.GetFreeCell();
             var randomPosition = MapManager.Instance.GetWorldPositionFromGridPosition(randomCell);
             var newEnemy = Instantiate(enemyPrefab, randomPosition, Quaternion.identity, transform).GetComponent<Enemy>();
-            newEnemy.OnDied += EnemyDied;
-            newEnemy.OnTurnStarted += EnemyStartedTurn;
-            newEnemy.OnTurnCompleted += EnemyCompletedTurn;
+            newEnemy.Died += EnemyDied;
+            newEnemy.TurnStarted += EnemyStartedTurn;
+            newEnemy.TurnCompleted += EnemyCompletedTurn;
             _activeEnemies.Add(newEnemy);
         }
 
