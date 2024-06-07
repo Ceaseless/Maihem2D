@@ -10,6 +10,9 @@ namespace Maihem
     {
         private enum PlayerControlState { Normal, Aiming, Diagonal }
         
+        [SerializeField] private float moveInputBufferWindow = 0.01f;
+        
+        
         [SerializeField] private InputActionAsset inputActions;
         [SerializeField] private GameObject aimMarker;
         [SerializeField] private GameObject aimGrid;
@@ -21,12 +24,25 @@ namespace Maihem
         private Animator _animator;
         private InputAction _moveAction, _mousePosition, _toggleAimAction, _toggleDiagonalModeAction, _attackAction;
         
+        private Vector2 _bufferedMoveInput;
+        private float _lastMoveInput;
         
         private static readonly int AnimatorHorizontal = Animator.StringToHash("Horizontal");
         private static readonly int AnimatorVertical = Animator.StringToHash("Vertical");
 
+        
+        public override void TakeDamage(int damage)
+        {
+            CurrentHealth -= damage;
+            if (CurrentHealth > 0) return;
+            Debug.Log("Player died");
+        }
+        
+        protected override void OnMoveAnimationEnd()
+        {
+            GameManager.Instance.TriggerTurn();
+        }
 
-        // Start is called before the first frame update
         protected override void Start()
         {
             base.Start();
@@ -34,15 +50,7 @@ namespace Maihem
             
             SetupInputActions();
         }
-
-       
-
-        protected override void OnMoveAnimationEnd()
-        {
-            GameManager.Instance.TriggerTurn();
-        }
-
-
+        
         private void SetupInputActions()
         {
             _moveAction = inputActions["Move"];
@@ -51,11 +59,14 @@ namespace Maihem
             _toggleDiagonalModeAction = inputActions["Diagonal Toggle"];
             _attackAction = inputActions["Attack"];
 
-            _toggleAimAction.performed += ToggleAim;
+            _moveAction.performed += MoveInputChanged;
+            _moveAction.canceled += MoveInputChanged;
+            
+            _toggleAimAction.performed += StartAim;
             _toggleAimAction.canceled += EndAim;
 
-            _toggleDiagonalModeAction.performed += ToggleDiagonalModeMode;
-            _toggleDiagonalModeAction.canceled += EndDiagonalModeMode;
+            _toggleDiagonalModeAction.performed += StartDiagonalMode;
+            _toggleDiagonalModeAction.canceled += EndDiagonalMode;
             
             _moveAction.Enable();
             _mousePosition.Enable();
@@ -63,37 +74,7 @@ namespace Maihem
             _toggleDiagonalModeAction.Enable();
             _attackAction.Enable();
         }
-
-        private void ToggleAim(InputAction.CallbackContext ctx)
-        {
-            if (_controlState != PlayerControlState.Normal) return;
-            _controlState = PlayerControlState.Aiming;
-            aimMarker.SetActive(true);
-            aimGrid.SetActive(true);
-        }
-        
-        private void EndAim(InputAction.CallbackContext ctx)
-        {
-            if (_controlState != PlayerControlState.Aiming) return;
-            _controlState = PlayerControlState.Normal;
-            aimMarker.SetActive(false);
-            aimGrid.SetActive(false);
-        }
-
-        private void ToggleDiagonalModeMode(InputAction.CallbackContext ctx)
-        {
-            if (_controlState == PlayerControlState.Aiming) return;
-            _controlState = PlayerControlState.Diagonal;
-            diagonalModeMarker.SetActive(true);
-        }
-        
-        private void EndDiagonalModeMode(InputAction.CallbackContext ctx)
-        {
-            if (_controlState != PlayerControlState.Diagonal) return;
-            _controlState = PlayerControlState.Normal;
-            diagonalModeMarker.SetActive(false);
-        }
-        
+       
         private void Update()
         {      
             ProcessInput();       
@@ -104,7 +85,7 @@ namespace Maihem
             if (_attackAction.WasPerformedThisFrame())
             {
                 Attack();
-            } else if(_moveAction.IsPressed())
+            } else if(Time.time - _lastMoveInput > moveInputBufferWindow) //if(_moveAction.IsPressed())
                 ProcessMoveInput();
         }
 
@@ -126,10 +107,9 @@ namespace Maihem
         
         private void ProcessMoveInput()
         {
-            var moveInput = _moveAction.ReadValue<Vector2>();
-            if (!GameManager.Instance.CanTakeTurn() || !(moveInput.sqrMagnitude > 0f)) return;
+            if (!GameManager.Instance.CanTakeTurn() || !(_bufferedMoveInput.sqrMagnitude > 0f)) return;
             
-            var newFacing = new Vector2Int((int)moveInput.x, (int)moveInput.y);
+            var newFacing = new Vector2Int((int)_bufferedMoveInput.x, (int)_bufferedMoveInput.y);
             _animator.SetInteger(AnimatorHorizontal, newFacing.x);
             _animator.SetInteger(AnimatorVertical, newFacing.y);
             CurrentFacing = CurrentFacing.GetFacingFromDirection(newFacing);
@@ -139,13 +119,13 @@ namespace Maihem
             switch (_controlState)
             {
                 case PlayerControlState.Normal:
-                    ProcessMovement(moveInput);
+                    ProcessMovement(_bufferedMoveInput);
                     break;
                 case PlayerControlState.Aiming:
-                    ProcessAim(moveInput);
+                    ProcessAim(_bufferedMoveInput);
                     break;
                 case PlayerControlState.Diagonal:
-                    ProcessDiagonalMovement(moveInput);
+                    ProcessDiagonalMovement(_bufferedMoveInput);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -189,11 +169,40 @@ namespace Maihem
             aimMarker.transform.localPosition = new Vector3(newFacing.x, newFacing.y, 0);
         }
         
-        public override void TakeDamage(int damage)
+        private void MoveInputChanged(InputAction.CallbackContext ctx)
         {
-            CurrentHealth -= damage;
-            if (CurrentHealth > 0) return;
-            Debug.Log("Player died");
+            _bufferedMoveInput = ctx.ReadValue<Vector2>();
+            _lastMoveInput = Time.time;
+        }
+
+        private void StartAim(InputAction.CallbackContext ctx)
+        {
+            if (_controlState != PlayerControlState.Normal) return;
+            _controlState = PlayerControlState.Aiming;
+            aimMarker.SetActive(true);
+            aimGrid.SetActive(true);
+        }
+        
+        private void EndAim(InputAction.CallbackContext ctx)
+        {
+            if (_controlState != PlayerControlState.Aiming) return;
+            _controlState = PlayerControlState.Normal;
+            aimMarker.SetActive(false);
+            aimGrid.SetActive(false);
+        }
+
+        private void StartDiagonalMode(InputAction.CallbackContext ctx)
+        {
+            if (_controlState == PlayerControlState.Aiming) return;
+            _controlState = PlayerControlState.Diagonal;
+            diagonalModeMarker.SetActive(true);
+        }
+        
+        private void EndDiagonalMode(InputAction.CallbackContext ctx)
+        {
+            if (_controlState != PlayerControlState.Diagonal) return;
+            _controlState = PlayerControlState.Normal;
+            diagonalModeMarker.SetActive(false);
         }
    
 
