@@ -110,24 +110,37 @@ namespace Maihem
             moveInput.x = math.round(moveInput.x);
             moveInput.y = math.round(moveInput.y);
 
-            var newPosition = transform.position + moveInput.WithZ(0f);
-            TryMove(newPosition, diagonalMoveCost);
+            TryMove(moveInput);
         }
 
         private void ProcessMovement(Vector2 moveInput)
         {
-            var newPosition = transform.position + moveInput.WithZ(0f);
-            var cost = (moveInput.x != 0 && moveInput.y != 0) ? diagonalMoveCost : moveCost;
-            TryMove(newPosition, cost);
+            TryMove(moveInput);
         }
 
-        private bool TryMove(Vector3 targetPosition, int cost)
+        private bool TryMove(Vector2 moveInput)
         {
+            var isDiagonal = moveInput.x != 0 && moveInput.y != 0;
+            var cost = isDiagonal ? diagonalMoveCost : moveCost;
             if (_stamina < cost) return false;
+            
+            var targetPosition = transform.position + moveInput.WithZ(0f);
             var targetGridPosition = MapManager.Instance.WorldToCell(targetPosition);
             
             if (MapManager.Instance.IsCellBlocking(targetPosition) ||
                 GameManager.Instance.CellContainsActor(targetGridPosition)) return false;
+
+
+            // Prevent corner cutting
+            if (isDiagonal)
+            {
+                var yNeighbor = transform.position + new Vector3(0,moveInput.y,0);
+                var xNeighbor = transform.position + new Vector3(moveInput.x,0,0);
+                if (MapManager.Instance.IsCellBlocking(yNeighbor) || MapManager.Instance.IsCellBlocking(xNeighbor))
+                {
+                    return false;
+                }
+            }
 
             _stamina -= cost;
             StartMoveAnimation(targetPosition);
