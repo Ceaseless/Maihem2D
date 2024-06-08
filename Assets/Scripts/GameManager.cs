@@ -50,6 +50,10 @@ namespace Maihem
             return player.GridPosition == gridPosition || enemyManager.CellContainsEnemy(gridPosition);
         }
 
+        public bool CellContainsEnemy(Vector2Int gridPosition)
+        {
+            return enemyManager.CellContainsEnemy(gridPosition);
+        }
 
         public bool CanTakeTurn()
         {
