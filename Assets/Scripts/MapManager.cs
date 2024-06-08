@@ -79,23 +79,23 @@ namespace Maihem
 
         public bool IsCellBlocking(Vector3 worldPosition)
         {
-            var gridPosition = MapManager.Instance.GetGridPositionFromWorldPosition(worldPosition);
-            return IsCellBlocking(gridPosition);
+            var cellPosition = MapManager.Instance.WorldToCell(worldPosition);
+            return IsCellBlocking(cellPosition);
         }
 
-        private bool IsCellBlocking(Vector2Int gridPosition)
+        private bool IsCellBlocking(Vector2Int cellPositon)
         {
-            var cellPosition = gridPosition.WithZ(0);
+            var cellPosition = cellPositon.WithZ(0);
             
-            if (!TryGetTilemapContainingCell(gridPosition, out var map)) return true;
+            if (!TryGetTilemapContainingCell(cellPositon, out var map)) return true;
             
             var cell = map.GetTile<Tile>(cellPosition);
             return cell is null || cell.colliderType != Tile.ColliderType.None;
         }
 
-        private bool IsCellBlockedDiagonal(Vector2Int gridPosition, Vector2Int origin)
+        private bool IsCellBlockedDiagonal(Vector2Int cellPosition, Vector2Int origin)
         {
-            var moveVector = new Vector2Int(gridPosition.x - origin.x,gridPosition.y-origin.y);
+            var moveVector = new Vector2Int(cellPosition.x - origin.x,cellPosition.y-origin.y);
             var moveX = new Vector2Int(moveVector.x, 0);
             var moveY = new Vector2Int(0, moveVector.y);
             
@@ -103,14 +103,14 @@ namespace Maihem
             return diagonalBlock;
         }
 
-        public Vector2Int GetGridPositionFromWorldPosition(Vector3 position)
+        public Vector2Int WorldToCell(Vector3 position)
         {
             return grid.WorldToCell(position).XY();
         }
 
-        public Vector3 GetWorldPositionFromGridPosition(Vector2Int gridPosition)
+        public Vector3 CellToWorld(Vector2Int cellPosition)
         {
-            var world = grid.CellToWorld(gridPosition.WithZ(0));
+            var world = grid.CellToWorld(cellPosition.WithZ(0));
             world = new Vector3(world.x + 0.5f, world.y + 0.5f, 0);
             return world;
         }
@@ -127,29 +127,29 @@ namespace Maihem
             return false;
         }
 
-        private bool TryGetTilemapContainingCell(Vector2Int gridPosition, out Tilemap tilemap)
+        private bool TryGetTilemapContainingCell(Vector2Int cellPosition, out Tilemap tilemap)
         {
-            return TryGetTilemapContainingCell(gridPosition.WithZ(0), out tilemap);
+            return TryGetTilemapContainingCell(cellPosition.WithZ(0), out tilemap);
         }
 
-        public static Vector2Int[] GetNeighbourPositions(Vector2Int gridPosition)
+        public static Vector2Int[] GetNeighbourPositions(Vector2Int cellPosition)
         {
             return new[]
             {
-                gridPosition+Vector2Int.up,
-                gridPosition+Vector2Int.right,
-                gridPosition+Vector2Int.down,
-                gridPosition+Vector2Int.left,
-                gridPosition+new Vector2Int(1, 1),
-                gridPosition+new Vector2Int(1, -1),
-                gridPosition+new Vector2Int(-1, -1),
-                gridPosition+new Vector2Int(-1, 1)
+                cellPosition+Vector2Int.up,
+                cellPosition+Vector2Int.right,
+                cellPosition+Vector2Int.down,
+                cellPosition+Vector2Int.left,
+                cellPosition+new Vector2Int(1, 1),
+                cellPosition+new Vector2Int(1, -1),
+                cellPosition+new Vector2Int(-1, -1),
+                cellPosition+new Vector2Int(-1, 1)
             };
         }
 
-        private List<Node> GetNeighborNodes(Vector2Int gridPosition)
+        private List<Node> GetNeighborNodes(Vector2Int cellPosition)
         {
-            var nodePosition = GetNeighbourPositions(gridPosition);
+            var nodePosition = GetNeighbourPositions(cellPosition);
             var neighborNodes = new List<Node>();
             
             for (int i = 0; i < 4; i++)
@@ -164,7 +164,7 @@ namespace Maihem
             { 
                 if (!IsCellBlocking(nodePosition[j])  && !GameManager.Instance.CellContainsEnemy(nodePosition[j]))
                 {
-                   if (!IsCellBlockedDiagonal(nodePosition[j], gridPosition))
+                   if (!IsCellBlockedDiagonal(nodePosition[j], cellPosition))
                    {
                         neighborNodes.Add(new Node(nodePosition[j])); 
                    }

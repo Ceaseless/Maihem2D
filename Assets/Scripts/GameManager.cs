@@ -28,15 +28,15 @@ namespace Maihem
             }
         }
 
-        public bool TryGetActorOnCell(Vector2Int gridPosition, out Actor actor)
+        public bool TryGetActorOnCell(Vector2Int cellPosition, out Actor actor)
         {
-            if (player.GridPosition == gridPosition)
+            if (player.GridPosition == cellPosition)
             {
                 actor = player;
                 return true;
             }
 
-            if (enemyManager.TryGetEnemyOnCell(gridPosition, out var enemy))
+            if (enemyManager.TryGetEnemyOnCell(cellPosition, out var enemy))
             {
                 actor = enemy;
                 return true;
@@ -45,14 +45,14 @@ namespace Maihem
             return false;
         }
 
-        public bool CellContainsActor(Vector2Int gridPosition)
+        public bool CellContainsActor(Vector2Int cellPosition)
         {
-            return player.GridPosition == gridPosition || enemyManager.CellContainsEnemy(gridPosition);
+            return player.GridPosition == cellPosition || enemyManager.CellContainsEnemy(cellPosition);
         }
 
-        public bool CellContainsEnemy(Vector2Int gridPosition)
+        public bool CellContainsEnemy(Vector2Int cellPosition)
         {
-            return enemyManager.CellContainsEnemy(gridPosition);
+            return enemyManager.CellContainsEnemy(cellPosition);
         }
 
         public bool CanTakeTurn()

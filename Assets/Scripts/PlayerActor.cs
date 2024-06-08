@@ -15,6 +15,9 @@ namespace Maihem
         }
 
         [SerializeField] private PlayerInput playerInput;
+        [SerializeField] private int maxStamina;
+        [SerializeField] private int moveCost;
+        [SerializeField] private int diagonalMoveCost;
         [SerializeField] private GameObject aimMarker;
         [SerializeField] private GameObject aimGrid;
         [SerializeField] private GameObject diagonalModeMarker;
@@ -23,6 +26,7 @@ namespace Maihem
         private PlayerControlState _controlState = PlayerControlState.Normal;
 
         private Animator _animator;
+        private int _stamina;
 
         private static readonly int AnimatorHorizontal = Animator.StringToHash("Horizontal");
         private static readonly int AnimatorVertical = Animator.StringToHash("Vertical");
@@ -45,6 +49,8 @@ namespace Maihem
             base.Start();
             _animator = GetComponent<Animator>();
 
+            _stamina = maxStamina;
+            
             playerInput.OnAttackAction += Attack;
             playerInput.OnToggleAimAction += ToggleAim;
             playerInput.OnToggleDiagonalModeAction += ToggleDiagonalMode;
@@ -55,6 +61,7 @@ namespace Maihem
         private void Attack(object sender, EventArgs e)
         {
             if (!GameManager.Instance.CanTakeTurn()) return;
+            
             var attackDirection = CurrentFacing.GetFacingVector();
             var targetCell = GridPosition + attackDirection;
             if (GameManager.Instance.TryGetActorOnCell(targetCell, out var target))
@@ -104,24 +111,29 @@ namespace Maihem
             moveInput.y = math.round(moveInput.y);
 
             var newPosition = transform.position + moveInput.WithZ(0f);
-            var newGridPosition = MapManager.Instance.GetGridPositionFromWorldPosition(newPosition);
-            if (MapManager.Instance.IsCellBlocking(newPosition) ||
-                GameManager.Instance.CellContainsActor(newGridPosition)) return;
-
-            StartMoveAnimation(newPosition);
-            UpdateGridPosition(newPosition);
+            TryMove(newPosition, diagonalMoveCost);
         }
 
         private void ProcessMovement(Vector2 moveInput)
         {
             var newPosition = transform.position + moveInput.WithZ(0f);
-            var newGridPosition = MapManager.Instance.GetGridPositionFromWorldPosition(newPosition);
+            var cost = (moveInput.x != 0 && moveInput.y != 0) ? diagonalMoveCost : moveCost;
+            TryMove(newPosition, cost);
+        }
 
-            if (MapManager.Instance.IsCellBlocking(newPosition) ||
-                GameManager.Instance.CellContainsActor(newGridPosition)) return;
+        private bool TryMove(Vector3 targetPosition, int cost)
+        {
+            if (_stamina < cost) return false;
+            var targetGridPosition = MapManager.Instance.WorldToCell(targetPosition);
+            
+            if (MapManager.Instance.IsCellBlocking(targetPosition) ||
+                GameManager.Instance.CellContainsActor(targetGridPosition)) return false;
 
-            StartMoveAnimation(newPosition);
-            UpdateGridPosition(newPosition);
+            _stamina -= cost;
+            StartMoveAnimation(targetPosition);
+            UpdateGridPosition(targetPosition);
+
+            return true;
         }
 
         private void ProcessAim(Vector2 aimInput)

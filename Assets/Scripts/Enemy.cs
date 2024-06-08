@@ -30,10 +30,10 @@ namespace Maihem
         private bool TryMove()
         {
             var player = GameManager.Instance.Player;
-            var shortestPath = MapManager.Instance.FindShortestDistance(MapManager.Instance.GetGridPositionFromWorldPosition(transform.position), MapManager.Instance.GetGridPositionFromWorldPosition(player.transform.position));
+            var shortestPath = MapManager.Instance.FindShortestDistance(MapManager.Instance.WorldToCell(transform.position), MapManager.Instance.WorldToCell(player.transform.position));
 
             if (shortestPath == null) return false;
-            var newPosition = MapManager.Instance.GetWorldPositionFromGridPosition(shortestPath.Last());
+            var newPosition = MapManager.Instance.CellToWorld(shortestPath.Last());
                 
             StartMoveAnimation(newPosition);
             UpdateGridPosition(newPosition);

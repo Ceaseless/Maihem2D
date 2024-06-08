@@ -22,7 +22,7 @@ namespace Maihem
 
         protected virtual void Awake()
         {
-            GridPosition = MapManager.Instance.GetGridPositionFromWorldPosition(transform.position);
+            GridPosition = MapManager.Instance.WorldToCell(transform.position);
             CurrentFacing = initialFacing;
             CurrentHealth = maxHealth;
         }
@@ -34,7 +34,7 @@ namespace Maihem
 
         protected void UpdateGridPosition(Vector3 newPosition)
         {
-            GridPosition = MapManager.Instance.GetGridPositionFromWorldPosition(newPosition);
+            GridPosition = MapManager.Instance.WorldToCell(newPosition);
         }
 
         protected void StartMoveAnimation(Vector3 target)
