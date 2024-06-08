@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using Unity.Mathematics;
 using UnityEngine;
 
 namespace Maihem
@@ -36,16 +34,13 @@ namespace Maihem
         {
             var player = GameManager.Instance.Player;
             var shortestPath = MapManager.Instance.FindShortestDistance(MapManager.Instance.GetGridPositionFromWorldPosition(transform.position), MapManager.Instance.GetGridPositionFromWorldPosition(player.transform.position));
-            
-            if (shortestPath != null )
-            {
-                var newPosition = MapManager.Instance.GetWorldPositionFromGridPosition(shortestPath.Last());
+
+            if (shortestPath == null) return false;
+            var newPosition = MapManager.Instance.GetWorldPositionFromGridPosition(shortestPath.Last());
                 
-                StartMoveAnimation(newPosition);
-                UpdateGridPosition(newPosition);
-                return true;
-            }
-            return false;
+            StartMoveAnimation(newPosition);
+            UpdateGridPosition(newPosition);
+            return true;
         }
 
         public override void TakeDamage(int damage)

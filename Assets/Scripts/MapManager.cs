@@ -1,4 +1,4 @@
-using System;
+
 using System.Collections.Generic;
 using System.Linq;
 using Maihem.Extensions;
@@ -12,45 +12,39 @@ namespace Maihem
     {
         public Vector2Int Position;
 
-        public float G { get; private set; }
-        public float H { get; private set; }
-        public float F => G + H;
-
-        public List<Node> Neighbors { get; set; }
+        public int G { get; private set; }
+        public int H { get; private set; }
+        public int F { get; private set; }
 
         public Node[] Connection;
 
-        public Node(Vector2Int position, Vector2Int start, Vector2Int goal)
+        public Node(Vector2Int position)
         {
             Position = position;
-            G = Math.Abs(goal.y-Position.y)+Math.Abs(goal.x-Position.x);
-            H = Math.Abs(start.y-Position.y)+Math.Abs(start.x-Position.x);
-            Neighbors = null;
+            G = int.MaxValue;
+            H = int.MaxValue;
+            F = G + H;
             Connection = null;
         }
 
-        public void SetG(float g) => G = g;
+        public void SetG(int g) => G = g;
 
-        public void SetH(float h) => H = h;
+        public void SetH(int h) => H = h;
+        
+        public void CalculateF() => F = G + H;
 
         public void SetConnection(Node connect) => Connection = new[] { connect };
 
-        public float GetDistance(Vector2Int target)
+        public int GetDistance(Vector2Int target)
         {
-            return (Math.Abs(target.y-Position.y)+Math.Abs(target.x-Position.x)); 
+            var xDistance = Mathf.Abs(Position.x - target.x);
+            var yDistance = Mathf.Abs(Position.y - target.y);
+            var remaining = Mathf.Abs((xDistance - yDistance));
+            return Mathf.Min(xDistance, yDistance) + remaining; 
         }
 
-        public bool ContainsNode(Vector2Int identity)
-        {
-            foreach (var i in Neighbors)
-            {
-                if (i.Position == identity)
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
+        
+        
     }
     
     public class MapManager : MonoBehaviour
@@ -88,8 +82,8 @@ namespace Maihem
             var gridPosition = MapManager.Instance.GetGridPositionFromWorldPosition(worldPosition);
             return IsCellBlocking(gridPosition);
         }
-    
-        public bool IsCellBlocking(Vector2Int gridPosition)
+
+        private bool IsCellBlocking(Vector2Int gridPosition)
         {
             var cellPosition = gridPosition.WithZ(0);
             
@@ -99,14 +93,14 @@ namespace Maihem
             return cell is null || cell.colliderType != Tile.ColliderType.None;
         }
 
-        public bool IsCellBlockedDiagonal(Vector2Int gridPosition, Vector2Int origin)
+        private bool IsCellBlockedDiagonal(Vector2Int gridPosition, Vector2Int origin)
         {
             var moveVector = new Vector2Int(gridPosition.x - origin.x,gridPosition.y-origin.y);
-            
             var moveX = new Vector2Int(moveVector.x, 0);
             var moveY = new Vector2Int(0, moveVector.y);
             
-            return IsCellBlocking(origin + moveX) || IsCellBlocking(origin + moveY);
+            var diagonalBlock = IsCellBlocking(origin + moveX) || IsCellBlocking(origin + moveY);
+            return diagonalBlock;
         }
 
         public Vector2Int GetGridPositionFromWorldPosition(Vector3 position)
@@ -153,24 +147,27 @@ namespace Maihem
             };
         }
 
-        private List<Node> GetNeighborNodes(Vector2Int gridPosition,Vector2Int startPosition, Vector2Int targetPosition)
+        private List<Node> GetNeighborNodes(Vector2Int gridPosition)
         {
             var nodePosition = GetNeighbourPositions(gridPosition);
             var neighborNodes = new List<Node>();
-
+            
             for (int i = 0; i < 4; i++)
             {
                 if (!IsCellBlocking(nodePosition[i])&& !GameManager.Instance.CellContainsEnemy(nodePosition[i]))
                 {
-                    neighborNodes.Add(new Node(nodePosition[i],startPosition,targetPosition));
+                    neighborNodes.Add(new Node(nodePosition[i]));
                 }
             }
 
             for (int j = 4; j < 8; j++)
-            {
-                if (!IsCellBlocking(nodePosition[j]) && !IsCellBlockedDiagonal(nodePosition[j],gridPosition) && !GameManager.Instance.CellContainsEnemy(nodePosition[j]))
+            { 
+                if (!IsCellBlocking(nodePosition[j])  && !GameManager.Instance.CellContainsEnemy(nodePosition[j]))
                 {
-                    neighborNodes.Add(new Node(nodePosition[j],startPosition,targetPosition));
+                   if (!IsCellBlockedDiagonal(nodePosition[j], gridPosition))
+                   {
+                        neighborNodes.Add(new Node(nodePosition[j])); 
+                   }
                 } 
             }
             return neighborNodes;
@@ -197,23 +194,31 @@ namespace Maihem
         public List<Vector2Int> FindShortestDistance(Vector2Int startPosition, Vector2Int targetPosition)
         {
             
-            var toSearch = new List<Node>() {new Node(startPosition,startPosition,targetPosition)};
+            var startNode = new Node(startPosition);
+            
+            startNode.SetG(0);
+            startNode.SetH(startNode.GetDistance(targetPosition));
+            startNode.CalculateF();
+            
+            var toSearch = new List<Node>() {startNode};
             var processed = new List<Vector2Int>();
-
-            while (toSearch.Count>0)
+            
+            while (toSearch.Count > 0)
             {
-                var current = toSearch[0];
+                var current = toSearch.First();
                 foreach (var t in toSearch)
                 {
-                    if (t.F < current.F || Mathf.Approximately(t.F, current.F) && t.H < current.H)
+                    if (t.F < current.F || (t.F == current.F && t.H < current.H))
                     {
                         current = t;
                     }
                 }
-
+                
                 processed.Add(current.Position);
                 toSearch.Remove(current);
-
+                
+                
+                
                 if (current.Position == targetPosition)
                 {
                     var currentPathNode = current;
@@ -226,29 +231,41 @@ namespace Maihem
 
                     return path;
                 }
-
-                current.Neighbors = GetNeighborNodes(current.Position,startPosition,targetPosition);
                 
-                foreach (var neighbor in current.Neighbors.Where(t => !IsCellBlocking(t.Position)))
+                
+                
+                foreach (var neighbor in GetNeighborNodes(current.Position))
                 {
                     if (processed.Contains(neighbor.Position)) continue;
-                    var inSearch = toSearch.Contains(neighbor);
-                    var costToNeighbor = current.G + 1;
+                 
+                    var costToNeighbor = current.G + current.GetDistance(neighbor.Position);
                     
-                    if(!inSearch || costToNeighbor < neighbor.G)
+                    if(!IsNodeInList(neighbor,toSearch) || costToNeighbor < neighbor.G)
                     {
+                        neighbor.SetConnection(current);
                         neighbor.SetG(costToNeighbor);
                         neighbor.SetH(neighbor.GetDistance(targetPosition));
-                        neighbor.SetConnection(current);
+                        neighbor.CalculateF();
                         
-                        if (!inSearch)
+                        if (!IsNodeInList(neighbor,toSearch))
                         {
                             toSearch.Add(neighbor);
                         }
+                        
                     }
                 }
             }
             return null;
+        }
+
+        private bool IsNodeInList(Node t, List<Node> list)
+        {
+            foreach (var node in list)
+            {
+                if (node.Position == t.Position) return true;
+            }
+
+            return false;
         }
     }
     
