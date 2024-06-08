@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using Unity.Mathematics;
 using UnityEngine;
 
@@ -9,21 +8,21 @@ namespace Maihem
     {
         public void TakeTurn()
         {
-            OnTurnStarted?.Invoke(this, EventArgs.Empty);
+            OnTurnStarted();
             var player = GameManager.Instance.Player;
             var neighbours = MapManager.GetNeighbourPositions(GridPosition);
             if (!neighbours.Contains(player.GridPosition))
             {
                 if (!TryMove())
                 {
-                    OnTurnCompleted?.Invoke(this, EventArgs.Empty);
+                    OnTurnCompleted();
                 }
             }
             else
             {
                 Debug.Log("Attacking player!", this);
                 player.TakeDamage(1);
-                OnTurnCompleted?.Invoke(this, EventArgs.Empty);
+                OnTurnCompleted();
             }
         }
 
@@ -79,12 +78,12 @@ namespace Maihem
         {
             CurrentHealth -= damage;
             if (CurrentHealth > 0) return;
-            OnDied?.Invoke(this, new DeathEventArgs { DeadGameObject = gameObject });
+            OnDied(new DeathEventArgs { DeadGameObject = gameObject });
         }
 
         protected override void OnMoveAnimationEnd()
         {
-            OnTurnCompleted?.Invoke(this, EventArgs.Empty);
+            OnTurnCompleted();
         }
     }
 }

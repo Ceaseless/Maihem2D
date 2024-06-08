@@ -15,8 +15,8 @@ namespace Maihem
         public Collider2D Hurtbox { get; protected set; }
         public bool IsPerformingAction { get; private set; }
 
-        public EventHandler OnTurnStarted, OnTurnCompleted;
-        public EventHandler<DeathEventArgs> OnDied;
+        public event EventHandler TurnStarted, TurnCompleted;
+        public event EventHandler<DeathEventArgs> Died;
 
         public int CurrentHealth { get; protected set; }
 
@@ -26,12 +26,10 @@ namespace Maihem
             CurrentFacing = initialFacing;
             CurrentHealth = maxHealth;
         }
-        
+
         protected virtual void Start()
         {
             Hurtbox = GetComponent<Collider2D>();
-            
-
         }
 
         protected void UpdateGridPosition(Vector3 newPosition)
@@ -43,7 +41,7 @@ namespace Maihem
         {
             StartCoroutine(MoveAnimation(target));
         }
-    
+
         // ReSharper disable Unity.PerformanceAnalysis
         private IEnumerator MoveAnimation(Vector3 target)
         {
@@ -56,6 +54,7 @@ namespace Maihem
                 time += Time.deltaTime;
                 yield return null;
             }
+
             transform.position = target;
             IsPerformingAction = false;
             OnMoveAnimationEnd();
@@ -63,6 +62,21 @@ namespace Maihem
 
         public abstract void TakeDamage(int damage);
         protected abstract void OnMoveAnimationEnd();
+
+        protected virtual void OnTurnStarted()
+        {
+            TurnStarted?.Invoke(this, EventArgs.Empty);
+        }
+
+        protected virtual void OnTurnCompleted()
+        {
+            TurnCompleted?.Invoke(this, EventArgs.Empty);
+        }
+
+        protected virtual void OnDied(DeathEventArgs deathArgs)
+        {
+            Died?.Invoke(this, deathArgs);
+        }
     }
 
     public class DeathEventArgs : EventArgs
