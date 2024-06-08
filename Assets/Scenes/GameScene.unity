@@ -33772,6 +33772,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1980781326}
   - component: {fileID: 1980781325}
+  - component: {fileID: 1980781331}
   - component: {fileID: 1980781327}
   - component: {fileID: 1980781330}
   m_Layer: 0
@@ -33796,8 +33797,7 @@ MonoBehaviour:
   maxHealth: 10
   moveDuration: 0.1
   initialFacing: 0
-  moveInputBufferWindow: 0.05
-  inputActions: {fileID: -944628639613478452, guid: 6c8709bab6819084984791b059da97f2, type: 3}
+  playerInput: {fileID: 1980781331}
   aimMarker: {fileID: 1228219098}
   aimGrid: {fileID: 1843049418}
   diagonalModeMarker: {fileID: 887242121}
@@ -33888,6 +33888,20 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1980781331
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1980781324}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a28fec91725642988ad216b15a38780a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inputActions: {fileID: -944628639613478452, guid: 6c8709bab6819084984791b059da97f2, type: 3}
+  moveInputBufferWindow: 0.05
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
