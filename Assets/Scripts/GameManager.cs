@@ -6,13 +6,14 @@ namespace Maihem
     public class GameManager : MonoBehaviour
     {
         public static GameManager Instance { get; private set; }
-        [SerializeField] private PlayerActor player;
+        [SerializeField] private GameObject playerPrefab;
+        [SerializeField] private Vector3 playerStartPosition;
         [SerializeField] private CameraController cameraController;
         [SerializeField] private EnemyManager enemyManager;
         [SerializeField] private TextMeshProUGUI debugText;
 
         public int TurnCount { get; private set; }
-        public PlayerActor Player => player;
+        public PlayerActor Player { get; private set; }
         
 
         private void Awake()
@@ -25,14 +26,27 @@ namespace Maihem
             else
             {
                 Destroy(gameObject);
+                return;
             }
+            StartGame();
+        }
+
+        private void StartGame()
+        {
+            if (Player)
+            {
+                Destroy(Player.gameObject);
+            }
+
+            var playerObject = Instantiate(playerPrefab, playerStartPosition, Quaternion.identity);
+            Player = playerObject.GetComponent<PlayerActor>();
         }
 
         public bool TryGetActorOnCell(Vector2Int cellPosition, out Actor actor)
         {
-            if (player.GridPosition == cellPosition)
+            if (Player.GridPosition == cellPosition)
             {
-                actor = player;
+                actor = Player;
                 return true;
             }
 
@@ -47,7 +61,7 @@ namespace Maihem
 
         public bool CellContainsActor(Vector2Int cellPosition)
         {
-            return player.GridPosition == cellPosition || enemyManager.CellContainsEnemy(cellPosition);
+            return Player.GridPosition == cellPosition || enemyManager.CellContainsEnemy(cellPosition);
         }
 
         public bool CellContainsEnemy(Vector2Int cellPosition)
@@ -57,7 +71,7 @@ namespace Maihem
 
         public bool CanTakeTurn()
         {
-            return enemyManager.AreAllActionsPerformed() && !player.IsPerformingAction;
+            return enemyManager.AreAllActionsPerformed() && !Player.IsPerformingAction;
         }
     
         public void TriggerTurn()

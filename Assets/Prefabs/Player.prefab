@@ -224,13 +224,15 @@ MonoBehaviour:
   moveDuration: 0.1
   initialFacing: 0
   playerInput: {fileID: 4102898974549345930}
-  maxStamina: 100
+  maxStamina: 1000
   moveCost: 1
   diagonalMoveCost: 2
   aimMarker: {fileID: 5469564291253691521}
   aimGrid: {fileID: 1851323239640821566}
   diagonalModeMarker: {fileID: 3964736874558905028}
   stickObject: {fileID: 8653845740616210445}
+  debugAttack: {fileID: 11400000, guid: 6105c1a528ada6c4f903a3d483724391, type: 2}
+  debugAttackMarker: {fileID: 2846382583893008751, guid: af96e952bbd28544899df5b822993d94, type: 3}
 --- !u!114 &4102898974549345930
 MonoBehaviour:
   m_ObjectHideFlags: 0

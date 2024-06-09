@@ -23,6 +23,9 @@ namespace Maihem
         [SerializeField] private GameObject diagonalModeMarker;
         [SerializeField] private GameObject stickObject;
 
+        [SerializeField] private Attacks.AttackStrategy debugAttack;
+        [SerializeField] private GameObject debugAttackMarker;
+
         private PlayerControlState _controlState = PlayerControlState.Normal;
 
         private Animator _animator;
@@ -61,18 +64,9 @@ namespace Maihem
         private void Attack(object sender, EventArgs e)
         {
             if (!GameManager.Instance.CanTakeTurn()) return;
+           
+            debugAttack.Attack(GridPosition, CurrentFacing.GetFacingVector());
             
-            var attackDirection = CurrentFacing.GetFacingVector();
-            var targetCell = GridPosition + attackDirection;
-            if (GameManager.Instance.TryGetActorOnCell(targetCell, out var target))
-            {
-                target.TakeDamage(1);
-            }
-            else
-            {
-                Debug.Log("Whiffed!");
-            }
-
             GameManager.Instance.TriggerTurn();
         }
 

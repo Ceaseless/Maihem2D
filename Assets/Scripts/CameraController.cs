@@ -43,13 +43,12 @@ namespace Maihem
             _moveProgress = 0f;
             _isMoving = true;
         }
+        
     
         public bool IsPositionOffScreen(Vector3 position)
         {
-            var camPosition = transform.position;
+            var camPosition = _isMoving ? _moveTarget : transform.position;
             var bounds = new Bounds(camPosition.WithZ(0), new Vector3(_cameraWidth, _cameraHeight, 1f));
-            Debug.DrawLine(bounds.min, bounds.max.WithY(bounds.min.y), Color.red, 2f);
-            Debug.DrawLine(bounds.min, bounds.max.WithX(bounds.min.x), Color.red, 2f);
             return !bounds.Contains(position.XY());
         }
 
@@ -62,7 +61,6 @@ namespace Maihem
                 _isMoving = false;
                 _moveProgress = 0f;
                 transform.position = _moveTarget;
-                //Debug.Log("CAMERA: Stopped moving!");
                 return;
             }
         
