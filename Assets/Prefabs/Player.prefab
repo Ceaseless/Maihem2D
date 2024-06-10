@@ -179,6 +179,7 @@ GameObject:
   - component: {fileID: 1930836516083302035}
   - component: {fileID: 4040988182371635610}
   - component: {fileID: 4102898974549345930}
+  - component: {fileID: 9002999657413362015}
   - component: {fileID: 905535747534260031}
   - component: {fileID: 5196708517448865027}
   m_Layer: 0
@@ -223,16 +224,14 @@ MonoBehaviour:
   maxHealth: 10
   moveDuration: 0.1
   initialFacing: 0
-  playerInput: {fileID: 4102898974549345930}
   maxStamina: 1000
   moveCost: 1
   diagonalMoveCost: 2
-  aimMarker: {fileID: 5469564291253691521}
+  playerInput: {fileID: 4102898974549345930}
+  attackSystem: {fileID: 9002999657413362015}
   aimGrid: {fileID: 1851323239640821566}
   diagonalModeMarker: {fileID: 3964736874558905028}
   stickObject: {fileID: 8653845740616210445}
-  debugAttack: {fileID: 11400000, guid: 6105c1a528ada6c4f903a3d483724391, type: 2}
-  debugAttackMarker: {fileID: 2846382583893008751, guid: af96e952bbd28544899df5b822993d94, type: 3}
 --- !u!114 &4102898974549345930
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -247,6 +246,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inputActions: {fileID: -944628639613478452, guid: 6c8709bab6819084984791b059da97f2, type: 3}
   moveInputBufferWindow: 0.05
+--- !u!114 &9002999657413362015
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4653786670576362675}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44d833e16d7617041b70aae3da2b0b49, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetMarkerPrefab: {fileID: 2846382583893008751, guid: af96e952bbd28544899df5b822993d94, type: 3}
+  poolStartSize: 10
+  currentAttackStrategy: {fileID: 11400000, guid: 6105c1a528ada6c4f903a3d483724391, type: 2}
 --- !u!61 &905535747534260031
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -582,11 +596,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: af96e952bbd28544899df5b822993d94, type: 3}
---- !u!1 &5469564291253691521 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2846382583893008751, guid: af96e952bbd28544899df5b822993d94, type: 3}
-  m_PrefabInstance: {fileID: 7811399405434258926}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &6057617260291966633 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4068809380095656775, guid: af96e952bbd28544899df5b822993d94, type: 3}

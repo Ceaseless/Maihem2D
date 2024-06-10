@@ -1,4 +1,5 @@
 using System;
+using Maihem.Attacks;
 using Maihem.Extensions;
 using Unity.Mathematics;
 using UnityEngine;
@@ -13,18 +14,21 @@ namespace Maihem
             Aiming,
             Diagonal
         }
-
-        [SerializeField] private PlayerInput playerInput;
+        [Header("Stat Settings")]
         [SerializeField] private int maxStamina;
         [SerializeField] private int moveCost;
         [SerializeField] private int diagonalMoveCost;
-        [SerializeField] private GameObject aimMarker;
+        
+        [Header("System References")]
+        [SerializeField] private PlayerInput playerInput;
+        [SerializeField] private AttackSystem attackSystem;
+        
+        [Header("Children References")]
         [SerializeField] private GameObject aimGrid;
         [SerializeField] private GameObject diagonalModeMarker;
         [SerializeField] private GameObject stickObject;
 
-        [SerializeField] private Attacks.AttackStrategy debugAttack;
-        [SerializeField] private GameObject debugAttackMarker;
+        
 
         private PlayerControlState _controlState = PlayerControlState.Normal;
 
@@ -65,7 +69,7 @@ namespace Maihem
         {
             if (!GameManager.Instance.CanTakeTurn()) return;
            
-            debugAttack.Attack(GridPosition, CurrentFacing.GetFacingVector());
+            attackSystem.Attack(GridPosition, CurrentFacing.GetFacingVector());
             
             GameManager.Instance.TriggerTurn();
         }
@@ -80,7 +84,7 @@ namespace Maihem
             _animator.SetInteger(AnimatorVertical, newFacing.y);
             CurrentFacing = CurrentFacing.GetFacingFromDirection(newFacing);
 
-            UpdateAimMarker(newFacing);
+            
 
             switch (_controlState)
             {
@@ -145,34 +149,35 @@ namespace Maihem
 
         private void ProcessAim(Vector2 aimInput)
         {
+            UpdateAimMarker(CurrentFacing.GetFacingVector());
         }
 
         private void UpdateAimMarker(Vector2Int newFacing)
         {
-            aimMarker.transform.localPosition = new Vector3(newFacing.x, newFacing.y, 0);
+            attackSystem.UpdateTargetMarkerPositions(GridPosition, CurrentFacing.GetFacingVector());
         }
 
         private void ToggleAim(object sender, ToggleEventArgs args)
         {
-            if (args.NewValue)
+            if (args.ToggleValue)
             {
                 if (_controlState != PlayerControlState.Normal) return;
                 _controlState = PlayerControlState.Aiming;
-                aimMarker.SetActive(true);
+                attackSystem.ShowTargetMarkers(GridPosition, CurrentFacing.GetFacingVector());
                 aimGrid.SetActive(true);
             }
             else
             {
                 if (_controlState != PlayerControlState.Aiming) return;
                 _controlState = PlayerControlState.Normal;
-                aimMarker.SetActive(false);
+                attackSystem.HideTargetMarkers();
                 aimGrid.SetActive(false);
             }
         }
 
         private void ToggleDiagonalMode(object sender, ToggleEventArgs args)
         {
-            if (args.NewValue)
+            if (args.ToggleValue)
             {
                 if (_controlState == PlayerControlState.Aiming) return;
                 _controlState = PlayerControlState.Diagonal;

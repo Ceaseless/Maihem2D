@@ -51,8 +51,11 @@ namespace Maihem
 
         private void Update()
         {
-            if(Time.time - _lastMoveInput > moveInputBufferWindow) 
+            if (BufferedMoveInput.sqrMagnitude > 0 && Time.time - _lastMoveInput > moveInputBufferWindow)
+            {
                 OnMoveAction?.Invoke(this, EventArgs.Empty);
+            }
+                
         }
 
         private void ToggleAim(InputAction.CallbackContext ctx)
@@ -66,10 +69,10 @@ namespace Maihem
                 case InputActionPhase.Started:
                     break;
                 case InputActionPhase.Performed:
-                    OnToggleAimAction?.Invoke(this, new ToggleEventArgs() { NewValue = true });
+                    OnToggleAimAction?.Invoke(this, new ToggleEventArgs() { ToggleValue = true });
                     break;
                 case InputActionPhase.Canceled:
-                    OnToggleAimAction?.Invoke(this, new ToggleEventArgs() { NewValue = false });
+                    OnToggleAimAction?.Invoke(this, new ToggleEventArgs() { ToggleValue = false });
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -87,10 +90,10 @@ namespace Maihem
                 case InputActionPhase.Started:
                     break;
                 case InputActionPhase.Performed:
-                    OnToggleDiagonalModeAction?.Invoke(this, new ToggleEventArgs() { NewValue = true });
+                    OnToggleDiagonalModeAction?.Invoke(this, new ToggleEventArgs() { ToggleValue = true });
                     break;
                 case InputActionPhase.Canceled:
-                    OnToggleDiagonalModeAction?.Invoke(this, new ToggleEventArgs() { NewValue = false });
+                    OnToggleDiagonalModeAction?.Invoke(this, new ToggleEventArgs() { ToggleValue = false });
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -109,6 +112,6 @@ namespace Maihem
     
     public class ToggleEventArgs : EventArgs
     {
-        public bool NewValue { get; set; }
+        public bool ToggleValue { get; set; }
     }
 }

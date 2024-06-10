@@ -7,6 +7,7 @@ namespace Maihem
     [RequireComponent(typeof(Collider2D))]
     public abstract class Actor : MonoBehaviour
     {
+        [Header("Actor Settings")]
         [SerializeField] private int maxHealth;
         [SerializeField] private float moveDuration = 0.25f;
         [SerializeField] private Facing initialFacing;
