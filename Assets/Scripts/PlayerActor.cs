@@ -27,10 +27,10 @@ namespace Maihem
         private static readonly int AnimatorHorizontal = Animator.StringToHash("Horizontal");
         private static readonly int AnimatorVertical = Animator.StringToHash("Vertical");
 
-
         public override void TakeDamage(int damage)
         {
             CurrentHealth -= damage;
+            UIManager.Instance.AdjustHealth(-1);
             if (CurrentHealth > 0) return;
             Debug.Log("Player died");
         }
@@ -49,6 +49,10 @@ namespace Maihem
             playerInput.OnToggleAimAction += ToggleAim;
             playerInput.OnToggleDiagonalModeAction += ToggleDiagonalMode;
             playerInput.OnMoveAction += ProcessMoveInput;
+            
+            UIManager.Instance.SetMaxHealth(CurrentHealth);
+            UIManager.Instance.SetMaxStamina(10);
+            UIManager.Instance.SetCurrentStamina(0);
         }
 
 

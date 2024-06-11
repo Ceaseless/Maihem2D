@@ -9,12 +9,13 @@ namespace Maihem
         [SerializeField] private PlayerActor player;
         [SerializeField] private CameraController cameraController;
         [SerializeField] private EnemyManager enemyManager;
+        [SerializeField] private UIManager ui;
         [SerializeField] private TextMeshProUGUI debugText;
 
         public int TurnCount { get; private set; }
         public PlayerActor Player => player;
-        
 
+        public UIManager UI => ui;
         private void Awake()
         {
             if (Instance == null)
