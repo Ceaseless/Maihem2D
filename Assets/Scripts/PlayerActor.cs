@@ -68,7 +68,10 @@ namespace Maihem
         private void Attack(object sender, EventArgs e)
         {
             if (!GameManager.Instance.CanTakeTurn()) return;
-           
+
+            if (attackSystem.currentAttackStrategy.StaminaCost > _stamina) return;
+
+            _stamina -= attackSystem.currentAttackStrategy.StaminaCost;
             attackSystem.Attack(GridPosition, CurrentFacing.GetFacingVector());
             
             GameManager.Instance.TriggerTurn();
