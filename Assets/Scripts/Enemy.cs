@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using Maihem.Extensions;
 using UnityEngine;
 
 namespace Maihem
@@ -20,6 +21,7 @@ namespace Maihem
             else
             {
                 Debug.Log("Attacking player!", this);
+                CurrentFacing = CurrentFacing.GetFacingFromDirection(player.GridPosition - GridPosition);
                 player.TakeDamage(1);
                 OnTurnCompleted();
             }
@@ -33,7 +35,9 @@ namespace Maihem
             var shortestPath = MapManager.Instance.FindShortestDistance(MapManager.Instance.WorldToCell(transform.position), MapManager.Instance.WorldToCell(player.transform.position));
 
             if (shortestPath == null) return false;
-            var newPosition = MapManager.Instance.CellToWorld(shortestPath.Last());
+            var targetCell = shortestPath.Last();
+            var newPosition = MapManager.Instance.CellToWorld(targetCell);
+            CurrentFacing = CurrentFacing.GetFacingFromDirection(targetCell - GridPosition);
                 
             StartMoveAnimation(newPosition);
             UpdateGridPosition(newPosition);
