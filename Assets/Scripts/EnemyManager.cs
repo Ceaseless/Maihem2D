@@ -20,6 +20,19 @@ namespace Maihem
             _activeEnemies = new List<Enemy>();
         }
 
+        public void Reset()
+        {
+            for (var i = _activeEnemies.Count - 1; i >= 0; i--)
+            {
+                var enemy = _activeEnemies[i];
+                _activeEnemies.RemoveAt(i);
+                Destroy(enemy.gameObject);
+            }
+            _activeEnemies.Clear();
+            _spawnTimer = 0;
+            _enemiesTakingTurn = 0;
+        }
+
         private void SpawnEnemy()
         {
             var randomCell = MapManager.Instance.GetFreeCell();

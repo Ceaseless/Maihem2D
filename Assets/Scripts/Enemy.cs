@@ -42,8 +42,11 @@ namespace Maihem
 
         public override void TakeDamage(int damage)
         {
+            if(IsDead) return;
             CurrentHealth -= damage;
+            
             if (CurrentHealth > 0) return;
+            IsDead = true;
             OnDied(new DeathEventArgs { DeadGameObject = gameObject });
         }
 

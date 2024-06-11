@@ -41,9 +41,9 @@ namespace Maihem
 
         public override void TakeDamage(int damage)
         {
+            if (IsDead) return;
             CurrentHealth -= damage;
-            if (CurrentHealth > 0) return;
-            Debug.Log("Player died");
+            if (CurrentHealth <= 0) IsDead = true;
         }
 
         protected override void OnMoveAnimationEnd()

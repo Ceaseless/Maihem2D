@@ -28,10 +28,10 @@ namespace Maihem
                 Destroy(gameObject);
                 return;
             }
-            StartGame();
+            SpawnPlayer();
         }
 
-        private void StartGame()
+        private void SpawnPlayer()
         {
             if (Player)
             {
@@ -40,6 +40,15 @@ namespace Maihem
 
             var playerObject = Instantiate(playerPrefab, playerStartPosition, Quaternion.identity);
             Player = playerObject.GetComponent<PlayerActor>();
+        }
+
+        public void ResetGame()
+        {
+            SpawnPlayer();
+            enemyManager.Reset();
+            cameraController.Reset();
+            TurnCount = 0;
+            UpdateUI();
         }
 
         public bool TryGetActorOnCell(Vector2Int cellPosition, out Actor actor)
@@ -77,10 +86,21 @@ namespace Maihem
         public void TriggerTurn()
         {
             cameraController.UpdateCameraScroll();
+            if (cameraController.IsPositionOffScreen(Player.transform.position))
+            {
+                Debug.Log("Player walked off screen!");
+                ResetGame();
+                return;
+            }
+            
             enemyManager.Tick();
             MapManager.Instance.UpdateMap();
             TurnCount++;
             UpdateUI();
+            
+            if (!Player.IsDead) return;
+            Debug.Log("Player died");
+            ResetGame();
         }
     
         private void UpdateUI()

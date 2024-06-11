@@ -20,6 +20,7 @@ namespace Maihem
         public event EventHandler<DeathEventArgs> Died;
 
         public int CurrentHealth { get; protected set; }
+        public bool IsDead { get; protected set; }
 
         protected virtual void Awake()
         {
