@@ -16,6 +16,8 @@ namespace Maihem
         public Text staminaValue;
 
         [SerializeField] private TextMeshProUGUI distanceCounter;
+        [SerializeField] private TextMeshProUGUI currentAttack;
+        [SerializeField] private TextMeshProUGUI currentConsumable;
 
         private int _maxHealth;
         private int _currentHealth;
@@ -27,29 +29,14 @@ namespace Maihem
 
         public void SetMaxHealth(int setHealth)
         {
-            
             _maxHealth = setHealth;
-            _currentHealth = setHealth;
-            UpdateStatus();
         }
 
         public void SetCurrentHealth(int newHealth)
         {
-            if (newHealth <= 0)
-            {
-                _currentHealth = 0;
-            }
-            else
-            {
-                _currentHealth = newHealth;
-            }
-            UpdateStatus();
-        }
 
-        public void AdjustHealth(int increase)
-        {
-            _currentHealth += increase;
-            UpdateStatus();
+            _currentHealth = newHealth;
+
         }
         
         
@@ -58,33 +45,16 @@ namespace Maihem
         {
             
             _maxStamina = setStamina;
-            _currentStamina = setStamina;
-            UpdateStatus();
         }
 
         public void SetCurrentStamina(int newStamina)
         {
-            if (newStamina <= 0)
-            {
-                _currentStamina = 0;
-            }
-            else
-            {
-                _currentStamina = newStamina;
-            }
-            UpdateStatus();
-        }
-        
-        public void AdjustStamina(int increase)
-        {
-            _currentStamina += increase;
-            UpdateStatus();
+            _currentStamina = newStamina;
         }
 
         public void AdjustDistance(Vector2Int newPoint)
         {
             _currentPoint = newPoint;
-            UpdateStatus();
         }
 
         public void UpdateStatus()
@@ -119,6 +89,9 @@ namespace Maihem
 
             _startingPoint = playerGridPosition;
             _currentPoint = playerGridPosition;
+
+            ChangeAttack("Kick");
+            ChangeConsumable("Empty");
             
             UpdateStatus();
         }
@@ -131,6 +104,15 @@ namespace Maihem
             _currentPoint = playerGridPosition;
             
             UpdateStatus();
+        }
+
+        public void ChangeAttack(String attackName)
+        {
+            currentAttack.text = attackName;
+        }
+        public void ChangeConsumable(String consumableName)
+        {
+            currentAttack.text = consumableName;
         }
     }
 }

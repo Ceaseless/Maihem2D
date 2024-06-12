@@ -134,7 +134,7 @@ GameObject:
   - component: {fileID: 129004998}
   - component: {fileID: 129004997}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: Debug
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -805,9 +805,9 @@ Camera:
   m_LensShift: {x: 0, y: 0}
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: 0
+    x: 0.1938873
     y: 0
-    width: 1
+    width: 0.6112703
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
@@ -33715,7 +33715,7 @@ GameObject:
   - component: {fileID: 1165129681}
   - component: {fileID: 1165129680}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: ConsumableName
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -33960,6 +33960,8 @@ MonoBehaviour:
   stamina: {fileID: 469084166}
   staminaValue: {fileID: 1778997664}
   distanceCounter: {fileID: 171621945}
+  currentAttack: {fileID: 1894312525}
+  currentConsumable: {fileID: 1165129680}
 --- !u!1 &1398503743
 GameObject:
   m_ObjectHideFlags: 0
@@ -33994,8 +33996,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 100, y: -1}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 105, y: -1}
+  m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1398503745
 MonoBehaviour:
@@ -34306,8 +34308,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 100, y: -1}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 105, y: -1}
+  m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1825187535
 GameObject:
@@ -34396,7 +34398,7 @@ GameObject:
   - component: {fileID: 1894312526}
   - component: {fileID: 1894312525}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: AttackName
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
