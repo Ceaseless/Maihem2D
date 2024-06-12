@@ -22,6 +22,13 @@ namespace Maihem
             _halfCameraHeight = _cameraHeight * 0.5f;
         }
 
+        public void Reset()
+        {
+            _isMoving = false;
+            _moveProgress = 0f;
+            transform.position = new Vector3(20f, 0f, -10f); // TODO: Make dynamic
+        }
+
         public void UpdateCameraScroll()
         {
             if(GameManager.Instance.Player.transform.position.x - transform.position.x > 5f)
@@ -43,13 +50,12 @@ namespace Maihem
             _moveProgress = 0f;
             _isMoving = true;
         }
+        
     
         public bool IsPositionOffScreen(Vector3 position)
         {
-            var camPosition = transform.position;
+            var camPosition = _isMoving ? _moveTarget : transform.position;
             var bounds = new Bounds(camPosition.WithZ(0), new Vector3(_cameraWidth, _cameraHeight, 1f));
-            Debug.DrawLine(bounds.min, bounds.max.WithY(bounds.min.y), Color.red, 2f);
-            Debug.DrawLine(bounds.min, bounds.max.WithX(bounds.min.x), Color.red, 2f);
             return !bounds.Contains(position.XY());
         }
 
@@ -62,7 +68,6 @@ namespace Maihem
                 _isMoving = false;
                 _moveProgress = 0f;
                 transform.position = _moveTarget;
-                //Debug.Log("CAMERA: Stopped moving!");
                 return;
             }
         

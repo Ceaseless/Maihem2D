@@ -1,4 +1,5 @@
 using System;
+using Maihem.Attacks;
 using Maihem.Extensions;
 using Unity.Mathematics;
 using UnityEngine;
@@ -13,9 +14,16 @@ namespace Maihem
             Aiming,
             Diagonal
         }
-
+        [Header("Stat Settings")]
+        [SerializeField] private int maxStamina;
+        [SerializeField] private int moveCost;
+        
+        [Header("System References")]
         [SerializeField] private PlayerInput playerInput;
-        [SerializeField] private GameObject aimMarker;
+        [SerializeField] private int diagonalMoveCost;
+        [SerializeField] private AttackSystem attackSystem;
+        
+        [Header("Children References")]
         [SerializeField] private GameObject aimGrid;
         [SerializeField] private GameObject diagonalModeMarker;
         [SerializeField] private GameObject stickObject;
@@ -23,16 +31,17 @@ namespace Maihem
         private PlayerControlState _controlState = PlayerControlState.Normal;
 
         private Animator _animator;
+        private int _stamina;
 
         private static readonly int AnimatorHorizontal = Animator.StringToHash("Horizontal");
         private static readonly int AnimatorVertical = Animator.StringToHash("Vertical");
 
         public override void TakeDamage(int damage)
         {
+            if (IsDead) return;
             CurrentHealth -= damage;
-            UIManager.Instance.AdjustHealth(-1);
-            if (CurrentHealth > 0) return;
-            Debug.Log("Player died");
+            if (CurrentHealth <= 0) IsDead = true;
+   
         }
 
         protected override void OnMoveAnimationEnd()
@@ -45,6 +54,8 @@ namespace Maihem
             base.Start();
             _animator = GetComponent<Animator>();
 
+            _stamina = maxStamina;
+            
             playerInput.OnAttackAction += Attack;
             playerInput.OnToggleAimAction += ToggleAim;
             playerInput.OnToggleDiagonalModeAction += ToggleDiagonalMode;
@@ -59,17 +70,12 @@ namespace Maihem
         private void Attack(object sender, EventArgs e)
         {
             if (!GameManager.Instance.CanTakeTurn()) return;
-            var attackDirection = CurrentFacing.GetFacingVector();
-            var targetCell = GridPosition + attackDirection;
-            if (GameManager.Instance.TryGetActorOnCell(targetCell, out var target))
-            {
-                target.TakeDamage(1);
-            }
-            else
-            {
-                Debug.Log("Whiffed!");
-            }
 
+            if (attackSystem.currentAttackStrategy.StaminaCost > _stamina) return;
+
+            _stamina -= attackSystem.currentAttackStrategy.StaminaCost;
+            attackSystem.Attack(GridPosition, CurrentFacing.GetFacingVector());
+            
             GameManager.Instance.TriggerTurn();
         }
 
@@ -83,7 +89,7 @@ namespace Maihem
             _animator.SetInteger(AnimatorVertical, newFacing.y);
             CurrentFacing = CurrentFacing.GetFacingFromDirection(newFacing);
 
-            UpdateAimMarker(newFacing);
+            
 
             switch (_controlState)
             {
@@ -107,57 +113,76 @@ namespace Maihem
             moveInput.x = math.round(moveInput.x);
             moveInput.y = math.round(moveInput.y);
 
-            var newPosition = transform.position + moveInput.WithZ(0f);
-            var newGridPosition = MapManager.Instance.GetGridPositionFromWorldPosition(newPosition);
-            if (MapManager.Instance.IsCellBlocking(newPosition) ||
-                GameManager.Instance.CellContainsActor(newGridPosition)) return;
-
-            StartMoveAnimation(newPosition);
-            UpdateGridPosition(newPosition);
+            TryMove(moveInput);
         }
 
         private void ProcessMovement(Vector2 moveInput)
         {
-            var newPosition = transform.position + moveInput.WithZ(0f);
-            var newGridPosition = MapManager.Instance.GetGridPositionFromWorldPosition(newPosition);
+            TryMove(moveInput);
+        }
 
-            if (MapManager.Instance.IsCellBlocking(newPosition) ||
-                GameManager.Instance.CellContainsActor(newGridPosition)) return;
+        private bool TryMove(Vector2 moveInput)
+        {
+            var isDiagonal = moveInput.x != 0 && moveInput.y != 0;
+            var cost = isDiagonal ? diagonalMoveCost : moveCost;
+            if (_stamina < cost) return false;
+            
+            var targetPosition = transform.position + moveInput.WithZ(0f);
+            var targetGridPosition = MapManager.Instance.WorldToCell(targetPosition);
+            
+            if (MapManager.Instance.IsCellBlocking(targetPosition) ||
+                GameManager.Instance.CellContainsActor(targetGridPosition)) return false;
 
-            StartMoveAnimation(newPosition);
-            UpdateGridPosition(newPosition);
+
+            // Prevent corner cutting
+            if (isDiagonal)
+            {
+                var yNeighbor = transform.position + new Vector3(0,moveInput.y,0);
+                var xNeighbor = transform.position + new Vector3(moveInput.x,0,0);
+                if (MapManager.Instance.IsCellBlocking(yNeighbor) || MapManager.Instance.IsCellBlocking(xNeighbor))
+                {
+                    return false;
+                }
+            }
+
+            _stamina -= cost;
+            StartMoveAnimation(targetPosition);
+            UpdateGridPosition(targetPosition);
+
+            return true;
         }
 
         private void ProcessAim(Vector2 aimInput)
         {
+            UpdateAimMarker(CurrentFacing.GetFacingVector());
         }
 
         private void UpdateAimMarker(Vector2Int newFacing)
         {
-            aimMarker.transform.localPosition = new Vector3(newFacing.x, newFacing.y, 0);
+            attackSystem.UpdateTargetMarkerPositions(GridPosition, CurrentFacing.GetFacingVector());
         }
 
         private void ToggleAim(object sender, ToggleEventArgs args)
         {
-            if (args.NewValue)
+            if (args.ToggleValue)
             {
                 if (_controlState != PlayerControlState.Normal) return;
                 _controlState = PlayerControlState.Aiming;
-                aimMarker.SetActive(true);
+                attackSystem.ShowTargetMarkers(GridPosition, CurrentFacing.GetFacingVector());
                 aimGrid.SetActive(true);
             }
             else
             {
                 if (_controlState != PlayerControlState.Aiming) return;
                 _controlState = PlayerControlState.Normal;
-                aimMarker.SetActive(false);
+                attackSystem.HideTargetMarkers();
                 aimGrid.SetActive(false);
             }
         }
 
         private void ToggleDiagonalMode(object sender, ToggleEventArgs args)
         {
-            if (args.NewValue)
+            if (args.ToggleValue)
             {
                 if (_controlState == PlayerControlState.Aiming) return;
                 _controlState = PlayerControlState.Diagonal;

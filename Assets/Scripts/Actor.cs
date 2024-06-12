@@ -7,6 +7,7 @@ namespace Maihem
     [RequireComponent(typeof(Collider2D))]
     public abstract class Actor : MonoBehaviour
     {
+        [Header("Actor Settings")]
         [SerializeField] private int maxHealth;
         [SerializeField] private float moveDuration = 0.25f;
         [SerializeField] private Facing initialFacing;
@@ -19,10 +20,11 @@ namespace Maihem
         public event EventHandler<DeathEventArgs> Died;
 
         public int CurrentHealth { get; protected set; }
+        public bool IsDead { get; protected set; }
 
         protected virtual void Awake()
         {
-            GridPosition = MapManager.Instance.GetGridPositionFromWorldPosition(transform.position);
+            GridPosition = MapManager.Instance.WorldToCell(transform.position);
             CurrentFacing = initialFacing;
             CurrentHealth = maxHealth;
         }
@@ -34,7 +36,7 @@ namespace Maihem
 
         protected void UpdateGridPosition(Vector3 newPosition)
         {
-            GridPosition = MapManager.Instance.GetGridPositionFromWorldPosition(newPosition);
+            GridPosition = MapManager.Instance.WorldToCell(newPosition);
         }
 
         protected void StartMoveAnimation(Vector3 target)

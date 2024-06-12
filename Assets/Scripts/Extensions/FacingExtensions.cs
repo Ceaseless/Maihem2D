@@ -1,4 +1,5 @@
 ﻿using System;
+using Unity.Mathematics;
 using UnityEngine;
 
 namespace Maihem.Extensions
@@ -23,7 +24,7 @@ namespace Maihem.Extensions
 
         public static Facing GetFacingFromDirection(this Facing facing, Vector2Int direction)
         {
-            return (direction.x, direction.y) switch
+            return (math.clamp(direction.x,-1,1), math.clamp(direction.y,-1,1)) switch
             {
                 (1, 0) => Facing.East,
                 (-1, 0) => Facing.West,
@@ -36,21 +37,6 @@ namespace Maihem.Extensions
                 _ => throw new ArgumentOutOfRangeException(nameof(direction), direction, null)
             };
         }
-
-        public static float GetZAngleFromFacing(this Facing facing)
-        {
-            return facing switch
-            {
-                Facing.East => -90f,
-                Facing.West => 90f,
-                Facing.North => 0,
-                Facing.South => 180f,
-                Facing.NorthEast => -45f,
-                Facing.SouthEast => -135f,
-                Facing.SouthWest => 135f,
-                Facing.NorthWest => 45f,
-                _ => throw new ArgumentOutOfRangeException(nameof(facing), facing, null)
-            };
-        }
+       
     }
 }
