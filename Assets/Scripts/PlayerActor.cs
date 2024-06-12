@@ -17,18 +17,16 @@ namespace Maihem
         [Header("Stat Settings")]
         [SerializeField] private int maxStamina;
         [SerializeField] private int moveCost;
-        [SerializeField] private int diagonalMoveCost;
         
         [Header("System References")]
         [SerializeField] private PlayerInput playerInput;
+        [SerializeField] private int diagonalMoveCost;
         [SerializeField] private AttackSystem attackSystem;
         
         [Header("Children References")]
         [SerializeField] private GameObject aimGrid;
         [SerializeField] private GameObject diagonalModeMarker;
         [SerializeField] private GameObject stickObject;
-
-        
 
         private PlayerControlState _controlState = PlayerControlState.Normal;
 
@@ -38,12 +36,12 @@ namespace Maihem
         private static readonly int AnimatorHorizontal = Animator.StringToHash("Horizontal");
         private static readonly int AnimatorVertical = Animator.StringToHash("Vertical");
 
-
         public override void TakeDamage(int damage)
         {
             if (IsDead) return;
             CurrentHealth -= damage;
             if (CurrentHealth <= 0) IsDead = true;
+   
         }
 
         protected override void OnMoveAnimationEnd()
@@ -62,6 +60,7 @@ namespace Maihem
             playerInput.OnToggleAimAction += ToggleAim;
             playerInput.OnToggleDiagonalModeAction += ToggleDiagonalMode;
             playerInput.OnMoveAction += ProcessMoveInput;
+            
         }
 
 
@@ -192,6 +191,16 @@ namespace Maihem
                 _controlState = PlayerControlState.Normal;
                 diagonalModeMarker.SetActive(false);
             }
+        }
+
+        public int GetStamina()
+        {
+            return _stamina;
+        }
+        
+        public int GetMaxStamina()
+        {
+            return maxStamina;
         }
     }
 }

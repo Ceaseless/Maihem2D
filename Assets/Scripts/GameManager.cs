@@ -10,10 +10,13 @@ namespace Maihem
         [SerializeField] private Vector3 playerStartPosition;
         [SerializeField] private CameraController cameraController;
         [SerializeField] private EnemyManager enemyManager;
+        [SerializeField] private UIManager ui;
         [SerializeField] private TextMeshProUGUI debugText;
 
         public int TurnCount { get; private set; }
         public PlayerActor Player { get; private set; }
+
+        public UIManager UI => ui;
         
 
         private void Awake()
@@ -40,6 +43,7 @@ namespace Maihem
 
             var playerObject = Instantiate(playerPrefab, playerStartPosition, Quaternion.identity);
             Player = playerObject.GetComponent<PlayerActor>();
+            ui.SetupPlayer(Player.CurrentHealth,Player.GetMaxStamina(), Player.GridPosition);
         }
 
         public void ResetGame()
@@ -48,7 +52,7 @@ namespace Maihem
             enemyManager.Reset();
             cameraController.Reset();
             TurnCount = 0;
-            UpdateUI();
+            ui.UpdateStatus();
         }
 
         public bool TryGetActorOnCell(Vector2Int cellPosition, out Actor actor)
@@ -96,6 +100,7 @@ namespace Maihem
             enemyManager.Tick();
             MapManager.Instance.UpdateMap();
             TurnCount++;
+            ui.UpdatePlayer(Player.CurrentHealth,Player.GetStamina(), Player.GridPosition);
             UpdateUI();
             
             if (!Player.IsDead) return;
