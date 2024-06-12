@@ -44,7 +44,6 @@ namespace Maihem
         {
             CurrentHealth -= damage;
             if (CurrentHealth > 0) return;
-            UIManager.Instance.AdjustKillCount(1);
             OnDied(new DeathEventArgs { DeadGameObject = gameObject });
         }
 

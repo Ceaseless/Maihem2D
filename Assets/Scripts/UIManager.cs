@@ -15,14 +15,13 @@ namespace Maihem
         public Slider stamina;
         public Text staminaValue;
 
-        public Text killCount;
+        public Text distanceCounter;
 
         private int _maxHealth;
         private int _currentHealth;
         private int _maxStamina;
         private int _currentStamina;
-
-        private int _killCount;
+        private int _distance;
 
         private void Awake()
         {
@@ -93,9 +92,9 @@ namespace Maihem
             UpdateStatus();
         }
 
-        public void AdjustKillCount(int amount)
+        public void AdjustDistance(int amount)
         {
-            _killCount += amount;
+            _distance += amount;
             UpdateStatus();
         }
 
@@ -105,16 +104,19 @@ namespace Maihem
             if (_currentHealth <= 0)  _currentHealth = 0;
             if (_currentHealth > _maxHealth) _currentHealth = _maxHealth;
             health.value = _currentHealth;
-            healthValue.text = _currentHealth + "/" + _maxHealth;
+            var healthValueText = _currentHealth + "/" + _maxHealth + " HP";
+            healthValue.text = healthValueText.PadLeft(8,' ');
             
             
             stamina.maxValue = _maxStamina;
             if (_currentStamina <= 0)  _currentStamina = 0;
             if (_currentStamina > _maxStamina) _currentStamina = _maxStamina;
             stamina.value = _currentStamina;
-            staminaValue.text = _currentStamina + "/" + _maxStamina;
+            var staminaValueText = _currentStamina + "/" + _maxStamina +" ST";
+            staminaValue.text = staminaValueText.PadLeft(8,' ');
 
-            killCount.text = _killCount.ToString();
+            var distanceCounterText = "Distance: "+_distance+"m";
+            distanceCounter.text = distanceCounterText.PadRight(16, ' ');
         }
     }
 }

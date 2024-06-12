@@ -67,7 +67,7 @@ namespace Maihem
             enemyManager.Tick();
             MapManager.Instance.UpdateMap();
             TurnCount++;
-            UpdateUI();
+            ui.UpdateStatus();
         }
     
         private void UpdateUI()
