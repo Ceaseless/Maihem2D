@@ -43,6 +43,7 @@ namespace Maihem
 
             var playerObject = Instantiate(playerPrefab, playerStartPosition, Quaternion.identity);
             Player = playerObject.GetComponent<PlayerActor>();
+            ui.SetupPlayer(Player.CurrentHealth,Player.GetMaxStamina(), Player.GridPosition);
         }
 
         public void ResetGame()
@@ -99,6 +100,7 @@ namespace Maihem
             enemyManager.Tick();
             MapManager.Instance.UpdateMap();
             TurnCount++;
+            ui.UpdatePlayer(Player.CurrentHealth,Player.GetStamina(), Player.GridPosition);
             UpdateUI();
             
             if (!Player.IsDead) return;

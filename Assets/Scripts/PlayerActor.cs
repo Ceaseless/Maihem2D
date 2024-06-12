@@ -61,9 +61,6 @@ namespace Maihem
             playerInput.OnToggleDiagonalModeAction += ToggleDiagonalMode;
             playerInput.OnMoveAction += ProcessMoveInput;
             
-            UIManager.Instance.SetMaxHealth(CurrentHealth);
-            UIManager.Instance.SetMaxStamina(10);
-            UIManager.Instance.SetCurrentStamina(0);
         }
 
 
@@ -194,6 +191,16 @@ namespace Maihem
                 _controlState = PlayerControlState.Normal;
                 diagonalModeMarker.SetActive(false);
             }
+        }
+
+        public int GetStamina()
+        {
+            return _stamina;
+        }
+        
+        public int GetMaxStamina()
+        {
+            return maxStamina;
         }
     }
 }

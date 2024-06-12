@@ -1,5 +1,6 @@
 
 using System;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,7 +8,6 @@ namespace Maihem
 {
     public class UIManager : MonoBehaviour
     {
-        public static UIManager Instance { get; private set; }
         
         public Slider health;
         public Text healthValue;
@@ -15,26 +15,15 @@ namespace Maihem
         public Slider stamina;
         public Text staminaValue;
 
-        public Text distanceCounter;
+        [SerializeField] private TextMeshProUGUI distanceCounter;
 
         private int _maxHealth;
         private int _currentHealth;
         private int _maxStamina;
         private int _currentStamina;
-        private int _distance;
-
-        private void Awake()
-        {
-            if (Instance == null)
-            {
-                Instance = this;
-                DontDestroyOnLoad(gameObject);
-            }
-            else
-            {
-                Destroy(gameObject);
-            }
-        }
+        private Vector2Int _startingPoint;
+        private Vector2Int _currentPoint;
+        
 
         public void SetMaxHealth(int setHealth)
         {
@@ -92,9 +81,9 @@ namespace Maihem
             UpdateStatus();
         }
 
-        public void AdjustDistance(int amount)
+        public void AdjustDistance(Vector2Int newPoint)
         {
-            _distance += amount;
+            _currentPoint = newPoint;
             UpdateStatus();
         }
 
@@ -112,11 +101,36 @@ namespace Maihem
             if (_currentStamina <= 0)  _currentStamina = 0;
             if (_currentStamina > _maxStamina) _currentStamina = _maxStamina;
             stamina.value = _currentStamina;
-            var staminaValueText = _currentStamina + "/" + _maxStamina +" ST";
+            var staminaValueText = _currentStamina + "/" + _maxStamina;
             staminaValue.text = staminaValueText.PadLeft(8,' ');
 
-            var distanceCounterText = "Distance: "+_distance+"m";
+            var distance = Math.Abs(Math.Abs(_startingPoint.x - _currentPoint.x) + Math.Abs(_startingPoint.y - _currentPoint.y)/10);
+            var distanceCounterText = "Distance: "+ distance +"m";
             distanceCounter.text = distanceCounterText.PadRight(16, ' ');
+        }
+
+        public void SetupPlayer(int playerCurrentHealth, int playerCurrentStamina, Vector2Int playerGridPosition)
+        {
+            _maxHealth = playerCurrentHealth;
+            _currentHealth = playerCurrentHealth;
+
+            _maxStamina = playerCurrentStamina;
+            _currentStamina = playerCurrentStamina;
+
+            _startingPoint = playerGridPosition;
+            _currentPoint = playerGridPosition;
+            
+            UpdateStatus();
+        }
+        public void UpdatePlayer(int playerCurrentHealth, int playerCurrentStamina, Vector2Int playerGridPosition)
+        {
+            _currentHealth = playerCurrentHealth;
+            
+            _currentStamina = playerCurrentStamina;
+            
+            _currentPoint = playerGridPosition;
+            
+            UpdateStatus();
         }
     }
 }
