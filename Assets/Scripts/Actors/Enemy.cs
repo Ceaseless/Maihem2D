@@ -1,8 +1,9 @@
 ﻿using System.Linq;
 using Maihem.Extensions;
+using Maihem.Managers;
 using UnityEngine;
 
-namespace Maihem
+namespace Maihem.Actors
 {
     public class Enemy : Actor
     {

@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections;
+using Maihem.Managers;
 using UnityEngine;
 
-namespace Maihem
+namespace Maihem.Actors
 {
     [RequireComponent(typeof(Collider2D))]
     public abstract class Actor : MonoBehaviour

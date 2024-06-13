@@ -1,4 +1,3 @@
-
 using System.Collections.Generic;
 using System.Linq;
 using Maihem.Extensions;
@@ -6,7 +5,7 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 using Random = UnityEngine.Random;
 
-namespace Maihem
+namespace Maihem.Managers
 {
     internal struct Node
     {

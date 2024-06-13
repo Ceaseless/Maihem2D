@@ -1,10 +1,9 @@
-
 using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Maihem
+namespace Maihem.Managers
 {
     public class UIManager : MonoBehaviour
     {

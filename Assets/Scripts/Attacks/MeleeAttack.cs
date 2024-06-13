@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Maihem.Managers;
 using UnityEngine;
 
 namespace Maihem.Attacks

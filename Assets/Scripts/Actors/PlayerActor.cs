@@ -1,10 +1,11 @@
 using System;
 using Maihem.Attacks;
 using Maihem.Extensions;
+using Maihem.Managers;
 using Unity.Mathematics;
 using UnityEngine;
 
-namespace Maihem
+namespace Maihem.Actors
 {
     public class PlayerActor : Actor
     {

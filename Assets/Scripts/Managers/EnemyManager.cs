@@ -1,9 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Maihem.Actors;
 using UnityEngine;
 
-namespace Maihem
+namespace Maihem.Managers
 {
     public class EnemyManager : MonoBehaviour
     {

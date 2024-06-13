@@ -1,7 +1,8 @@
+using Maihem.Actors;
 using TMPro;
 using UnityEngine;
 
-namespace Maihem
+namespace Maihem.Managers
 {
     public class GameManager : MonoBehaviour
     {
