@@ -1,3 +1,4 @@
+using Cinemachine;
 using Maihem.Actors;
 using TMPro;
 using UnityEngine;
@@ -10,10 +11,11 @@ namespace Maihem.Managers
         public static GameManager Instance { get; private set; }
         [SerializeField] private GameObject playerPrefab;
         [SerializeField] private Vector3 playerStartPosition;
-        [SerializeField] private CameraController cameraController;
+        [SerializeField] private KillZoneController boundsController;
         [SerializeField] private EnemyManager enemyManager;
         [FormerlySerializedAs("ui")] [SerializeField] private UIManager uiManager;
         [SerializeField] private TextMeshProUGUI debugText;
+        [SerializeField] private CinemachineVirtualCamera followCamera;
 
         public int TurnCount { get; private set; }
         public PlayerActor Player { get; private set; }
@@ -35,6 +37,7 @@ namespace Maihem.Managers
             }
             SpawnPlayer();
             uiManager.Initialize();
+            
         }
 
         private void SpawnPlayer()
@@ -46,13 +49,14 @@ namespace Maihem.Managers
 
             var playerObject = Instantiate(playerPrefab, playerStartPosition, Quaternion.identity);
             Player = playerObject.GetComponent<PlayerActor>();
+            followCamera.Follow = Player.transform;
         }
 
         public void ResetGame()
         {
             SpawnPlayer();
             enemyManager.Reset();
-            cameraController.Reset();
+            boundsController.Reset();
             TurnCount = 0;
             uiManager.Initialize();
             
@@ -93,10 +97,10 @@ namespace Maihem.Managers
     
         public void TriggerTurn()
         {
-            cameraController.UpdateCameraScroll();
-            if (cameraController.IsPositionOffScreen(Player.transform.position))
+            boundsController.UpdateBounds();
+            if (Player.transform.position.x <= boundsController.transform.position.x)
             {
-                Debug.Log("Player walked off screen!");
+                Debug.Log("Player walked into the light!");
                 ResetGame();
                 return;
             }
