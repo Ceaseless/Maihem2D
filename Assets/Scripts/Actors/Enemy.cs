@@ -7,24 +7,22 @@ namespace Maihem.Actors
 {
     public class Enemy : Actor
     {
+        [SerializeField] private AttackPattern attackType;
         public void TakeTurn()
         {
             OnTurnStarted();
-            var player = GameManager.Instance.Player;
-            var neighbours = MapManager.GetNeighbourPositions(GridPosition);
-            if (!neighbours.Contains(player.GridPosition))
+            var afterAttack = attackType.Attack(GridPosition);
+            if(afterAttack.magnitude>0)
+            {
+                CurrentFacing = CurrentFacing.GetFacingFromDirection(afterAttack);
+                OnTurnCompleted();
+            }
+            else
             {
                 if (!TryMove())
                 {
                     OnTurnCompleted();
                 }
-            }
-            else
-            {
-                Debug.Log("Attacking player!", this);
-                CurrentFacing = CurrentFacing.GetFacingFromDirection(player.GridPosition - GridPosition);
-                player.TakeDamage(1);
-                OnTurnCompleted();
             }
         }
         
@@ -39,7 +37,7 @@ namespace Maihem.Actors
             var targetCell = shortestPath.Last();
             var newPosition = MapManager.Instance.CellToWorld(targetCell);
             CurrentFacing = CurrentFacing.GetFacingFromDirection(targetCell - GridPosition);
-                
+            
             StartMoveAnimation(newPosition);
             UpdateGridPosition(newPosition);
             return true;

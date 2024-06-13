@@ -2,13 +2,15 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Maihem.Actors;
+using UnityEditor.SceneManagement;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Maihem.Managers
 {
     public class EnemyManager : MonoBehaviour
     {
-        [SerializeField] private GameObject enemyPrefab;
+        [SerializeField] private GameObject[] enemyPrefabs;
         [SerializeField] private int spawnRate;
         
         private List<Enemy> _activeEnemies;
@@ -38,7 +40,8 @@ namespace Maihem.Managers
         {
             var randomCell = MapManager.Instance.GetFreeCell();
             var randomPosition = MapManager.Instance.CellToWorld(randomCell);
-            var newEnemy = Instantiate(enemyPrefab, randomPosition, Quaternion.identity, transform).GetComponent<Enemy>();
+            var newEnemy = Instantiate(enemyPrefabs[Random.Range(0,enemyPrefabs.Length)], randomPosition, Quaternion.identity, transform).GetComponent<Enemy>();
+            
             newEnemy.Died += EnemyDied;
             newEnemy.TurnStarted += EnemyStartedTurn;
             newEnemy.TurnCompleted += EnemyCompletedTurn;
