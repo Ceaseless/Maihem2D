@@ -1,6 +1,7 @@
 using Maihem.Actors;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Maihem.Managers
 {
@@ -11,13 +12,13 @@ namespace Maihem.Managers
         [SerializeField] private Vector3 playerStartPosition;
         [SerializeField] private CameraController cameraController;
         [SerializeField] private EnemyManager enemyManager;
-        [SerializeField] private UIManager ui;
+        [FormerlySerializedAs("ui")] [SerializeField] private UIManager uiManager;
         [SerializeField] private TextMeshProUGUI debugText;
 
         public int TurnCount { get; private set; }
         public PlayerActor Player { get; private set; }
 
-        public UIManager UI => ui;
+        
         
 
         private void Awake()
@@ -33,6 +34,7 @@ namespace Maihem.Managers
                 return;
             }
             SpawnPlayer();
+            uiManager.Initialize();
         }
 
         private void SpawnPlayer()
@@ -44,7 +46,6 @@ namespace Maihem.Managers
 
             var playerObject = Instantiate(playerPrefab, playerStartPosition, Quaternion.identity);
             Player = playerObject.GetComponent<PlayerActor>();
-            ui.SetupPlayer(Player.CurrentHealth,Player.GetMaxStamina(), Player.GridPosition);
         }
 
         public void ResetGame()
@@ -53,7 +54,9 @@ namespace Maihem.Managers
             enemyManager.Reset();
             cameraController.Reset();
             TurnCount = 0;
-            ui.UpdateStatus();
+            uiManager.Initialize();
+            
+            debugText.text = $"Turn: {TurnCount}";
         }
 
         public bool TryGetActorOnCell(Vector2Int cellPosition, out Actor actor)
@@ -101,7 +104,6 @@ namespace Maihem.Managers
             enemyManager.Tick();
             MapManager.Instance.UpdateMap();
             TurnCount++;
-            ui.UpdatePlayer(Player.CurrentHealth,Player.GetStamina(), Player.GridPosition);
             UpdateUI();
             
             if (!Player.IsDead) return;
@@ -112,6 +114,7 @@ namespace Maihem.Managers
         private void UpdateUI()
         {
             debugText.text = $"Turn: {TurnCount}";
+            uiManager.UpdateStatusUI();
         }
 
    

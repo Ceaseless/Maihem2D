@@ -27,7 +27,7 @@ namespace Maihem
         {
             _isMoving = false;
             _moveProgress = 0f;
-            transform.position = new Vector3(20f, 0f, -10f); // TODO: Make dynamic
+            transform.position = new Vector3(21f, 0f, -10f); // TODO: Make dynamic
         }
 
         public void UpdateCameraScroll()

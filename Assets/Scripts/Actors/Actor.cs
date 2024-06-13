@@ -15,13 +15,15 @@ namespace Maihem.Actors
         public Facing CurrentFacing { get; protected set; }
         public Vector2Int GridPosition { get; protected set; }
         public Collider2D Hurtbox { get; protected set; }
+        public int MaxHealth => maxHealth;
+        public int CurrentHealth { get; protected set; }
+        public bool IsDead { get; protected set; }
         public bool IsPerformingAction { get; private set; }
 
         public event EventHandler TurnStarted, TurnCompleted;
         public event EventHandler<DeathEventArgs> Died;
 
-        public int CurrentHealth { get; protected set; }
-        public bool IsDead { get; protected set; }
+        
 
         protected virtual void Awake()
         {

@@ -8,108 +8,52 @@ namespace Maihem.Managers
     public class UIManager : MonoBehaviour
     {
         
-        public Slider health;
-        public Text healthValue;
+        [SerializeField] private Slider healthBar;
+        [SerializeField] private TextMeshProUGUI healthValue;
         
-        public Slider stamina;
-        public Text staminaValue;
+        [SerializeField] private Slider staminaBar;
+        [SerializeField] private TextMeshProUGUI staminaValue;
 
         [SerializeField] private TextMeshProUGUI distanceCounter;
         [SerializeField] private TextMeshProUGUI currentAttack;
         [SerializeField] private TextMeshProUGUI currentConsumable;
-
-        private int _maxHealth;
-        private int _currentHealth;
-        private int _maxStamina;
-        private int _currentStamina;
+        
         private Vector2Int _startingPoint;
-        private Vector2Int _currentPoint;
         
-
-        public void SetMaxHealth(int setHealth)
+        public void Initialize()
         {
-            _maxHealth = setHealth;
-        }
-
-        public void SetCurrentHealth(int newHealth)
-        {
-
-            _currentHealth = newHealth;
-
-        }
-        
-        
-        
-        public void SetMaxStamina(int setStamina)
-        {
-            
-            _maxStamina = setStamina;
-        }
-
-        public void SetCurrentStamina(int newStamina)
-        {
-            _currentStamina = newStamina;
-        }
-
-        public void AdjustDistance(Vector2Int newPoint)
-        {
-            _currentPoint = newPoint;
-        }
-
-        public void UpdateStatus()
-        {
-            health.maxValue = _maxHealth;
-            if (_currentHealth <= 0)  _currentHealth = 0;
-            if (_currentHealth > _maxHealth) _currentHealth = _maxHealth;
-            health.value = _currentHealth;
-            var healthValueText = _currentHealth + "/" + _maxHealth + " HP";
-            healthValue.text = healthValueText.PadLeft(8,' ');
-            
-            
-            stamina.maxValue = _maxStamina;
-            if (_currentStamina <= 0)  _currentStamina = 0;
-            if (_currentStamina > _maxStamina) _currentStamina = _maxStamina;
-            stamina.value = _currentStamina;
-            var staminaValueText = _currentStamina + "/" + _maxStamina;
-            staminaValue.text = staminaValueText.PadLeft(8,' ');
-
-            var distance = Math.Abs(Math.Abs(_startingPoint.x - _currentPoint.x) + Math.Abs(_startingPoint.y - _currentPoint.y)/10);
-            var distanceCounterText = "Distance: "+ distance +"m";
-            distanceCounter.text = distanceCounterText.PadRight(16, ' ');
-        }
-
-        public void SetupPlayer(int playerCurrentHealth, int playerCurrentStamina, Vector2Int playerGridPosition)
-        {
-            _maxHealth = playerCurrentHealth;
-            _currentHealth = playerCurrentHealth;
-
-            _maxStamina = playerCurrentStamina;
-            _currentStamina = playerCurrentStamina;
-
-            _startingPoint = playerGridPosition;
-            _currentPoint = playerGridPosition;
-
+            _startingPoint = GameManager.Instance.Player.GridPosition;
             ChangeAttack("Kick");
             ChangeConsumable("Empty");
             
-            UpdateStatus();
+            UpdateStatusUI();
         }
-        public void UpdatePlayer(int playerCurrentHealth, int playerCurrentStamina, Vector2Int playerGridPosition)
+        
+        public void UpdateStatusUI()
         {
-            _currentHealth = playerCurrentHealth;
+            var player = GameManager.Instance.Player;
             
-            _currentStamina = playerCurrentStamina;
+            healthBar.maxValue = player.MaxHealth;
+            healthBar.value = player.CurrentHealth;
+            var healthValueText = player.CurrentHealth + "/" + player.MaxHealth + " HP";
+            healthValue.text = healthValueText.PadLeft(8,' ');
             
-            _currentPoint = playerGridPosition;
-            
-            UpdateStatus();
-        }
+            staminaBar.maxValue = player.MaxStamina;
+            staminaBar.value = player.CurrentStamina;
+            var staminaValueText = player.CurrentStamina + "/" + player.MaxStamina;
+            staminaValue.text = staminaValueText.PadLeft(8,' ');
 
-        public void ChangeAttack(String attackName)
+            //var distance = Math.Abs(_startingPoint.x - player.GridPosition.x);
+            var distance = Math.Abs(Math.Abs(_startingPoint.x - player.GridPosition.x) + Math.Abs(_startingPoint.y - player.GridPosition.y)/10);
+            var distanceCounterText = "Distance: "+ distance +"m";
+            distanceCounter.text = distanceCounterText.PadRight(16, ' ');
+        }
+        
+        public void ChangeAttack(string attackName)
         {
             currentAttack.text = attackName;
         }
-        public void ChangeConsumable(String consumableName)
+        public void ChangeConsumable(string consumableName)
         {
             currentAttack.text = consumableName;
         }

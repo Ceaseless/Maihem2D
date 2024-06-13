@@ -15,6 +15,7 @@ namespace Maihem.Actors
             Aiming,
             Diagonal
         }
+        
         [Header("Stat Settings")]
         [SerializeField] private int maxStamina;
         [SerializeField] private int moveCost;
@@ -29,11 +30,12 @@ namespace Maihem.Actors
         [SerializeField] private GameObject diagonalModeMarker;
         [SerializeField] private GameObject stickObject;
 
+        public int MaxStamina => maxStamina;
+        public int CurrentStamina { get; private set; }
+        
         private PlayerControlState _controlState = PlayerControlState.Normal;
-
         private Animator _animator;
-        private int _stamina;
-
+        
         private static readonly int AnimatorHorizontal = Animator.StringToHash("Horizontal");
         private static readonly int AnimatorVertical = Animator.StringToHash("Vertical");
 
@@ -50,18 +52,27 @@ namespace Maihem.Actors
             GameManager.Instance.TriggerTurn();
         }
 
+        protected override void Awake()
+        {
+            base.Awake();
+            CurrentStamina = maxStamina;
+        }
+
         protected override void Start()
         {
             base.Start();
             _animator = GetComponent<Animator>();
-
-            _stamina = maxStamina;
             
+            ConnectInputs();
+            
+        }
+
+        private void ConnectInputs()
+        {
             playerInput.OnAttackAction += Attack;
             playerInput.OnToggleAimAction += ToggleAim;
             playerInput.OnToggleDiagonalModeAction += ToggleDiagonalMode;
             playerInput.OnMoveAction += ProcessMoveInput;
-            
         }
 
 
@@ -69,9 +80,9 @@ namespace Maihem.Actors
         {
             if (!GameManager.Instance.CanTakeTurn()) return;
 
-            if (attackSystem.currentAttackStrategy.StaminaCost > _stamina) return;
+            if (attackSystem.currentAttackStrategy.StaminaCost > CurrentStamina) return;
 
-            _stamina -= attackSystem.currentAttackStrategy.StaminaCost;
+            CurrentStamina -= attackSystem.currentAttackStrategy.StaminaCost;
             attackSystem.Attack(GridPosition, CurrentFacing.GetFacingVector());
             
             GameManager.Instance.TriggerTurn();
@@ -123,7 +134,7 @@ namespace Maihem.Actors
         {
             var isDiagonal = moveInput.x != 0 && moveInput.y != 0;
             var cost = isDiagonal ? diagonalMoveCost : moveCost;
-            if (_stamina < cost) return false;
+            if (CurrentStamina < cost) return false;
             
             var targetPosition = transform.position + moveInput.WithZ(0f);
             var targetGridPosition = MapManager.Instance.WorldToCell(targetPosition);
@@ -143,7 +154,7 @@ namespace Maihem.Actors
                 }
             }
 
-            _stamina -= cost;
+            CurrentStamina -= cost;
             StartMoveAnimation(targetPosition);
             UpdateGridPosition(targetPosition);
 
@@ -196,7 +207,7 @@ namespace Maihem.Actors
 
         public int GetStamina()
         {
-            return _stamina;
+            return CurrentStamina;
         }
         
         public int GetMaxStamina()
