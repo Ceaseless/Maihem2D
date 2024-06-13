@@ -805,15 +805,15 @@ Camera:
   m_LensShift: {x: 0, y: 0}
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: 0
+    x: 0.1938873
     y: 0
-    width: 1
+    width: 0.6112703
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 34
   orthographic: 1
-  orthographic size: 11.25
+  orthographic size: 16.3125
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -1256,7 +1256,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 456be06d4ebfe5a4ea3b609731e5cfc1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyPrefab: {fileID: 765410887786012589, guid: a6a0cc2a1e09d504892992c226c6d810, type: 3}
+  enemyPrefab: {fileID: 6853223784441661472, guid: 8b3f81cf84f6ad34793143ccbff79cab, type: 3}
+  enemyPrefabs:
+  - {fileID: 765410887786012589, guid: a6a0cc2a1e09d504892992c226c6d810, type: 3}
+  - {fileID: 6853223784441661472, guid: 8b3f81cf84f6ad34793143ccbff79cab, type: 3}
   spawnRate: 10
 --- !u!4 &894944141
 Transform:

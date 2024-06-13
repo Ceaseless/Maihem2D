@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Maihem.Extensions;
@@ -144,6 +145,18 @@ namespace Maihem.Managers
                 cellPosition+new Vector2Int(-1, -1),
                 cellPosition+new Vector2Int(-1, 1)
             };
+        }
+        
+        public bool IsInDirectLine(Vector2Int cellPosition, Vector2Int target, int range)
+        {
+            int diffX = cellPosition.x - target.x;
+            int diffY = cellPosition.y - target.y;
+            if ((diffX == 0 && diffY <= range) || (diffY == 0 && diffX <= range) || Math.Abs(diffX) == Math.Abs(diffY))
+            {
+                return true;
+            }
+
+            return false;
         }
 
         private List<Node> GetNeighborNodes(Vector2Int cellPosition)

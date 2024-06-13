@@ -94,6 +94,7 @@ MonoBehaviour:
   maxHealth: 1
   moveDuration: 0.1
   initialFacing: 1
+  attackType: {fileID: 11400000, guid: d1e43a9041efd88428fc7e85f5ef4ef5, type: 2}
 --- !u!1 &7186892262794404224
 GameObject:
   m_ObjectHideFlags: 0
