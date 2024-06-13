@@ -147,16 +147,32 @@ namespace Maihem.Managers
             };
         }
         
-        public bool IsInDirectLine(Vector2Int cellPosition, Vector2Int target, int range)
+        public List<Vector2Int> IsInDirectLine(Vector2Int cellPosition, Vector2Int target, int range)
         {
             int diffX = cellPosition.x - target.x;
             int diffY = cellPosition.y - target.y;
-            if ((diffX == 0 && diffY <= range) || (diffY == 0 && diffX <= range) || Math.Abs(diffX) == Math.Abs(diffY))
+
+            List<Vector2Int> targetLine = new List<Vector2Int>();
+            Vector2Int checkDirection = cellPosition;
+            
+            int directionX = 0;
+            int directionY = 0;
+
+            if (diffX > 0) directionX = -1;
+            if (diffX < 0) directionX = 1;
+            if (diffY > 0) directionY = -1;
+            if (diffY < 0) directionY = 1;
+
+            for (int i = 0; i < range; i++)
             {
-                return true;
+                checkDirection = new Vector2Int(checkDirection.x + directionX, checkDirection.y + directionY);
+                if (!IsCellBlocking(checkDirection) && !IsCellBlockedDiagonal(checkDirection, cellPosition))
+                {
+                   targetLine.Add(checkDirection); 
+                }
             }
 
-            return false;
+            return targetLine;
         }
 
         private List<Node> GetNeighborNodes(Vector2Int cellPosition)
