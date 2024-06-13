@@ -1,3 +1,4 @@
+using System;
 using Cinemachine;
 using Maihem.Actors;
 using TMPro;
@@ -33,11 +34,13 @@ namespace Maihem.Managers
             else
             {
                 Destroy(gameObject);
-                return;
             }
+        }
+
+        private void Start()
+        {
             SpawnPlayer();
             uiManager.Initialize();
-            
         }
 
         private void SpawnPlayer()
