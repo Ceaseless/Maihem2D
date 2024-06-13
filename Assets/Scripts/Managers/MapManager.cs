@@ -50,7 +50,7 @@ namespace Maihem.Managers
     {
         public static MapManager Instance { get; private set; }
         [SerializeField] private Grid grid;
-        
+        [SerializeField] private PolygonCollider2D mapConstraints;
         private List<Tilemap> _tilemaps;
         
         private void Awake()
