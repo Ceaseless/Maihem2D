@@ -18,6 +18,7 @@ namespace Maihem
                 return new Vector2Int(0,0);
             }
             
+            Debug.Log("Enemy Melee Attack");
             player.TakeDamage(Damage);
 
             return player.GridPosition - position;

@@ -10,7 +10,6 @@ namespace Maihem.Managers
 {
     public class EnemyManager : MonoBehaviour
     {
-        [SerializeField] private GameObject enemyPrefab;
         [SerializeField] private GameObject[] enemyPrefabs;
         [SerializeField] private int spawnRate;
         
