@@ -179,7 +179,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 1
   moveDuration: 0.1
-  initialFacing: 1
+  initialFacing: 0
   attackSystem: {fileID: 6315963427758200423}
 --- !u!114 &6315963427758200423
 MonoBehaviour:
