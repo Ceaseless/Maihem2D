@@ -14,3 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 1
   staminaCost: 1
+  hitEffect: {fileID: 1207815041195216427, guid: 97d90143f3f48e045b3789762c6f5d5c, type: 3}
