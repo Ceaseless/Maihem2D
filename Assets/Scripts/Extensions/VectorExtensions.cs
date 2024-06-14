@@ -1,9 +1,15 @@
+using Unity.Mathematics;
 using UnityEngine;
 
 namespace Maihem.Extensions
 {
 	public static class VectorExtensions {
 
+		public static int ManhattanDistance(this Vector2Int v, Vector2Int other)
+		{
+			return math.abs(v.x - other.x) + math.abs(v.y - other.y);
+		}
+		
 		public static Vector2Int XY(this Vector3Int v) {
 			return new Vector2Int(v.x, v.y);
 		}

@@ -30,7 +30,15 @@ namespace Maihem.Actors
                 }
             }
         }
-        
+
+        public void ShowAttackMarkers(bool show)
+        {
+            if(show)
+                attackSystem.ShowTargetMarkers(GridPosition, CurrentFacing.GetFacingVector());
+            else
+                attackSystem.HideTargetMarkers();
+        }
+
         
         
         private bool TryMove()
