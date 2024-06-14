@@ -29,7 +29,7 @@ namespace Maihem.Actors
         [SerializeField] private GameObject aimGrid;
         [SerializeField] private GameObject diagonalModeMarker;
         [SerializeField] private GameObject stickObject;
-
+        [SerializeField] private Transform debugArrowPivot;
         public int MaxStamina => maxStamina;
         public int CurrentStamina { get; private set; }
         
@@ -75,6 +75,15 @@ namespace Maihem.Actors
             playerInput.OnMoveAction += ProcessMoveInput;
         }
 
+        private void OnDestroy()
+        {
+            playerInput.OnAttackAction -= Attack;
+            playerInput.OnToggleAimAction -= ToggleAim;
+            playerInput.OnToggleDiagonalModeAction -= ToggleDiagonalMode;
+            playerInput.OnMoveAction -= ProcessMoveInput;
+            attackSystem?.HideTargetMarkers();
+        }
+
 
         private void Attack(object sender, EventArgs e)
         {
@@ -83,7 +92,7 @@ namespace Maihem.Actors
             if (attackSystem.currentAttackStrategy.StaminaCost > CurrentStamina) return;
 
             CurrentStamina -= attackSystem.currentAttackStrategy.StaminaCost;
-            attackSystem.Attack(GridPosition, CurrentFacing.GetFacingVector());
+            attackSystem.Attack(GridPosition, CurrentFacing.GetFacingVector(), true);
             
             GameManager.Instance.TriggerTurn();
         }
@@ -97,8 +106,8 @@ namespace Maihem.Actors
             _animator.SetInteger(AnimatorHorizontal, newFacing.x);
             _animator.SetInteger(AnimatorVertical, newFacing.y);
             CurrentFacing = CurrentFacing.GetFacingFromDirection(newFacing);
-
             
+            UpdateFacingArrow();
 
             switch (_controlState)
             {
@@ -203,6 +212,23 @@ namespace Maihem.Actors
                 _controlState = PlayerControlState.Normal;
                 diagonalModeMarker.SetActive(false);
             }
+        }
+
+        private void UpdateFacingArrow()
+        {
+            var newZAngle = CurrentFacing switch
+            {
+                Facing.East => 0,
+                Facing.West => 180f,
+                Facing.North => 90f,
+                Facing.South => -90,
+                Facing.NorthEast => 45f,
+                Facing.SouthEast => -45f,
+                Facing.SouthWest => -135f,
+                Facing.NorthWest => 135f,
+                _ => throw new ArgumentOutOfRangeException()
+            };
+            debugArrowPivot.transform.rotation = Quaternion.Euler(0f,0f,newZAngle);
         }
 
         public int GetStamina()

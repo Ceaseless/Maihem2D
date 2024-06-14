@@ -56,6 +56,9 @@ namespace Maihem.Managers
             {
                 var enemy = _activeEnemies[i];
                 if (enemy.CurrentHealth > 0) continue;
+                enemy.Died -= EnemyDied;
+                enemy.TurnStarted -= EnemyStartedTurn;
+                enemy.TurnCompleted -= EnemyCompletedTurn;
                 _activeEnemies.RemoveAt(i);
                 Destroy(enemy.gameObject);
             }

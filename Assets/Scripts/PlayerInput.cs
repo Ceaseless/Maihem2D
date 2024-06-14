@@ -106,7 +106,7 @@ namespace Maihem
             BufferedMoveInput = ctx.ReadValue<Vector2>();
             _lastMoveInput = Time.time;
         }
-        
+
         
     }
     

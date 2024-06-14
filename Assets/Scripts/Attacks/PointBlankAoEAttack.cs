@@ -13,17 +13,16 @@ namespace Maihem.Attacks
         [Min(0)]
         [SerializeField] private int damageFalloff;
         
-        public override void Attack(Vector2Int position, Vector2Int direction)
+        public override void Attack(Vector2Int position, Vector2Int direction, bool isPlayerAttack)
         {
             var targets = GetAffectedTiles(position, direction);
             foreach (var target in targets)
             {
-                if (GameManager.Instance.TryGetActorOnCell(target, out var actor))
-                {
-                    actor.TakeDamage(Damage);
-                }
+                TryDamage(target, isPlayerAttack);
             }
         }
+
+        
 
         public override IList<Vector2Int> GetAffectedTiles(Vector2Int position, Vector2Int direction)
         {
