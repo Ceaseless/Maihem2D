@@ -11,6 +11,7 @@ namespace Maihem.Attacks
         [Min(0)]
         [SerializeField] private int staminaCost;
 
+        [SerializeField] public GameObject attackAnimation;
         public int Damage => damage;
         public int StaminaCost => staminaCost;
 
