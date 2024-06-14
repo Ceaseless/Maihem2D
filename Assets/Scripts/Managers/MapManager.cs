@@ -132,9 +132,9 @@ namespace Maihem.Managers
             return TryGetTilemapContainingCell(cellPosition.WithZ(0), out tilemap);
         }
 
-        public static Vector2Int[] GetNeighbourPositions(Vector2Int cellPosition)
+        public static IList<Vector2Int> GetNeighbourPositions(Vector2Int cellPosition)
         {
-            return new[]
+            return new List<Vector2Int>
             {
                 cellPosition+Vector2Int.up,
                 cellPosition+Vector2Int.right,

@@ -16,6 +16,7 @@ namespace Maihem.Attacks
 
         public abstract void Attack(Vector2Int position, Vector2Int direction);
         public abstract IList<Vector2Int> GetAffectedTiles(Vector2Int position, Vector2Int direction);
+        public abstract IList<Vector2Int> GetPossibleTiles(Vector2Int position);
 
     }
 }

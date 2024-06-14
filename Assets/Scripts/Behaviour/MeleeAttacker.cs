@@ -1,10 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using Maihem.Managers;
 using UnityEngine;
 
-namespace Maihem
+namespace Maihem.Behaviour
 {
     [CreateAssetMenu(menuName = "Attack Pattern/Melee Attacker")]
     public class MeleeAttacker : AttackPattern

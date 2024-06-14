@@ -20,5 +20,10 @@ namespace Maihem.Attacks
         {
             return new List<Vector2Int>() { position + direction };
         }
+
+        public override IList<Vector2Int> GetPossibleTiles(Vector2Int position)
+        {
+            return MapManager.GetNeighbourPositions(position);
+        }
     }
 }

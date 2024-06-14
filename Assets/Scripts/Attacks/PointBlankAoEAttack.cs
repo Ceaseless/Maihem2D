@@ -11,7 +11,7 @@ namespace Maihem.Attacks
         [Min(1)]
         [SerializeField] private int range = 3;
         [Min(0)]
-        [SerializeField] private int damageFalloff = 0;
+        [SerializeField] private int damageFalloff;
         
         public override void Attack(Vector2Int position, Vector2Int direction)
         {
@@ -41,6 +41,11 @@ namespace Maihem.Attacks
             }
 
             return targets;
+        }
+
+        public override IList<Vector2Int> GetPossibleTiles(Vector2Int position)
+        {
+            return GetAffectedTiles(position, Vector2Int.zero);
         }
     }
 }
