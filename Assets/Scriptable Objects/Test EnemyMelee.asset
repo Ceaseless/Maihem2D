@@ -9,7 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 96e0dbe378be87c438d946cfb41ee866, type: 3}
+  m_Script: {fileID: 11500000, guid: bd0a0d0b7a2b430f88b5638681f48d73, type: 3}
   m_Name: Test EnemyMelee
   m_EditorClassIdentifier: 
   damage: 1
+  staminaCost: 1

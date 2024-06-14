@@ -193,4 +193,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   markerColor: {r: 1, g: 0, b: 0, a: 0.5803922}
-  currentAttackStrategy: {fileID: 11400000, guid: 6204d5b69cc29d84c83cf5d01d4753de, type: 2}
+  currentAttackStrategy: {fileID: 11400000, guid: e2d86852e71541e46b698f63f0d2cdbc, type: 2}
