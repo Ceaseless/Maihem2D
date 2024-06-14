@@ -233,7 +233,7 @@ MonoBehaviour:
   aimGrid: {fileID: 1851323239640821566}
   diagonalModeMarker: {fileID: 3964736874558905028}
   stickObject: {fileID: 8653845740616210445}
-  debugArrowPivot: {fileID: 0}
+  debugArrowPivot: {fileID: 6042724428997610479}
 --- !u!114 &4102898974549345930
 MonoBehaviour:
   m_ObjectHideFlags: 0

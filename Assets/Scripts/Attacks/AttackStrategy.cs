@@ -15,7 +15,7 @@ namespace Maihem.Attacks
         public int Damage => damage;
         public int StaminaCost => staminaCost;
 
-        public abstract void Attack(Vector2Int position, Vector2Int direction, bool isPlayerAttack);
+        public abstract bool Attack(Vector2Int position, Vector2Int direction, bool isPlayerAttack);
         public abstract IList<Vector2Int> GetAffectedTiles(Vector2Int position, Vector2Int direction);
         public abstract IList<Vector2Int> GetPossibleTiles(Vector2Int position);
         

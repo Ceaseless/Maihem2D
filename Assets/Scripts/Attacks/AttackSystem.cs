@@ -11,9 +11,17 @@ namespace Maihem.Attacks
         public Color markerColor;
         public AttackStrategy currentAttackStrategy;
         
-        public void Attack(Vector2Int position, Vector2Int direction, bool isPlayerAttack)
+        public bool Attack(Vector2Int position, Vector2Int direction, bool isPlayerAttack)
         {
-            currentAttackStrategy?.Attack(position, direction, isPlayerAttack);
+            if(currentAttackStrategy)
+                return currentAttackStrategy.Attack(position, direction, isPlayerAttack);
+            return false;
+        }
+
+        public bool CanTargetBeHit(Vector2Int target, Vector2Int position)
+        {
+            if (!currentAttackStrategy) return false;
+            return currentAttackStrategy.GetPossibleTiles(position).Contains(target);
         }
 
         public void ShowTargetMarkers(Vector2Int position, Vector2Int direction)

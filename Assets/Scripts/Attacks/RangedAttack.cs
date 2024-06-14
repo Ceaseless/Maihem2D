@@ -7,13 +7,15 @@ namespace Maihem.Attacks
     public class RangedAttack : AttackStrategy
     {
         [SerializeField] private int range;
-        public override void Attack(Vector2Int position, Vector2Int direction, bool isPlayerAttack)
+        public override bool Attack(Vector2Int position, Vector2Int direction, bool isPlayerAttack)
         {
             var lineTiles = GetAffectedTiles(position, direction);
             foreach (var tile in lineTiles)
             {
-                if (TryDamage(tile, isPlayerAttack)) return;
+                if (TryDamage(tile, isPlayerAttack)) return true;
             }
+
+            return false;
         }
 
         public override IList<Vector2Int> GetAffectedTiles(Vector2Int position, Vector2Int direction)

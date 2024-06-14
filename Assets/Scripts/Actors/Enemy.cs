@@ -1,21 +1,25 @@
 ﻿using System.Linq;
-using Maihem.Behaviour;
+using Maihem.Attacks;
 using Maihem.Extensions;
 using Maihem.Managers;
+using Unity.Mathematics;
 using UnityEngine;
 
 namespace Maihem.Actors
 {
     public class Enemy : Actor
     {
-        [SerializeField] private AttackPattern attackType;
+        [SerializeField] private AttackSystem attackSystem;
         public void TakeTurn()
         {
+            var player = GameManager.Instance.Player;
             OnTurnStarted();
-            var afterAttack = attackType.Attack(GridPosition);
-            if(afterAttack.magnitude>0)
+            if (attackSystem.CanTargetBeHit(GameManager.Instance.Player.GridPosition, GridPosition))
             {
-                CurrentFacing = CurrentFacing.GetFacingFromDirection(afterAttack);
+                var dir = new Vector2Int(math.clamp(player.GridPosition.x - GridPosition.x, -1, 1),
+                    math.clamp(player.GridPosition.y - GridPosition.y, -1, 1));
+                CurrentFacing = CurrentFacing.GetFacingFromDirection(dir);
+                attackSystem.Attack(GridPosition, dir, false);
                 OnTurnCompleted();
             }
             else
