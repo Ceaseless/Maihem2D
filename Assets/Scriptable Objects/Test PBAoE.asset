@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b93416d6d46d48aebbf9a8edb2ff7555, type: 3}
   m_Name: Test PBAoE
   m_EditorClassIdentifier: 
+  displayName: Stomp
   damage: 5
   staminaCost: 2
   attackAnimation: {fileID: 1207815041195216427, guid: 97d90143f3f48e045b3789762c6f5d5c, type: 3}

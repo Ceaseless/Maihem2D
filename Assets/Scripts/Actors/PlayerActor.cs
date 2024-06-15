@@ -33,9 +33,13 @@ namespace Maihem.Actors
         [Header("Placeholder/Debug Stuff")] [SerializeField]
         private AttackStrategy[] attackStrategies;
 
-        private int _currentAttack = 0;
+
+        
+        private int _currentAttack;
         public int MaxStamina => maxStamina;
         public int CurrentStamina { get; private set; }
+
+        public AttackStrategy CurrentAttack => attackSystem.currentAttackStrategy;
         
         private PlayerControlState _controlState = PlayerControlState.Normal;
         private Animator _animator;
@@ -99,6 +103,7 @@ namespace Maihem.Actors
             if (_currentAttack < 0) _currentAttack = attackStrategies.Length - 1;
             if (_currentAttack >= attackStrategies.Length) _currentAttack = 0;
             attackSystem.currentAttackStrategy = attackStrategies[_currentAttack];
+
 
         }
 
