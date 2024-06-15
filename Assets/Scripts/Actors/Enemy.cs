@@ -34,7 +34,7 @@ namespace Maihem.Actors
         public void ShowAttackMarkers(bool show)
         {
             if(show)
-                attackSystem.ShowTargetMarkers(GridPosition, CurrentFacing.GetFacingVector());
+                attackSystem.ShowTargetMarkers(GridPosition, CurrentFacing.GetFacingVector(), false);
             else
                 attackSystem.HideTargetMarkers();
         }

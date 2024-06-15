@@ -21,15 +21,15 @@ namespace Maihem.Attacks
         public bool Attack(Vector2Int position, Vector2Int direction, bool isPlayerAttack)
         {
             if(currentAttackStrategy) {
-                PlayAttackAnimation(position, direction);
+                PlayAttackAnimation(position, direction, isPlayerAttack);
                 return currentAttackStrategy.Attack(position, direction, isPlayerAttack);
             }
             return false;            
         }
 
-        public void ShowTargetMarkers(Vector2Int position, Vector2Int direction)
+        public void ShowTargetMarkers(Vector2Int position, Vector2Int direction, bool isPlayerAttack)
         {
-            var positions = currentAttackStrategy.GetAffectedTiles(position, direction);
+            var positions = currentAttackStrategy.GetAffectedTiles(position, direction, isPlayerAttack);
             _targetMarkerPool?.Clear();
             _targetMarkerPool = MarkerPool.Instance.GetMarkers(positions.Count);
             for (var i = 0; i < positions.Count; i++)
@@ -42,9 +42,9 @@ namespace Maihem.Attacks
             }
         }
 
-        public void UpdateTargetMarkerPositions(Vector2Int position, Vector2Int direction)
+        public void UpdateTargetMarkerPositions(Vector2Int position, Vector2Int direction, bool isPlayerAttack)
         {
-            var newPositions = currentAttackStrategy.GetAffectedTiles(position, direction);
+            var newPositions = currentAttackStrategy.GetAffectedTiles(position, direction, isPlayerAttack);
             for (var i = 0; i < newPositions.Count; i++)
             {
                 var marker = _targetMarkerPool[i];
@@ -63,9 +63,9 @@ namespace Maihem.Attacks
             _targetMarkerPool.Clear();
         }
 
-        private void PlayAttackAnimation(Vector2Int position, Vector2Int direction)
+        private void PlayAttackAnimation(Vector2Int position, Vector2Int direction, bool isPlayerAttack)
         {
-            var positions = currentAttackStrategy.GetAffectedTiles(position, direction);
+            var positions = currentAttackStrategy.GetAffectedTiles(position, direction, isPlayerAttack);
 
             foreach (var tile in positions)
             {

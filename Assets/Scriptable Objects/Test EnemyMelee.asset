@@ -14,3 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 1
   staminaCost: 1
+  attackAnimation: {fileID: 7003012535162078422, guid: 9d6242cbc73a0ce4489daf4b351b34a1, type: 3}

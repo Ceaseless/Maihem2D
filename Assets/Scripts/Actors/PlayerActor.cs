@@ -177,7 +177,7 @@ namespace Maihem.Actors
 
         private void UpdateAimMarker(Vector2Int newFacing)
         {
-            attackSystem.UpdateTargetMarkerPositions(GridPosition, CurrentFacing.GetFacingVector());
+            attackSystem.UpdateTargetMarkerPositions(GridPosition, CurrentFacing.GetFacingVector(), true);
         }
 
         private void ToggleAim(object sender, ToggleEventArgs args)
@@ -186,7 +186,7 @@ namespace Maihem.Actors
             {
                 if (_controlState != PlayerControlState.Normal) return;
                 _controlState = PlayerControlState.Aiming;
-                attackSystem.ShowTargetMarkers(GridPosition, CurrentFacing.GetFacingVector());
+                attackSystem.ShowTargetMarkers(GridPosition, CurrentFacing.GetFacingVector(), true);
                 aimGrid.SetActive(true);
             }
             else
