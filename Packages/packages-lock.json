@@ -1,5 +1,12 @@
 {
   "dependencies": {
+    "com.quartzified.hierarchy": {
+      "version": "https://github.com/Quartzified-Tools/Quartzified-Hierarchy.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "7f3745d339835ee7587abfed05a63edb28544108"
+    },
     "com.unity.2d.animation": {
       "version": "9.1.0",
       "depth": 1,

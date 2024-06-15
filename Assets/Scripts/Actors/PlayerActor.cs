@@ -75,6 +75,15 @@ namespace Maihem.Actors
             playerInput.OnMoveAction += ProcessMoveInput;
         }
 
+        private void OnDestroy()
+        {
+            playerInput.OnAttackAction -= Attack;
+            playerInput.OnToggleAimAction -= ToggleAim;
+            playerInput.OnToggleDiagonalModeAction -= ToggleDiagonalMode;
+            playerInput.OnMoveAction -= ProcessMoveInput;
+            attackSystem?.HideTargetMarkers();
+        }
+
 
         private void Attack(object sender, EventArgs e)
         {
@@ -83,7 +92,7 @@ namespace Maihem.Actors
             if (attackSystem.currentAttackStrategy.StaminaCost > CurrentStamina) return;
 
             CurrentStamina -= attackSystem.currentAttackStrategy.StaminaCost;
-            attackSystem.Attack(GridPosition, CurrentFacing.GetFacingVector());
+            attackSystem.Attack(GridPosition, CurrentFacing.GetFacingVector(), true);
             
             GameManager.Instance.TriggerTurn();
         }
@@ -97,8 +106,8 @@ namespace Maihem.Actors
             _animator.SetInteger(AnimatorHorizontal, newFacing.x);
             _animator.SetInteger(AnimatorVertical, newFacing.y);
             CurrentFacing = CurrentFacing.GetFacingFromDirection(newFacing);
-
             
+           
 
             switch (_controlState)
             {
@@ -204,6 +213,8 @@ namespace Maihem.Actors
                 diagonalModeMarker.SetActive(false);
             }
         }
+
+        
 
         public int GetStamina()
         {
