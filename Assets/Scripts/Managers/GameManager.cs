@@ -125,8 +125,8 @@ namespace Maihem.Managers
                 ResetGame();
                 return;
             }
-
-            pickupManager.PlayerOnPickup(Player.GridPosition);
+            
+            pickupManager.CullUsedPickups();
             enemyManager.Tick();
             MapManager.Instance.UpdateMap();
             TurnCount++;

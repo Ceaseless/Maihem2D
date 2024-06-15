@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Random = System.Random;
 
 namespace Maihem.Managers
 {
@@ -27,27 +28,30 @@ namespace Maihem.Managers
             }
             _activePickups.Clear();
         }
-        public void PlayerOnPickup(Vector2Int gridPosition)
+
+        public void CullUsedPickups()
         {
-            foreach (var pickup in _activePickups.ToList().Where(pickup => pickup.GridPosition == gridPosition))
+            foreach (var pickup in _activePickups.ToList())
             {
-                _activePickups.Remove(pickup);
-                pickup.PickUp();
-                Destroy(pickup.gameObject);
+                if (pickup.Used)
+                {
+                    _activePickups.Remove(pickup);
+                    Destroy(pickup.gameObject);
+                }
+                
             }
         }
 
-        public void SpawnPickup()
+        public void SpawnPickup(Vector3 position)
         {
-            var randomCell = MapManager.Instance.GetFreeCell();
-            var randomPosition = MapManager.Instance.CellToWorld(randomCell);
+
+            var pickup = pickupPrefabs[0];
             
-            var pickup = Instantiate(pickupPrefabs[0], randomPosition, Quaternion.identity,transform).GetComponent<Pickup>();
-            pickup.GridPosition = randomCell;
-            
-            _activePickups.Add(pickup);
+            var random = new Random();
+            if (!(pickup.GetComponent<Pickup>().spawnChance >= random.Next(1, 100))) return;
+            var newPickup = Instantiate(pickup, position, Quaternion.identity, transform).GetComponent<Pickup>();
+            _activePickups.Add(newPickup);
+
         }
-        
-        
     }
 }

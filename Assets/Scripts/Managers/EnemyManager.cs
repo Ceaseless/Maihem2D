@@ -13,6 +13,7 @@ namespace Maihem.Managers
     {
         [SerializeField] private GameObject[] enemyPrefabs;
         [SerializeField] private int spawnRate;
+        [SerializeField] private PickupManager pickupManager;
         
         private List<Enemy> _activeEnemies;
 
@@ -94,7 +95,7 @@ namespace Maihem.Managers
         
         private void EnemyDied(object sender, DeathEventArgs eventArgs )
         {
-            //?
+            pickupManager.SpawnPickup(eventArgs.DeadGameObject.transform.position);
         }
         
         public bool CellContainsEnemy(Vector2Int gridPosition)
