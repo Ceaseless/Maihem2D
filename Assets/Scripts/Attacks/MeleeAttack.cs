@@ -7,16 +7,13 @@ namespace Maihem.Attacks
     [CreateAssetMenu(menuName = "Attack Strategies/Melee Attack", order = 0)]
     public class MeleeAttack : AttackStrategy
     {
-        public override void Attack(Vector2Int position, Vector2Int direction)
+        public override bool Attack(Vector2Int position, Vector2Int direction, bool isPlayerAttack)
         {
             var target = position + direction;
-            if (GameManager.Instance.TryGetActorOnCell(target, out var actor))
-            {
-                actor.TakeDamage(Damage);
-            }
+            return TryDamage(target, isPlayerAttack);
         }
 
-        public override IList<Vector2Int> GetAffectedTiles(Vector2Int position, Vector2Int direction)
+        public override IList<Vector2Int> GetAffectedTiles(Vector2Int position, Vector2Int direction, bool isPlayerAttack)
         {
             return new List<Vector2Int>() { position + direction };
         }

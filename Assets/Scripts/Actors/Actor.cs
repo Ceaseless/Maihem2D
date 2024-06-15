@@ -24,16 +24,13 @@ namespace Maihem.Actors
         public event EventHandler<DeathEventArgs> Died;
 
         
+     
 
-        protected virtual void Awake()
+        public virtual void Initialize()
         {
             GridPosition = MapManager.Instance.WorldToCell(transform.position);
             CurrentFacing = initialFacing;
             CurrentHealth = maxHealth;
-        }
-
-        protected virtual void Start()
-        {
             Hurtbox = GetComponent<Collider2D>();
         }
 

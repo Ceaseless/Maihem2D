@@ -52,19 +52,20 @@ namespace Maihem.Actors
             GameManager.Instance.TriggerTurn();
         }
 
-        protected override void Awake()
+        private void Awake()
         {
-            base.Awake();
-            CurrentStamina = maxStamina;
+            _animator = GetComponent<Animator>();
         }
 
-        protected override void Start()
+        private void Start()
         {
-            base.Start();
-            _animator = GetComponent<Animator>();
-            
             ConnectInputs();
-            
+        }
+
+        public override void Initialize()
+        {
+            base.Initialize();
+            CurrentStamina = maxStamina;
         }
 
         private void ConnectInputs()
@@ -75,6 +76,15 @@ namespace Maihem.Actors
             playerInput.OnMoveAction += ProcessMoveInput;
         }
 
+        private void OnDestroy()
+        {
+            playerInput.OnAttackAction -= Attack;
+            playerInput.OnToggleAimAction -= ToggleAim;
+            playerInput.OnToggleDiagonalModeAction -= ToggleDiagonalMode;
+            playerInput.OnMoveAction -= ProcessMoveInput;
+            attackSystem?.HideTargetMarkers();
+        }
+
 
         private void Attack(object sender, EventArgs e)
         {
@@ -83,7 +93,7 @@ namespace Maihem.Actors
             if (attackSystem.currentAttackStrategy.StaminaCost > CurrentStamina) return;
 
             CurrentStamina -= attackSystem.currentAttackStrategy.StaminaCost;
-            attackSystem.Attack(GridPosition, CurrentFacing.GetFacingVector());
+            attackSystem.Attack(GridPosition, CurrentFacing.GetFacingVector(), true);
             
             GameManager.Instance.TriggerTurn();
         }
@@ -168,7 +178,7 @@ namespace Maihem.Actors
 
         private void UpdateAimMarker(Vector2Int newFacing)
         {
-            attackSystem.UpdateTargetMarkerPositions(GridPosition, CurrentFacing.GetFacingVector());
+            attackSystem.UpdateTargetMarkerPositions(GridPosition, CurrentFacing.GetFacingVector(), true);
         }
 
         private void ToggleAim(object sender, ToggleEventArgs args)
@@ -177,7 +187,7 @@ namespace Maihem.Actors
             {
                 if (_controlState != PlayerControlState.Normal) return;
                 _controlState = PlayerControlState.Aiming;
-                attackSystem.ShowTargetMarkers(GridPosition, CurrentFacing.GetFacingVector());
+                attackSystem.ShowTargetMarkers(GridPosition, CurrentFacing.GetFacingVector(), true);
                 aimGrid.SetActive(true);
             }
             else
@@ -205,14 +215,15 @@ namespace Maihem.Actors
             }
         }
 
-        public int GetStamina()
+        public void RestoreStats(int health, int stamina)
         {
-            return CurrentStamina;
+            CurrentHealth += health;
+            if (CurrentHealth > MaxHealth) CurrentHealth = MaxHealth;
+
+            CurrentStamina += stamina;
+            if (CurrentStamina > MaxStamina) CurrentStamina = MaxStamina;
         }
+
         
-        public int GetMaxStamina()
-        {
-            return maxStamina;
-        }
     }
 }

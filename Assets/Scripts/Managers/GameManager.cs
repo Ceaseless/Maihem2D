@@ -14,6 +14,7 @@ namespace Maihem.Managers
         [SerializeField] private Vector3 playerStartPosition;
         [SerializeField] private KillZoneController boundsController;
         [SerializeField] private EnemyManager enemyManager;
+        [SerializeField] private PickupManager pickupManager;
         [FormerlySerializedAs("ui")] [SerializeField] private UIManager uiManager;
         [SerializeField] private TextMeshProUGUI debugText;
         [SerializeField] private CinemachineVirtualCamera followCamera;
@@ -52,18 +53,26 @@ namespace Maihem.Managers
 
             var playerObject = Instantiate(playerPrefab, playerStartPosition, Quaternion.identity);
             Player = playerObject.GetComponent<PlayerActor>();
+            Player.Initialize();
             followCamera.Follow = Player.transform;
         }
 
         public void ResetGame()
         {
-            SpawnPlayer();
             enemyManager.Reset();
+            pickupManager.Reset();
             boundsController.Reset();
+            MapManager.Instance.Reset();
             TurnCount = 0;
+            SpawnPlayer();
             uiManager.Initialize();
             
             debugText.text = $"Turn: {TurnCount}";
+        }
+
+        public void PassMapData(MapData data)
+        {
+            enemyManager.RegisterEnemies(data.MapEnemies);
         }
 
         public bool TryGetActorOnCell(Vector2Int cellPosition, out Actor actor)
@@ -81,6 +90,22 @@ namespace Maihem.Managers
             }
             actor = null;
             return false;
+        }
+
+        public bool TryGetEnemyOnCell(Vector2Int cellPosition, out Enemy foundEnemy)
+        {
+            if (enemyManager.TryGetEnemyOnCell(cellPosition, out var enemy))
+            {
+                foundEnemy = enemy;
+                return true;
+            }
+            foundEnemy = null;
+            return false;
+        }
+
+        public bool CellContainsPlayer(Vector2Int cellPosition)
+        {
+            return Player.GridPosition == cellPosition;
         }
 
         public bool CellContainsActor(Vector2Int cellPosition)
@@ -108,6 +133,7 @@ namespace Maihem.Managers
                 return;
             }
             
+            pickupManager.CullUsedPickups();
             enemyManager.Tick();
             MapManager.Instance.UpdateMap();
             TurnCount++;
