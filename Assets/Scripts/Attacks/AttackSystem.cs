@@ -44,6 +44,7 @@ namespace Maihem.Attacks
 
         public void Attack(Vector2Int position, Vector2Int direction)
         {
+            PlayAttackAnimation(position, direction);
             currentAttackStrategy?.Attack(position, direction);
         }
 
@@ -93,6 +94,17 @@ namespace Maihem.Attacks
                 var newMarker = Instantiate(targetMarkerPrefab, _poolParent);
                 newMarker.SetActive(false);
                 _targetMarkerPool.Add(newMarker);
+            }
+        }
+
+        private void PlayAttackAnimation(Vector2Int position, Vector2Int direction)
+        {
+            var positions = currentAttackStrategy.GetAffectedTiles(position, direction);
+
+            foreach (var tile in positions)
+            {
+                Instantiate(currentAttackStrategy.attackAnimation, MapManager.Instance.CellToWorld(tile),
+                    Quaternion.identity);
             }
         }
     }
