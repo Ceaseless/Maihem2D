@@ -2,6 +2,7 @@ using System;
 using Maihem.Actors;
 using Maihem.Managers;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Maihem
 {
@@ -9,7 +10,11 @@ namespace Maihem
     {
 
         [SerializeField] public float spawnChance;
+        
+
         private Vector2Int GridPosition { get; set; }
+
+        [SerializeField] public Color pickupColor;
 
         public bool Used { get; private set; }
         
@@ -19,6 +24,7 @@ namespace Maihem
         {
             SnapToGrid();
             Used = false;
+            GetComponentInChildren<Renderer>().material.color = pickupColor;
         }
 
         private void SnapToGrid()

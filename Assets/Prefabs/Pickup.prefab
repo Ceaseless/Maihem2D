@@ -49,6 +49,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawnChance: 100
+  pickupColor: {r: 0, g: 1, b: 0.06867337, a: 1}
   staminaRestored: 50
   healthRestored: 2
 --- !u!50 &-1070088602663171189
