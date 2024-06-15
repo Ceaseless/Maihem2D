@@ -53,19 +53,26 @@ namespace Maihem.Managers
 
             var playerObject = Instantiate(playerPrefab, playerStartPosition, Quaternion.identity);
             Player = playerObject.GetComponent<PlayerActor>();
+            Player.Initialize();
             followCamera.Follow = Player.transform;
         }
 
         public void ResetGame()
         {
-            SpawnPlayer();
             enemyManager.Reset();
             pickupManager.Reset();
             boundsController.Reset();
+            MapManager.Instance.Reset();
             TurnCount = 0;
+            SpawnPlayer();
             uiManager.Initialize();
             
             debugText.text = $"Turn: {TurnCount}";
+        }
+
+        public void PassMapData(MapData data)
+        {
+            enemyManager.RegisterEnemies(data.MapEnemies);
         }
 
         public bool TryGetActorOnCell(Vector2Int cellPosition, out Actor actor)

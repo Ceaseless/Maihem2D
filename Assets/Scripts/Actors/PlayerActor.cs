@@ -52,19 +52,20 @@ namespace Maihem.Actors
             GameManager.Instance.TriggerTurn();
         }
 
-        protected override void Awake()
+        private void Awake()
         {
-            base.Awake();
-            CurrentStamina = maxStamina;
+            _animator = GetComponent<Animator>();
         }
 
-        protected override void Start()
+        private void Start()
         {
-            base.Start();
-            _animator = GetComponent<Animator>();
-            
             ConnectInputs();
-            
+        }
+
+        public override void Initialize()
+        {
+            base.Initialize();
+            CurrentStamina = maxStamina;
         }
 
         private void ConnectInputs()

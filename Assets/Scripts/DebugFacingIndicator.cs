@@ -30,10 +30,10 @@ namespace Maihem
         {
             var newZAngle = _actor.CurrentFacing switch
             {
-                Facing.East => 0,
+                Facing.East => 0f,
                 Facing.West => 180f,
                 Facing.North => 90f,
-                Facing.South => -90,
+                Facing.South => -90f,
                 Facing.NorthEast => 45f,
                 Facing.SouthEast => -45f,
                 Facing.SouthWest => -135f,
