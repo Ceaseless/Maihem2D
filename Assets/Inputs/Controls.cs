@@ -71,6 +71,15 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Attack Scroll"",
+                    ""type"": ""Button"",
+                    ""id"": ""9d93b930-a77d-43d5-8c33-20e9f34e7c9e"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -326,6 +335,39 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""action"": ""Diagonal Toggle"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""Keyboard"",
+                    ""id"": ""de7a81b7-5a32-46e3-959a-6e0d5f18b1f6"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Attack Scroll"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""1e8fbf0c-efec-4e9a-a0d2-200d7286dad4"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Attack Scroll"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""66963945-2d82-4622-9a77-d33fb613374c"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Attack Scroll"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 }
             ]
         }
@@ -339,6 +381,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         m_Default_AimToggle = m_Default.FindAction("Aim Toggle", throwIfNotFound: true);
         m_Default_Attack = m_Default.FindAction("Attack", throwIfNotFound: true);
         m_Default_DiagonalToggle = m_Default.FindAction("Diagonal Toggle", throwIfNotFound: true);
+        m_Default_AttackScroll = m_Default.FindAction("Attack Scroll", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -405,6 +448,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Default_AimToggle;
     private readonly InputAction m_Default_Attack;
     private readonly InputAction m_Default_DiagonalToggle;
+    private readonly InputAction m_Default_AttackScroll;
     public struct DefaultActions
     {
         private @Controls m_Wrapper;
@@ -414,6 +458,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         public InputAction @AimToggle => m_Wrapper.m_Default_AimToggle;
         public InputAction @Attack => m_Wrapper.m_Default_Attack;
         public InputAction @DiagonalToggle => m_Wrapper.m_Default_DiagonalToggle;
+        public InputAction @AttackScroll => m_Wrapper.m_Default_AttackScroll;
         public InputActionMap Get() { return m_Wrapper.m_Default; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -438,6 +483,9 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @DiagonalToggle.started += instance.OnDiagonalToggle;
             @DiagonalToggle.performed += instance.OnDiagonalToggle;
             @DiagonalToggle.canceled += instance.OnDiagonalToggle;
+            @AttackScroll.started += instance.OnAttackScroll;
+            @AttackScroll.performed += instance.OnAttackScroll;
+            @AttackScroll.canceled += instance.OnAttackScroll;
         }
 
         private void UnregisterCallbacks(IDefaultActions instance)
@@ -457,6 +505,9 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @DiagonalToggle.started -= instance.OnDiagonalToggle;
             @DiagonalToggle.performed -= instance.OnDiagonalToggle;
             @DiagonalToggle.canceled -= instance.OnDiagonalToggle;
+            @AttackScroll.started -= instance.OnAttackScroll;
+            @AttackScroll.performed -= instance.OnAttackScroll;
+            @AttackScroll.canceled -= instance.OnAttackScroll;
         }
 
         public void RemoveCallbacks(IDefaultActions instance)
@@ -481,5 +532,6 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         void OnAimToggle(InputAction.CallbackContext context);
         void OnAttack(InputAction.CallbackContext context);
         void OnDiagonalToggle(InputAction.CallbackContext context);
+        void OnAttackScroll(InputAction.CallbackContext context);
     }
 }

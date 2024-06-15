@@ -19,10 +19,10 @@ namespace Maihem.Actors
         [Header("Stat Settings")]
         [SerializeField] private int maxStamina;
         [SerializeField] private int moveCost;
+        [SerializeField] private int diagonalMoveCost;
         
         [Header("System References")]
         [SerializeField] private PlayerInput playerInput;
-        [SerializeField] private int diagonalMoveCost;
         [SerializeField] private AttackSystem attackSystem;
         
         [Header("Children References")]
@@ -30,6 +30,10 @@ namespace Maihem.Actors
         [SerializeField] private GameObject diagonalModeMarker;
         [SerializeField] private GameObject stickObject;
 
+        [Header("Placeholder/Debug Stuff")] [SerializeField]
+        private AttackStrategy[] attackStrategies;
+
+        private int _currentAttack = 0;
         public int MaxStamina => maxStamina;
         public int CurrentStamina { get; private set; }
         
@@ -66,6 +70,8 @@ namespace Maihem.Actors
         {
             base.Initialize();
             CurrentStamina = maxStamina;
+            if(attackStrategies.Length > 0)
+                attackSystem.currentAttackStrategy = attackStrategies[0];
         }
 
         private void ConnectInputs()
@@ -74,6 +80,7 @@ namespace Maihem.Actors
             playerInput.OnToggleAimAction += ToggleAim;
             playerInput.OnToggleDiagonalModeAction += ToggleDiagonalMode;
             playerInput.OnMoveAction += ProcessMoveInput;
+            playerInput.OnAttackChangeAction += ChangeAttackStrategy;
         }
 
         private void OnDestroy()
@@ -82,7 +89,17 @@ namespace Maihem.Actors
             playerInput.OnToggleAimAction -= ToggleAim;
             playerInput.OnToggleDiagonalModeAction -= ToggleDiagonalMode;
             playerInput.OnMoveAction -= ProcessMoveInput;
+            playerInput.OnAttackChangeAction -= ChangeAttackStrategy;
             attackSystem?.HideTargetMarkers();
+        }
+
+        private void ChangeAttackStrategy(object sender, SingleAxisEventArgs e)
+        {
+            _currentAttack += e.AxisValue;
+            if (_currentAttack < 0) _currentAttack = attackStrategies.Length - 1;
+            if (_currentAttack >= attackStrategies.Length) _currentAttack = 0;
+            attackSystem.currentAttackStrategy = attackStrategies[_currentAttack];
+
         }
 
 
