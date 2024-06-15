@@ -1,15 +1,20 @@
-﻿using Maihem.Actors;
+﻿using System.Collections.Generic;
+using Maihem.Actors;
 using UnityEngine;
 
 namespace Maihem
 {
-    public class MapData : MonoBehaviour
+    public class MapData
     {
-        [SerializeField] private Enemy[] presentEnemies;
-        [SerializeField] private Pickup[] presentPickups;
+        public Enemy[] MapEnemies { get; private set; }
+        public Pickup[] MapPickups { get; private set; }
 
-        public Enemy[] MapEnemies => presentEnemies;
-        public Pickup[] MapPickups => presentPickups;
-
+        public MapData(Enemy[] enemies, Pickup[] pickups)
+        {
+            MapEnemies = enemies;
+            MapPickups = pickups;
+        }
+        
+            
     }
 }

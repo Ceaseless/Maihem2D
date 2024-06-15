@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Maihem.Actors;
 using Maihem.Extensions;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -88,10 +89,13 @@ namespace Maihem.Managers
         {
             var mapObject = Instantiate(mapPrefab, grid.transform);
             var tileMap = mapObject.GetComponent<Tilemap>();
-            var mapData = mapObject.GetComponent<MapData>();
+
+            var enemies = mapObject.GetComponentsInChildren<Enemy>();
+            var pickups = mapObject.GetComponentsInChildren<Pickup>();
+            
             tileMap.CompressBounds();
             _tilemaps.Add(tileMap);
-            GameManager.Instance.PassMapData(mapData);
+            GameManager.Instance.PassMapData(new MapData(enemies, pickups));
         }
         
         public void UpdateMap()
