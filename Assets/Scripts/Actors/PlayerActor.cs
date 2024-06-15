@@ -106,8 +106,8 @@ namespace Maihem.Actors
             _animator.SetInteger(AnimatorHorizontal, newFacing.x);
             _animator.SetInteger(AnimatorVertical, newFacing.y);
             CurrentFacing = CurrentFacing.GetFacingFromDirection(newFacing);
+
             
-           
 
             switch (_controlState)
             {
@@ -214,16 +214,15 @@ namespace Maihem.Actors
             }
         }
 
-        
+        public void RestoreStats(int health, int stamina)
+        {
+            CurrentHealth += health;
+            if (CurrentHealth > MaxHealth) CurrentHealth = MaxHealth;
 
-        public int GetStamina()
-        {
-            return CurrentStamina;
+            CurrentStamina += stamina;
+            if (CurrentStamina > MaxStamina) CurrentStamina = MaxStamina;
         }
+
         
-        public int GetMaxStamina()
-        {
-            return maxStamina;
-        }
     }
 }
