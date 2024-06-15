@@ -147,7 +147,6 @@ namespace Maihem.Managers
         private void UpdateUI()
         {
             debugText.text = $"Turn: {TurnCount}";
-            uiManager.UpdateStatusUI();
         }
 
    

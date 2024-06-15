@@ -32,10 +32,9 @@ namespace Maihem.Actors
 
         [Header("Placeholder/Debug Stuff")] [SerializeField]
         private AttackStrategy[] attackStrategies;
-
-
-        
         private int _currentAttack;
+
+        public EventHandler OnStatusUpdate;
         public int MaxStamina => maxStamina;
         public int CurrentStamina { get; private set; }
 
@@ -57,7 +56,7 @@ namespace Maihem.Actors
 
         protected override void OnMoveAnimationEnd()
         {
-            GameManager.Instance.TriggerTurn();
+            EndTurn();
         }
 
         private void Awake()
@@ -76,6 +75,7 @@ namespace Maihem.Actors
             CurrentStamina = maxStamina;
             if(attackStrategies.Length > 0)
                 attackSystem.currentAttackStrategy = attackStrategies[0];
+            OnStatusUpdate?.Invoke(this, EventArgs.Empty);
         }
 
         private void ConnectInputs()
@@ -103,7 +103,7 @@ namespace Maihem.Actors
             if (_currentAttack < 0) _currentAttack = attackStrategies.Length - 1;
             if (_currentAttack >= attackStrategies.Length) _currentAttack = 0;
             attackSystem.currentAttackStrategy = attackStrategies[_currentAttack];
-
+            OnStatusUpdate?.Invoke(this, EventArgs.Empty);
 
         }
 
@@ -117,7 +117,7 @@ namespace Maihem.Actors
             CurrentStamina -= attackSystem.currentAttackStrategy.StaminaCost;
             attackSystem.Attack(GridPosition, CurrentFacing.GetFacingVector(), true);
             
-            GameManager.Instance.TriggerTurn();
+            EndTurn();
         }
 
         private void ProcessMoveInput(object sender, EventArgs e)
@@ -236,14 +236,19 @@ namespace Maihem.Actors
                 diagonalModeMarker.SetActive(false);
             }
         }
-
+       
+        
         public void RestoreStats(int health, int stamina)
         {
-            CurrentHealth += health;
-            if (CurrentHealth > MaxHealth) CurrentHealth = MaxHealth;
+            CurrentHealth = math.clamp(CurrentHealth + health, 0, MaxHealth);
+            CurrentStamina = math.clamp(CurrentStamina + stamina, 0, MaxStamina);
+            OnStatusUpdate?.Invoke(this, EventArgs.Empty);
+        }
 
-            CurrentStamina += stamina;
-            if (CurrentStamina > MaxStamina) CurrentStamina = MaxStamina;
+        private void EndTurn()
+        {
+            OnStatusUpdate?.Invoke(this, EventArgs.Empty);
+            GameManager.Instance.TriggerTurn();
         }
 
         
