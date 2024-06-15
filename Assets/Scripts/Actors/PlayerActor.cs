@@ -205,14 +205,15 @@ namespace Maihem.Actors
             }
         }
 
-        public int GetStamina()
+        public void RestoreStats(int health, int stamina)
         {
-            return CurrentStamina;
+            CurrentHealth += health;
+            if (CurrentHealth > MaxHealth) CurrentHealth = MaxHealth;
+
+            CurrentStamina += stamina;
+            if (CurrentStamina > MaxStamina) CurrentStamina = MaxStamina;
         }
+
         
-        public int GetMaxStamina()
-        {
-            return maxStamina;
-        }
     }
 }

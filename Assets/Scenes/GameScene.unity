@@ -805,15 +805,15 @@ Camera:
   m_LensShift: {x: 0, y: 0}
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: 0.1969697
+    x: 0.18871595
     y: 0
-    width: 0.6060606
+    width: 0.6225681
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 34
   orthographic: 1
-  orthographic size: 16.625
+  orthographic size: 16.3125
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -1118,6 +1118,7 @@ MonoBehaviour:
   playerStartPosition: {x: 2, y: 0, z: 0}
   boundsController: {fileID: 917795378}
   enemyManager: {fileID: 894944140}
+  pickupManager: {fileID: 996597388}
   uiManager: {fileID: 1329198448}
   debugText: {fileID: 129004997}
   followCamera: {fileID: 669772589}
@@ -33954,6 +33955,53 @@ RectTransform:
   m_AnchoredPosition: {x: -0.030578613, y: 1.0382919}
   m_SizeDelta: {x: -89.2215, y: 21.418991}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &996597387
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 996597389}
+  - component: {fileID: 996597388}
+  m_Layer: 0
+  m_Name: Pickup Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &996597388
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 996597387}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2c5d1c9425f41e9afa0b60272a47899, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pickupPrefabs:
+  - {fileID: 3336585378749860948, guid: ef64c4178bfa1e049a296f13461cee7a, type: 3}
+  spawnRate: 10
+--- !u!4 &996597389
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 996597387}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1165129678
 GameObject:
   m_ObjectHideFlags: 0
@@ -35203,6 +35251,7 @@ SceneRoots:
   - {fileID: 917795379}
   - {fileID: 1642556237}
   - {fileID: 894944141}
+  - {fileID: 996597389}
   - {fileID: 755707657}
   - {fileID: 1727441955}
   - {fileID: 1329198447}

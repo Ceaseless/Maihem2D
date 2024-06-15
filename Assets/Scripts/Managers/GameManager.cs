@@ -14,6 +14,7 @@ namespace Maihem.Managers
         [SerializeField] private Vector3 playerStartPosition;
         [SerializeField] private KillZoneController boundsController;
         [SerializeField] private EnemyManager enemyManager;
+        [SerializeField] private PickupManager pickupManager;
         [FormerlySerializedAs("ui")] [SerializeField] private UIManager uiManager;
         [SerializeField] private TextMeshProUGUI debugText;
         [SerializeField] private CinemachineVirtualCamera followCamera;
@@ -59,6 +60,7 @@ namespace Maihem.Managers
         {
             SpawnPlayer();
             enemyManager.Reset();
+            pickupManager.Reset();
             boundsController.Reset();
             TurnCount = 0;
             uiManager.Initialize();
@@ -107,7 +109,8 @@ namespace Maihem.Managers
                 ResetGame();
                 return;
             }
-            
+
+            pickupManager.PlayerOnPickup(Player.GridPosition);
             enemyManager.Tick();
             MapManager.Instance.UpdateMap();
             TurnCount++;
