@@ -52,7 +52,9 @@ namespace Maihem.Managers
         public static MapManager Instance { get; private set; }
         [SerializeField] private Grid grid;
         [SerializeField] private PolygonCollider2D mapConstraints;
+        [SerializeField] private GameObject mapPrefab;
         private List<Tilemap> _tilemaps;
+        
         
         private void Awake()
         {
@@ -69,7 +71,28 @@ namespace Maihem.Managers
 
         private void Start()
         {
-            _tilemaps = grid.GetComponentsInChildren<Tilemap>().ToList();
+            _tilemaps = new List<Tilemap>();
+            SpawnMap();
+        }
+
+        public void Reset()
+        {
+            foreach (var map in _tilemaps)
+            {
+                Destroy(map.gameObject);
+            }
+            _tilemaps.Clear();
+            SpawnMap();
+        }
+
+        private void SpawnMap()
+        {
+            var mapObject = Instantiate(mapPrefab, grid.transform);
+            var tileMap = mapObject.GetComponent<Tilemap>();
+            var mapData = mapObject.GetComponent<MapData>();
+            _tilemaps.Add(tileMap);
+            
+            GameManager.Instance.PassMapData(mapData);
         }
         
         public void UpdateMap()

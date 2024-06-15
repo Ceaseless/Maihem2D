@@ -5,6 +5,7 @@ using Maihem.Actors;
 using Maihem.Extensions;
 using UnityEditor.SceneManagement;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 namespace Maihem.Managers
@@ -13,6 +14,7 @@ namespace Maihem.Managers
     {
         [SerializeField] private GameObject[] enemyPrefabs;
         [SerializeField] private int spawnRate;
+        [SerializeField] private bool periodicSpawn;
         
         private List<Enemy> _activeEnemies;
 
@@ -22,6 +24,23 @@ namespace Maihem.Managers
         private void Start()
         {
             _activeEnemies = new List<Enemy>();
+        }
+
+        public void RegisterEnemy(Enemy newEnemy)
+        {
+            newEnemy.Died += EnemyDied;
+            newEnemy.TurnStarted += EnemyStartedTurn;
+            newEnemy.TurnCompleted += EnemyCompletedTurn;
+            newEnemy.Initialize();
+            _activeEnemies.Add(newEnemy);
+        }
+
+        public void RegisterEnemies(IEnumerable<Enemy> enemies)
+        {
+            foreach (var newEnemy in enemies)
+            {
+                RegisterEnemy(newEnemy);
+            }
         }
 
         public void Reset()
@@ -43,10 +62,7 @@ namespace Maihem.Managers
             var randomPosition = MapManager.Instance.CellToWorld(randomCell);
             var newEnemy = Instantiate(enemyPrefabs[Random.Range(0,enemyPrefabs.Length)], randomPosition, Quaternion.identity, transform).GetComponent<Enemy>();
             
-            newEnemy.Died += EnemyDied;
-            newEnemy.TurnStarted += EnemyStartedTurn;
-            newEnemy.TurnCompleted += EnemyCompletedTurn;
-            _activeEnemies.Add(newEnemy);
+            RegisterEnemy(newEnemy);
         }
 
         public bool AreAllActionsPerformed() => _enemiesTakingTurn == 0;
@@ -69,7 +85,7 @@ namespace Maihem.Managers
         public void Tick()
         {
             _spawnTimer++;
-            if (_spawnTimer >= spawnRate)
+            if (periodicSpawn && _spawnTimer >= spawnRate)
             {
                 SpawnEnemy();
                 _spawnTimer = 0;
