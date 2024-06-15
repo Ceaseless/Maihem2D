@@ -83,7 +83,7 @@ namespace Maihem.Managers
             return IsCellBlocking(cellPosition);
         }
 
-        private bool IsCellBlocking(Vector2Int cellPositon)
+        public bool IsCellBlocking(Vector2Int cellPositon)
         {
             var cellPosition = cellPositon.WithZ(0);
             

@@ -75,6 +75,15 @@ namespace Maihem.Actors
             playerInput.OnMoveAction += ProcessMoveInput;
         }
 
+        private void OnDestroy()
+        {
+            playerInput.OnAttackAction -= Attack;
+            playerInput.OnToggleAimAction -= ToggleAim;
+            playerInput.OnToggleDiagonalModeAction -= ToggleDiagonalMode;
+            playerInput.OnMoveAction -= ProcessMoveInput;
+            attackSystem?.HideTargetMarkers();
+        }
+
 
         private void Attack(object sender, EventArgs e)
         {
@@ -83,7 +92,7 @@ namespace Maihem.Actors
             if (attackSystem.currentAttackStrategy.StaminaCost > CurrentStamina) return;
 
             CurrentStamina -= attackSystem.currentAttackStrategy.StaminaCost;
-            attackSystem.Attack(GridPosition, CurrentFacing.GetFacingVector());
+            attackSystem.Attack(GridPosition, CurrentFacing.GetFacingVector(), true);
             
             GameManager.Instance.TriggerTurn();
         }
@@ -168,7 +177,7 @@ namespace Maihem.Actors
 
         private void UpdateAimMarker(Vector2Int newFacing)
         {
-            attackSystem.UpdateTargetMarkerPositions(GridPosition, CurrentFacing.GetFacingVector());
+            attackSystem.UpdateTargetMarkerPositions(GridPosition, CurrentFacing.GetFacingVector(), true);
         }
 
         private void ToggleAim(object sender, ToggleEventArgs args)
@@ -177,7 +186,7 @@ namespace Maihem.Actors
             {
                 if (_controlState != PlayerControlState.Normal) return;
                 _controlState = PlayerControlState.Aiming;
-                attackSystem.ShowTargetMarkers(GridPosition, CurrentFacing.GetFacingVector());
+                attackSystem.ShowTargetMarkers(GridPosition, CurrentFacing.GetFacingVector(), true);
                 aimGrid.SetActive(true);
             }
             else

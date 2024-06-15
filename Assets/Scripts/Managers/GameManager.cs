@@ -85,6 +85,22 @@ namespace Maihem.Managers
             return false;
         }
 
+        public bool TryGetEnemyOnCell(Vector2Int cellPosition, out Enemy foundEnemy)
+        {
+            if (enemyManager.TryGetEnemyOnCell(cellPosition, out var enemy))
+            {
+                foundEnemy = enemy;
+                return true;
+            }
+            foundEnemy = null;
+            return false;
+        }
+
+        public bool CellContainsPlayer(Vector2Int cellPosition)
+        {
+            return Player.GridPosition == cellPosition;
+        }
+
         public bool CellContainsActor(Vector2Int cellPosition)
         {
             return Player.GridPosition == cellPosition || enemyManager.CellContainsEnemy(cellPosition);
