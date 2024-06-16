@@ -18,11 +18,23 @@ namespace Maihem.Attacks
         public int StaminaCost => staminaCost;
         public string DisplayName => displayName;
 
+        protected static readonly Vector2Int[] AllDirections =
+        {
+            Vector2Int.up, 
+            Vector2Int.down, 
+            Vector2Int.left, 
+            Vector2Int.right, 
+            new(1,1),
+            new(-1,1),
+            new(1,-1),
+            new(-1,-1),
+        };
+        
         public abstract bool Attack(Vector2Int position, Vector2Int direction, bool isPlayerAttack);
         public abstract IList<Vector2Int> GetAffectedTiles(Vector2Int position, Vector2Int direction, bool isPlayerAttack);
         public abstract IList<Vector2Int> GetPossibleTiles(Vector2Int position);
         
-        protected bool TryDamage(Vector2Int target, bool isPlayerAttack)
+        protected bool TryDamage(Vector2Int target, int damage, bool isPlayerAttack)
         {
             if (isPlayerAttack)
             {

@@ -1,12 +1,10 @@
 ﻿using System.Collections.Generic;
-using Maihem.Managers;
-using Unity.Mathematics;
 using UnityEngine;
 
 namespace Maihem.Attacks
 {
-    [CreateAssetMenu(menuName = "Attack Strategies/Point Blank AoE Attack")]
-    public class PointBlankAoEAttack : AttackStrategy
+    [CreateAssetMenu(menuName = "Attack Strategies/Line Attack")]
+    public class LineAttack : AttackStrategy
     {
         [Min(1)]
         [SerializeField] private int range = 3;
@@ -17,6 +15,7 @@ namespace Maihem.Attacks
         {
             var targets = GetAffectedTiles(position, direction, isPlayerAttack);
             var hitSomething = false;
+ 
             foreach (var target in targets)
             {
                 hitSomething = TryDamage(target, Damage, isPlayerAttack);
@@ -30,24 +29,25 @@ namespace Maihem.Attacks
         public override IList<Vector2Int> GetAffectedTiles(Vector2Int position, Vector2Int direction, bool isPlayerAttack)
         {
             var targets = new List<Vector2Int>();
-            for (var x = -range; x <= range; x++)
+            for (var i = 1; i <= range; i++)
             {
-                for (var y = -range; y <= range; y++)
-                {
-                    if(x == 0 && y== 0) continue;
-                    if (math.abs(x)+math.abs(y) <= range)
-                    {
-                        targets.Add(position+new Vector2Int(x,y));
-                    }
-                }
+                targets.Add(position+direction*i);
             }
-
             return targets;
         }
 
         public override IList<Vector2Int> GetPossibleTiles(Vector2Int position)
         {
-            return GetAffectedTiles(position, Vector2Int.zero, false);
+            var tiles = new List<Vector2Int>();
+            
+            foreach (var direction in AllDirections)
+            {
+                for (var i = 1; i <= range; i++)
+                {
+                    tiles.Add(position+direction*i);
+                }
+            }
+            return tiles;
         }
     }
 }

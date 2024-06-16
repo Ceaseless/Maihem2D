@@ -10,7 +10,7 @@ namespace Maihem.Attacks
         public override bool Attack(Vector2Int position, Vector2Int direction, bool isPlayerAttack)
         {
             var target = position + direction;
-            return TryDamage(target, isPlayerAttack);
+            return TryDamage(target,Damage, isPlayerAttack);
         }
 
         public override IList<Vector2Int> GetAffectedTiles(Vector2Int position, Vector2Int direction, bool isPlayerAttack)

@@ -224,11 +224,11 @@ MonoBehaviour:
   maxHealth: 10
   moveDuration: 0.1
   initialFacing: 0
+  attackSystem: {fileID: 9002999657413362015}
   maxStamina: 1000
   moveCost: 1
   diagonalMoveCost: 2
   playerInput: {fileID: 4102898974549345930}
-  attackSystem: {fileID: 9002999657413362015}
   aimGrid: {fileID: 1851323239640821566}
   diagonalModeMarker: {fileID: 3964736874558905028}
   stickObject: {fileID: 8653845740616210445}
@@ -236,6 +236,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 6105c1a528ada6c4f903a3d483724391, type: 2}
   - {fileID: 11400000, guid: 6204d5b69cc29d84c83cf5d01d4753de, type: 2}
   - {fileID: 11400000, guid: 40c6fe6cdd010ed46a424771748fb724, type: 2}
+  - {fileID: 11400000, guid: fe3f629371e17e447a5868b6061e48e8, type: 2}
 --- !u!114 &4102898974549345930
 MonoBehaviour:
   m_ObjectHideFlags: 0

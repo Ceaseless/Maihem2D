@@ -14,7 +14,7 @@ namespace Maihem.Attacks
             var lineTiles = GetAffectedTiles(position, direction, isPlayerAttack);
             foreach (var tile in lineTiles)
             {
-                if (TryDamage(tile, isPlayerAttack)) return true;
+                if (TryDamage(tile, Damage, isPlayerAttack)) return true;
             }
 
             return false;
@@ -43,19 +43,9 @@ namespace Maihem.Attacks
         public override IList<Vector2Int> GetPossibleTiles(Vector2Int position)
         {
             var tiles = new List<Vector2Int>();
-            Vector2Int[] allDirections =
-            {
-                Vector2Int.up, 
-                Vector2Int.down, 
-                Vector2Int.left, 
-                Vector2Int.right, 
-                new(1,1),
-                new(-1,1),
-                new(1,-1),
-                new(-1,-1),
-            };
+            
 
-            foreach (var direction in allDirections)
+            foreach (var direction in AllDirections)
             {
                 for (var i = 1; i <= range; i++)
                 {
