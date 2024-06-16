@@ -1,17 +1,15 @@
-using System;
 using System.Linq;
-using Maihem.Actors;
 using Maihem.Managers;
 using UnityEngine;
-using UnityEngine.Tilemaps;
-using Random = System.Random;
+using Random = UnityEngine.Random;
+
 
 namespace Maihem.Movements
 {
     public abstract class MovementStrategy : ScriptableObject
     {
         [SerializeField] private float alertRange;
-        public static Vector2Int IdleMove(Vector2Int gridPosition, Random randomGenerator)
+        public static Vector2Int IdleMove(Vector2Int gridPosition)
         {
             var neighbours = MapManager.GetNeighbourPositions(gridPosition);
 
@@ -23,7 +21,7 @@ namespace Maihem.Movements
                 }
             }
 
-            var randomNumber = randomGenerator.Next(0, neighbours.Count - 1);
+            var randomNumber = Random.Range(0, neighbours.Count);
             return neighbours[randomNumber];
         }
         

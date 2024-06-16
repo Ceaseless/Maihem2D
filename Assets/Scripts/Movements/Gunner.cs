@@ -51,8 +51,11 @@ namespace Maihem.Movements
             return shortestPath[^1];
         }
 
+        
+        
         private static int GetDistance(Vector2Int a, Vector2Int b)
         {
+            
             if (Math.Abs(a.x) == Math.Abs(b.x) && Math.Abs(a.y) == Math.Abs(b.x)) return Math.Abs(a.x);
             return Math.Abs(a.x + b.x) + Math.Abs(a.y + b.y);
         }
