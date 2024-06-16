@@ -2,13 +2,16 @@
 using Maihem.Attacks;
 using Maihem.Extensions;
 using Maihem.Managers;
+using Maihem.Movements;
 using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Maihem.Actors
 {
     public class Enemy : Actor
     {
+        [SerializeField] protected MovementSystem movementSystem;
         public void TakeTurn()
         {
             var player = GameManager.Instance.Player;
@@ -42,17 +45,16 @@ namespace Maihem.Actors
         
         private bool TryMove()
         {
-            var player = GameManager.Instance.Player;
-            var shortestPath = MapManager.Instance.FindShortestDistance(MapManager.Instance.WorldToCell(transform.position), MapManager.Instance.WorldToCell(player.transform.position));
-
-            if (shortestPath == null) return false;
-            var targetCell = shortestPath.Last();
+            if (!movementSystem) return false;
+            var range = attackSystem.currentAttackStrategy.getRange();
+            var targetCell = movementSystem.Move(GridPosition,range);
             var newPosition = MapManager.Instance.CellToWorld(targetCell);
             CurrentFacing = CurrentFacing.GetFacingFromDirection(targetCell - GridPosition);
             
             StartMoveAnimation(newPosition);
             UpdateGridPosition(newPosition);
             return true;
+
         }
 
         public override void TakeDamage(int damage)
