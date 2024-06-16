@@ -3,13 +3,14 @@ using System.Linq;
 using Maihem.Actors;
 using Maihem.Managers;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 using Random = System.Random;
 
 namespace Maihem.Movements
 {
     public abstract class MovementStrategy : ScriptableObject
     {
-        [SerializeField] private int alertRange;
+        [SerializeField] private float alertRange;
         public static Vector2Int IdleMove(Vector2Int gridPosition, Random randomGenerator)
         {
             var neighbours = MapManager.GetNeighbourPositions(gridPosition);
@@ -29,10 +30,9 @@ namespace Maihem.Movements
         public bool CheckAlert(Vector2Int gridPosition)
         {
             var player = GameManager.Instance.Player;
+            var distance = Vector2Int.Distance(player.GridPosition, gridPosition);
 
-            var distance = MapManager.Instance.FindShortestDistance(gridPosition, player.GridPosition);
-
-            return distance.Count <= alertRange;
+            return distance <= alertRange;
         }
 
         public abstract Vector2Int ActivatedMove(Vector2Int gridPosition, int range);
