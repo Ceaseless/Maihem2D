@@ -11,7 +11,14 @@ namespace Maihem.Actors
 {
     public class Enemy : Actor
     {
+        [SerializeField] private EnemyHealthDisplay healthDisplay;
         [SerializeField] protected MovementSystem movementSystem;
+        public override void Initialize()
+        {
+            base.Initialize();
+            healthDisplay.SetMaxHealth(MaxHealth);
+            healthDisplay.SetHealth(CurrentHealth);
+        }
         public void TakeTurn()
         {
             var player = GameManager.Instance.Player;
@@ -61,6 +68,7 @@ namespace Maihem.Actors
         {
             if(IsDead) return;
             CurrentHealth -= damage;
+            healthDisplay.SetHealth(CurrentHealth);
             
             if (CurrentHealth > 0) return;
             IsDead = true;
