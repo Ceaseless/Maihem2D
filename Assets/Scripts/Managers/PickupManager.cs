@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using Random = System.Random;
 
 namespace Maihem.Managers
 {
@@ -29,16 +27,27 @@ namespace Maihem.Managers
             _activePickups.Clear();
         }
 
+        private void RegisterPickup(Pickup newPickup)
+        {
+            _activePickups.Add(newPickup);
+        }
+        
+        public void RegisterPickups(IEnumerable<Pickup> pickups)
+        {
+            foreach (var newPickup in pickups)
+            {
+                RegisterPickup(newPickup);
+            }
+        }
+
         public void CullUsedPickups()
         {
-            foreach (var pickup in _activePickups.ToList())
+            for (var i = _activePickups.Count - 1; i >= 0; i--)
             {
-                if (pickup.Used)
-                {
-                    _activePickups.Remove(pickup);
-                    Destroy(pickup.gameObject);
-                }
-                
+                var pickup = _activePickups[i];
+                if(!pickup.Used) continue;
+                _activePickups.RemoveAt(i);
+                Destroy(pickup.gameObject);
             }
         }
 
@@ -51,9 +60,8 @@ namespace Maihem.Managers
             {
                 return;
             }
-            
-            var random = new Random();
-            if (!(pickup.GetComponent<Pickup>().spawnChance >= random.Next(1, 100))) return;
+
+            if (!(pickup.GetComponent<Pickup>().spawnChance >= Random.Range(0,100))) return;
             var newPickup = Instantiate(pickup, position, Quaternion.identity, transform).GetComponent<Pickup>();
             _activePickups.Add(newPickup);
 

@@ -73,6 +73,7 @@ namespace Maihem.Managers
         public void PassMapData(MapData data)
         {
             enemyManager.RegisterEnemies(data.MapEnemies);
+            pickupManager.RegisterPickups(data.MapPickups);
         }
 
         public bool TryGetActorOnCell(Vector2Int cellPosition, out Actor actor)
