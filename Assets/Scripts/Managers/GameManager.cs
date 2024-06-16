@@ -1,3 +1,5 @@
+using System;
+using Cinemachine;
 using Maihem.Actors;
 using TMPro;
 using UnityEngine;
@@ -10,10 +12,12 @@ namespace Maihem.Managers
         public static GameManager Instance { get; private set; }
         [SerializeField] private GameObject playerPrefab;
         [SerializeField] private Vector3 playerStartPosition;
-        [SerializeField] private CameraController cameraController;
+        [SerializeField] private KillZoneController boundsController;
         [SerializeField] private EnemyManager enemyManager;
+        [SerializeField] private PickupManager pickupManager;
         [FormerlySerializedAs("ui")] [SerializeField] private UIManager uiManager;
         [SerializeField] private TextMeshProUGUI debugText;
+        [SerializeField] private CinemachineVirtualCamera followCamera;
 
         public int TurnCount { get; private set; }
         public PlayerActor Player { get; private set; }
@@ -31,8 +35,11 @@ namespace Maihem.Managers
             else
             {
                 Destroy(gameObject);
-                return;
             }
+        }
+
+        private void Start()
+        {
             SpawnPlayer();
             uiManager.Initialize();
         }
@@ -46,17 +53,26 @@ namespace Maihem.Managers
 
             var playerObject = Instantiate(playerPrefab, playerStartPosition, Quaternion.identity);
             Player = playerObject.GetComponent<PlayerActor>();
+            Player.Initialize();
+            followCamera.Follow = Player.transform;
         }
 
         public void ResetGame()
         {
-            SpawnPlayer();
             enemyManager.Reset();
-            cameraController.Reset();
+            pickupManager.Reset();
+            boundsController.Reset();
+            MapManager.Instance.Reset();
             TurnCount = 0;
+            SpawnPlayer();
             uiManager.Initialize();
             
             debugText.text = $"Turn: {TurnCount}";
+        }
+
+        public void PassMapData(MapData data)
+        {
+            enemyManager.RegisterEnemies(data.MapEnemies);
         }
 
         public bool TryGetActorOnCell(Vector2Int cellPosition, out Actor actor)
@@ -76,6 +92,22 @@ namespace Maihem.Managers
             return false;
         }
 
+        public bool TryGetEnemyOnCell(Vector2Int cellPosition, out Enemy foundEnemy)
+        {
+            if (enemyManager.TryGetEnemyOnCell(cellPosition, out var enemy))
+            {
+                foundEnemy = enemy;
+                return true;
+            }
+            foundEnemy = null;
+            return false;
+        }
+
+        public bool CellContainsPlayer(Vector2Int cellPosition)
+        {
+            return Player.GridPosition == cellPosition;
+        }
+
         public bool CellContainsActor(Vector2Int cellPosition)
         {
             return Player.GridPosition == cellPosition || enemyManager.CellContainsEnemy(cellPosition);
@@ -93,14 +125,15 @@ namespace Maihem.Managers
     
         public void TriggerTurn()
         {
-            cameraController.UpdateCameraScroll();
-            if (cameraController.IsPositionOffScreen(Player.transform.position))
+            boundsController.UpdateBounds();
+            if (Player.transform.position.x <= boundsController.transform.position.x)
             {
-                Debug.Log("Player walked off screen!");
+                Debug.Log("Player walked into the light!");
                 ResetGame();
                 return;
             }
             
+            pickupManager.CullUsedPickups();
             enemyManager.Tick();
             MapManager.Instance.UpdateMap();
             TurnCount++;
@@ -114,7 +147,6 @@ namespace Maihem.Managers
         private void UpdateUI()
         {
             debugText.text = $"Turn: {TurnCount}";
-            uiManager.UpdateStatusUI();
         }
 
    

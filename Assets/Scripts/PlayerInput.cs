@@ -1,4 +1,5 @@
 ﻿using System;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -11,12 +12,14 @@ namespace Maihem
 
         public event EventHandler OnMoveAction;
         public event EventHandler OnAttackAction;
+        public event EventHandler<SingleAxisEventArgs> OnAttackChangeAction;
         public event EventHandler<ToggleEventArgs> OnToggleAimAction;
         public event EventHandler<ToggleEventArgs> OnToggleDiagonalModeAction;
         
         public Vector2 BufferedMoveInput { get; private set; }
         private float _lastMoveInput;
         private InputAction _moveAction, _mousePosition, _toggleAimAction, _toggleDiagonalModeAction, _attackAction;
+        private InputAction _changeAttack;
 
         private void Awake()
         {
@@ -30,6 +33,7 @@ namespace Maihem
             _toggleAimAction = inputActions["Aim Toggle"];
             _toggleDiagonalModeAction = inputActions["Diagonal Toggle"];
             _attackAction = inputActions["Attack"];
+            _changeAttack = inputActions["Attack Scroll"];
 
             _moveAction.performed += MoveInputChanged;
             _moveAction.canceled += MoveInputChanged;
@@ -41,12 +45,15 @@ namespace Maihem
             _toggleDiagonalModeAction.canceled += ToggleDiagonalMode;
 
             _attackAction.performed += _ => OnAttackAction?.Invoke(this, EventArgs.Empty);
+
+            _changeAttack.performed += AttackChanged;
             
             _moveAction.Enable();
             _mousePosition.Enable();
             _toggleAimAction.Enable();
             _toggleDiagonalModeAction.Enable();
             _attackAction.Enable();
+            _changeAttack.Enable();
         }
 
         private void Update()
@@ -106,12 +113,27 @@ namespace Maihem
             BufferedMoveInput = ctx.ReadValue<Vector2>();
             _lastMoveInput = Time.time;
         }
-        
+
+        private void AttackChanged(InputAction.CallbackContext ctx)
+        {
+            var axisValue = Mathf.RoundToInt(ctx.ReadValue<float>());
+            OnAttackChangeAction?.Invoke(this, new SingleAxisEventArgs { AxisValue = axisValue });
+        }
         
     }
     
     public class ToggleEventArgs : EventArgs
     {
         public bool ToggleValue { get; set; }
+    }
+
+    public class SingleAxisEventArgs : EventArgs
+    {
+        private int _axisValue;
+        public int AxisValue
+        {
+            get => _axisValue;
+            set => _axisValue = math.clamp(value, -1,1);
+        }
     }
 }

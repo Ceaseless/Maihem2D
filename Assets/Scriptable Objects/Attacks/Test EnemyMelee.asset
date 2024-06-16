@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd0a0d0b7a2b430f88b5638681f48d73, type: 3}
+  m_Name: Test EnemyMelee
+  m_EditorClassIdentifier: 
+  damage: 1
+  staminaCost: 1
+  attackAnimation: {fileID: 7003012535162078422, guid: 9d6242cbc73a0ce4489daf4b351b34a1, type: 3}

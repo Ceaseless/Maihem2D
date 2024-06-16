@@ -1,6 +1,6 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
+using Maihem.Actors;
 using Maihem.Extensions;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -51,8 +51,10 @@ namespace Maihem.Managers
     {
         public static MapManager Instance { get; private set; }
         [SerializeField] private Grid grid;
-        
+        [SerializeField] private PolygonCollider2D mapConstraints;
+        [SerializeField] private GameObject mapPrefab;
         private List<Tilemap> _tilemaps;
+        
         
         private void Awake()
         {
@@ -69,7 +71,31 @@ namespace Maihem.Managers
 
         private void Start()
         {
-            _tilemaps = grid.GetComponentsInChildren<Tilemap>().ToList();
+            _tilemaps = new List<Tilemap>();
+            SpawnMap();
+        }
+
+        public void Reset()
+        {
+            foreach (var map in _tilemaps)
+            {
+                Destroy(map.gameObject);
+            }
+            _tilemaps.Clear();
+            SpawnMap();
+        }
+
+        private void SpawnMap()
+        {
+            var mapObject = Instantiate(mapPrefab, grid.transform);
+            var tileMap = mapObject.GetComponent<Tilemap>();
+
+            var enemies = mapObject.GetComponentsInChildren<Enemy>();
+            var pickups = mapObject.GetComponentsInChildren<Pickup>();
+            
+            tileMap.CompressBounds();
+            _tilemaps.Add(tileMap);
+            GameManager.Instance.PassMapData(new MapData(enemies, pickups));
         }
         
         public void UpdateMap()
@@ -79,18 +105,34 @@ namespace Maihem.Managers
 
         public bool IsCellBlocking(Vector3 worldPosition)
         {
-            var cellPosition = MapManager.Instance.WorldToCell(worldPosition);
+            var cellPosition = WorldToCell(worldPosition);
             return IsCellBlocking(cellPosition);
         }
 
-        private bool IsCellBlocking(Vector2Int cellPositon)
+        public bool IsCellBlocking(Vector2Int cellPosition)
         {
-            var cellPosition = cellPositon.WithZ(0);
-            
-            if (!TryGetTilemapContainingCell(cellPositon, out var map)) return true;
-            
-            var cell = map.GetTile<Tile>(cellPosition);
-            return cell is null || cell.colliderType != Tile.ColliderType.None;
+            var position = cellPosition.WithZ(0);
+            if (!TryGetTile(position, out var tile)) return true;
+            return tile is null || tile.colliderType != Tile.ColliderType.None;
+            //if (!TryGetTilemapContainingCell(position, out var map)) return true;
+
+            //var cell = map.GetTile<Tile>(position);
+            //return cell is null || cell.colliderType != Tile.ColliderType.None;
+        }
+
+        private bool TryGetTile(Vector3Int cellPosition, out Tile tile)
+        {
+            foreach (var map in _tilemaps)
+            {
+                var localPosition = new Vector3Int((int)(cellPosition.x - map.transform.localPosition.x),
+                    (int)(cellPosition.y - map.transform.localPosition.y), 0);
+                
+                if (!map.HasTile(localPosition)) continue;
+                tile = map.GetTile<Tile>(localPosition);
+                return true;
+            }
+            tile = null;
+            return false;
         }
 
         private bool IsCellBlockedDiagonal(Vector2Int cellPosition, Vector2Int origin)
@@ -119,7 +161,9 @@ namespace Maihem.Managers
         {
             foreach (var map in _tilemaps)
             {
-                if (!map.cellBounds.Contains(cellPosition)) continue;
+                var localPosition = new Vector3Int((int)(cellPosition.x - map.transform.localPosition.x),
+                    (int)(cellPosition.y - map.transform.localPosition.y), 0);
+                if (!map.HasTile(localPosition)) continue;
                 tilemap = map;
                 return true;
             }
@@ -132,9 +176,9 @@ namespace Maihem.Managers
             return TryGetTilemapContainingCell(cellPosition.WithZ(0), out tilemap);
         }
 
-        public static Vector2Int[] GetNeighbourPositions(Vector2Int cellPosition)
+        public static IList<Vector2Int> GetNeighbourPositions(Vector2Int cellPosition)
         {
-            return new[]
+            return new List<Vector2Int>
             {
                 cellPosition+Vector2Int.up,
                 cellPosition+Vector2Int.right,

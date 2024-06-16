@@ -19,19 +19,26 @@ namespace Maihem.Actors
         [Header("Stat Settings")]
         [SerializeField] private int maxStamina;
         [SerializeField] private int moveCost;
+        [SerializeField] private int diagonalMoveCost;
         
         [Header("System References")]
         [SerializeField] private PlayerInput playerInput;
-        [SerializeField] private int diagonalMoveCost;
-        [SerializeField] private AttackSystem attackSystem;
         
         [Header("Children References")]
         [SerializeField] private GameObject aimGrid;
         [SerializeField] private GameObject diagonalModeMarker;
         [SerializeField] private GameObject stickObject;
 
+        [Header("Placeholder/Debug Stuff")] [SerializeField]
+        private AttackStrategy[] attackStrategies;
+        private int _currentAttack;
+
+        public EventHandler OnStatusUpdate;
+
         public int MaxStamina => maxStamina;
         public int CurrentStamina { get; private set; }
+
+        public AttackStrategy CurrentAttack => attackSystem.currentAttackStrategy;
         
         private PlayerControlState _controlState = PlayerControlState.Normal;
         private Animator _animator;
@@ -47,24 +54,28 @@ namespace Maihem.Actors
    
         }
 
-        protected override void OnMoveAnimationEnd()
+        protected override void OnAnimationEnd()
         {
-            GameManager.Instance.TriggerTurn();
+            EndTurn();
         }
 
-        protected override void Awake()
+        private void Awake()
         {
-            base.Awake();
-            CurrentStamina = maxStamina;
-        }
-
-        protected override void Start()
-        {
-            base.Start();
             _animator = GetComponent<Animator>();
-            
+        }
+
+        private void Start()
+        {
             ConnectInputs();
-            
+        }
+
+        public override void Initialize()
+        {
+            base.Initialize();
+            CurrentStamina = maxStamina;
+            if(attackStrategies.Length > 0)
+                attackSystem.currentAttackStrategy = attackStrategies[0];
+            OnStatusUpdate?.Invoke(this, EventArgs.Empty);
         }
 
         private void ConnectInputs()
@@ -73,6 +84,27 @@ namespace Maihem.Actors
             playerInput.OnToggleAimAction += ToggleAim;
             playerInput.OnToggleDiagonalModeAction += ToggleDiagonalMode;
             playerInput.OnMoveAction += ProcessMoveInput;
+            playerInput.OnAttackChangeAction += ChangeAttackStrategy;
+        }
+
+        private void OnDestroy()
+        {
+            playerInput.OnAttackAction -= Attack;
+            playerInput.OnToggleAimAction -= ToggleAim;
+            playerInput.OnToggleDiagonalModeAction -= ToggleDiagonalMode;
+            playerInput.OnMoveAction -= ProcessMoveInput;
+            playerInput.OnAttackChangeAction -= ChangeAttackStrategy;
+            attackSystem?.HideTargetMarkers();
+        }
+
+        private void ChangeAttackStrategy(object sender, SingleAxisEventArgs e)
+        {
+            _currentAttack += e.AxisValue;
+            if (_currentAttack < 0) _currentAttack = attackStrategies.Length - 1;
+            if (_currentAttack >= attackStrategies.Length) _currentAttack = 0;
+            attackSystem.currentAttackStrategy = attackStrategies[_currentAttack];
+            OnStatusUpdate?.Invoke(this, EventArgs.Empty);
+
         }
 
 
@@ -83,9 +115,8 @@ namespace Maihem.Actors
             if (attackSystem.currentAttackStrategy.StaminaCost > CurrentStamina) return;
 
             CurrentStamina -= attackSystem.currentAttackStrategy.StaminaCost;
-            attackSystem.Attack(GridPosition, CurrentFacing.GetFacingVector());
-            
-            GameManager.Instance.TriggerTurn();
+            attackSystem.Attack(GridPosition, CurrentFacing.GetFacingVector(), true);
+            StartAttackAnimation(GridPosition, CurrentFacing.GetFacingVector(), true);
         }
 
         private void ProcessMoveInput(object sender, EventArgs e)
@@ -163,12 +194,12 @@ namespace Maihem.Actors
 
         private void ProcessAim(Vector2 aimInput)
         {
-            UpdateAimMarker(CurrentFacing.GetFacingVector());
+            UpdateAimMarker();
         }
 
-        private void UpdateAimMarker(Vector2Int newFacing)
+        private void UpdateAimMarker()
         {
-            attackSystem.UpdateTargetMarkerPositions(GridPosition, CurrentFacing.GetFacingVector());
+            attackSystem.UpdateTargetMarkerPositions(GridPosition, CurrentFacing.GetFacingVector(), true);
         }
 
         private void ToggleAim(object sender, ToggleEventArgs args)
@@ -177,7 +208,7 @@ namespace Maihem.Actors
             {
                 if (_controlState != PlayerControlState.Normal) return;
                 _controlState = PlayerControlState.Aiming;
-                attackSystem.ShowTargetMarkers(GridPosition, CurrentFacing.GetFacingVector());
+                attackSystem.ShowTargetMarkers(GridPosition, CurrentFacing.GetFacingVector(), true);
                 aimGrid.SetActive(true);
             }
             else
@@ -204,15 +235,22 @@ namespace Maihem.Actors
                 diagonalModeMarker.SetActive(false);
             }
         }
-
-        public int GetStamina()
+       
+        
+        public void AdjustHealthAndStamina(int health, int stamina)
         {
-            return CurrentStamina;
+            CurrentHealth = math.clamp(CurrentHealth + health, 0, MaxHealth);
+            CurrentStamina = math.clamp(CurrentStamina + stamina, 0, MaxStamina);
+            OnStatusUpdate?.Invoke(this, EventArgs.Empty);
+        }
+
+        private void EndTurn()
+        {
+            OnStatusUpdate?.Invoke(this, EventArgs.Empty);
+            GameManager.Instance.TriggerTurn();
         }
         
-        public int GetMaxStamina()
-        {
-            return maxStamina;
-        }
+
+        
     }
 }

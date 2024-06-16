@@ -1,21 +1,25 @@
 ﻿using System.Linq;
+using Maihem.Attacks;
 using Maihem.Extensions;
 using Maihem.Managers;
+using Unity.Mathematics;
 using UnityEngine;
 
 namespace Maihem.Actors
 {
     public class Enemy : Actor
     {
-        [SerializeField] private AttackPattern attackType;
         public void TakeTurn()
         {
+            var player = GameManager.Instance.Player;
             OnTurnStarted();
-            var afterAttack = attackType.Attack(GridPosition);
-            if(afterAttack.magnitude>0)
+            if (attackSystem.CanTargetBeHit(GameManager.Instance.Player.GridPosition, GridPosition))
             {
-                CurrentFacing = CurrentFacing.GetFacingFromDirection(afterAttack);
-                OnTurnCompleted();
+                var dir = new Vector2Int(math.clamp(player.GridPosition.x - GridPosition.x, -1, 1),
+                    math.clamp(player.GridPosition.y - GridPosition.y, -1, 1));
+                CurrentFacing = CurrentFacing.GetFacingFromDirection(dir);
+                attackSystem.Attack(GridPosition, dir, false);
+                StartAttackAnimation(GridPosition, CurrentFacing.GetFacingVector(), false);
             }
             else
             {
@@ -25,7 +29,15 @@ namespace Maihem.Actors
                 }
             }
         }
-        
+
+        public void ShowAttackMarkers(bool show)
+        {
+            if(show)
+                attackSystem.ShowTargetMarkers(GridPosition, CurrentFacing.GetFacingVector(), false);
+            else
+                attackSystem.HideTargetMarkers();
+        }
+
         
         
         private bool TryMove()
@@ -53,9 +65,10 @@ namespace Maihem.Actors
             OnDied(new DeathEventArgs { DeadGameObject = gameObject });
         }
 
-        protected override void OnMoveAnimationEnd()
+        protected override void OnAnimationEnd()
         {
             OnTurnCompleted();
         }
+        
     }
 }

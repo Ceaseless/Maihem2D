@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Maihem.Managers;
 using UnityEngine;
@@ -6,94 +7,61 @@ namespace Maihem.Attacks
 {
     public class AttackSystem : MonoBehaviour
     {
-        [SerializeField] private GameObject targetMarkerPrefab;
-        [SerializeField] private int poolStartSize = 10;
+        public Color markerColor;
         private List<GameObject> _targetMarkerPool;
-        private Transform _poolParent;
 
         public AttackStrategy currentAttackStrategy;
+
+        public bool CanTargetBeHit(Vector2Int target, Vector2Int position)
+        {
+            if (!currentAttackStrategy) return false;
+            return currentAttackStrategy.GetPossibleTiles(position).Contains(target);
+        }
         
-        private void Start()
+        public bool Attack(Vector2Int position, Vector2Int direction, bool isPlayerAttack)
         {
-            InitializeMarkerPool();
+            if(currentAttackStrategy) {
+                return currentAttackStrategy.Attack(position, direction, isPlayerAttack);
+            }
+            return false;            
         }
 
-        private void InitializeMarkerPool()
+        public void ShowTargetMarkers(Vector2Int position, Vector2Int direction, bool isPlayerAttack)
         {
-            if (_targetMarkerPool?.Count > 0)
+            var positions = currentAttackStrategy.GetAffectedTiles(position, direction, isPlayerAttack);
+            _targetMarkerPool?.Clear();
+            _targetMarkerPool = MarkerPool.Instance.GetMarkers(positions.Count);
+            for (var i = 0; i < positions.Count; i++)
             {
-                foreach (var marker in _targetMarkerPool)
-                {
-                    Destroy(marker);
-                }
-                _targetMarkerPool.Clear();
-            }
-            
-            _targetMarkerPool = new List<GameObject>();
-            var parentObject = new GameObject("Aim Markers");
-            _poolParent = parentObject.transform;
-            _poolParent.parent = transform;
-
-            for (var i = 0; i < poolStartSize; i++)
-            {
-                var newMarker = Instantiate(targetMarkerPrefab, _poolParent);
-                newMarker.SetActive(false);
-                _targetMarkerPool.Add(newMarker);
-            }
-        }
-
-        public void Attack(Vector2Int position, Vector2Int direction)
-        {
-            currentAttackStrategy?.Attack(position, direction);
-        }
-
-        public void ShowTargetMarkers(Vector2Int position, Vector2Int direction)
-        {
-            var positions = currentAttackStrategy.GetAffectedTiles(position, direction);
-            if (positions.Count > _targetMarkerPool.Count)
-            {
-                ExpandPool(positions.Count - _targetMarkerPool.Count);
-            }
-
-            foreach (var markerPosition in positions)
-            {
-                var marker = _targetMarkerPool.Find(o => !o.activeInHierarchy);
+                var marker = _targetMarkerPool[i];
+                var markerPosition = positions[i];
                 marker.transform.position = MapManager.Instance.CellToWorld(markerPosition);
+                marker.GetComponent<SpriteRenderer>().color = markerColor;
                 marker.SetActive(true);
             }
         }
 
-        public void UpdateTargetMarkerPositions(Vector2Int position, Vector2Int direction)
+        public void UpdateTargetMarkerPositions(Vector2Int position, Vector2Int direction, bool isPlayerAttack)
         {
-            var newPositions = currentAttackStrategy.GetAffectedTiles(position, direction);
-            foreach (var markerPosition in newPositions)
+            var newPositions = currentAttackStrategy.GetAffectedTiles(position, direction, isPlayerAttack);
+            for (var i = 0; i < newPositions.Count; i++)
             {
-                var marker = _targetMarkerPool.Find(o => o.activeInHierarchy);
+                var marker = _targetMarkerPool[i];
+                var markerPosition = newPositions[i];
                 marker.transform.position = MapManager.Instance.CellToWorld(markerPosition);
             }
         }
-        
         public void HideTargetMarkers()
         {
+            if (_targetMarkerPool == null) return;
+            
             foreach (var marker in _targetMarkerPool)
             {
                 marker.SetActive(false);
             }
+            _targetMarkerPool.Clear();
         }
 
-        private void ExpandPool(int amount)
-        {
-            if (amount <= 0)
-            {
-                //Debug.LogError($"Passed invalid amount $({amount}) to pool expansion");
-                return;
-            }
-            for (var i = 0; i < amount; i++)
-            {
-                var newMarker = Instantiate(targetMarkerPrefab, _poolParent);
-                newMarker.SetActive(false);
-                _targetMarkerPool.Add(newMarker);
-            }
-        }
+        
     }
 }

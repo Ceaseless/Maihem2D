@@ -11,21 +11,23 @@ namespace Maihem.Attacks
         [Min(1)]
         [SerializeField] private int range = 3;
         [Min(0)]
-        [SerializeField] private int damageFalloff = 0;
+        [SerializeField] private int damageFalloff;
         
-        public override void Attack(Vector2Int position, Vector2Int direction)
+        public override bool Attack(Vector2Int position, Vector2Int direction, bool isPlayerAttack)
         {
-            var targets = GetAffectedTiles(position, direction);
+            var targets = GetAffectedTiles(position, direction, isPlayerAttack);
+            var hitSomething = false;
             foreach (var target in targets)
             {
-                if (GameManager.Instance.TryGetActorOnCell(target, out var actor))
-                {
-                    actor.TakeDamage(Damage);
-                }
+                hitSomething = TryDamage(target, Damage, isPlayerAttack);
             }
+
+            return hitSomething;
         }
 
-        public override IList<Vector2Int> GetAffectedTiles(Vector2Int position, Vector2Int direction)
+        
+
+        public override IList<Vector2Int> GetAffectedTiles(Vector2Int position, Vector2Int direction, bool isPlayerAttack)
         {
             var targets = new List<Vector2Int>();
             for (var x = -range; x <= range; x++)
@@ -41,6 +43,11 @@ namespace Maihem.Attacks
             }
 
             return targets;
+        }
+
+        public override IList<Vector2Int> GetPossibleTiles(Vector2Int position)
+        {
+            return GetAffectedTiles(position, Vector2Int.zero, false);
         }
     }
 }
