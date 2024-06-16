@@ -110,7 +110,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   markerColor: {r: 1, g: 0, b: 0, a: 0.50980395}
-  currentAttackStrategy: {fileID: 11400000, guid: 6105c1a528ada6c4f903a3d483724391, type: 2}
+  currentAttackStrategy: {fileID: 11400000, guid: 74101343d38c381469af9ca41353346c, type: 2}
 --- !u!1 &7186892262794404224
 GameObject:
   m_ObjectHideFlags: 0

@@ -23,13 +23,11 @@ namespace Maihem.Managers
         public void Initialize()
         {
             _startingPoint = GameManager.Instance.Player.GridPosition;
-            ChangeAttack("Kick");
-            ChangeConsumable("Empty");
-            
-            UpdateStatusUI();
+            GameManager.Instance.Player.OnStatusUpdate += UpdateStatusUI;
+            UpdateStatusUI(this, EventArgs.Empty);
         }
         
-        public void UpdateStatusUI()
+        private void UpdateStatusUI(object sender, EventArgs e)
         {
             var player = GameManager.Instance.Player;
             
@@ -47,15 +45,10 @@ namespace Maihem.Managers
             var distance = Math.Abs(Math.Abs(_startingPoint.x - player.GridPosition.x) + Math.Abs(_startingPoint.y - player.GridPosition.y)/10);
             var distanceCounterText = "Distance: "+ distance +"m";
             distanceCounter.text = distanceCounterText.PadRight(16, ' ');
+
+            currentAttack.text = player.CurrentAttack.DisplayName;
+            currentConsumable.text = "Empty";
         }
         
-        public void ChangeAttack(string attackName)
-        {
-            currentAttack.text = attackName;
-        }
-        public void ChangeConsumable(string consumableName)
-        {
-            currentAttack.text = consumableName;
-        }
     }
 }
