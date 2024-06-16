@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fef1ca0a583ff4b4a87aef34f2fa8f46, type: 3}
   m_Name: Test Gunner
   m_EditorClassIdentifier: 
-  alertRange: 20
+  alertRange: 10

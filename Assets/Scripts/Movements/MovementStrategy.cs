@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using Maihem.Actors;
 using Maihem.Managers;
 using UnityEngine;
 using Random = System.Random;
@@ -28,8 +29,10 @@ namespace Maihem.Movements
         public bool CheckAlert(Vector2Int gridPosition)
         {
             var player = GameManager.Instance.Player;
-            var distance = Math.Abs(player.GridPosition.x - gridPosition.x) + Math.Abs(player.GridPosition.y - gridPosition.y);
-            return distance <= alertRange;
+
+            var distance = MapManager.Instance.FindShortestDistance(gridPosition, player.GridPosition);
+
+            return distance.Count <= alertRange;
         }
 
         public abstract Vector2Int ActivatedMove(Vector2Int gridPosition, int range);
