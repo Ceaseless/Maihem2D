@@ -13,6 +13,7 @@ namespace Maihem.Movements
         {
             var inRange = attackRange - 1;
             var player = GameManager.Instance.Player;
+            List<Vector2Int> shortestPath;
             
             var maxRangePositions = new List<Vector2Int>
             {
@@ -27,19 +28,25 @@ namespace Maihem.Movements
                 maxRangePositions.Remove(position);
             }
 
-            var checkTile = maxRangePositions[0];
-            var tileDistance = GetDistance(checkTile, player.GridPosition);
-            
-            foreach (var position in maxRangePositions)
+            if (maxRangePositions.Count > 0)
             {
-                var positionDistance = GetDistance(position, player.GridPosition);
-                if (positionDistance >= tileDistance) continue;
-                checkTile = position;
-                tileDistance = GetDistance(checkTile, player.GridPosition);
+                var checkTile = maxRangePositions[0];
+                var tileDistance = GetDistance(checkTile, player.GridPosition);
+            
+                foreach (var position in maxRangePositions)
+                {
+                    var positionDistance = GetDistance(position, player.GridPosition);
+                    if (positionDistance >= tileDistance) continue;
+                    checkTile = position;
+                    tileDistance = GetDistance(checkTile, player.GridPosition);
 
+                }
+                shortestPath = MapManager.Instance.FindShortestDistance(gridPosition, checkTile);
             }
-            var shortestPath = MapManager.Instance.FindShortestDistance(gridPosition, checkTile);
-      
+            else
+            {
+                shortestPath = MapManager.Instance.FindShortestDistance(gridPosition, player.GridPosition);
+            }
             
             return shortestPath[^1];
         }
