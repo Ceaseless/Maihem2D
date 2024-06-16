@@ -1,20 +1,16 @@
-using System.Collections;
-using System.Collections.Generic;
-using Maihem.Actors;
 using Maihem.Managers;
 using UnityEngine;
 
-namespace Maihem
+namespace Maihem.Pickups
 {
     public class RestorePickup : Pickup
     {
         [SerializeField] private int staminaRestored;
         [SerializeField] private int healthRestored;
 
-        public override void PickUp()
+        protected override void PickUp()
         {
-            var player = GameManager.Instance.Player;
-            player.AdjustHealthAndStamina(healthRestored,staminaRestored);
+            GameManager.Instance.Player.AdjustHealthAndStamina(healthRestored,staminaRestored);
         }
     }
 }
