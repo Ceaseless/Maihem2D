@@ -9,7 +9,6 @@ namespace Maihem.Actors
 {
     public class Enemy : Actor
     {
-        [SerializeField] private AttackSystem attackSystem;
         public void TakeTurn()
         {
             var player = GameManager.Instance.Player;
@@ -20,7 +19,7 @@ namespace Maihem.Actors
                     math.clamp(player.GridPosition.y - GridPosition.y, -1, 1));
                 CurrentFacing = CurrentFacing.GetFacingFromDirection(dir);
                 attackSystem.Attack(GridPosition, dir, false);
-                OnTurnCompleted();
+                StartAttackAnimation(GridPosition, CurrentFacing.GetFacingVector(), false);
             }
             else
             {
@@ -66,9 +65,10 @@ namespace Maihem.Actors
             OnDied(new DeathEventArgs { DeadGameObject = gameObject });
         }
 
-        protected override void OnMoveAnimationEnd()
+        protected override void OnAnimationEnd()
         {
             OnTurnCompleted();
         }
+        
     }
 }
