@@ -46,6 +46,11 @@ namespace Maihem.Managers
         {
 
             var pickup = pickupPrefabs[0];
+
+            if (_activePickups.Any(activePickup => activePickup.transform.position == position))
+            {
+                return;
+            }
             
             var random = new Random();
             if (!(pickup.GetComponent<Pickup>().spawnChance >= random.Next(1, 100))) return;

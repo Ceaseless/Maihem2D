@@ -21,7 +21,6 @@ namespace Maihem.Attacks
         public bool Attack(Vector2Int position, Vector2Int direction, bool isPlayerAttack)
         {
             if(currentAttackStrategy) {
-                PlayAttackAnimation(position, direction, isPlayerAttack);
                 return currentAttackStrategy.Attack(position, direction, isPlayerAttack);
             }
             return false;            
@@ -63,15 +62,6 @@ namespace Maihem.Attacks
             _targetMarkerPool.Clear();
         }
 
-        private void PlayAttackAnimation(Vector2Int position, Vector2Int direction, bool isPlayerAttack)
-        {
-            var positions = currentAttackStrategy.GetAffectedTiles(position, direction, isPlayerAttack);
-
-            foreach (var tile in positions)
-            {
-                Instantiate(currentAttackStrategy.attackAnimation, MapManager.Instance.CellToWorld(tile),
-                    Quaternion.identity);
-            }
-        }
+        
     }
 }

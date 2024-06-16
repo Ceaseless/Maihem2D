@@ -1,4 +1,7 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using Maihem.Attacks;
 using Maihem.Extensions;
 using Maihem.Managers;
@@ -23,7 +26,6 @@ namespace Maihem.Actors
         [Header("System References")]
         [SerializeField] private PlayerInput playerInput;
         [SerializeField] private int diagonalMoveCost;
-        [SerializeField] private AttackSystem attackSystem;
         
         [Header("Children References")]
         [SerializeField] private GameObject aimGrid;
@@ -47,7 +49,7 @@ namespace Maihem.Actors
    
         }
 
-        protected override void OnMoveAnimationEnd()
+        protected override void OnAnimationEnd()
         {
             GameManager.Instance.TriggerTurn();
         }
@@ -94,8 +96,7 @@ namespace Maihem.Actors
 
             CurrentStamina -= attackSystem.currentAttackStrategy.StaminaCost;
             attackSystem.Attack(GridPosition, CurrentFacing.GetFacingVector(), true);
-            
-            GameManager.Instance.TriggerTurn();
+            StartAttackAnimation(GridPosition, CurrentFacing.GetFacingVector(), true);
         }
 
         private void ProcessMoveInput(object sender, EventArgs e)
@@ -223,6 +224,7 @@ namespace Maihem.Actors
             CurrentStamina += stamina;
             if (CurrentStamina > MaxStamina) CurrentStamina = MaxStamina;
         }
+        
 
         
     }
