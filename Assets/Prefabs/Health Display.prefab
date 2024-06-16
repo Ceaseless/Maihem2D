@@ -45,4 +45,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthBlipPrefab: {fileID: 8947684884182356641, guid: ac8576457fcc9c94c9d3c02888fc518d, type: 3}
-  blipPadding: 0.4
+  blipHorizontalPadding: 0.35
+  blipVerticalPadding: 0.5

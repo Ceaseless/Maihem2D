@@ -1,12 +1,14 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Maihem
 {
     public class EnemyHealthDisplay : MonoBehaviour
     {
         [SerializeField] private GameObject healthBlipPrefab;
-        [SerializeField] private float blipPadding = 0.01f;
+        [SerializeField] private float blipHorizontalPadding = 0.01f;
+        [SerializeField] private float blipVerticalPadding = 0.5f;
         private List<GameObject> _activeBlips;
         
         private void Awake()
@@ -30,7 +32,7 @@ namespace Maihem
         {
             if (newHealth < 0 || newHealth > _activeBlips.Count) return;
             
-            var blipsPerRow = (int)(1 / blipPadding);
+            var blipsPerRow = (int)(1 / blipHorizontalPadding);
             var half = blipsPerRow / 2;
             var row = 0;
             var count = 0;
@@ -41,7 +43,7 @@ namespace Maihem
                     row++;
                     count = 0;
                 }
-                _activeBlips[i].transform.localPosition = new Vector3(-half*blipPadding + count * blipPadding, 0.5f+row*0.5f, 0f);
+                _activeBlips[i].transform.localPosition = new Vector3(-half*blipHorizontalPadding + count * blipHorizontalPadding, 0.5f+row*blipVerticalPadding, 0f);
                 _activeBlips[i].SetActive(true);
                 count++;
 
