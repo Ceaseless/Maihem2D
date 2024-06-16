@@ -195,10 +195,10 @@ namespace Maihem.Actors
 
         private void ProcessAim(Vector2 aimInput)
         {
-            UpdateAimMarker(CurrentFacing.GetFacingVector());
+            UpdateAimMarker();
         }
 
-        private void UpdateAimMarker(Vector2Int newFacing)
+        private void UpdateAimMarker()
         {
             attackSystem.UpdateTargetMarkerPositions(GridPosition, CurrentFacing.GetFacingVector(), true);
         }
@@ -238,7 +238,7 @@ namespace Maihem.Actors
         }
        
         
-        public void RestoreStats(int health, int stamina)
+        public void AdjustHealthAndStamina(int health, int stamina)
         {
             CurrentHealth = math.clamp(CurrentHealth + health, 0, MaxHealth);
             CurrentStamina = math.clamp(CurrentStamina + stamina, 0, MaxStamina);

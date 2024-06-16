@@ -14,7 +14,7 @@ namespace Maihem
         public override void PickUp()
         {
             var player = GameManager.Instance.Player;
-            player.RestoreStats(healthRestored,staminaRestored);
+            player.AdjustHealthAndStamina(healthRestored,staminaRestored);
         }
     }
 }

@@ -24,7 +24,6 @@ namespace Maihem.Managers
         {
             _startingPoint = GameManager.Instance.Player.GridPosition;
             GameManager.Instance.Player.OnStatusUpdate += UpdateStatusUI;
-            ChangeConsumable("Empty");
             UpdateStatusUI(this, EventArgs.Empty);
         }
         
@@ -48,12 +47,8 @@ namespace Maihem.Managers
             distanceCounter.text = distanceCounterText.PadRight(16, ' ');
 
             currentAttack.text = player.CurrentAttack.DisplayName;
+            currentConsumable.text = "Empty";
         }
         
-        
-        public void ChangeConsumable(string consumableName)
-        {
-            currentConsumable.text = consumableName;
-        }
     }
 }
