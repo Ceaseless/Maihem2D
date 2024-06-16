@@ -17,6 +17,8 @@ namespace Maihem.Managers
         [SerializeField] private TextMeshProUGUI distanceCounter;
         [SerializeField] private TextMeshProUGUI currentAttack;
         [SerializeField] private TextMeshProUGUI currentConsumable;
+
+        [SerializeField] private GameObject winScreen;
         
         private Vector2Int _startingPoint;
         
@@ -24,6 +26,7 @@ namespace Maihem.Managers
         {
             _startingPoint = GameManager.Instance.Player.GridPosition;
             GameManager.Instance.Player.OnStatusUpdate += UpdateStatusUI;
+            winScreen.SetActive(false);
             UpdateStatusUI(this, EventArgs.Empty);
         }
         
@@ -48,6 +51,11 @@ namespace Maihem.Managers
 
             currentAttack.text = player.CurrentAttack.DisplayName;
             currentConsumable.text = "Empty";
+        }
+
+        public void ShowWinScreen()
+        {
+            winScreen.SetActive(true);
         }
         
     }

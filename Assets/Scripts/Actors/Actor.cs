@@ -114,6 +114,7 @@ namespace Maihem.Actors
         {
             Died?.Invoke(this, deathArgs);
         }
+        
     }
 
     public class DeathEventArgs : EventArgs

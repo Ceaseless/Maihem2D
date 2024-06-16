@@ -22,6 +22,8 @@ namespace Maihem.Managers
         public int TurnCount { get; private set; }
         public PlayerActor Player { get; private set; }
 
+        private static bool _gameOver;
+
         
         
 
@@ -41,6 +43,7 @@ namespace Maihem.Managers
         private void Start()
         {
             SpawnPlayer();
+            _gameOver = false;
             uiManager.Initialize();
         }
 
@@ -57,7 +60,7 @@ namespace Maihem.Managers
             followCamera.Follow = Player.transform;
         }
 
-        public void ResetGame()
+        private void ResetGame()
         {
             enemyManager.Reset();
             pickupManager.Reset();
@@ -65,6 +68,7 @@ namespace Maihem.Managers
             MapManager.Instance.Reset();
             TurnCount = 0;
             SpawnPlayer();
+            _gameOver = false;
             uiManager.Initialize();
             
             debugText.text = $"Turn: {TurnCount}";
@@ -126,6 +130,7 @@ namespace Maihem.Managers
     
         public void TriggerTurn()
         {
+            if (_gameOver) return;
             boundsController.UpdateBounds();
             if (Player.transform.position.x <= boundsController.transform.position.x)
             {
@@ -150,6 +155,17 @@ namespace Maihem.Managers
             debugText.text = $"Turn: {TurnCount}";
         }
 
-   
+        public void Exit()
+        {
+            Application.Quit();
+        }
+
+
+        public void GameOver()
+        {
+            _gameOver = true;
+            Player.pausePlayer();
+            uiManager.ShowWinScreen();
+        }
     }
 }
