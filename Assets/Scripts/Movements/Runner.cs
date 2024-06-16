@@ -1,14 +1,12 @@
-using System.Collections;
-using System.Collections.Generic;
 using Maihem.Managers;
 using UnityEngine;
 
-namespace Maihem
+namespace Maihem.Movements
 {
     [CreateAssetMenu(menuName = "Movement Strategies/Runner")]
     public class Runner : MovementStrategy
     {
-        public override Vector2Int ActivatedMove(Vector2Int gridPosition)
+        public override Vector2Int ActivatedMove(Vector2Int gridPosition, int range)
         {
             var player = GameManager.Instance.Player;
             var shortestPath = MapManager.Instance.FindShortestDistance(gridPosition, MapManager.Instance.WorldToCell(player.transform.position));

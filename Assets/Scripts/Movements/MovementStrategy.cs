@@ -1,18 +1,15 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using Maihem.Managers;
 using UnityEngine;
-using UnityEngine.Serialization;
 using Random = System.Random;
 
-namespace Maihem
+namespace Maihem.Movements
 {
     public abstract class MovementStrategy : ScriptableObject
     {
         [SerializeField] private int alertRange;
-        public Vector2Int IdleMove(Vector2Int gridPosition, Random randomGenerator)
+        public static Vector2Int IdleMove(Vector2Int gridPosition, Random randomGenerator)
         {
             var neighbours = MapManager.GetNeighbourPositions(gridPosition);
 
@@ -32,14 +29,9 @@ namespace Maihem
         {
             var player = GameManager.Instance.Player;
             var distance = Math.Abs(player.GridPosition.x - gridPosition.x) + Math.Abs(player.GridPosition.y - gridPosition.y);
-            if (distance <= alertRange)
-            {
-                return true;
-            }
-
-            return false;
+            return distance <= alertRange;
         }
 
-        public abstract Vector2Int ActivatedMove(Vector2Int gridPosition);
+        public abstract Vector2Int ActivatedMove(Vector2Int gridPosition, int range);
     }
 }

@@ -22,5 +22,9 @@ namespace Maihem.Attacks
         {
             return MapManager.GetNeighbourPositions(position);
         }
+        public override int getRange()
+        {
+            return 0;
+        }
     }
 }

@@ -1,14 +1,7 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Numerics;
-using System.Security.Cryptography;
-using Maihem.Managers;
 using UnityEngine;
-using UnityEngine.Serialization;
 using Random = System.Random;
 
-namespace Maihem
+namespace Maihem.Movements
 {
     public class MovementSystem : MonoBehaviour
     {
@@ -32,10 +25,10 @@ namespace Maihem
             }
         }
 
-        public Vector2Int Move(Vector2Int gridPosition)
+        public Vector2Int Move(Vector2Int gridPosition, int range)
         {
             CheckAlert(gridPosition);
-            return _isActivated ? currentStrategy.ActivatedMove(gridPosition) : currentStrategy.IdleMove(gridPosition,_randomNumbers);
+            return _isActivated ? currentStrategy.ActivatedMove(gridPosition,range) : MovementStrategy.IdleMove(gridPosition,_randomNumbers);
         }
     }
 }

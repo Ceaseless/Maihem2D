@@ -54,5 +54,10 @@ namespace Maihem.Attacks
             }
             return tiles;
         }
+
+        public override int getRange()
+        {
+            return range;
+        }
     }
 }

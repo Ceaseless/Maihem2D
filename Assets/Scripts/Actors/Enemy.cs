@@ -2,6 +2,7 @@
 using Maihem.Attacks;
 using Maihem.Extensions;
 using Maihem.Managers;
+using Maihem.Movements;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -45,7 +46,8 @@ namespace Maihem.Actors
         private bool TryMove()
         {
             if (!movementSystem) return false;
-            var targetCell = movementSystem.Move(GridPosition);
+            var range = attackSystem.currentAttackStrategy.getRange();
+            var targetCell = movementSystem.Move(GridPosition,range);
             var newPosition = MapManager.Instance.CellToWorld(targetCell);
             CurrentFacing = CurrentFacing.GetFacingFromDirection(targetCell - GridPosition);
             

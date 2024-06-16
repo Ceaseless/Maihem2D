@@ -16,6 +16,7 @@ namespace Maihem.Attacks
         [SerializeField] public GameObject attackAnimation;
         public int Damage => damage;
         public int StaminaCost => staminaCost;
+        
         public string DisplayName => displayName;
 
         protected static readonly Vector2Int[] AllDirections =
@@ -55,6 +56,8 @@ namespace Maihem.Attacks
 
             return false;
         }
+
+        public abstract int getRange();
 
     }
 }
