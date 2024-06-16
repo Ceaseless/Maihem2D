@@ -135,7 +135,7 @@ namespace Maihem.Managers
             return false;
         }
 
-        private bool IsCellBlockedDiagonal(Vector2Int cellPosition, Vector2Int origin)
+        public bool IsCellBlockedDiagonal(Vector2Int cellPosition, Vector2Int origin)
         {
             var moveVector = new Vector2Int(cellPosition.x - origin.x,cellPosition.y-origin.y);
             var moveX = new Vector2Int(moveVector.x, 0);
