@@ -10,15 +10,18 @@ namespace Maihem.Attacks
         [SerializeField] private int range = 3;
         [Min(0)]
         [SerializeField] private int damageFalloff;
+        [SerializeField] private bool invertDamageFalloff;
         
         public override bool Attack(Vector2Int position, Vector2Int direction, bool isPlayerAttack)
         {
             var targets = GetAffectedTiles(position, direction, isPlayerAttack);
             var hitSomething = false;
- 
-            foreach (var target in targets)
+
+            for (var i = 0; i < targets.Count; i++)
             {
-                hitSomething = TryDamage(target, Damage, isPlayerAttack);
+                var adjustedDamage = invertDamageFalloff ? Damage - (targets.Count-1-i) * damageFalloff : Damage - damageFalloff * i;
+                adjustedDamage = adjustedDamage < 0 ? 0 : adjustedDamage;
+                hitSomething = TryDamage(targets[i], adjustedDamage, isPlayerAttack);
             }
 
             return hitSomething;
@@ -50,7 +53,7 @@ namespace Maihem.Attacks
             return tiles;
         }
         
-        public override int getRange()
+        public override int GetRange()
         {
             return 0;
         }

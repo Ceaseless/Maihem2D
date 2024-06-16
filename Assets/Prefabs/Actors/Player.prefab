@@ -225,7 +225,7 @@ MonoBehaviour:
   moveDuration: 0.1
   initialFacing: 0
   attackSystem: {fileID: 9002999657413362015}
-  maxStamina: 250
+  maxStamina: 200
   moveCost: 1
   diagonalMoveCost: 2
   playerInput: {fileID: 4102898974549345930}

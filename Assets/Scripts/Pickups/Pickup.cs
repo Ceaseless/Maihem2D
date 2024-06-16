@@ -1,10 +1,8 @@
-using System;
 using Maihem.Actors;
 using Maihem.Managers;
 using UnityEngine;
-using UnityEngine.Serialization;
 
-namespace Maihem
+namespace Maihem.Pickups
 {
     public abstract class Pickup : MonoBehaviour
     {
@@ -38,10 +36,11 @@ namespace Maihem
 
         public void OnTriggerEnter2D(Collider2D other)
         {
-            if (other.gameObject.GetComponent<PlayerActor>() == null || Used) return;
+            if (Used || other.gameObject != GameManager.Instance.Player.gameObject) return;
             PickUp();
             Used = true;
         }
-        public abstract void PickUp();
+
+        protected abstract void PickUp();
     }
 }

@@ -1,18 +1,15 @@
-﻿using System.Linq;
-using Maihem.Attacks;
-using Maihem.Extensions;
+﻿using Maihem.Extensions;
 using Maihem.Managers;
 using Maihem.Movements;
 using Unity.Mathematics;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Maihem.Actors
 {
     public class Enemy : Actor
     {
         [SerializeField] private EnemyHealthDisplay healthDisplay;
-        [SerializeField] protected MovementSystem movementSystem;
+        [SerializeField] private MovementSystem movementSystem;
         public override void Initialize()
         {
             base.Initialize();
@@ -53,7 +50,7 @@ namespace Maihem.Actors
         private bool TryMove()
         {
             if (!movementSystem) return false;
-            var range = attackSystem.currentAttackStrategy.getRange();
+            var range = attackSystem.currentAttackStrategy.GetRange();
             var targetCell = movementSystem.Move(GridPosition,range);
             var newPosition = MapManager.Instance.CellToWorld(targetCell);
             CurrentFacing = CurrentFacing.GetFacingFromDirection(targetCell - GridPosition);
@@ -69,7 +66,6 @@ namespace Maihem.Actors
             if(IsDead) return;
             CurrentHealth -= damage;
             healthDisplay.SetHealth(CurrentHealth);
-            
             if (CurrentHealth > 0) return;
             IsDead = true;
             OnDied(new DeathEventArgs { DeadGameObject = gameObject });

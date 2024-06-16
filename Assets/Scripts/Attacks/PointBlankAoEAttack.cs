@@ -49,7 +49,7 @@ namespace Maihem.Attacks
         {
             return GetAffectedTiles(position, Vector2Int.zero, false);
         }
-        public override int getRange()
+        public override int GetRange()
         {
             return 0;
         }

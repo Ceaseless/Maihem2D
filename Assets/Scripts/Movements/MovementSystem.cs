@@ -1,5 +1,4 @@
 using UnityEngine;
-using Random = System.Random;
 
 namespace Maihem.Movements
 {
@@ -7,14 +6,11 @@ namespace Maihem.Movements
     {
         [SerializeField] private MovementStrategy currentStrategy;
 
-        private Random _randomNumbers;
-
         private bool _isActivated;
 
         private void Awake()
         {
             _isActivated = false;
-            _randomNumbers = new Random();
         }
 
         private void CheckAlert( Vector2Int gridPosition)
@@ -28,7 +24,7 @@ namespace Maihem.Movements
         public Vector2Int Move(Vector2Int gridPosition, int range)
         {
             CheckAlert(gridPosition);
-            return _isActivated ? currentStrategy.ActivatedMove(gridPosition,range) : MovementStrategy.IdleMove(gridPosition,_randomNumbers);
+            return _isActivated ? currentStrategy.ActivatedMove(gridPosition,range) : MovementStrategy.IdleMove(gridPosition);
         }
     }
 }

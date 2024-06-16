@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Maihem.Actors;
 using Maihem.Extensions;
+using Maihem.Pickups;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using Random = UnityEngine.Random;
