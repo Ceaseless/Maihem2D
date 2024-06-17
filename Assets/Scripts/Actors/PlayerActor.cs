@@ -51,6 +51,7 @@ namespace Maihem.Actors
         {
             if (IsDead) return;
             CurrentHealth -= damage;
+            OnStatusUpdate?.Invoke(this, EventArgs.Empty);
             if (CurrentHealth <= 0) IsDead = true;
    
         }
