@@ -95,6 +95,15 @@ namespace Maihem.Managers
             var pickups = mapObject.GetComponentsInChildren<Pickup>();
             
             tileMap.CompressBounds();
+            var bounds = tileMap.cellBounds;
+            var path = new[]
+            {
+                new Vector2(bounds.xMin, bounds.yMin),
+                new Vector2(bounds.xMin, bounds.yMax),
+                new Vector2(bounds.xMax, bounds.yMax),
+                new Vector2(bounds.xMax, bounds.yMin)
+            };
+            mapConstraints.SetPath(0,path);
             _tilemaps.Add(tileMap);
             GameManager.Instance.PassMapData(new MapData(enemies, pickups));
         }

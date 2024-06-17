@@ -163,7 +163,7 @@ namespace Maihem.Managers
         public void GameOver()
         {
             _gameOver = true;
-            Player.pausePlayer();
+            Player.PausePlayer();
             uiManager.ShowWinScreen();
         }
     }

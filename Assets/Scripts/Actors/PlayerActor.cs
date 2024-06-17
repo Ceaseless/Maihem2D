@@ -45,7 +45,7 @@ namespace Maihem.Actors
         
         private static readonly int AnimatorHorizontal = Animator.StringToHash("Horizontal");
         private static readonly int AnimatorVertical = Animator.StringToHash("Vertical");
-        private bool _paused;
+        private bool _isPaused;
 
         public override void TakeDamage(int damage)
         {
@@ -73,7 +73,7 @@ namespace Maihem.Actors
         public override void Initialize()
         {
             base.Initialize();
-            _paused = false;
+            _isPaused = false;
             CurrentStamina = maxStamina;
             if(attackStrategies.Length > 0)
                 attackSystem.currentAttackStrategy = attackStrategies[0];
@@ -101,7 +101,7 @@ namespace Maihem.Actors
 
         private void ChangeAttackStrategy(object sender, SingleAxisEventArgs e)
         {
-            if (_paused) return;
+            if (_isPaused) return;
             _currentAttack += e.AxisValue;
             if (_currentAttack < 0) _currentAttack = attackStrategies.Length - 1;
             if (_currentAttack >= attackStrategies.Length) _currentAttack = 0;
@@ -113,7 +113,7 @@ namespace Maihem.Actors
 
         private void Attack(object sender, EventArgs e)
         {
-            if (!GameManager.Instance.CanTakeTurn() || _paused) return;
+            if (!GameManager.Instance.CanTakeTurn() || _isPaused) return;
 
             if (attackSystem.currentAttackStrategy.StaminaCost > CurrentStamina) return;
 
@@ -125,7 +125,7 @@ namespace Maihem.Actors
         private void ProcessMoveInput(object sender, EventArgs e)
         {
             var moveInput = playerInput.BufferedMoveInput;
-            if (!GameManager.Instance.CanTakeTurn() || !(moveInput.sqrMagnitude > 0f) || _paused) return;
+            if (!GameManager.Instance.CanTakeTurn() || !(moveInput.sqrMagnitude > 0f) || _isPaused) return;
 
             var newFacing = new Vector2Int((int)moveInput.x, (int)moveInput.y);
             _animator.SetInteger(AnimatorHorizontal, newFacing.x);
@@ -254,9 +254,9 @@ namespace Maihem.Actors
         }
 
 
-        public void pausePlayer()
+        public void PausePlayer()
         {
-            _paused = true;
+            _isPaused = true;
         }
     }
 }
