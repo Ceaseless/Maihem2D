@@ -106,7 +106,14 @@ namespace Maihem.Actors
             _currentAttack += e.AxisValue;
             if (_currentAttack < 0) _currentAttack = attackStrategies.Length - 1;
             if (_currentAttack >= attackStrategies.Length) _currentAttack = 0;
+            
             attackSystem.currentAttackStrategy = attackStrategies[_currentAttack];
+            if (_controlState == PlayerControlState.Aiming)
+            {
+                attackSystem.HideTargetMarkers();
+                attackSystem.ShowTargetMarkers(GridPosition, CurrentFacing.GetFacingVector(), true);
+            }
+            
             OnStatusUpdate?.Invoke(this, EventArgs.Empty);
 
         }
