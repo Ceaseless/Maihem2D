@@ -196,7 +196,7 @@ namespace Maihem.Managers
         {
             var freeNeighbours = GetNeighbourPositions(cellPosition);
 
-            foreach (var neighbour in freeNeighbours)
+            foreach (var neighbour in freeNeighbours.ToList())
             {
                 if (IsCellBlocking(neighbour) || IsCellBlockedDiagonal(neighbour, cellPosition))
                 {
