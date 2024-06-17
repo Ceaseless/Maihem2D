@@ -60,7 +60,7 @@ namespace Maihem.Managers
             followCamera.Follow = Player.transform;
         }
 
-        private void ResetGame()
+        public void ResetGame()
         {
             enemyManager.Reset();
             pickupManager.Reset();
@@ -159,7 +159,6 @@ namespace Maihem.Managers
         {
             Application.Quit();
         }
-
 
         public void GameOver()
         {
