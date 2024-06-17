@@ -191,6 +191,21 @@ namespace Maihem.Managers
                 cellPosition+new Vector2Int(-1, 1)
             };
         }
+
+        private IList<Vector2Int> GetFreeNeighbours(Vector2Int cellPosition)
+        {
+            var freeNeighbours = GetNeighbourPositions(cellPosition);
+
+            foreach (var neighbour in freeNeighbours)
+            {
+                if (IsCellBlocking(neighbour) || IsCellBlockedDiagonal(neighbour, cellPosition))
+                {
+                    freeNeighbours.Remove(neighbour);
+                }
+            }
+            
+            return freeNeighbours;
+        }
         
         public List<Vector2Int> IsInDirectLine(Vector2Int cellPosition, Vector2Int target, int range)
         {
@@ -275,6 +290,7 @@ namespace Maihem.Managers
             
             var toSearch = new List<Node>() {startNode};
             var processed = new List<Vector2Int>();
+            var path = new List<Vector2Int>();
             
             while (toSearch.Count > 0)
             {
@@ -295,7 +311,6 @@ namespace Maihem.Managers
                 if (current.Position == targetPosition)
                 {
                     var currentPathNode = current;
-                    var path = new List<Vector2Int>();
                     while (currentPathNode.Position != startPosition)
                     {
                         path.Add(currentPathNode.Position);
@@ -328,17 +343,24 @@ namespace Maihem.Managers
                     }
                 }
             }
-            return null;
-        }
 
-        private bool IsNodeInList(Node t, List<Node> list)
-        {
-            foreach (var node in list)
-            {
-                if (node.Position == t.Position) return true;
+
+            var freeNeighbours = GetFreeNeighbours(startPosition);
+            if (freeNeighbours.Count <= 0) 
+            { 
+                path.Add(startPosition); 
+                return path;
             }
 
-            return false;
+            freeNeighbours = freeNeighbours.OrderBy(x => x.ManhattanDistance(targetPosition)).ToList();
+            path.Add(freeNeighbours[0]);
+     
+            return path;
+        }
+
+        private static bool IsNodeInList(Node t, List<Node> list)
+        {
+            return list.Any(node => node.Position == t.Position);
         }
     }
     
