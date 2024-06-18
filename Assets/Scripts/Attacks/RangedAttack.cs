@@ -12,32 +12,32 @@ namespace Maihem.Attacks
         public override bool Attack(Vector2Int position, Vector2Int direction, bool isPlayerAttack)
         {
             var lineTiles = GetAffectedTiles(position, direction, isPlayerAttack);
-            foreach (var tile in lineTiles)
+            foreach (var (target, damage) in lineTiles)
             {
-                if (TryDamage(tile, Damage, isPlayerAttack)) return true;
+                if (TryDamage(target, damage, isPlayerAttack)) return true;
             }
 
             return false;
         }
 
-        public override IList<Vector2Int> GetAffectedTiles(Vector2Int position, Vector2Int direction, bool isPlayerAttack)
+        public override IList<(Vector2Int,int)> GetAffectedTiles(Vector2Int position, Vector2Int direction, bool isPlayerAttack)
         {
             var map = MapManager.Instance;
             var game = GameManager.Instance;
             for (var i = 1; i <= range; i++)
             {
                 var tilePosition = position + direction * i;
-                if (map.IsCellBlocking(tilePosition)) return new List<Vector2Int>{ tilePosition };
-                if (blockedByActors && game.CellContainsActor(tilePosition)) return new List<Vector2Int>{ tilePosition };
+                if (map.IsCellBlocking(tilePosition)) return new List<(Vector2Int,int)>{ (tilePosition, Damage) };
+                if (blockedByActors && game.CellContainsActor(tilePosition)) return new List<(Vector2Int,int)>{ (tilePosition, Damage) };
                 switch (isPlayerAttack)
                 {
                     case true when game.CellContainsEnemy(tilePosition):
-                        return new List<Vector2Int>{ tilePosition };
+                        return new List<(Vector2Int,int)>{ (tilePosition, Damage) };
                     case false when game.CellContainsPlayer(tilePosition):
-                        return new List<Vector2Int>{ tilePosition };
+                        return new List<(Vector2Int,int)>{ (tilePosition, Damage) };
                 }
             }
-            return new List<Vector2Int>() { position + direction * range };
+            return new List<(Vector2Int,int)>() { (position + direction * range, Damage) };
         }
 
         public override IList<Vector2Int> GetPossibleTiles(Vector2Int position)

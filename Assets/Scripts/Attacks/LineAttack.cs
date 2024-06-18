@@ -17,11 +17,9 @@ namespace Maihem.Attacks
             var targets = GetAffectedTiles(position, direction, isPlayerAttack);
             var hitSomething = false;
 
-            for (var i = 0; i < targets.Count; i++)
+            foreach (var (target, damage) in targets)
             {
-                var adjustedDamage = invertDamageFalloff ? Damage - (targets.Count-1-i) * damageFalloff : Damage - damageFalloff * i;
-                adjustedDamage = adjustedDamage < 0 ? 0 : adjustedDamage;
-                hitSomething = TryDamage(targets[i], adjustedDamage, isPlayerAttack);
+                hitSomething = TryDamage(target, damage, isPlayerAttack);
             }
 
             return hitSomething;
@@ -29,12 +27,15 @@ namespace Maihem.Attacks
 
         
 
-        public override IList<Vector2Int> GetAffectedTiles(Vector2Int position, Vector2Int direction, bool isPlayerAttack)
+        public override IList<(Vector2Int, int)> GetAffectedTiles(Vector2Int position, Vector2Int direction, bool isPlayerAttack)
         {
-            var targets = new List<Vector2Int>();
+            var targets = new List<(Vector2Int,int)>();
             for (var i = 1; i <= range; i++)
             {
-                targets.Add(position+direction*i);
+                var adjustedDamage = invertDamageFalloff ? Damage - (range-i) * damageFalloff : Damage - damageFalloff * (i-1);
+                adjustedDamage = adjustedDamage < 0 ? 0 : adjustedDamage;
+                
+                targets.Add((position+direction*i, adjustedDamage));
             }
             return targets;
         }
