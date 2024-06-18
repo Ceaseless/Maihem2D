@@ -228,6 +228,7 @@ MonoBehaviour:
   maxStamina: 200
   moveCost: 1
   diagonalMoveCost: 2
+  staminaRecovery: 20
   playerInput: {fileID: 4102898974549345930}
   aimGrid: {fileID: 1851323239640821566}
   diagonalModeMarker: {fileID: 3964736874558905028}
