@@ -20,6 +20,7 @@ namespace Maihem.Actors
         [SerializeField] private int maxStamina;
         [SerializeField] private int moveCost;
         [SerializeField] private int diagonalMoveCost;
+        [SerializeField] private int staminaRecovery;
         
         [Header("System References")]
         [SerializeField] private PlayerInput playerInput;
@@ -46,7 +47,7 @@ namespace Maihem.Actors
         private static readonly int AnimatorHorizontal = Animator.StringToHash("Horizontal");
         private static readonly int AnimatorVertical = Animator.StringToHash("Vertical");
         private bool _isPaused;
-
+        
         public override void TakeDamage(int damage)
         {
             if (IsDead) return;
@@ -115,6 +116,8 @@ namespace Maihem.Actors
         private void Attack(object sender, EventArgs e)
         {
             if (!GameManager.Instance.CanTakeTurn() || _isPaused) return;
+            
+            if (OutOfStamina()) return;
 
             if (attackSystem.currentAttackStrategy.StaminaCost > CurrentStamina) return;
 
@@ -128,6 +131,8 @@ namespace Maihem.Actors
             var moveInput = playerInput.BufferedMoveInput;
             if (!GameManager.Instance.CanTakeTurn() || !(moveInput.sqrMagnitude > 0f) || _isPaused) return;
 
+            if (OutOfStamina()) return;
+            
             var newFacing = new Vector2Int((int)moveInput.x, (int)moveInput.y);
             _animator.SetInteger(AnimatorHorizontal, newFacing.x);
             _animator.SetInteger(AnimatorVertical, newFacing.y);
@@ -149,6 +154,16 @@ namespace Maihem.Actors
                 default:
                     throw new ArgumentOutOfRangeException();
             }
+        }
+
+        // ReSharper disable Unity.PerformanceAnalysis
+        private bool OutOfStamina()
+        {
+            if (CurrentStamina > 0) return false;
+            AdjustHealthAndStamina(0,staminaRecovery);
+            EndTurn();
+            return true;
+
         }
 
         private void ProcessDiagonalMovement(Vector2 moveInput)
@@ -245,9 +260,12 @@ namespace Maihem.Actors
         {
             CurrentHealth = math.clamp(CurrentHealth + health, 0, MaxHealth);
             CurrentStamina = math.clamp(CurrentStamina + stamina, 0, MaxStamina);
+            StartRecoverAnimation(GridPosition);
             OnStatusUpdate?.Invoke(this, EventArgs.Empty);
         }
+        
 
+        // ReSharper disable Unity.PerformanceAnalysis
         private void EndTurn()
         {
             OnStatusUpdate?.Invoke(this, EventArgs.Empty);
