@@ -77,5 +77,13 @@ namespace Maihem
 
             return markers;
         }
+
+        public void HideAllMarkers()
+        {
+            foreach (var marker in _markerPool)
+            {
+                marker.HideMarker();
+            }
+        }
     }
 }
