@@ -155,6 +155,11 @@ namespace Maihem.Managers
             Debug.Log("Player died");
             ResetGame();
         }
+
+        public void HideEnemyMarkers()
+        {
+            enemyManager.HideEnemyMarkers();
+        }
     
         private void UpdateUI()
         {

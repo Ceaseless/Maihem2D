@@ -35,6 +35,7 @@ namespace Maihem.Actors
                     OnTurnCompleted();
                 }
             }
+            attackSystem.UpdateTargetMarkerPositions(GridPosition, CurrentFacing.GetFacingVector(), false);
         }
 
         public void ShowAttackMarkers(bool show)
@@ -75,6 +76,10 @@ namespace Maihem.Actors
         {
             OnTurnCompleted();
         }
-        
+
+        private void OnDestroy()
+        {
+            attackSystem?.HideTargetMarkers();
+        }
     }
 }

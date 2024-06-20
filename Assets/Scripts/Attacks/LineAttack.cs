@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
 
 namespace Maihem.Attacks
@@ -32,9 +33,7 @@ namespace Maihem.Attacks
             var targets = new List<(Vector2Int,int)>();
             for (var i = 1; i <= range; i++)
             {
-                var adjustedDamage = invertDamageFalloff ? Damage - (range-i) * damageFalloff : Damage - damageFalloff * (i-1);
-                adjustedDamage = adjustedDamage < 0 ? 0 : adjustedDamage;
-                
+                var adjustedDamage = math.max(0, invertDamageFalloff ? Damage - (range-i) * damageFalloff : Damage - damageFalloff * (i-1));
                 targets.Add((position+direction*i, adjustedDamage));
             }
             return targets;

@@ -42,6 +42,7 @@ namespace Maihem.Attacks
 
         public void UpdateTargetMarkerPositions(Vector2Int position, Vector2Int direction, bool isPlayerAttack)
         {
+            if (!IsShowingTargetMarkers()) return;
             var newPositions = currentAttackStrategy.GetAffectedTiles(position, direction, isPlayerAttack);
             for (var i = 0; i < newPositions.Count; i++)
             {
@@ -62,6 +63,12 @@ namespace Maihem.Attacks
                 marker.HideMarker();
             }
             _targetMarkerPool.Clear();
+        }
+
+        public bool IsShowingTargetMarkers()
+        {
+            if (_targetMarkerPool == null) return false;
+            return _targetMarkerPool.Count > 0;
         }
 
         
