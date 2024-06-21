@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Cinemachine;
 using Maihem.Actors;
@@ -51,12 +52,14 @@ namespace Maihem.Managers
         {
             if (Player)
             {
+                Player.TurnCompleted -= OnPlayerTurnComplete;
                 Destroy(Player.gameObject);
             }
 
             var playerObject = Instantiate(playerPrefab, playerStartPosition, Quaternion.identity);
             Player = playerObject.GetComponent<Player>();
             Player.Initialize();
+            Player.TurnCompleted += OnPlayerTurnComplete;
             followCamera.Follow = Player.transform;
         }
 
@@ -133,10 +136,16 @@ namespace Maihem.Managers
         {
             return enemyManager.GetEnemiesInProximity(origin, range);
         }
-    
-        public void TriggerTurn()
+
+        private void OnPlayerTurnComplete(object sender, EventArgs args)
+        {
+            TriggerTurn();
+        }
+        
+        private void TriggerTurn()
         {
             if (_gameOver) return;
+           
             boundsController.UpdateBounds();
             if (Player.transform.position.x <= boundsController.transform.position.x)
             {

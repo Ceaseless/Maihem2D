@@ -48,9 +48,9 @@ namespace Maihem.Actors
         private static readonly int AnimatorVertical = Animator.StringToHash("Vertical");
         private bool _isPaused;
 
-      protected override void OnAnimationEnd()
+        protected override void OnAnimationEnd()
         {
-            EndTurn();
+            OnTurnCompleted();
         }
 
         private void Awake()
@@ -161,7 +161,7 @@ namespace Maihem.Actors
         {
             if (CurrentStamina > 0) return false;
             AdjustHealthAndStamina(0,staminaRecovery);
-            EndTurn();
+            OnTurnCompleted();
             return true;
 
         }
@@ -280,12 +280,10 @@ namespace Maihem.Actors
             OnStatusUpdate?.Invoke(this, EventArgs.Empty);
         }
         
-
-        // ReSharper disable Unity.PerformanceAnalysis
-        private void EndTurn()
+        protected override void OnTurnCompleted()
         {
             OnStatusUpdate?.Invoke(this, EventArgs.Empty);
-            GameManager.Instance.TriggerTurn();
+            base.OnTurnCompleted();
         }
 
 
