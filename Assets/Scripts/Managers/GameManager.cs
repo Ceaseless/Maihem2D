@@ -20,7 +20,7 @@ namespace Maihem.Managers
         [SerializeField] private CinemachineVirtualCamera followCamera;
 
         public int TurnCount { get; private set; }
-        public PlayerActor Player { get; private set; }
+        public Player Player { get; private set; }
 
         private static bool _gameOver;
 
@@ -55,7 +55,7 @@ namespace Maihem.Managers
             }
 
             var playerObject = Instantiate(playerPrefab, playerStartPosition, Quaternion.identity);
-            Player = playerObject.GetComponent<PlayerActor>();
+            Player = playerObject.GetComponent<Player>();
             Player.Initialize();
             followCamera.Follow = Player.transform;
         }

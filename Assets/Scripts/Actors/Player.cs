@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace Maihem.Actors
 {
-    public class PlayerActor : Actor
+    public class Player : Actor
     {
         private enum PlayerControlState
         {
@@ -48,16 +48,7 @@ namespace Maihem.Actors
         private static readonly int AnimatorVertical = Animator.StringToHash("Vertical");
         private bool _isPaused;
 
-        public override void TakeDamage(int damage)
-        {
-            if (IsDead) return;
-            CurrentHealth -= damage;
-            OnStatusUpdate?.Invoke(this, EventArgs.Empty);
-            if (CurrentHealth <= 0) IsDead = true;
-   
-        }
-
-        protected override void OnAnimationEnd()
+      protected override void OnAnimationEnd()
         {
             EndTurn();
         }
@@ -283,7 +274,7 @@ namespace Maihem.Actors
         
         public void AdjustHealthAndStamina(int health, int stamina)
         {
-            CurrentHealth = math.clamp(CurrentHealth + health, 0, MaxHealth);
+            healthSystem.RecoverHealth(health);
             CurrentStamina = math.clamp(CurrentStamina + stamina, 0, MaxStamina);
             StartRecoverAnimation(GridPosition);
             OnStatusUpdate?.Invoke(this, EventArgs.Empty);

@@ -97,6 +97,7 @@ GameObject:
   - component: {fileID: 2644207519441974735}
   - component: {fileID: 6315963427758200423}
   - component: {fileID: 7494766608770200691}
+  - component: {fileID: 483628311430970088}
   m_Layer: 0
   m_Name: EnemyRanged
   m_TagString: Untagged
@@ -183,6 +184,7 @@ MonoBehaviour:
   moveDuration: 0.1
   initialFacing: 0
   attackSystem: {fileID: 6315963427758200423}
+  healthSystem: {fileID: 483628311430970088}
   healthDisplay: {fileID: 1720457957876625323}
   movementSystem: {fileID: 7494766608770200691}
 --- !u!114 &6315963427758200423
@@ -212,6 +214,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentStrategy: {fileID: 11400000, guid: 0c9d0d9e15e847a4fbaa3211551e3af6, type: 2}
+--- !u!114 &483628311430970088
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6853223784441661472}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 454c6843711f40e6a8399f3d946d6d48, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 8
 --- !u!1001 &6608135281542051717
 PrefabInstance:
   m_ObjectHideFlags: 0

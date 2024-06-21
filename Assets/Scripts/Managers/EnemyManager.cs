@@ -15,6 +15,7 @@ namespace Maihem.Managers
         [SerializeField] private PickupManager pickupManager;
         
         private List<Enemy> _activeEnemies;
+        private List<GameObject> _deadEnemies;
 
         private int _spawnTimer;
         private int _enemiesTakingTurn;
@@ -22,6 +23,7 @@ namespace Maihem.Managers
         private void Start()
         {
             _activeEnemies = new List<Enemy>();
+            _deadEnemies = new List<GameObject>();
         }
 
         public void RegisterEnemy(Enemy newEnemy)
@@ -43,6 +45,7 @@ namespace Maihem.Managers
 
         public void Reset()
         {
+            _deadEnemies?.Clear();
             for (var i = _activeEnemies.Count - 1; i >= 0; i--)
             {
                 var enemy = _activeEnemies[i];
@@ -67,16 +70,27 @@ namespace Maihem.Managers
         
         private void CullDeadEnemies()
         {
-            for (var i = _activeEnemies.Count - 1; i >= 0; i--)
+            foreach (var deadEnemy in _deadEnemies)
             {
-                var enemy = _activeEnemies[i];
-                if (enemy.CurrentHealth > 0) continue;
-                enemy.Died -= EnemyDied;
-                enemy.TurnStarted -= EnemyStartedTurn;
-                enemy.TurnCompleted -= EnemyCompletedTurn;
-                _activeEnemies.RemoveAt(i);
-                Destroy(enemy.gameObject);
+                var enemyComponent = deadEnemy.GetComponent<Enemy>();
+                enemyComponent.Died -= EnemyDied;
+                enemyComponent.TurnStarted -= EnemyStartedTurn;
+                enemyComponent.TurnCompleted -= EnemyCompletedTurn;
+                _activeEnemies.Remove(enemyComponent);
+                Destroy(deadEnemy);
             }
+            _deadEnemies.Clear();
+            
+            // for (var i = _activeEnemies.Count - 1; i >= 0; i--)
+            // {
+            //     var enemy = _activeEnemies[i];
+            //     if (!enemy.IsDead) continue;
+            //     enemy.Died -= EnemyDied;
+            //     enemy.TurnStarted -= EnemyStartedTurn;
+            //     enemy.TurnCompleted -= EnemyCompletedTurn;
+            //     _activeEnemies.RemoveAt(i);
+            //     Destroy(enemy.gameObject);
+            // }
            
         }
 
@@ -108,6 +122,7 @@ namespace Maihem.Managers
         
         private void EnemyDied(object sender, DeathEventArgs eventArgs )
         {
+            _deadEnemies.Add(eventArgs.DeadGameObject);
             pickupManager.SpawnPickup(eventArgs.DeadGameObject.transform.position);
         }
         

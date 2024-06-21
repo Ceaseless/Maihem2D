@@ -41,7 +41,7 @@ namespace Maihem.Attacks
             {
                 if (GameManager.Instance.TryGetActorOnCell(target, out var actor))
                 {
-                    actor.TakeDamage(adjustedDamage);
+                    actor.healthSystem.TakeDamage(adjustedDamage);
                     return true;
                 }
             }
@@ -49,7 +49,7 @@ namespace Maihem.Attacks
             {
                 if (GameManager.Instance.CellContainsPlayer(target))
                 {
-                    GameManager.Instance.Player.TakeDamage(adjustedDamage);
+                    GameManager.Instance.Player.healthSystem.TakeDamage(adjustedDamage);
                     return true;
                 }
             }

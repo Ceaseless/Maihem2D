@@ -8,7 +8,6 @@ using UnityEngine;
 
 namespace Maihem.Actors
 {
-    [RequireComponent(typeof(Collider2D))]
     public abstract class Actor : MonoBehaviour
     {
         [Header("Actor Settings")]
@@ -16,11 +15,10 @@ namespace Maihem.Actors
         [SerializeField] private float moveDuration = 0.25f;
         [SerializeField] private Facing initialFacing;
         [SerializeField] protected AttackSystem attackSystem;
+        public HealthSystem healthSystem;
         public Facing CurrentFacing { get; protected set; }
         public Vector2Int GridPosition { get; protected set; }
-        public Collider2D Hurtbox { get; protected set; }
-        public int MaxHealth => maxHealth;
-        public int CurrentHealth { get; protected set; }
+
         public bool IsDead { get; protected set; }
         public bool IsPerformingAction { get; private set; }
 
@@ -34,8 +32,17 @@ namespace Maihem.Actors
         {
             GridPosition = MapManager.Instance.WorldToCell(transform.position);
             CurrentFacing = initialFacing;
-            CurrentHealth = maxHealth;
-            Hurtbox = GetComponent<Collider2D>();
+            healthSystem.OnHealthChange += HealthChanged;
+            healthSystem.RecoverFullHealth();
+            
+        }
+        
+        protected virtual void HealthChanged(object sender, HealthChangeEvent healthChangeEvent)
+        {
+            if (healthSystem.IsDead)
+            {
+                Died?.Invoke(this, new DeathEventArgs {DeadGameObject = gameObject});
+            }
         }
 
         protected void UpdateGridPosition(Vector3 newPosition)
@@ -120,7 +127,7 @@ namespace Maihem.Actors
 
         }
 
-        public abstract void TakeDamage(int damage);
+        
         protected abstract void OnAnimationEnd();
 
         protected virtual void OnTurnStarted()
