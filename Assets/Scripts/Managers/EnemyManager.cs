@@ -2,10 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Maihem.Actors;
-using Maihem.Extensions;
-using UnityEditor.SceneManagement;
 using UnityEngine;
-using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 namespace Maihem.Managers
@@ -133,7 +130,15 @@ namespace Maihem.Managers
 
         public IList<Enemy> GetEnemiesInProximity(Vector2Int origin, int range)
         {
-            return _activeEnemies.Where(enemy => origin.ManhattanDistance(enemy.GridPosition) <= range).ToList();
+            return _activeEnemies.Where(enemy => Vector2Int.Distance(origin,enemy.GridPosition) <= range).ToList();
+        }
+
+        public void HideEnemyMarkers()
+        {
+            foreach (var e in _activeEnemies)
+            {
+                e.ShowAttackMarkers(false);
+            }
         }
     }
 }

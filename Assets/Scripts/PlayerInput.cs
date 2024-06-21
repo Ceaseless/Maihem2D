@@ -15,11 +15,13 @@ namespace Maihem
         public event EventHandler<SingleAxisEventArgs> OnAttackChangeAction;
         public event EventHandler<ToggleEventArgs> OnToggleAimAction;
         public event EventHandler<ToggleEventArgs> OnToggleDiagonalModeAction;
+        public event EventHandler<ToggleEventArgs> OnToggleEnemyMarkersAction;
         
         public Vector2 BufferedMoveInput { get; private set; }
         private float _lastMoveInput;
         private InputAction _moveAction, _mousePosition, _toggleAimAction, _toggleDiagonalModeAction, _attackAction;
         private InputAction _changeAttack;
+        private InputAction _enemyMarkerToggle;
 
         private void Awake()
         {
@@ -34,6 +36,7 @@ namespace Maihem
             _toggleDiagonalModeAction = inputActions["Diagonal Toggle"];
             _attackAction = inputActions["Attack"];
             _changeAttack = inputActions["Attack Scroll"];
+            _enemyMarkerToggle = inputActions["Enemy Toggle"];
 
             _moveAction.performed += MoveInputChanged;
             _moveAction.canceled += MoveInputChanged;
@@ -43,6 +46,9 @@ namespace Maihem
 
             _toggleDiagonalModeAction.performed += ToggleDiagonalMode;
             _toggleDiagonalModeAction.canceled += ToggleDiagonalMode;
+
+            _enemyMarkerToggle.performed += ToggleEnemyMarkers;
+            _enemyMarkerToggle.canceled += ToggleEnemyMarkers;
 
             _attackAction.performed += _ => OnAttackAction?.Invoke(this, EventArgs.Empty);
 
@@ -54,6 +60,7 @@ namespace Maihem
             _toggleDiagonalModeAction.Enable();
             _attackAction.Enable();
             _changeAttack.Enable();
+            _enemyMarkerToggle.Enable();
         }
 
         private void Update()
@@ -106,6 +113,27 @@ namespace Maihem
                     throw new ArgumentOutOfRangeException();
             }
             
+        }
+
+        private void ToggleEnemyMarkers(InputAction.CallbackContext ctx)
+        {
+            switch (ctx.phase)
+            {
+                case InputActionPhase.Disabled:
+                    break;
+                case InputActionPhase.Waiting:
+                    break;
+                case InputActionPhase.Started:
+                    break;
+                case InputActionPhase.Performed:
+                    OnToggleEnemyMarkersAction?.Invoke(this, new ToggleEventArgs() { ToggleValue = true });
+                    break;
+                case InputActionPhase.Canceled:
+                    OnToggleEnemyMarkersAction?.Invoke(this, new ToggleEventArgs() { ToggleValue = false });
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
         }
 
         private void MoveInputChanged(InputAction.CallbackContext ctx)

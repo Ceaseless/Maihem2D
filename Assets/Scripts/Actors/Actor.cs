@@ -84,7 +84,7 @@ namespace Maihem.Actors
             var positions = currentAttackStrategy.GetAffectedTiles(position, direction, isPlayerAttack);
             var activeAnimations = new List<GameObject>();
             
-            foreach (var tile in positions)
+            foreach (var (tile,_) in positions)
             {
                 activeAnimations.Add(Instantiate(currentAttackStrategy.attackAnimation, MapManager.Instance.CellToWorld(tile),
                     Quaternion.identity));

@@ -17,4 +17,4 @@ MonoBehaviour:
   staminaCost: 25
   attackAnimation: {fileID: 1207815041195216427, guid: 97d90143f3f48e045b3789762c6f5d5c, type: 3}
   range: 3
-  damageFalloff: 0
+  damageFalloff: 1

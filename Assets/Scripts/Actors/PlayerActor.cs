@@ -89,6 +89,7 @@ namespace Maihem.Actors
             playerInput.OnToggleDiagonalModeAction += ToggleDiagonalMode;
             playerInput.OnMoveAction += ProcessMoveInput;
             playerInput.OnAttackChangeAction += ChangeAttackStrategy;
+            playerInput.OnToggleEnemyMarkersAction += ToggleEnemyMarkers;
         }
 
         private void OnDestroy()
@@ -98,6 +99,7 @@ namespace Maihem.Actors
             playerInput.OnToggleDiagonalModeAction -= ToggleDiagonalMode;
             playerInput.OnMoveAction -= ProcessMoveInput;
             playerInput.OnAttackChangeAction -= ChangeAttackStrategy;
+            playerInput.OnToggleEnemyMarkersAction -= ToggleEnemyMarkers;
             attackSystem?.HideTargetMarkers();
         }
 
@@ -259,6 +261,22 @@ namespace Maihem.Actors
                 if (_controlState != PlayerControlState.Diagonal) return;
                 _controlState = PlayerControlState.Normal;
                 diagonalModeMarker.SetActive(false);
+            }
+        }
+
+        private void ToggleEnemyMarkers(object sender, ToggleEventArgs args)
+        {
+            if (args.ToggleValue)
+            {
+                var enemies = GameManager.Instance.GetEnemiesInProximity(GridPosition, 10);
+                foreach (var enemy in enemies)
+                {
+                    enemy.ShowAttackMarkers(true);
+                }
+            }
+            else
+            {
+                GameManager.Instance.HideEnemyMarkers();
             }
         }
        

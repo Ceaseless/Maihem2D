@@ -46,18 +46,27 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": true
                 },
                 {
-                    ""name"": ""Aim Toggle"",
+                    ""name"": ""Attack"",
                     ""type"": ""Button"",
-                    ""id"": ""f2052fe5-a912-4944-b556-73acfd8a72ca"",
+                    ""id"": ""59115ef7-07ce-420a-9854-d5c2743b5051"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Attack"",
+                    ""name"": ""Attack Scroll"",
                     ""type"": ""Button"",
-                    ""id"": ""59115ef7-07ce-420a-9854-d5c2743b5051"",
+                    ""id"": ""9d93b930-a77d-43d5-8c33-20e9f34e7c9e"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Aim Toggle"",
+                    ""type"": ""Button"",
+                    ""id"": ""f2052fe5-a912-4944-b556-73acfd8a72ca"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -73,9 +82,9 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Attack Scroll"",
+                    ""name"": ""Enemy Toggle"",
                     ""type"": ""Button"",
-                    ""id"": ""9d93b930-a77d-43d5-8c33-20e9f34e7c9e"",
+                    ""id"": ""ce447dc2-9f64-42ee-9ffe-4728c200cc6e"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -305,17 +314,6 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""e266e6a0-568f-499e-9413-2f61950b83d4"",
-                    ""path"": ""<Keyboard>/c"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Aim Toggle"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""04818f98-761f-4e53-8d7e-8824d845092e"",
                     ""path"": ""<Keyboard>/space"",
                     ""interactions"": """",
@@ -333,6 +331,17 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Diagonal Toggle"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e266e6a0-568f-499e-9413-2f61950b83d4"",
+                    ""path"": ""<Keyboard>/c"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Aim Toggle"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -368,6 +377,17 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""action"": ""Attack Scroll"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e7348196-7415-4a93-be74-3f9b5ef1d8a7"",
+                    ""path"": ""<Keyboard>/f"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Enemy Toggle"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -378,10 +398,11 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         m_Default = asset.FindActionMap("Default", throwIfNotFound: true);
         m_Default_Move = m_Default.FindAction("Move", throwIfNotFound: true);
         m_Default_MousePosition = m_Default.FindAction("Mouse Position", throwIfNotFound: true);
-        m_Default_AimToggle = m_Default.FindAction("Aim Toggle", throwIfNotFound: true);
         m_Default_Attack = m_Default.FindAction("Attack", throwIfNotFound: true);
-        m_Default_DiagonalToggle = m_Default.FindAction("Diagonal Toggle", throwIfNotFound: true);
         m_Default_AttackScroll = m_Default.FindAction("Attack Scroll", throwIfNotFound: true);
+        m_Default_AimToggle = m_Default.FindAction("Aim Toggle", throwIfNotFound: true);
+        m_Default_DiagonalToggle = m_Default.FindAction("Diagonal Toggle", throwIfNotFound: true);
+        m_Default_EnemyToggle = m_Default.FindAction("Enemy Toggle", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -445,20 +466,22 @@ public partial class @Controls: IInputActionCollection2, IDisposable
     private List<IDefaultActions> m_DefaultActionsCallbackInterfaces = new List<IDefaultActions>();
     private readonly InputAction m_Default_Move;
     private readonly InputAction m_Default_MousePosition;
-    private readonly InputAction m_Default_AimToggle;
     private readonly InputAction m_Default_Attack;
-    private readonly InputAction m_Default_DiagonalToggle;
     private readonly InputAction m_Default_AttackScroll;
+    private readonly InputAction m_Default_AimToggle;
+    private readonly InputAction m_Default_DiagonalToggle;
+    private readonly InputAction m_Default_EnemyToggle;
     public struct DefaultActions
     {
         private @Controls m_Wrapper;
         public DefaultActions(@Controls wrapper) { m_Wrapper = wrapper; }
         public InputAction @Move => m_Wrapper.m_Default_Move;
         public InputAction @MousePosition => m_Wrapper.m_Default_MousePosition;
-        public InputAction @AimToggle => m_Wrapper.m_Default_AimToggle;
         public InputAction @Attack => m_Wrapper.m_Default_Attack;
-        public InputAction @DiagonalToggle => m_Wrapper.m_Default_DiagonalToggle;
         public InputAction @AttackScroll => m_Wrapper.m_Default_AttackScroll;
+        public InputAction @AimToggle => m_Wrapper.m_Default_AimToggle;
+        public InputAction @DiagonalToggle => m_Wrapper.m_Default_DiagonalToggle;
+        public InputAction @EnemyToggle => m_Wrapper.m_Default_EnemyToggle;
         public InputActionMap Get() { return m_Wrapper.m_Default; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -474,18 +497,21 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @MousePosition.started += instance.OnMousePosition;
             @MousePosition.performed += instance.OnMousePosition;
             @MousePosition.canceled += instance.OnMousePosition;
-            @AimToggle.started += instance.OnAimToggle;
-            @AimToggle.performed += instance.OnAimToggle;
-            @AimToggle.canceled += instance.OnAimToggle;
             @Attack.started += instance.OnAttack;
             @Attack.performed += instance.OnAttack;
             @Attack.canceled += instance.OnAttack;
-            @DiagonalToggle.started += instance.OnDiagonalToggle;
-            @DiagonalToggle.performed += instance.OnDiagonalToggle;
-            @DiagonalToggle.canceled += instance.OnDiagonalToggle;
             @AttackScroll.started += instance.OnAttackScroll;
             @AttackScroll.performed += instance.OnAttackScroll;
             @AttackScroll.canceled += instance.OnAttackScroll;
+            @AimToggle.started += instance.OnAimToggle;
+            @AimToggle.performed += instance.OnAimToggle;
+            @AimToggle.canceled += instance.OnAimToggle;
+            @DiagonalToggle.started += instance.OnDiagonalToggle;
+            @DiagonalToggle.performed += instance.OnDiagonalToggle;
+            @DiagonalToggle.canceled += instance.OnDiagonalToggle;
+            @EnemyToggle.started += instance.OnEnemyToggle;
+            @EnemyToggle.performed += instance.OnEnemyToggle;
+            @EnemyToggle.canceled += instance.OnEnemyToggle;
         }
 
         private void UnregisterCallbacks(IDefaultActions instance)
@@ -496,18 +522,21 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @MousePosition.started -= instance.OnMousePosition;
             @MousePosition.performed -= instance.OnMousePosition;
             @MousePosition.canceled -= instance.OnMousePosition;
-            @AimToggle.started -= instance.OnAimToggle;
-            @AimToggle.performed -= instance.OnAimToggle;
-            @AimToggle.canceled -= instance.OnAimToggle;
             @Attack.started -= instance.OnAttack;
             @Attack.performed -= instance.OnAttack;
             @Attack.canceled -= instance.OnAttack;
-            @DiagonalToggle.started -= instance.OnDiagonalToggle;
-            @DiagonalToggle.performed -= instance.OnDiagonalToggle;
-            @DiagonalToggle.canceled -= instance.OnDiagonalToggle;
             @AttackScroll.started -= instance.OnAttackScroll;
             @AttackScroll.performed -= instance.OnAttackScroll;
             @AttackScroll.canceled -= instance.OnAttackScroll;
+            @AimToggle.started -= instance.OnAimToggle;
+            @AimToggle.performed -= instance.OnAimToggle;
+            @AimToggle.canceled -= instance.OnAimToggle;
+            @DiagonalToggle.started -= instance.OnDiagonalToggle;
+            @DiagonalToggle.performed -= instance.OnDiagonalToggle;
+            @DiagonalToggle.canceled -= instance.OnDiagonalToggle;
+            @EnemyToggle.started -= instance.OnEnemyToggle;
+            @EnemyToggle.performed -= instance.OnEnemyToggle;
+            @EnemyToggle.canceled -= instance.OnEnemyToggle;
         }
 
         public void RemoveCallbacks(IDefaultActions instance)
@@ -529,9 +558,10 @@ public partial class @Controls: IInputActionCollection2, IDisposable
     {
         void OnMove(InputAction.CallbackContext context);
         void OnMousePosition(InputAction.CallbackContext context);
-        void OnAimToggle(InputAction.CallbackContext context);
         void OnAttack(InputAction.CallbackContext context);
-        void OnDiagonalToggle(InputAction.CallbackContext context);
         void OnAttackScroll(InputAction.CallbackContext context);
+        void OnAimToggle(InputAction.CallbackContext context);
+        void OnDiagonalToggle(InputAction.CallbackContext context);
+        void OnEnemyToggle(InputAction.CallbackContext context);
     }
 }
