@@ -10,7 +10,7 @@ namespace Maihem
         [SerializeField] private GameObject markerPrefab;
         [SerializeField] private int initialPoolSize;
         [SerializeField] private int poolGrowthStep;
-        private List<GameObject> _markerPool;
+        private List<TargetMarker> _markerPool;
         private void Awake()
         {
             if (Instance == null)
@@ -26,16 +26,16 @@ namespace Maihem
 
         private void Start()
         {
-            _markerPool = new List<GameObject>();
+            _markerPool = new List<TargetMarker>();
             for (var i = 0; i < initialPoolSize; i++)
             {
                 var tmp = Instantiate(markerPrefab, transform);
                 tmp.SetActive(false);
-                _markerPool.Add(tmp);
+                _markerPool.Add(tmp.GetComponent<TargetMarker>());
             }
         }
 
-        public GameObject GetMarker()
+        public TargetMarker GetMarker()
         {
             foreach (var marker in _markerPool)
             {
@@ -46,15 +46,15 @@ namespace Maihem
             {
                 var tmp = Instantiate(markerPrefab, transform);
                 tmp.SetActive(false);
-                _markerPool.Add(tmp);
+                _markerPool.Add(tmp.GetComponent<TargetMarker>());
             }
 
             return _markerPool[^1];
         }
 
-        public List<GameObject> GetMarkers(int count)
+        public List<TargetMarker> GetMarkers(int count)
         {
-            var markers = new List<GameObject>(count);
+            var markers = new List<TargetMarker>(count);
             foreach (var marker in _markerPool)
             {
                 if (marker.gameObject.activeInHierarchy) continue;
@@ -70,11 +70,20 @@ namespace Maihem
             {
                 var tmp = Instantiate(markerPrefab, transform);
                 tmp.SetActive(false);
-                _markerPool.Add(tmp);
-                markers.Add(tmp);
+                var markerComponent = tmp.GetComponent<TargetMarker>();
+                _markerPool.Add(markerComponent);
+                markers.Add(markerComponent);
             }
 
             return markers;
+        }
+
+        public void HideAllMarkers()
+        {
+            foreach (var marker in _markerPool)
+            {
+                marker.HideMarker();
+            }
         }
     }
 }

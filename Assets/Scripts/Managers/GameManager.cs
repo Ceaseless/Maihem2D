@@ -1,4 +1,4 @@
-using System;
+using System.Collections.Generic;
 using Cinemachine;
 using Maihem.Actors;
 using TMPro;
@@ -66,6 +66,7 @@ namespace Maihem.Managers
             pickupManager.Reset();
             boundsController.Reset();
             MapManager.Instance.Reset();
+            MarkerPool.Instance.HideAllMarkers();
             TurnCount = 0;
             SpawnPlayer();
             _gameOver = false;
@@ -127,6 +128,11 @@ namespace Maihem.Managers
         {
             return enemyManager.AreAllActionsPerformed() && !Player.IsPerformingAction;
         }
+
+        public IList<Enemy> GetEnemiesInProximity(Vector2Int origin ,int range)
+        {
+            return enemyManager.GetEnemiesInProximity(origin, range);
+        }
     
         public void TriggerTurn()
         {
@@ -148,6 +154,11 @@ namespace Maihem.Managers
             if (!Player.IsDead) return;
             Debug.Log("Player died");
             ResetGame();
+        }
+
+        public void HideEnemyMarkers()
+        {
+            enemyManager.HideEnemyMarkers();
         }
     
         private void UpdateUI()
