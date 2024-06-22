@@ -32,7 +32,7 @@ namespace Maihem
         {
             if (amount <= 0) return;
             var old = CurrentHealth;
-            CurrentHealth = math.max(maxHealth, CurrentHealth + amount);
+            CurrentHealth = math.min(maxHealth, CurrentHealth + amount);
             OnHealthChange?.Invoke(this, new HealthChangeEvent{ ChangeAmount = CurrentHealth - old });
         }
     }
