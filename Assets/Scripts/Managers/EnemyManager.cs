@@ -24,9 +24,15 @@ namespace Maihem.Managers
         {
             _activeEnemies = new List<Enemy>();
             _deadEnemies = new List<GameObject>();
+            GameManager.Instance.PlayerInput.OnToggleEnemyMarkersAction += ToggleEnemyMarkers;
         }
 
-        public void RegisterEnemy(Enemy newEnemy)
+        private void OnDestroy()
+        {
+            GameManager.Instance.PlayerInput.OnToggleEnemyMarkersAction -= ToggleEnemyMarkers;
+        }
+
+        private void RegisterEnemy(Enemy newEnemy)
         {
             newEnemy.Died += EnemyDied;
             newEnemy.TurnStarted += EnemyStartedTurn;
@@ -80,18 +86,6 @@ namespace Maihem.Managers
                 Destroy(deadEnemy);
             }
             _deadEnemies.Clear();
-            
-            // for (var i = _activeEnemies.Count - 1; i >= 0; i--)
-            // {
-            //     var enemy = _activeEnemies[i];
-            //     if (!enemy.IsDead) continue;
-            //     enemy.Died -= EnemyDied;
-            //     enemy.TurnStarted -= EnemyStartedTurn;
-            //     enemy.TurnCompleted -= EnemyCompletedTurn;
-            //     _activeEnemies.RemoveAt(i);
-            //     Destroy(enemy.gameObject);
-            // }
-           
         }
 
         public void Tick()
@@ -148,11 +142,27 @@ namespace Maihem.Managers
             return _activeEnemies.Where(enemy => Vector2Int.Distance(origin,enemy.GridPosition) <= range).ToList();
         }
 
-        public void HideEnemyMarkers()
+        private void HideEnemyMarkers()
         {
             foreach (var e in _activeEnemies)
             {
                 e.ShowAttackMarkers(false);
+            }
+        }
+        
+        private void ToggleEnemyMarkers(object sender, ToggleEventArgs args)
+        {
+            if (args.ToggleValue)
+            {
+                var enemies = GameManager.Instance.GetEnemiesInProximity(GameManager.Instance.Player.GridPosition, 10);
+                foreach (var enemy in enemies)
+                {
+                    enemy.ShowAttackMarkers(true);
+                }
+            }
+            else
+            {
+                HideEnemyMarkers();
             }
         }
     }

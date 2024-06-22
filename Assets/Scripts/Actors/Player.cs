@@ -21,9 +21,6 @@ namespace Maihem.Actors
         [SerializeField] private int diagonalMoveCost;
         [SerializeField] private int idleStaminaRecovery;
         
-        [Header("System References")]
-        [SerializeField] private PlayerInput playerInput;
-        
         [Header("Children References")]
         [SerializeField] private GameObject aimGrid;
         [SerializeField] private GameObject diagonalModeMarker;
@@ -75,22 +72,22 @@ namespace Maihem.Actors
 
         private void ConnectInputs()
         {
+            var playerInput = GameManager.Instance.PlayerInput;
             playerInput.OnAttackAction += Attack;
             playerInput.OnToggleAimAction += ToggleAim;
             playerInput.OnToggleDiagonalModeAction += ToggleDiagonalMode;
             playerInput.OnMoveAction += ProcessMoveInput;
             playerInput.OnAttackChangeAction += ChangeAttackStrategy;
-            playerInput.OnToggleEnemyMarkersAction += ToggleEnemyMarkers;
         }
 
         private void OnDestroy()
         {
+            var playerInput = GameManager.Instance.PlayerInput;
             playerInput.OnAttackAction -= Attack;
             playerInput.OnToggleAimAction -= ToggleAim;
             playerInput.OnToggleDiagonalModeAction -= ToggleDiagonalMode;
             playerInput.OnMoveAction -= ProcessMoveInput;
             playerInput.OnAttackChangeAction -= ChangeAttackStrategy;
-            playerInput.OnToggleEnemyMarkersAction -= ToggleEnemyMarkers;
             attackSystem?.HideTargetMarkers();
         }
 
@@ -133,7 +130,7 @@ namespace Maihem.Actors
 
         private void ProcessMoveInput(object sender, EventArgs e)
         {
-            var moveInput = playerInput.BufferedMoveInput;
+            var moveInput = GameManager.Instance.PlayerInput.BufferedMoveInput;
             if (!GameManager.Instance.CanTakeTurn() || !(moveInput.sqrMagnitude > 0f) || _isPaused) return;
 
             if (CurrentStamina <= 0)
@@ -237,21 +234,7 @@ namespace Maihem.Actors
             diagonalModeMarker.SetActive(args.ToggleValue);
         }
 
-        private void ToggleEnemyMarkers(object sender, ToggleEventArgs args)
-        {
-            if (args.ToggleValue)
-            {
-                var enemies = GameManager.Instance.GetEnemiesInProximity(GridPosition, 10);
-                foreach (var enemy in enemies)
-                {
-                    enemy.ShowAttackMarkers(true);
-                }
-            }
-            else
-            {
-                GameManager.Instance.HideEnemyMarkers();
-            }
-        }
+        
 
         private bool TryStaminaConsumingAction(int cost)
         {
@@ -272,6 +255,12 @@ namespace Maihem.Actors
         {
             OnStatusUpdate?.Invoke(this, EventArgs.Empty);
             base.OnTurnCompleted();
+        }
+
+        protected override void HealthChanged(object sender, HealthChangeEvent healthChangeEvent)
+        {
+            base.HealthChanged(sender, healthChangeEvent);
+            OnStatusUpdate?.Invoke(this, EventArgs.Empty);
         }
 
 

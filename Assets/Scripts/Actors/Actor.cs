@@ -25,9 +25,6 @@ namespace Maihem.Actors
         public event EventHandler TurnStarted, TurnCompleted;
         public event EventHandler<DeathEventArgs> Died;
 
-        
-     
-
         public virtual void Initialize()
         {
             GridPosition = MapManager.Instance.WorldToCell(transform.position);
@@ -41,6 +38,7 @@ namespace Maihem.Actors
         {
             if (healthSystem.IsDead)
             {
+                IsDead = true;
                 Died?.Invoke(this, new DeathEventArgs {DeadGameObject = gameObject});
             }
         }

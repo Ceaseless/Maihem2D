@@ -4,7 +4,6 @@ using Cinemachine;
 using Maihem.Actors;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Maihem.Managers
 {
@@ -12,16 +11,18 @@ namespace Maihem.Managers
     {
         public static GameManager Instance { get; private set; }
         [SerializeField] private GameObject playerPrefab;
+        [SerializeField] private PlayerInput playerInput;
         [SerializeField] private Vector3 playerStartPosition;
         [SerializeField] private KillZoneController boundsController;
         [SerializeField] private EnemyManager enemyManager;
         [SerializeField] private PickupManager pickupManager;
-        [FormerlySerializedAs("ui")] [SerializeField] private UIManager uiManager;
+        [SerializeField] private UIManager uiManager;
         [SerializeField] private TextMeshProUGUI debugText;
         [SerializeField] private CinemachineVirtualCamera followCamera;
 
         public int TurnCount { get; private set; }
         public Player Player { get; private set; }
+        public PlayerInput PlayerInput => playerInput;
 
         private static bool _gameOver;
 
@@ -60,6 +61,7 @@ namespace Maihem.Managers
             Player = playerObject.GetComponent<Player>();
             Player.Initialize();
             Player.TurnCompleted += OnPlayerTurnComplete;
+            
             followCamera.Follow = Player.transform;
         }
 
@@ -164,12 +166,7 @@ namespace Maihem.Managers
             Debug.Log("Player died");
             ResetGame();
         }
-
-        public void HideEnemyMarkers()
-        {
-            enemyManager.HideEnemyMarkers();
-        }
-    
+        
         private void UpdateUI()
         {
             debugText.text = $"Turn: {TurnCount}";
