@@ -1,4 +1,3 @@
-using Maihem.Actors;
 using Maihem.Managers;
 using UnityEngine;
 
@@ -8,11 +7,11 @@ namespace Maihem.Pickups
     {
 
         [SerializeField] public float spawnChance;
-        
+        [SerializeField] public Color pickupColor;
 
         private Vector2Int GridPosition { get; set; }
 
-        [SerializeField] public Color pickupColor;
+        
 
         public bool Used { get; private set; }
         

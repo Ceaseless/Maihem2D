@@ -60,11 +60,6 @@ namespace Maihem.Actors
             StartCoroutine(AttackAnimation(position, direction, isPlayerAttack));
         }
         
-        protected void StartRecoverAnimation(Vector2Int position)
-        {
-            StartCoroutine(RecoverAnimation(position));
-        }
-
         // ReSharper disable Unity.PerformanceAnalysis
         private IEnumerator MoveAnimation(Vector3 target)
         {
@@ -106,25 +101,6 @@ namespace Maihem.Actors
 
             IsPerformingAction = false;
             OnAnimationEnd();
-            
-        }
-        
-        private IEnumerator RecoverAnimation(Vector2Int position)
-        {
-            IsPerformingAction = true;
-            var currentAttackStrategy = attackSystem.currentAttackStrategy;
-            var activeAnimation = Instantiate(currentAttackStrategy.attackAnimation, MapManager.Instance.CellToWorld(position),
-                Quaternion.identity);
-            
-            activeAnimation.GetComponent<SpriteRenderer>().color = Color.green;
-
-            while (activeAnimation != null)
-            {
-                yield return null;
-            }
-
-            IsPerformingAction = false;
-
         }
 
         

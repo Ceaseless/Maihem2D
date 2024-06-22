@@ -10,7 +10,9 @@ namespace Maihem.Pickups
 
         protected override void PickUp()
         {
-            GameManager.Instance.Player.AdjustHealthAndStamina(healthRestored,staminaRestored);
+            var player = GameManager.Instance.Player;
+            player.healthSystem.RecoverHealth(healthRestored);
+            player.RecoverStamina(staminaRestored);
         }
     }
 }
