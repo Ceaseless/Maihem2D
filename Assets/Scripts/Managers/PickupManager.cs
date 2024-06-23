@@ -8,7 +8,6 @@ namespace Maihem.Managers
     public class PickupManager : MonoBehaviour
     {
         [SerializeField] private GameObject[] pickupPrefabs;
-        [SerializeField] private int spawnRate;
         private List<Pickup> _activePickups;
         private int _spawnTimer;
 

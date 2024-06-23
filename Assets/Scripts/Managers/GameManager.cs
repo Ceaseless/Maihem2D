@@ -24,7 +24,8 @@ namespace Maihem.Managers
         public Player Player { get; private set; }
         public PlayerInput PlayerInput => playerInput;
 
-        private static bool _gameOver;
+        private bool _gameOver;
+        private bool _triggerTurnOnNextFrame;
 
         
         
@@ -67,6 +68,7 @@ namespace Maihem.Managers
 
         public void ResetGame()
         {
+            _triggerTurnOnNextFrame = false;
             enemyManager.Reset();
             pickupManager.Reset();
             boundsController.Reset();
@@ -131,7 +133,7 @@ namespace Maihem.Managers
 
         public bool CanTakeTurn()
         {
-            return enemyManager.AreAllActionsPerformed() && !Player.IsPerformingAction;
+            return !_triggerTurnOnNextFrame && enemyManager.AreAllActionsPerformed() && !Player.IsPerformingAction;
         }
 
         public IList<Enemy> GetEnemiesInProximity(Vector2Int origin ,int range)
@@ -141,13 +143,18 @@ namespace Maihem.Managers
 
         private void OnPlayerTurnComplete(object sender, EventArgs args)
         {
+            _triggerTurnOnNextFrame = true;
+        }
+
+        private void Update()
+        {
+            if (_gameOver || !_triggerTurnOnNextFrame) return;
             TriggerTurn();
         }
-        
+
         private void TriggerTurn()
         {
-            if (_gameOver) return;
-           
+            _triggerTurnOnNextFrame = false;
             boundsController.UpdateBounds();
             if (Player.transform.position.x <= boundsController.transform.position.x)
             {
@@ -165,6 +172,7 @@ namespace Maihem.Managers
             if (!Player.IsDead) return;
             Debug.Log("Player died");
             ResetGame();
+            
         }
         
         private void UpdateUI()
