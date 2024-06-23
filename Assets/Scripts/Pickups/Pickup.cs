@@ -1,4 +1,3 @@
-using Maihem.Actors;
 using Maihem.Managers;
 using UnityEngine;
 
@@ -7,22 +6,19 @@ namespace Maihem.Pickups
     public abstract class Pickup : MonoBehaviour
     {
 
-        [SerializeField] public float spawnChance;
-        
+        [SerializeField] private float spawnChance;
+        [SerializeField] private Color pickupColor;
+        [SerializeField] private SpriteRenderer spriteRenderer;
 
+        public bool IsUsed { get; private set; }
+        public float SpawnChance => spawnChance;
         private Vector2Int GridPosition { get; set; }
-
-        [SerializeField] public Color pickupColor;
-
-        public bool Used { get; private set; }
-        
         
         // Start is called before the first frame update
         protected virtual void Start()
         {
             SnapToGrid();
-            Used = false;
-            GetComponentInChildren<Renderer>().material.color = pickupColor;
+            spriteRenderer.color = pickupColor;
         }
 
         private void SnapToGrid()
@@ -36,11 +32,10 @@ namespace Maihem.Pickups
 
         public void OnTriggerEnter2D(Collider2D other)
         {
-            if (Used || other.gameObject != GameManager.Instance.Player.gameObject) return;
-            PickUp();
-            Used = true;
+            OnPickUp();
+            IsUsed = true;
         }
 
-        protected abstract void PickUp();
+        protected abstract void OnPickUp();
     }
 }

@@ -9,7 +9,7 @@ namespace Maihem.Movements
         public override Vector2Int ActivatedMove(Vector2Int gridPosition, int range)
         {
             var player = GameManager.Instance.Player;
-            var shortestPath = MapManager.Instance.FindShortestDistance(gridPosition, MapManager.Instance.WorldToCell(player.transform.position));
+            var shortestPath = MapManager.Instance.FindShortestDistance(gridPosition, player.GridPosition);
             
             return shortestPath[^1];
         }

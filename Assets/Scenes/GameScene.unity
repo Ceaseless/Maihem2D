@@ -1034,7 +1034,7 @@ Camera:
   far clip plane: 1000
   field of view: 34
   orthographic: 1
-  orthographic size: 11.25
+  orthographic size: 0
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
@@ -1347,6 +1347,7 @@ GameObject:
   m_Component:
   - component: {fileID: 755707657}
   - component: {fileID: 755707656}
+  - component: {fileID: 755707658}
   m_Layer: 0
   m_Name: Game Manager
   m_TagString: Untagged
@@ -1367,6 +1368,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerPrefab: {fileID: 4653786670576362675, guid: 879202ec493dcdf4db1a256f79c1ee11, type: 3}
+  playerInput: {fileID: 755707658}
   playerStartPosition: {x: 2, y: 0, z: 0}
   boundsController: {fileID: 917795378}
   enemyManager: {fileID: 894944140}
@@ -1389,6 +1391,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &755707658
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 755707654}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a28fec91725642988ad216b15a38780a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inputActions: {fileID: -944628639613478452, guid: 6c8709bab6819084984791b059da97f2, type: 3}
+  moveInputBufferWindow: 0.05
 --- !u!1 &770262293
 GameObject:
   m_ObjectHideFlags: 0

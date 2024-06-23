@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6824062626383775717}
   - component: {fileID: 3637773029669413029}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Target Grid
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94,7 +94,7 @@ GameObject:
   m_Component:
   - component: {fileID: 492503556123677992}
   - component: {fileID: 7122783445739371691}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Diagonal Mode Marker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -182,7 +182,9 @@ GameObject:
   - component: {fileID: 9002999657413362015}
   - component: {fileID: 905535747534260031}
   - component: {fileID: 5196708517448865027}
-  m_Layer: 0
+  - component: {fileID: 4751365496943257098}
+  - component: {fileID: 8340483265586802800}
+  m_Layer: 6
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -225,11 +227,11 @@ MonoBehaviour:
   moveDuration: 0.1
   initialFacing: 0
   attackSystem: {fileID: 9002999657413362015}
+  healthSystem: {fileID: 4751365496943257098}
   maxStamina: 200
   moveCost: 1
   diagonalMoveCost: 2
-  staminaRecovery: 20
-  playerInput: {fileID: 4102898974549345930}
+  idleStaminaRecovery: 0
   aimGrid: {fileID: 1851323239640821566}
   diagonalModeMarker: {fileID: 3964736874558905028}
   stickObject: {fileID: 8653845740616210445}
@@ -332,6 +334,46 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &4751365496943257098
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4653786670576362675}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 454c6843711f40e6a8399f3d946d6d48, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 10
+--- !u!50 &8340483265586802800
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4653786670576362675}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 7
 --- !u!1 &4727890102646262385
 GameObject:
   m_ObjectHideFlags: 0
@@ -342,7 +384,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7403923239438662673}
   - component: {fileID: 4615122131837025298}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Visual
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -425,7 +467,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3314181176392924617}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Stick
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -458,7 +500,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2854179749033946593}
   - component: {fileID: 8381417263059300217}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: DEBUG_Duck_128x128_8
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -544,6 +586,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: DEBUG Facing Indicator
       objectReference: {fileID: 0}
+    - target: {fileID: 1816307367105905255, guid: 74e719f096635614ab1b470fb6b2d334, type: 3}
+      propertyPath: m_Layer
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 2403253262308225263, guid: 74e719f096635614ab1b470fb6b2d334, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -583,6 +629,10 @@ PrefabInstance:
     - target: {fileID: 2403253262308225263, guid: 74e719f096635614ab1b470fb6b2d334, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6247211724215641735, guid: 74e719f096635614ab1b470fb6b2d334, type: 3}
+      propertyPath: m_Layer
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

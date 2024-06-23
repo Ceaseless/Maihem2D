@@ -8,7 +8,6 @@ using UnityEngine;
 
 namespace Maihem.Actors
 {
-    [RequireComponent(typeof(Collider2D))]
     public abstract class Actor : MonoBehaviour
     {
         [Header("Actor Settings")]
@@ -16,26 +15,32 @@ namespace Maihem.Actors
         [SerializeField] private float moveDuration = 0.25f;
         [SerializeField] private Facing initialFacing;
         [SerializeField] protected AttackSystem attackSystem;
+        public HealthSystem healthSystem;
         public Facing CurrentFacing { get; protected set; }
         public Vector2Int GridPosition { get; protected set; }
-        public Collider2D Hurtbox { get; protected set; }
-        public int MaxHealth => maxHealth;
-        public int CurrentHealth { get; protected set; }
+
         public bool IsDead { get; protected set; }
         public bool IsPerformingAction { get; private set; }
 
         public event EventHandler TurnStarted, TurnCompleted;
         public event EventHandler<DeathEventArgs> Died;
 
-        
-     
-
         public virtual void Initialize()
         {
             GridPosition = MapManager.Instance.WorldToCell(transform.position);
             CurrentFacing = initialFacing;
-            CurrentHealth = maxHealth;
-            Hurtbox = GetComponent<Collider2D>();
+            healthSystem.OnHealthChange += HealthChanged;
+            healthSystem.RecoverFullHealth();
+            
+        }
+        
+        protected virtual void HealthChanged(object sender, HealthChangeEvent healthChangeEvent)
+        {
+            if (healthSystem.IsDead)
+            {
+                IsDead = true;
+                Died?.Invoke(this, new DeathEventArgs {DeadGameObject = gameObject});
+            }
         }
 
         protected void UpdateGridPosition(Vector3 newPosition)
@@ -53,11 +58,6 @@ namespace Maihem.Actors
             StartCoroutine(AttackAnimation(position, direction, isPlayerAttack));
         }
         
-        protected void StartRecoverAnimation(Vector2Int position)
-        {
-            StartCoroutine(RecoverAnimation(position));
-        }
-
         // ReSharper disable Unity.PerformanceAnalysis
         private IEnumerator MoveAnimation(Vector3 target)
         {
@@ -99,28 +99,9 @@ namespace Maihem.Actors
 
             IsPerformingAction = false;
             OnAnimationEnd();
-            
         }
+
         
-        private IEnumerator RecoverAnimation(Vector2Int position)
-        {
-            IsPerformingAction = true;
-            var currentAttackStrategy = attackSystem.currentAttackStrategy;
-            var activeAnimation = Instantiate(currentAttackStrategy.attackAnimation, MapManager.Instance.CellToWorld(position),
-                Quaternion.identity);
-            
-            activeAnimation.GetComponent<SpriteRenderer>().color = Color.green;
-
-            while (activeAnimation != null)
-            {
-                yield return null;
-            }
-
-            IsPerformingAction = false;
-
-        }
-
-        public abstract void TakeDamage(int damage);
         protected abstract void OnAnimationEnd();
 
         protected virtual void OnTurnStarted()

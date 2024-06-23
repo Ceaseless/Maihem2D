@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4068809380095656775}
   - component: {fileID: 8920221440476872300}
   - component: {fileID: 1893898562029346566}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Marker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -111,7 +111,7 @@ GameObject:
   - component: {fileID: 8479854114657993490}
   - component: {fileID: 9120885754297684595}
   - component: {fileID: 6561378297849471276}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Damage Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}

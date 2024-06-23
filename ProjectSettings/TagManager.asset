@@ -11,9 +11,9 @@ TagManager:
   - Map
   - Water
   - UI
-  - 
-  - 
-  - 
+  - Player
+  - Enemy
+  - Pickups
   - 
   - 
   - 
