@@ -46,7 +46,6 @@ namespace Maihem.Actors
         
         private static readonly int AnimatorHorizontal = Animator.StringToHash("Horizontal");
         private static readonly int AnimatorVertical = Animator.StringToHash("Vertical");
-        private static readonly int AnimatorMoving = Animator.StringToHash("Moving");
         private bool _isPaused;
 
         public override void TakeDamage(int damage)
@@ -60,7 +59,6 @@ namespace Maihem.Actors
 
         protected override void OnAnimationEnd()
         {
-            _animator.SetInteger(AnimatorMoving, 0);
             EndTurn();
         }
 
@@ -132,6 +130,7 @@ namespace Maihem.Actors
 
             CurrentStamina -= attackSystem.currentAttackStrategy.StaminaCost;
             attackSystem.Attack(GridPosition, CurrentFacing.GetFacingVector(), true);
+            _animator.SetTrigger("Attack");
             StartAttackAnimation(GridPosition, CurrentFacing.GetFacingVector(), true);
         }
 
@@ -214,7 +213,7 @@ namespace Maihem.Actors
             }
 
             CurrentStamina -= cost;
-            _animator.SetInteger(AnimatorMoving, 1);
+            _animator.SetTrigger("Move");
             StartMoveAnimation(targetPosition);
             UpdateGridPosition(targetPosition);
 
