@@ -15,7 +15,7 @@ namespace Maihem.Managers
         [SerializeField] private PickupManager pickupManager;
         
         private List<Enemy> _activeEnemies;
-        private List<GameObject> _deadEnemies;
+        private List<Enemy> _deadEnemies;
 
         private int _spawnTimer;
         private int _enemiesTakingTurn;
@@ -23,7 +23,7 @@ namespace Maihem.Managers
         private void Start()
         {
             _activeEnemies = new List<Enemy>();
-            _deadEnemies = new List<GameObject>();
+            _deadEnemies = new List<Enemy>();
             GameManager.Instance.PlayerInput.OnToggleEnemyMarkersAction += ToggleEnemyMarkers;
         }
 
@@ -77,13 +77,12 @@ namespace Maihem.Managers
         private void CullDeadEnemies()
         {
             foreach (var deadEnemy in _deadEnemies)
-            {
-                var enemyComponent = deadEnemy.GetComponent<Enemy>();
-                enemyComponent.Died -= EnemyDied;
-                enemyComponent.TurnStarted -= EnemyStartedTurn;
-                enemyComponent.TurnCompleted -= EnemyCompletedTurn;
-                _activeEnemies.Remove(enemyComponent);
-                Destroy(deadEnemy);
+            { 
+                deadEnemy.Died -= EnemyDied;
+                deadEnemy.TurnStarted -= EnemyStartedTurn;
+                deadEnemy.TurnCompleted -= EnemyCompletedTurn;
+                _activeEnemies.Remove(deadEnemy);
+                Destroy(deadEnemy.gameObject);
             }
             _deadEnemies.Clear();
         }
@@ -116,7 +115,7 @@ namespace Maihem.Managers
         
         private void EnemyDied(object sender, DeathEventArgs eventArgs )
         {
-            _deadEnemies.Add(eventArgs.DeadGameObject);
+            _deadEnemies.Add(eventArgs.DeadGameObject.GetComponent<Enemy>());
             pickupManager.TrySpawnPickup(eventArgs.DeadGameObject.transform.position);
         }
         

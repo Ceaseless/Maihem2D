@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Maihem.Extensions;
@@ -30,8 +29,8 @@ namespace Maihem.Movements
 
             if (maxRangePositions.Count > 0)
             {
-                maxRangePositions.OrderBy(x => x.ManhattanDistance(player.GridPosition));
-                shortestPath = MapManager.Instance.FindShortestDistance(gridPosition, maxRangePositions[0]);
+                var maxRangeTarget = maxRangePositions.OrderBy(x => x.ManhattanDistance(player.GridPosition)).First();
+                shortestPath = MapManager.Instance.FindShortestDistance(gridPosition, maxRangeTarget);
             }
             else
             {

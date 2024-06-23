@@ -56,7 +56,7 @@ namespace Maihem.Managers
         [SerializeField] private GameObject mapPrefab;
         private List<Tilemap> _tilemaps;
         
-        private static readonly Vector2Int[] CellNeighborOffsets =
+        public static readonly Vector2Int[] CellNeighborOffsets =
         {
             Vector2Int.up,
             Vector2Int.right,
@@ -205,7 +205,7 @@ namespace Maihem.Managers
             neighbours.AddRange(CellNeighborOffsets.Select(offset => cellPosition + offset));
             return neighbours;
         }
-       
+        
         
         public List<Vector2Int> IsInDirectLine(Vector2Int cellPosition, Vector2Int target, int range)
         {
