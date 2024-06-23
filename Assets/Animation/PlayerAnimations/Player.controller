@@ -19,11 +19,12 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Player_Attack_Left
+  m_Name: Player_Kick_Left
   m_Speed: 0.8
   m_CycleOffset: 0
   m_Transitions: []
-  m_StateMachineBehaviours: []
+  m_StateMachineBehaviours:
+  - {fileID: -7841715628808057044}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
@@ -45,7 +46,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Player_Attack_Right
+  m_Name: Player_Kick_Right
   m_Speed: 0.8
   m_CycleOffset: 0
   m_Transitions: []
@@ -65,6 +66,18 @@ AnimatorState:
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
+--- !u!114 &-7841715628808057044
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64b3f59d96b78f84f883aebb325ba522, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1101 &-7065112362969764917
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -310,6 +323,18 @@ AnimatorState:
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
+--- !u!114 &-1899133983667271352
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64b3f59d96b78f84f883aebb325ba522, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1102 &-1873871255962565326
 AnimatorState:
   serializedVersion: 6
@@ -523,6 +548,18 @@ AnimatorStateTransition:
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
+--- !u!114 &3153136550092624825
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64b3f59d96b78f84f883aebb325ba522, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1101 &4641768109473387746
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -555,11 +592,12 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Player_Attack_ Up
+  m_Name: Player_Kick_ Up
   m_Speed: 0.8
   m_CycleOffset: 0
   m_Transitions: []
-  m_StateMachineBehaviours: []
+  m_StateMachineBehaviours:
+  - {fileID: 3153136550092624825}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
@@ -714,16 +752,16 @@ AnimatorStateMachine:
     m_Position: {x: -230, y: 70, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -8034894089180425330}
-    m_Position: {x: 630, y: -60, z: 0}
+    m_Position: {x: 620, y: -70, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -8764549803896675464}
-    m_Position: {x: -530, y: -60, z: 0}
+    m_Position: {x: -530, y: 60, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 7746591681953193377}
-    m_Position: {x: 30, y: 190, z: 0}
+    m_Position: {x: -160, y: 230, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 5183144472325871685}
-    m_Position: {x: 40, y: -320, z: 0}
+    m_Position: {x: -250, y: -360, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions:
   - {fileID: -7065112362969764917}
@@ -738,7 +776,7 @@ AnimatorStateMachine:
   m_StateMachineTransitions: {}
   m_StateMachineBehaviours: []
   m_AnyStatePosition: {x: 50, y: -60, z: 0}
-  m_EntryPosition: {x: 580, y: -180, z: 0}
+  m_EntryPosition: {x: 370, y: -120, z: 0}
   m_ExitPosition: {x: 800, y: 120, z: 0}
   m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
   m_DefaultState: {fileID: -5537082232036735118}
@@ -808,11 +846,12 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Player_Attack_Down
+  m_Name: Player_Kick_Down
   m_Speed: 0.8
   m_CycleOffset: 0
   m_Transitions: []
-  m_StateMachineBehaviours: []
+  m_StateMachineBehaviours:
+  - {fileID: -1899133983667271352}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
