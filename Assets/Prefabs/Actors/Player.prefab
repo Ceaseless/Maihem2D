@@ -201,8 +201,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 5675947824996673184}
   - {fileID: 2854179749033946593}
+  - {fileID: 5675947824996673184}
   - {fileID: 6824062626383775717}
   - {fileID: 492503556123677992}
   m_Father: {fileID: 0}
@@ -427,6 +427,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: DEBUG Facing Indicator
       objectReference: {fileID: 0}
+    - target: {fileID: 1816307367105905255, guid: 74e719f096635614ab1b470fb6b2d334, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2403253262308225263, guid: 74e719f096635614ab1b470fb6b2d334, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2403253262308225263, guid: 74e719f096635614ab1b470fb6b2d334, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -466,6 +474,14 @@ PrefabInstance:
     - target: {fileID: 2403253262308225263, guid: 74e719f096635614ab1b470fb6b2d334, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6982235044566204418, guid: 74e719f096635614ab1b470fb6b2d334, type: 3}
+      propertyPath: m_FlipY
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6982235044566204418, guid: 74e719f096635614ab1b470fb6b2d334, type: 3}
+      propertyPath: m_Color.a
+      value: 0.31764707
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
