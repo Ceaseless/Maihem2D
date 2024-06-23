@@ -8,7 +8,7 @@ namespace Maihem.Pickups
         [SerializeField] private int staminaRestored;
         [SerializeField] private int healthRestored;
 
-        protected override void PickUp()
+        protected override void OnPickUp()
         {
             var player = GameManager.Instance.Player;
             player.healthSystem.RecoverHealth(healthRestored);

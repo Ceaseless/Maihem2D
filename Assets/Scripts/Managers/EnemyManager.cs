@@ -117,7 +117,7 @@ namespace Maihem.Managers
         private void EnemyDied(object sender, DeathEventArgs eventArgs )
         {
             _deadEnemies.Add(eventArgs.DeadGameObject);
-            pickupManager.SpawnPickup(eventArgs.DeadGameObject.transform.position);
+            pickupManager.TrySpawnPickup(eventArgs.DeadGameObject.transform.position);
         }
         
         public bool CellContainsEnemy(Vector2Int gridPosition)

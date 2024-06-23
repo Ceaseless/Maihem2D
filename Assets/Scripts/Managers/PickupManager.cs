@@ -46,15 +46,14 @@ namespace Maihem.Managers
             for (var i = _activePickups.Count - 1; i >= 0; i--)
             {
                 var pickup = _activePickups[i];
-                if(!pickup.Used) continue;
+                if(!pickup.IsUsed) continue;
                 _activePickups.RemoveAt(i);
                 Destroy(pickup.gameObject);
             }
         }
 
-        public void SpawnPickup(Vector3 position)
+        public void TrySpawnPickup(Vector3 position)
         {
-
             var pickup = pickupPrefabs[0];
 
             if (_activePickups.Any(activePickup => activePickup.transform.position == position))
@@ -62,10 +61,9 @@ namespace Maihem.Managers
                 return;
             }
 
-            if (!(pickup.GetComponent<Pickup>().spawnChance >= Random.Range(0,100))) return;
+            if (!(pickup.GetComponent<Pickup>().SpawnChance >= Random.Range(0,100))) return;
             var newPickup = Instantiate(pickup, position, Quaternion.identity, transform).GetComponent<Pickup>();
             _activePickups.Add(newPickup);
-
         }
     }
 }

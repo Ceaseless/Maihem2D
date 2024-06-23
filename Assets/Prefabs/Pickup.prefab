@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 7170855160608702570}
   - component: {fileID: 581283691865055232}
-  - component: {fileID: -1070088602663171189}
   - component: {fileID: -1860902277704988873}
   m_Layer: 8
   m_Name: Pickup
@@ -50,35 +49,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spawnChance: 50
   pickupColor: {r: 0, g: 1, b: 0.06867337, a: 1}
+  spriteRenderer: {fileID: 7828528102059523859}
   staminaRestored: 50
   healthRestored: 2
---- !u!50 &-1070088602663171189
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3336585378749860948}
-  m_BodyType: 0
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 0
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
 --- !u!61 &-1860902277704988873
 BoxCollider2D:
   m_ObjectHideFlags: 0
