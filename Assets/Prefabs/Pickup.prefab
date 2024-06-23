@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 581283691865055232}
   - component: {fileID: -1070088602663171189}
   - component: {fileID: -1860902277704988873}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pickup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -134,7 +134,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7347793664829112686}
   - component: {fileID: 7828528102059523859}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Visual
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -218,7 +218,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6486991486037391660}
   - component: {fileID: 7730831086375920024}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Aura
   m_TagString: Untagged
   m_Icon: {fileID: 0}

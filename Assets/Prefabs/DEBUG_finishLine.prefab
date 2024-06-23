@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6221156341904877886}
   - component: {fileID: 8403658766602832164}
   - component: {fileID: 6177821745119197941}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: DEBUG_finishLine
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -29,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 6327711029831941524}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.35095787, y: -3.5961714, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
