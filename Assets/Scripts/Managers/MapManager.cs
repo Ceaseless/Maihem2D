@@ -53,8 +53,10 @@ namespace Maihem.Managers
         public static MapManager Instance { get; private set; }
         [SerializeField] private Grid grid;
         [SerializeField] private PolygonCollider2D mapConstraints;
-        [SerializeField] private GameObject mapPrefab;
+        [SerializeField] private GameObject[] mapPrefabs;
         private List<Tilemap> _tilemaps;
+        private int _instantiatedTilemaps;
+        private int _currentMaxX;
         
         public static readonly Vector2Int[] CellNeighborOffsets =
         {
@@ -85,6 +87,9 @@ namespace Maihem.Managers
         {
             _tilemaps = new List<Tilemap>();
             SpawnMap();
+            SpawnMap(1);
+            SpawnMap(1);
+            SpawnMap(2);
         }
 
         public void Reset()
@@ -94,34 +99,53 @@ namespace Maihem.Managers
                 Destroy(map.gameObject);
             }
             _tilemaps.Clear();
+            _instantiatedTilemaps = 0;
+            _currentMaxX = 0;
             SpawnMap();
+            
         }
 
-        private void SpawnMap()
+        private void SpawnMap(int index = 0)
         {
-            var mapObject = Instantiate(mapPrefab, grid.transform);
+            if (index < 0 || index >= mapPrefabs.Length)
+            {
+                Debug.LogError("Not enough map prefabs set!");
+                return;
+            }
+            var mapObject = Instantiate(mapPrefabs[index], grid.transform);
             var tileMap = mapObject.GetComponent<Tilemap>();
 
+            if (index > 0)
+            {
+                var predecessor = _tilemaps[index - 1];
+                var prePosition = predecessor.transform.localPosition;
+                tileMap.transform.localPosition = new Vector3(_currentMaxX, prePosition.y, 0);
+            }
+            
             var enemies = mapObject.GetComponentsInChildren<Enemy>();
             var pickups = mapObject.GetComponentsInChildren<Pickup>();
             
             tileMap.CompressBounds();
             var bounds = tileMap.cellBounds;
+            var oldBounds = mapConstraints.GetPath(0);
             var path = new[]
             {
-                new Vector2(bounds.xMin, bounds.yMin),
-                new Vector2(bounds.xMin, bounds.yMax),
-                new Vector2(bounds.xMax, bounds.yMax),
-                new Vector2(bounds.xMax, bounds.yMin)
+                oldBounds[0],
+                oldBounds[1],
+                new Vector2(bounds.xMax*(_instantiatedTilemaps+1), bounds.yMax),
+                new Vector2(bounds.xMax*(_instantiatedTilemaps+1), bounds.yMin)
             };
+            
+            _currentMaxX = (int)tileMap.transform.localPosition.x + bounds.xMax;
             mapConstraints.SetPath(0,path);
             _tilemaps.Add(tileMap);
             GameManager.Instance.PassMapData(new MapData(enemies, pickups));
+            _instantiatedTilemaps++;
         }
         
         public void UpdateMap()
         {
-            // TODO
+            
         }
 
         public bool IsCellBlocking(Vector3 worldPosition)
