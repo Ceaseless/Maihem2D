@@ -10,12 +10,12 @@ namespace Maihem
         [SerializeField] private InputActionAsset inputActions;
         [SerializeField] private float moveInputBufferWindow = 0.05f;
 
-        public event EventHandler OnMoveAction;
-        public event EventHandler OnAttackAction;
-        public event EventHandler<SingleAxisEventArgs> OnAttackChangeAction;
-        public event EventHandler<ToggleEventArgs> OnToggleAimAction;
-        public event EventHandler<ToggleEventArgs> OnToggleDiagonalModeAction;
-        public event EventHandler<ToggleEventArgs> OnToggleEnemyMarkersAction;
+        public event EventHandler MoveAction;
+        public event EventHandler AttackAction;
+        public event EventHandler<SingleAxisEventArgs> AttackChangeAction;
+        public event EventHandler<ToggleEventArgs> ToggleAimAction;
+        public event EventHandler<ToggleEventArgs> ToggleDiagonalModeAction;
+        public event EventHandler<ToggleEventArgs> ToggleEnemyMarkersAction;
         
         public Vector2 BufferedMoveInput { get; private set; }
         private float _lastMoveInput;
@@ -50,7 +50,7 @@ namespace Maihem
             _enemyMarkerToggle.performed += ToggleEnemyMarkers;
             _enemyMarkerToggle.canceled += ToggleEnemyMarkers;
 
-            _attackAction.performed += _ => OnAttackAction?.Invoke(this, EventArgs.Empty);
+            _attackAction.performed += _ => AttackAction?.Invoke(this, EventArgs.Empty);
 
             _changeAttack.performed += AttackChanged;
             
@@ -67,7 +67,7 @@ namespace Maihem
         {
             if (BufferedMoveInput.sqrMagnitude > 0 && Time.time - _lastMoveInput > moveInputBufferWindow)
             {
-                OnMoveAction?.Invoke(this, EventArgs.Empty);
+                MoveAction?.Invoke(this, EventArgs.Empty);
             }
                 
         }
@@ -83,10 +83,10 @@ namespace Maihem
                 case InputActionPhase.Started:
                     break;
                 case InputActionPhase.Performed:
-                    OnToggleAimAction?.Invoke(this, new ToggleEventArgs() { ToggleValue = true });
+                    ToggleAimAction?.Invoke(this, new ToggleEventArgs() { ToggleValue = true });
                     break;
                 case InputActionPhase.Canceled:
-                    OnToggleAimAction?.Invoke(this, new ToggleEventArgs() { ToggleValue = false });
+                    ToggleAimAction?.Invoke(this, new ToggleEventArgs() { ToggleValue = false });
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -104,10 +104,10 @@ namespace Maihem
                 case InputActionPhase.Started:
                     break;
                 case InputActionPhase.Performed:
-                    OnToggleDiagonalModeAction?.Invoke(this, new ToggleEventArgs() { ToggleValue = true });
+                    ToggleDiagonalModeAction?.Invoke(this, new ToggleEventArgs() { ToggleValue = true });
                     break;
                 case InputActionPhase.Canceled:
-                    OnToggleDiagonalModeAction?.Invoke(this, new ToggleEventArgs() { ToggleValue = false });
+                    ToggleDiagonalModeAction?.Invoke(this, new ToggleEventArgs() { ToggleValue = false });
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -126,10 +126,10 @@ namespace Maihem
                 case InputActionPhase.Started:
                     break;
                 case InputActionPhase.Performed:
-                    OnToggleEnemyMarkersAction?.Invoke(this, new ToggleEventArgs() { ToggleValue = true });
+                    ToggleEnemyMarkersAction?.Invoke(this, new ToggleEventArgs() { ToggleValue = true });
                     break;
                 case InputActionPhase.Canceled:
-                    OnToggleEnemyMarkersAction?.Invoke(this, new ToggleEventArgs() { ToggleValue = false });
+                    ToggleEnemyMarkersAction?.Invoke(this, new ToggleEventArgs() { ToggleValue = false });
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -145,7 +145,7 @@ namespace Maihem
         private void AttackChanged(InputAction.CallbackContext ctx)
         {
             var axisValue = Mathf.RoundToInt(ctx.ReadValue<float>());
-            OnAttackChangeAction?.Invoke(this, new SingleAxisEventArgs { AxisValue = axisValue });
+            AttackChangeAction?.Invoke(this, new SingleAxisEventArgs { AxisValue = axisValue });
         }
         
     }

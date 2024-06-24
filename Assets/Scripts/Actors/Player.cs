@@ -73,21 +73,21 @@ namespace Maihem.Actors
         private void ConnectInputs()
         {
             var playerInput = GameManager.Instance.PlayerInput;
-            playerInput.OnAttackAction += Attack;
-            playerInput.OnToggleAimAction += ToggleAim;
-            playerInput.OnToggleDiagonalModeAction += ToggleDiagonalMode;
-            playerInput.OnMoveAction += ProcessMoveInput;
-            playerInput.OnAttackChangeAction += ChangeAttackStrategy;
+            playerInput.AttackAction += Attack;
+            playerInput.ToggleAimAction += ToggleAim;
+            playerInput.ToggleDiagonalModeAction += ToggleDiagonalMode;
+            playerInput.MoveAction += ProcessMoveInput;
+            playerInput.AttackChangeAction += ChangeAttackStrategy;
         }
 
         private void OnDestroy()
         {
             var playerInput = GameManager.Instance.PlayerInput;
-            playerInput.OnAttackAction -= Attack;
-            playerInput.OnToggleAimAction -= ToggleAim;
-            playerInput.OnToggleDiagonalModeAction -= ToggleDiagonalMode;
-            playerInput.OnMoveAction -= ProcessMoveInput;
-            playerInput.OnAttackChangeAction -= ChangeAttackStrategy;
+            playerInput.AttackAction -= Attack;
+            playerInput.ToggleAimAction -= ToggleAim;
+            playerInput.ToggleDiagonalModeAction -= ToggleDiagonalMode;
+            playerInput.MoveAction -= ProcessMoveInput;
+            playerInput.AttackChangeAction -= ChangeAttackStrategy;
             attackSystem?.HideTargetMarkers();
         }
 
