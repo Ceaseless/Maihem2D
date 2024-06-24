@@ -48,7 +48,7 @@ namespace Maihem.Managers
             SpawnPlayer();
             _gameOver = false;
             uiManager.Initialize();
-            enemyManager.AllEnemiesPerformedTurn += OnEnemyTurnCompleted;
+            enemyManager.AllEnemiesPerformedTurn = OnEnemyTurnCompleted;
         }
 
         private void SpawnPlayer()
@@ -169,7 +169,7 @@ namespace Maihem.Managers
         }
         
 
-        private void OnEnemyTurnCompleted(object sender, EventArgs args)
+        private void OnEnemyTurnCompleted()
         {
             MapManager.Instance.UpdateMap();
             TurnCount++;

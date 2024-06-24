@@ -15,7 +15,7 @@ namespace Maihem.Managers
         [SerializeField] private bool periodicSpawn;
         [SerializeField] private PickupManager pickupManager;
 
-        public EventHandler AllEnemiesPerformedTurn;
+        public Action AllEnemiesPerformedTurn;
         
         private List<Enemy> _activeEnemies;
         private List<Enemy> _deadEnemies;
@@ -132,7 +132,7 @@ namespace Maihem.Managers
            
             if (!_dispatchingEnemies && _enemiesTakingTurn == 0)
             {
-                AllEnemiesPerformedTurn?.Invoke(this, EventArgs.Empty);
+                AllEnemiesPerformedTurn();
             }
         }
         
