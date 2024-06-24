@@ -48,6 +48,7 @@ namespace Maihem.Managers
             SpawnPlayer();
             _gameOver = false;
             uiManager.Initialize();
+            enemyManager.AllEnemiesPerformedTurn = OnEnemyTurnCompleted;
         }
 
         private void SpawnPlayer()
@@ -146,6 +147,7 @@ namespace Maihem.Managers
             _triggerTurnOnNextFrame = true;
         }
 
+        
         private void Update()
         {
             if (_gameOver || !_triggerTurnOnNextFrame) return;
@@ -162,9 +164,13 @@ namespace Maihem.Managers
                 ResetGame();
                 return;
             }
-            
             pickupManager.CullUsedPickups();
             enemyManager.Tick();
+        }
+        
+
+        private void OnEnemyTurnCompleted()
+        {
             MapManager.Instance.UpdateMap();
             TurnCount++;
             UpdateUI();
@@ -172,7 +178,6 @@ namespace Maihem.Managers
             if (!Player.IsDead) return;
             Debug.Log("Player died");
             ResetGame();
-            
         }
         
         private void UpdateUI()

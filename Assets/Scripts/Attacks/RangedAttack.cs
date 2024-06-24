@@ -49,7 +49,10 @@ namespace Maihem.Attacks
             {
                 for (var i = 1; i <= range; i++)
                 {
-                    tiles.Add(position+direction*i);
+                    var map = MapManager.Instance;
+                    var tilePosition = position + direction * i;
+                    tiles.Add(tilePosition);
+                    if (map.IsCellBlocking(tilePosition)) break;
                 }
             }
             return tiles;
