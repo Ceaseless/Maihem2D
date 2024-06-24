@@ -8,13 +8,14 @@ namespace Maihem.Actors
 {
     public class Enemy : Actor
     {
+        
         [SerializeField] private EnemyHealthDisplay healthDisplay;
         [SerializeField] private MovementSystem movementSystem;
         public override void Initialize()
         {
             base.Initialize();
-            healthDisplay.SetMaxHealth(MaxHealth);
-            healthDisplay.SetHealth(CurrentHealth);
+            healthDisplay.SetMaxHealth(healthSystem.MaxHealth);
+            healthDisplay.SetHealth(healthSystem.CurrentHealth);
         }
         public void TakeTurn()
         {
@@ -35,6 +36,7 @@ namespace Maihem.Actors
                     OnTurnCompleted();
                 }
             }
+            attackSystem.UpdateTargetMarkerPositions(GridPosition, CurrentFacing.GetFacingVector(), false);
         }
 
         public void ShowAttackMarkers(bool show)
@@ -45,8 +47,12 @@ namespace Maihem.Actors
                 attackSystem.HideTargetMarkers();
         }
 
-        
-        
+        protected override void HealthChanged(object sender, HealthChangeEvent healthChangeEvent)
+        {
+            base.HealthChanged(sender, healthChangeEvent);
+            healthDisplay.SetHealth(healthSystem.CurrentHealth);
+        }
+
         private bool TryMove()
         {
             if (!movementSystem) return false;
@@ -60,21 +66,16 @@ namespace Maihem.Actors
             return true;
 
         }
-
-        public override void TakeDamage(int damage)
-        {
-            if(IsDead) return;
-            CurrentHealth -= damage;
-            healthDisplay.SetHealth(CurrentHealth);
-            if (CurrentHealth > 0) return;
-            IsDead = true;
-            OnDied(new DeathEventArgs { DeadGameObject = gameObject });
-        }
+      
 
         protected override void OnAnimationEnd()
         {
             OnTurnCompleted();
         }
-        
+
+        private void OnDestroy()
+        {
+            attackSystem?.HideTargetMarkers();
+        }
     }
 }

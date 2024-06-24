@@ -1,9 +1,9 @@
 using System;
+using System.Collections.Generic;
 using Cinemachine;
 using Maihem.Actors;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Maihem.Managers
 {
@@ -11,18 +11,21 @@ namespace Maihem.Managers
     {
         public static GameManager Instance { get; private set; }
         [SerializeField] private GameObject playerPrefab;
+        [SerializeField] private PlayerInput playerInput;
         [SerializeField] private Vector3 playerStartPosition;
         [SerializeField] private KillZoneController boundsController;
         [SerializeField] private EnemyManager enemyManager;
         [SerializeField] private PickupManager pickupManager;
-        [FormerlySerializedAs("ui")] [SerializeField] private UIManager uiManager;
+        [SerializeField] private UIManager uiManager;
         [SerializeField] private TextMeshProUGUI debugText;
         [SerializeField] private CinemachineVirtualCamera followCamera;
 
         public int TurnCount { get; private set; }
-        public PlayerActor Player { get; private set; }
+        public Player Player { get; private set; }
+        public PlayerInput PlayerInput => playerInput;
 
-        private static bool _gameOver;
+        private bool _gameOver;
+        private bool _triggerTurnOnNextFrame;
 
         
         
@@ -45,27 +48,33 @@ namespace Maihem.Managers
             SpawnPlayer();
             _gameOver = false;
             uiManager.Initialize();
+            enemyManager.AllEnemiesPerformedTurn = OnEnemyTurnCompleted;
         }
 
         private void SpawnPlayer()
         {
             if (Player)
             {
+                Player.TurnCompleted -= OnPlayerTurnComplete;
                 Destroy(Player.gameObject);
             }
 
             var playerObject = Instantiate(playerPrefab, playerStartPosition, Quaternion.identity);
-            Player = playerObject.GetComponent<PlayerActor>();
+            Player = playerObject.GetComponent<Player>();
             Player.Initialize();
+            Player.TurnCompleted += OnPlayerTurnComplete;
+            
             followCamera.Follow = Player.transform;
         }
 
         public void ResetGame()
         {
+            _triggerTurnOnNextFrame = false;
             enemyManager.Reset();
             pickupManager.Reset();
             boundsController.Reset();
             MapManager.Instance.Reset();
+            MarkerPool.Instance.HideAllMarkers();
             TurnCount = 0;
             SpawnPlayer();
             _gameOver = false;
@@ -125,12 +134,29 @@ namespace Maihem.Managers
 
         public bool CanTakeTurn()
         {
-            return enemyManager.AreAllActionsPerformed() && !Player.IsPerformingAction;
+            return !_triggerTurnOnNextFrame && enemyManager.AreAllActionsPerformed() && !Player.IsPerformingAction;
         }
-    
-        public void TriggerTurn()
+
+        public IList<Enemy> GetEnemiesInProximity(Vector2Int origin ,int range)
         {
-            if (_gameOver) return;
+            return enemyManager.GetEnemiesInProximity(origin, range);
+        }
+
+        private void OnPlayerTurnComplete(object sender, EventArgs args)
+        {
+            _triggerTurnOnNextFrame = true;
+        }
+
+        
+        private void Update()
+        {
+            if (_gameOver || !_triggerTurnOnNextFrame) return;
+            TriggerTurn();
+        }
+
+        private void TriggerTurn()
+        {
+            _triggerTurnOnNextFrame = false;
             boundsController.UpdateBounds();
             if (Player.transform.position.x <= boundsController.transform.position.x)
             {
@@ -138,9 +164,13 @@ namespace Maihem.Managers
                 ResetGame();
                 return;
             }
-            
             pickupManager.CullUsedPickups();
             enemyManager.Tick();
+        }
+        
+
+        private void OnEnemyTurnCompleted()
+        {
             MapManager.Instance.UpdateMap();
             TurnCount++;
             UpdateUI();
@@ -149,7 +179,7 @@ namespace Maihem.Managers
             Debug.Log("Player died");
             ResetGame();
         }
-    
+        
         private void UpdateUI()
         {
             debugText.text = $"Turn: {TurnCount}";

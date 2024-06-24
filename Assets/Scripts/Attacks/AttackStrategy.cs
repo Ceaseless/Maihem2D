@@ -32,7 +32,7 @@ namespace Maihem.Attacks
         };
         
         public abstract bool Attack(Vector2Int position, Vector2Int direction, bool isPlayerAttack);
-        public abstract IList<Vector2Int> GetAffectedTiles(Vector2Int position, Vector2Int direction, bool isPlayerAttack);
+        public abstract IList<(Vector2Int, int)> GetAffectedTiles(Vector2Int position, Vector2Int direction, bool isPlayerAttack);
         public abstract IList<Vector2Int> GetPossibleTiles(Vector2Int position);
         public abstract int GetRange();
         protected bool TryDamage(Vector2Int target, int adjustedDamage, bool isPlayerAttack)
@@ -41,7 +41,7 @@ namespace Maihem.Attacks
             {
                 if (GameManager.Instance.TryGetActorOnCell(target, out var actor))
                 {
-                    actor.TakeDamage(adjustedDamage);
+                    actor.healthSystem.TakeDamage(adjustedDamage);
                     return true;
                 }
             }
@@ -49,7 +49,7 @@ namespace Maihem.Attacks
             {
                 if (GameManager.Instance.CellContainsPlayer(target))
                 {
-                    GameManager.Instance.Player.TakeDamage(adjustedDamage);
+                    GameManager.Instance.Player.healthSystem.TakeDamage(adjustedDamage);
                     return true;
                 }
             }

@@ -56,6 +56,17 @@ namespace Maihem.Managers
         [SerializeField] private GameObject mapPrefab;
         private List<Tilemap> _tilemaps;
         
+        public static readonly Vector2Int[] CellNeighborOffsets =
+        {
+            Vector2Int.up,
+            Vector2Int.right,
+            Vector2Int.down,
+            Vector2Int.left,
+            new(1, 1),
+            new(1, -1),
+            new(-1, -1),
+            new(-1, 1)
+        };
         
         private void Awake()
         {
@@ -186,35 +197,15 @@ namespace Maihem.Managers
             return TryGetTilemapContainingCell(cellPosition.WithZ(0), out tilemap);
         }
 
+        
+        
         public static IList<Vector2Int> GetNeighbourPositions(Vector2Int cellPosition)
         {
-            return new List<Vector2Int>
-            {
-                cellPosition+Vector2Int.up,
-                cellPosition+Vector2Int.right,
-                cellPosition+Vector2Int.down,
-                cellPosition+Vector2Int.left,
-                cellPosition+new Vector2Int(1, 1),
-                cellPosition+new Vector2Int(1, -1),
-                cellPosition+new Vector2Int(-1, -1),
-                cellPosition+new Vector2Int(-1, 1)
-            };
+            var neighbours = new List<Vector2Int>(CellNeighborOffsets.Length);
+            neighbours.AddRange(CellNeighborOffsets.Select(offset => cellPosition + offset));
+            return neighbours;
         }
-
-        private IList<Vector2Int> GetFreeNeighbours(Vector2Int cellPosition)
-        {
-            var freeNeighbours = GetNeighbourPositions(cellPosition);
-
-            foreach (var neighbour in freeNeighbours.ToList())
-            {
-                if (IsCellBlocking(neighbour) || IsCellBlockedDiagonal(neighbour, cellPosition))
-                {
-                    freeNeighbours.Remove(neighbour);
-                }
-            }
-            
-            return freeNeighbours;
-        }
+        
         
         public List<Vector2Int> IsInDirectLine(Vector2Int cellPosition, Vector2Int target, int range)
         {
@@ -353,16 +344,37 @@ namespace Maihem.Managers
                 }
             }
 
-
-            var freeNeighbours = GetFreeNeighbours(startPosition);
-            if (freeNeighbours.Count <= 0) 
-            { 
-                path.Add(startPosition); 
-                return path;
+            var lowestDistance = int.MaxValue;
+            var bestNode = -1;
+            for(var i = 0; i < CellNeighborOffsets.Length; i++)
+            {
+                var neighbor = startPosition + CellNeighborOffsets[i];
+                if(IsCellBlocking(neighbor) || IsCellBlockedDiagonal(neighbor, startPosition)) continue;
+                var distance = neighbor.ManhattanDistance(targetPosition);
+                if (distance < lowestDistance)
+                {
+                    lowestDistance = distance;
+                    bestNode = i;
+                }
             }
 
-            freeNeighbours = freeNeighbours.OrderBy(x => x.ManhattanDistance(targetPosition)).ToList();
-            path.Add(freeNeighbours[0]);
+            if (bestNode < 0)
+            {
+                path.Add(startPosition);
+                return path;
+            }
+            
+            path.Add(startPosition + CellNeighborOffsets[bestNode]);
+
+            // var freeNeighbours = GetFreeNeighbours(startPosition);
+            // if (freeNeighbours.Count <= 0) 
+            // { 
+            //     path.Add(startPosition); 
+            //     return path;
+            // }
+            //
+            // freeNeighbours = freeNeighbours.OrderBy(x => x.ManhattanDistance(targetPosition)).ToList();
+            // path.Add(freeNeighbours[0]);
      
             return path;
         }

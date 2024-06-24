@@ -7,7 +7,7 @@ namespace Maihem.Attacks
     public class AttackSystem : MonoBehaviour
     {
         public Color markerColor;
-        private List<GameObject> _targetMarkerPool;
+        private List<TargetMarker> _targetMarkerPool;
 
         public AttackStrategy currentAttackStrategy;
 
@@ -33,21 +33,25 @@ namespace Maihem.Attacks
             for (var i = 0; i < positions.Count; i++)
             {
                 var marker = _targetMarkerPool[i];
-                var markerPosition = positions[i];
+                var (markerPosition, markerDamage) = positions[i];
                 marker.transform.position = MapManager.Instance.CellToWorld(markerPosition);
-                marker.GetComponent<SpriteRenderer>().color = markerColor;
-                marker.SetActive(true);
+                marker.SetMarkerVisuals(markerColor, markerDamage.ToString());
+                marker.ShowMarker();
             }
         }
 
         public void UpdateTargetMarkerPositions(Vector2Int position, Vector2Int direction, bool isPlayerAttack)
         {
+            if (!IsShowingTargetMarkers()) return;
             var newPositions = currentAttackStrategy.GetAffectedTiles(position, direction, isPlayerAttack);
             for (var i = 0; i < newPositions.Count; i++)
             {
                 var marker = _targetMarkerPool[i];
-                var markerPosition = newPositions[i];
+                var (markerPosition, markerDamage) = newPositions[i];
                 marker.transform.position = MapManager.Instance.CellToWorld(markerPosition);
+                
+                marker.SetMarkerText(markerDamage.ToString());
+                
             }
         }
         public void HideTargetMarkers()
@@ -56,9 +60,15 @@ namespace Maihem.Attacks
             
             foreach (var marker in _targetMarkerPool)
             {
-                marker.SetActive(false);
+                marker.HideMarker();
             }
             _targetMarkerPool.Clear();
+        }
+
+        public bool IsShowingTargetMarkers()
+        {
+            if (_targetMarkerPool == null) return false;
+            return _targetMarkerPool.Count > 0;
         }
 
         

@@ -34,9 +34,9 @@ namespace Maihem.Managers
         {
             var player = GameManager.Instance.Player;
             
-            healthBar.maxValue = player.MaxHealth;
-            healthBar.value = player.CurrentHealth;
-            var healthValueText = player.CurrentHealth + "/" + player.MaxHealth + " HP";
+            healthBar.maxValue = player.healthSystem.MaxHealth;
+            healthBar.value = player.healthSystem.CurrentHealth;
+            var healthValueText = player.healthSystem.CurrentHealth + "/" + player.healthSystem.MaxHealth + " HP";
             healthValue.text = healthValueText.PadLeft(8,' ');
             
             staminaBar.maxValue = player.MaxStamina;
