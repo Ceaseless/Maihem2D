@@ -11,11 +11,15 @@ namespace Maihem.Actors
         
         [SerializeField] private EnemyHealthDisplay healthDisplay;
         [SerializeField] private MovementSystem movementSystem;
+        private static readonly int Attack = Animator.StringToHash("Attack");
+        private static readonly int Move = Animator.StringToHash("Move");
+
         public override void Initialize()
         {
             base.Initialize();
             healthDisplay.SetMaxHealth(healthSystem.MaxHealth);
             healthDisplay.SetHealth(healthSystem.CurrentHealth);
+            animator = GetComponentInChildren<Animator>();
         }
         public void TakeTurn()
         {
@@ -27,6 +31,9 @@ namespace Maihem.Actors
                     math.clamp(player.GridPosition.y - GridPosition.y, -1, 1));
                 CurrentFacing = CurrentFacing.GetFacingFromDirection(dir);
                 attackSystem.Attack(GridPosition, dir, false);
+                animator.SetInteger(AnimatorHorizontal, dir.x);
+                animator.SetInteger(AnimatorVertical, dir.y);
+                animator.SetTrigger(Attack);
                 StartAttackAnimation(GridPosition, CurrentFacing.GetFacingVector(), false);
             }
             else
@@ -59,8 +66,12 @@ namespace Maihem.Actors
             var range = attackSystem.currentAttackStrategy.GetRange();
             var targetCell = movementSystem.Move(GridPosition,range);
             var newPosition = MapManager.Instance.CellToWorld(targetCell);
-            CurrentFacing = CurrentFacing.GetFacingFromDirection(targetCell - GridPosition);
+            var newFacingDirection = targetCell - GridPosition;
+            CurrentFacing = CurrentFacing.GetFacingFromDirection(newFacingDirection);
             
+            animator.SetInteger(AnimatorHorizontal, newFacingDirection.x);
+            animator.SetInteger(AnimatorVertical, newFacingDirection.y);
+            animator.SetTrigger(Move);
             StartMoveAnimation(newPosition);
             UpdateGridPosition(newPosition);
             return true;

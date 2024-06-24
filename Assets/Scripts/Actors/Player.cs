@@ -39,10 +39,7 @@ namespace Maihem.Actors
         
         private PlayerControlState _controlState = PlayerControlState.Normal;
         private bool _inDiagonalMode;
-        private Animator _animator;
-        
-        private static readonly int AnimatorHorizontal = Animator.StringToHash("Horizontal");
-        private static readonly int AnimatorVertical = Animator.StringToHash("Vertical");
+
         private bool _isPaused;
 
         protected override void OnAnimationEnd()
@@ -52,7 +49,7 @@ namespace Maihem.Actors
 
         private void Awake()
         {
-            _animator = GetComponentInChildren<Animator>();
+            animator = GetComponentInChildren<Animator>();
         }
 
         private void Start()
@@ -124,7 +121,7 @@ namespace Maihem.Actors
             if (!TryStaminaConsumingAction(attackSystem.currentAttackStrategy.StaminaCost)) return;
             
             attackSystem.Attack(GridPosition, CurrentFacing.GetFacingVector(), true);
-            _animator.SetTrigger("Attack");
+            animator.SetTrigger("Attack");
             StartAttackAnimation(GridPosition, CurrentFacing.GetFacingVector(), true);
         }
 
@@ -191,8 +188,8 @@ namespace Maihem.Actors
                 }
             }
 
-            TryStaminaConsumingAction(cost);
-            _animator.SetTrigger("Move");
+            TryStaminaConsumingAction(cost); 
+            animator.SetTrigger("Move");
             StartMoveAnimation(targetPosition);
             UpdateGridPosition(targetPosition);
 
@@ -201,8 +198,8 @@ namespace Maihem.Actors
 
         private void UpdateFacing(Vector2Int newFacingVector)
         {
-            _animator.SetInteger(AnimatorHorizontal, newFacingVector.x);
-            _animator.SetInteger(AnimatorVertical, newFacingVector.y);
+            animator.SetInteger(AnimatorHorizontal, newFacingVector.x);
+            animator.SetInteger(AnimatorVertical, newFacingVector.y);
             CurrentFacing = CurrentFacing.GetFacingFromDirection(newFacingVector);
         }
 

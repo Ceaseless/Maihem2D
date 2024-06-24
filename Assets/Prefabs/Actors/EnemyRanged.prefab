@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2309305472795814868}
   - component: {fileID: 8086444718174155007}
+  - component: {fileID: 2517500998472611838}
   m_Layer: 7
   m_Name: DEBUG_Duck_128x128_8
   m_TagString: Untagged
@@ -73,7 +74,7 @@ SpriteRenderer:
   m_SortingLayerID: 172655383
   m_SortingLayer: 3
   m_SortingOrder: 0
-  m_Sprite: {fileID: -65654771, guid: f4199128d5645824a8b5a474cccb0b99, type: 3}
+  m_Sprite: {fileID: -536345189, guid: 03403b8a51845b347bf9b114f4cbd65b, type: 3}
   m_Color: {r: 0, g: 0.045587063, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -84,6 +85,27 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!95 &2517500998472611838
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5693695543145911532}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: efd4126b3ce58ce49bb52909ecc61d71, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &6853223784441661472
 GameObject:
   m_ObjectHideFlags: 0
