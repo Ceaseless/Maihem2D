@@ -10,10 +10,12 @@ namespace Maihem.Managers
     public class EnemyManager : MonoBehaviour
     {
         [SerializeField] private GameObject[] enemyPrefabs;
+        [Min(1)]
+        [SerializeField] private int cullHorizontalDistance;
         [SerializeField] private int spawnRate;
         [SerializeField] private bool periodicSpawn;
         [SerializeField] private PickupManager pickupManager;
-        
+
         private List<Enemy> _activeEnemies;
         private List<Enemy> _deadEnemies;
 
@@ -58,6 +60,7 @@ namespace Maihem.Managers
                 _activeEnemies.RemoveAt(i);
                 Destroy(enemy.gameObject);
             }
+
             _activeEnemies.Clear();
             _spawnTimer = 0;
             _enemiesTakingTurn = 0;
@@ -67,24 +70,39 @@ namespace Maihem.Managers
         {
             var randomCell = MapManager.Instance.GetFreeCell();
             var randomPosition = MapManager.Instance.CellToWorld(randomCell);
-            var newEnemy = Instantiate(enemyPrefabs[Random.Range(0,enemyPrefabs.Length)], randomPosition, Quaternion.identity, transform).GetComponent<Enemy>();
-            
+            var newEnemy = Instantiate(enemyPrefabs[Random.Range(0, enemyPrefabs.Length)], randomPosition,
+                Quaternion.identity, transform).GetComponent<Enemy>();
+
             RegisterEnemy(newEnemy);
         }
 
         public bool AreAllActionsPerformed() => _enemiesTakingTurn == 0;
-        
+
         private void CullDeadEnemies()
         {
             foreach (var deadEnemy in _deadEnemies)
-            { 
+            {
                 deadEnemy.Died -= EnemyDied;
                 deadEnemy.TurnStarted -= EnemyStartedTurn;
                 deadEnemy.TurnCompleted -= EnemyCompletedTurn;
                 _activeEnemies.Remove(deadEnemy);
                 Destroy(deadEnemy.gameObject);
             }
+
             _deadEnemies.Clear();
+        }
+
+        private void KillLeftBehindEnemies()
+        {
+            var playerPosition = GameManager.Instance.Player.GridPosition;
+            foreach (var enemy in _activeEnemies)
+            {
+                var distance = playerPosition.x - enemy.GridPosition.x; // > 0 => Player is on the right
+                if (distance > cullHorizontalDistance)
+                {
+                    _deadEnemies.Add(enemy);
+                }
+            }
         }
 
         public void Tick()
@@ -95,6 +113,8 @@ namespace Maihem.Managers
                 SpawnEnemy();
                 _spawnTimer = 0;
             }
+
+            KillLeftBehindEnemies();
             CullDeadEnemies();
             _enemiesTakingTurn = 0;
             foreach (var enemy in _activeEnemies)
@@ -107,23 +127,23 @@ namespace Maihem.Managers
         {
             _enemiesTakingTurn++;
         }
-        
+
         private void EnemyCompletedTurn(object sender, EventArgs args)
         {
             _enemiesTakingTurn--;
         }
-        
-        private void EnemyDied(object sender, DeathEventArgs eventArgs )
+
+        private void EnemyDied(object sender, DeathEventArgs eventArgs)
         {
             _deadEnemies.Add(eventArgs.DeadGameObject.GetComponent<Enemy>());
             pickupManager.TrySpawnPickup(eventArgs.DeadGameObject.transform.position);
         }
-        
+
         public bool CellContainsEnemy(Vector2Int gridPosition)
         {
             return _activeEnemies.Any(enemy => enemy.GridPosition == gridPosition);
-        } 
-        
+        }
+
         public bool TryGetEnemyOnCell(Vector2Int gridPosition, out Enemy enemy)
         {
             foreach (var e in _activeEnemies)
@@ -132,13 +152,14 @@ namespace Maihem.Managers
                 enemy = e;
                 return true;
             }
+
             enemy = null;
             return false;
         }
 
         public IList<Enemy> GetEnemiesInProximity(Vector2Int origin, int range)
         {
-            return _activeEnemies.Where(enemy => Vector2Int.Distance(origin,enemy.GridPosition) <= range).ToList();
+            return _activeEnemies.Where(enemy => Vector2Int.Distance(origin, enemy.GridPosition) <= range).ToList();
         }
 
         private void HideEnemyMarkers()
@@ -148,7 +169,7 @@ namespace Maihem.Managers
                 e.ShowAttackMarkers(false);
             }
         }
-        
+
         private void ToggleEnemyMarkers(object sender, ToggleEventArgs args)
         {
             if (args.ToggleValue)

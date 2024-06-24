@@ -1034,7 +1034,7 @@ Camera:
   far clip plane: 1000
   field of view: 34
   orthographic: 1
-  orthographic size: 0
+  orthographic size: 11.25
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
@@ -1637,6 +1637,7 @@ MonoBehaviour:
   enemyPrefabs:
   - {fileID: 765410887786012589, guid: a6a0cc2a1e09d504892992c226c6d810, type: 3}
   - {fileID: 6853223784441661472, guid: 8b3f81cf84f6ad34793143ccbff79cab, type: 3}
+  cullHorizontalDistance: 23
   spawnRate: 10
   periodicSpawn: 0
   pickupManager: {fileID: 996597388}
@@ -1859,7 +1860,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pickupPrefabs:
   - {fileID: 3336585378749860948, guid: ef64c4178bfa1e049a296f13461cee7a, type: 3}
-  spawnRate: 10
 --- !u!4 &996597389
 Transform:
   m_ObjectHideFlags: 0
