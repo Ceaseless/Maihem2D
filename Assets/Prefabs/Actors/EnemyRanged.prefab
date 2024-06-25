@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2309305472795814868}
   - component: {fileID: 8086444718174155007}
+  - component: {fileID: 2517500998472611838}
   m_Layer: 7
   m_Name: DEBUG_Duck_128x128_8
   m_TagString: Untagged
@@ -73,8 +74,8 @@ SpriteRenderer:
   m_SortingLayerID: 172655383
   m_SortingLayer: 3
   m_SortingOrder: 0
-  m_Sprite: {fileID: -65654771, guid: f4199128d5645824a8b5a474cccb0b99, type: 3}
-  m_Color: {r: 0, g: 0.045587063, b: 1, a: 1}
+  m_Sprite: {fileID: 113070545, guid: 033003b72dfb67647aac50dd7b11aed6, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -84,6 +85,27 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!95 &2517500998472611838
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5693695543145911532}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 138c1b379b5e54748885862ba526feb8, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &6853223784441661472
 GameObject:
   m_ObjectHideFlags: 0
@@ -185,6 +207,7 @@ MonoBehaviour:
   initialFacing: 0
   attackSystem: {fileID: 6315963427758200423}
   healthSystem: {fileID: 483628311430970088}
+  animator: {fileID: 0}
   healthDisplay: {fileID: 1720457957876625323}
   movementSystem: {fileID: 7494766608770200691}
 --- !u!114 &6315963427758200423
@@ -363,6 +386,10 @@ PrefabInstance:
     - target: {fileID: 6247211724215641735, guid: 74e719f096635614ab1b470fb6b2d334, type: 3}
       propertyPath: m_Layer
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6982235044566204418, guid: 74e719f096635614ab1b470fb6b2d334, type: 3}
+      propertyPath: m_Color.a
+      value: 0.19607843
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

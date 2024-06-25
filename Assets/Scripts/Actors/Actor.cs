@@ -25,13 +25,17 @@ namespace Maihem.Actors
         public event EventHandler TurnStarted, TurnCompleted;
         public event EventHandler<DeathEventArgs> Died;
 
+        public Animator animator;
+
+        protected static readonly int AnimatorHorizontal = Animator.StringToHash("Horizontal");
+        protected static readonly int AnimatorVertical = Animator.StringToHash("Vertical");
+        
         public virtual void Initialize()
         {
             GridPosition = MapManager.Instance.WorldToCell(transform.position);
             CurrentFacing = initialFacing;
             healthSystem.OnHealthChange += HealthChanged;
             healthSystem.RecoverFullHealth();
-            
         }
         
         protected virtual void HealthChanged(object sender, HealthChangeEvent healthChangeEvent)

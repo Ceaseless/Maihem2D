@@ -39,10 +39,7 @@ namespace Maihem.Actors
         
         private PlayerControlState _controlState = PlayerControlState.Normal;
         private bool _inDiagonalMode;
-        private Animator _animator;
-        
-        private static readonly int AnimatorHorizontal = Animator.StringToHash("Horizontal");
-        private static readonly int AnimatorVertical = Animator.StringToHash("Vertical");
+
         private bool _isPaused;
 
         protected override void OnAnimationEnd()
@@ -52,7 +49,7 @@ namespace Maihem.Actors
 
         private void Awake()
         {
-            _animator = GetComponent<Animator>();
+            animator = GetComponentInChildren<Animator>();
         }
 
         private void Start()
@@ -94,7 +91,6 @@ namespace Maihem.Actors
         private void ChangeAttackStrategy(object sender, SingleAxisEventArgs e)
         {
             if (_isPaused) return;
-            
             _currentAttack += e.AxisValue;
             if (_currentAttack < 0) _currentAttack = attackStrategies.Length - 1;
             if (_currentAttack >= attackStrategies.Length) _currentAttack = 0;
@@ -125,6 +121,7 @@ namespace Maihem.Actors
             if (!TryStaminaConsumingAction(attackSystem.currentAttackStrategy.StaminaCost)) return;
             
             attackSystem.Attack(GridPosition, CurrentFacing.GetFacingVector(), true);
+            animator.SetTrigger("Attack");
             StartAttackAnimation(GridPosition, CurrentFacing.GetFacingVector(), true);
         }
 
@@ -161,7 +158,12 @@ namespace Maihem.Actors
                     throw new ArgumentOutOfRangeException();
             }
         }
-    
+        
+        private void UpdateFacing(Vector2 newFacingVector)
+        {
+            UpdateFacing(new Vector2Int((int)newFacingVector.x, (int)newFacingVector.y));
+        }
+
         private bool TryMove(Vector2 moveInput)
         {
             var isDiagonal = moveInput.x != 0 && moveInput.y != 0;
@@ -186,28 +188,24 @@ namespace Maihem.Actors
                 }
             }
 
-            TryStaminaConsumingAction(cost);
+            TryStaminaConsumingAction(cost); 
+            animator.SetTrigger("Move");
             StartMoveAnimation(targetPosition);
             UpdateGridPosition(targetPosition);
 
             return true;
         }
 
+        private void UpdateFacing(Vector2Int newFacingVector)
+        {
+            animator.SetInteger(AnimatorHorizontal, newFacingVector.x);
+            animator.SetInteger(AnimatorVertical, newFacingVector.y);
+            CurrentFacing = CurrentFacing.GetFacingFromDirection(newFacingVector);
+        }
+
         private void UpdateAimMarker()
         {
             attackSystem.UpdateTargetMarkerPositions(GridPosition, CurrentFacing.GetFacingVector(), true);
-        }
-        
-        private void UpdateFacing(Vector2 newFacingVector)
-        {
-            UpdateFacing(new Vector2Int((int)newFacingVector.x, (int)newFacingVector.y));
-        }
-
-        private void UpdateFacing(Vector2Int newFacingVector)
-        {
-            _animator.SetInteger(AnimatorHorizontal, newFacingVector.x);
-            _animator.SetInteger(AnimatorVertical, newFacingVector.y);
-            CurrentFacing = CurrentFacing.GetFacingFromDirection(newFacingVector);
         }
 
         private void ToggleAim(object sender, ToggleEventArgs args)
@@ -243,6 +241,12 @@ namespace Maihem.Actors
             return true;
         }
 
+        protected override void HealthChanged(object sender, HealthChangeEvent healthChangeEvent)
+        {
+            base.HealthChanged(sender, healthChangeEvent);
+            OnStatusUpdate?.Invoke(this, EventArgs.Empty);
+        }
+
 
         public void RecoverStamina(int amount)
         {
@@ -255,12 +259,6 @@ namespace Maihem.Actors
         {
             OnStatusUpdate?.Invoke(this, EventArgs.Empty);
             base.OnTurnCompleted();
-        }
-
-        protected override void HealthChanged(object sender, HealthChangeEvent healthChangeEvent)
-        {
-            base.HealthChanged(sender, healthChangeEvent);
-            OnStatusUpdate?.Invoke(this, EventArgs.Empty);
         }
 
 
