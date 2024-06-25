@@ -74,8 +74,8 @@ SpriteRenderer:
   m_SortingLayerID: 172655383
   m_SortingLayer: 3
   m_SortingOrder: 0
-  m_Sprite: {fileID: -536345189, guid: 03403b8a51845b347bf9b114f4cbd65b, type: 3}
-  m_Color: {r: 0, g: 0.045587063, b: 1, a: 1}
+  m_Sprite: {fileID: 113070545, guid: 033003b72dfb67647aac50dd7b11aed6, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -95,7 +95,7 @@ Animator:
   m_GameObject: {fileID: 5693695543145911532}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: efd4126b3ce58ce49bb52909ecc61d71, type: 2}
+  m_Controller: {fileID: 9100000, guid: 138c1b379b5e54748885862ba526feb8, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -207,6 +207,7 @@ MonoBehaviour:
   initialFacing: 0
   attackSystem: {fileID: 6315963427758200423}
   healthSystem: {fileID: 483628311430970088}
+  animator: {fileID: 0}
   healthDisplay: {fileID: 1720457957876625323}
   movementSystem: {fileID: 7494766608770200691}
 --- !u!114 &6315963427758200423
@@ -385,6 +386,10 @@ PrefabInstance:
     - target: {fileID: 6247211724215641735, guid: 74e719f096635614ab1b470fb6b2d334, type: 3}
       propertyPath: m_Layer
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6982235044566204418, guid: 74e719f096635614ab1b470fb6b2d334, type: 3}
+      propertyPath: m_Color.a
+      value: 0.19607843
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

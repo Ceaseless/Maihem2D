@@ -101,6 +101,7 @@ MonoBehaviour:
   initialFacing: 1
   attackSystem: {fileID: 8664368089664306379}
   healthSystem: {fileID: 8177856859162874820}
+  animator: {fileID: 0}
   healthDisplay: {fileID: 7788196142577276415}
   movementSystem: {fileID: -4224424134156153774}
 --- !u!114 &8664368089664306379
@@ -385,6 +386,10 @@ PrefabInstance:
     - target: {fileID: 6247211724215641735, guid: 74e719f096635614ab1b470fb6b2d334, type: 3}
       propertyPath: m_Layer
       value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 6982235044566204418, guid: 74e719f096635614ab1b470fb6b2d334, type: 3}
+      propertyPath: m_Color.a
+      value: 0.6392157
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
