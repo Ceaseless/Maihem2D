@@ -1034,7 +1034,7 @@ Camera:
   far clip plane: 1000
   field of view: 34
   orthographic: 1
-  orthographic size: 0
+  orthographic size: 11.25
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
@@ -1859,7 +1859,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pickupPrefabs:
   - {fileID: 3336585378749860948, guid: ef64c4178bfa1e049a296f13461cee7a, type: 3}
-  spawnRate: 10
 --- !u!4 &996597389
 Transform:
   m_ObjectHideFlags: 0
@@ -3917,10 +3916,10 @@ SceneRoots:
   - {fileID: 619394802}
   - {fileID: 38904438}
   - {fileID: 894944141}
-  - {fileID: 111772309}
   - {fileID: 996597389}
   - {fileID: 755707657}
   - {fileID: 1727441955}
+  - {fileID: 111772309}
   - {fileID: 1969234359}
   - {fileID: 1329198447}
   - {fileID: 1642556237}
