@@ -121,7 +121,7 @@ namespace Maihem.Actors
             if (!TryStaminaConsumingAction(attackSystem.currentAttackStrategy.StaminaCost)) return;
             
             attackSystem.Attack(GridPosition, CurrentFacing.GetFacingVector(), true);
-            animator.SetTrigger("Attack");
+            animator.SetTrigger(AnimatorAttack);
             StartAttackAnimation(GridPosition, CurrentFacing.GetFacingVector(), true);
         }
 
@@ -189,7 +189,7 @@ namespace Maihem.Actors
             }
 
             TryStaminaConsumingAction(cost); 
-            animator.SetTrigger("Move");
+            animator.SetTrigger(AnimatorMove);
             StartMoveAnimation(targetPosition);
             UpdateGridPosition(targetPosition);
 
@@ -198,9 +198,11 @@ namespace Maihem.Actors
 
         private void UpdateFacing(Vector2Int newFacingVector)
         {
+            var newFacing = CurrentFacing.GetFacingFromDirection(newFacingVector);
+            if (CurrentFacing == newFacing) return;
             animator.SetInteger(AnimatorHorizontal, newFacingVector.x);
             animator.SetInteger(AnimatorVertical, newFacingVector.y);
-            CurrentFacing = CurrentFacing.GetFacingFromDirection(newFacingVector);
+            CurrentFacing = newFacing;
         }
 
         private void UpdateAimMarker()

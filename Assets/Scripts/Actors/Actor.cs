@@ -29,6 +29,8 @@ namespace Maihem.Actors
 
         protected static readonly int AnimatorHorizontal = Animator.StringToHash("Horizontal");
         protected static readonly int AnimatorVertical = Animator.StringToHash("Vertical");
+        protected static readonly int AnimatorAttack = Animator.StringToHash("Attack");
+        protected static readonly int AnimatorMove = Animator.StringToHash("Move");
         
         public virtual void Initialize()
         {

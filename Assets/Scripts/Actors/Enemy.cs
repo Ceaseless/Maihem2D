@@ -11,8 +11,7 @@ namespace Maihem.Actors
         
         [SerializeField] private EnemyHealthDisplay healthDisplay;
         [SerializeField] private MovementSystem movementSystem;
-        private static readonly int Attack = Animator.StringToHash("Attack");
-        private static readonly int Move = Animator.StringToHash("Move");
+        
 
         public override void Initialize()
         {
@@ -30,7 +29,7 @@ namespace Maihem.Actors
                 var dir = new Vector2Int(math.clamp(player.GridPosition.x - GridPosition.x, -1, 1),
                     math.clamp(player.GridPosition.y - GridPosition.y, -1, 1));
                 UpdateFacing(dir);
-                animator.SetTrigger(Attack);
+                animator.SetTrigger(AnimatorAttack);
                 attackSystem.Attack(GridPosition, dir, false);
                 StartAttackAnimation(GridPosition, CurrentFacing.GetFacingVector(), false);
             }
@@ -67,7 +66,7 @@ namespace Maihem.Actors
             var newFacingDirection = targetCell - GridPosition;
             
             UpdateFacing(newFacingDirection);
-            animator.SetTrigger(Move);
+            animator.SetTrigger(AnimatorMove);
             StartMoveAnimation(newPosition);
             UpdateGridPosition(newPosition);
             return true;
