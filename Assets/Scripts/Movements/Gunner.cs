@@ -22,7 +22,7 @@ namespace Maihem.Movements
                 new (player.GridPosition.x,player.GridPosition.y - attackRange)
             };
 
-            foreach (var position in maxRangePositions.ToList().Where(position => MapManager.Instance.IsCellBlocking(position)))
+            foreach (var position in maxRangePositions.ToList().Where(position => MapManager.Instance.IsCellBlocking(position) || !MapManager.Instance.IsInDirectLine(position, player.GridPosition,attackRange)))
             { 
                 maxRangePositions.Remove(position);
             }

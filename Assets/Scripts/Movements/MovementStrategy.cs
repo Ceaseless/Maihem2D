@@ -16,12 +16,13 @@ namespace Maihem.Movements
             {
                 var randomOffsetIndex = Random.Range(0, offsetLength);
                 var randomNeighbor = gridPosition + MapManager.CellNeighborOffsets[randomOffsetIndex];
-                if (!(MapManager.Instance.IsCellBlocking(randomNeighbor) &&
-                      MapManager.Instance.IsCellBlockedDiagonal(randomNeighbor, gridPosition)))
+                if (!MapManager.Instance.IsCellBlocking(randomNeighbor) &&
+                      !MapManager.Instance.IsCellBlockedDiagonal(randomNeighbor, gridPosition))
                 {
                     return randomNeighbor;
                 }
             } 
+            Debug.Log("No Neighbour free");
             return Vector2Int.zero;
         }
         
