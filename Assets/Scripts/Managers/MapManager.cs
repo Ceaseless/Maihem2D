@@ -139,6 +139,10 @@ namespace Maihem.Managers
             _mapChunks.Add(mapChunk);
             GameManager.Instance.PassMapData(mapChunk.GetMapData());
             _instantiatedMapChunks++;
+            if (_instantiatedMapChunks == mapPrefabs.Length)
+            {
+                Instantiate(goalPrefab, mapChunk.PotentialGoalPosition.position, Quaternion.identity, mapChunk.transform);
+            }
         }
         
         public void UpdateMap()
