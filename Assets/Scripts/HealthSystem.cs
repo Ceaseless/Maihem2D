@@ -8,7 +8,7 @@ namespace Maihem
     {
         [SerializeField] private int maxHealth;
 
-        public EventHandler<HealthChangeEvent> OnHealthChange;
+        public event EventHandler<HealthChangeEvent> OnHealthChange;
         public bool IsDead => maxHealth == 0 || CurrentHealth <= 0;
         public int CurrentHealth { get; private set; }
         public int MaxHealth => maxHealth;

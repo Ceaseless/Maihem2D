@@ -1,8 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
-using Maihem.Actors;
 using Maihem.Extensions;
-using Maihem.Pickups;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using Random = UnityEngine.Random;
@@ -54,8 +52,9 @@ namespace Maihem.Managers
         [SerializeField] private Grid grid;
         [SerializeField] private PolygonCollider2D mapConstraints;
         [SerializeField] private GameObject[] mapPrefabs;
-        private List<Tilemap> _tilemaps;
-        private int _instantiatedTilemaps;
+        [SerializeField] private GameObject goalPrefab;
+        private List<MapChunk> _mapChunks;
+        private int _instantiatedMapChunks;
         private int _currentMaxX;
         
         public static readonly Vector2Int[] CellNeighborOffsets =
@@ -85,7 +84,7 @@ namespace Maihem.Managers
 
         private void Start()
         {
-            _tilemaps = new List<Tilemap>();
+            _mapChunks = new List<MapChunk>();
             SpawnMap();
             SpawnMap(1);
             SpawnMap(1);
@@ -94,12 +93,12 @@ namespace Maihem.Managers
 
         public void Reset()
         {
-            foreach (var map in _tilemaps)
+            foreach (var chunk in _mapChunks)
             {
-                Destroy(map.gameObject);
+                Destroy(chunk.gameObject);
             }
-            _tilemaps.Clear();
-            _instantiatedTilemaps = 0;
+            _mapChunks.Clear();
+            _instantiatedMapChunks = 0;
             _currentMaxX = 0;
             SpawnMap();
             
@@ -113,17 +112,15 @@ namespace Maihem.Managers
                 return;
             }
             var mapObject = Instantiate(mapPrefabs[index], grid.transform);
-            var tileMap = mapObject.GetComponent<Tilemap>();
+            var mapChunk = mapObject.GetComponent<MapChunk>();
+            var tileMap = mapChunk.TileMap;
 
             if (index > 0)
             {
-                var predecessor = _tilemaps[index - 1];
+                var predecessor = _mapChunks[index - 1];
                 var prePosition = predecessor.transform.localPosition;
-                tileMap.transform.localPosition = new Vector3(_currentMaxX, prePosition.y, 0);
+                mapObject.transform.localPosition = new Vector3(_currentMaxX, prePosition.y, 0);
             }
-            
-            var enemies = mapObject.GetComponentsInChildren<Enemy>();
-            var pickups = mapObject.GetComponentsInChildren<Pickup>();
             
             tileMap.CompressBounds();
             var bounds = tileMap.cellBounds;
@@ -132,15 +129,15 @@ namespace Maihem.Managers
             {
                 oldBounds[0],
                 oldBounds[1],
-                new Vector2(bounds.xMax*(_instantiatedTilemaps+1), bounds.yMax),
-                new Vector2(bounds.xMax*(_instantiatedTilemaps+1), bounds.yMin)
+                new Vector2(bounds.xMax*(_instantiatedMapChunks+1), bounds.yMax),
+                new Vector2(bounds.xMax*(_instantiatedMapChunks+1), bounds.yMin)
             };
             
-            _currentMaxX = (int)tileMap.transform.localPosition.x + bounds.xMax;
+            _currentMaxX = (int)mapObject.transform.localPosition.x + bounds.xMax;
             mapConstraints.SetPath(0,path);
-            _tilemaps.Add(tileMap);
-            GameManager.Instance.PassMapData(new MapData(enemies, pickups));
-            _instantiatedTilemaps++;
+            _mapChunks.Add(mapChunk);
+            GameManager.Instance.PassMapData(mapChunk.GetMapData());
+            _instantiatedMapChunks++;
         }
         
         public void UpdateMap()
@@ -167,13 +164,13 @@ namespace Maihem.Managers
 
         private bool TryGetTile(Vector3Int cellPosition, out Tile tile)
         {
-            foreach (var map in _tilemaps)
+            foreach (var chunk in _mapChunks)
             {
-                var localPosition = new Vector3Int((int)(cellPosition.x - map.transform.localPosition.x),
-                    (int)(cellPosition.y - map.transform.localPosition.y), 0);
+                var localPosition = new Vector3Int((int)(cellPosition.x - chunk.transform.localPosition.x),
+                    (int)(cellPosition.y - chunk.transform.localPosition.y), 0);
                 
-                if (!map.HasTile(localPosition)) continue;
-                tile = map.GetTile<Tile>(localPosition);
+                if (!chunk.TileMap.HasTile(localPosition)) continue;
+                tile = chunk.TileMap.GetTile<Tile>(localPosition);
                 return true;
             }
             tile = null;
@@ -204,12 +201,12 @@ namespace Maihem.Managers
         
         private bool TryGetTilemapContainingCell(Vector3Int cellPosition, out Tilemap tilemap)
         {
-            foreach (var map in _tilemaps)
+            foreach (var chunk in _mapChunks)
             {
-                var localPosition = new Vector3Int((int)(cellPosition.x - map.transform.localPosition.x),
-                    (int)(cellPosition.y - map.transform.localPosition.y), 0);
-                if (!map.HasTile(localPosition)) continue;
-                tilemap = map;
+                var localPosition = new Vector3Int((int)(cellPosition.x - chunk.transform.localPosition.x),
+                    (int)(cellPosition.y - chunk.transform.localPosition.y), 0);
+                if (!chunk.TileMap.HasTile(localPosition)) continue;
+                tilemap = chunk.TileMap;
                 return true;
             }
             tilemap = null;
@@ -287,8 +284,8 @@ namespace Maihem.Managers
 
         public Vector2Int GetFreeCell()
         {
-            var tilemap = _tilemaps[Random.Range(0, _tilemaps.Count)];
-            var bounds = tilemap.cellBounds;
+            var randomChunk = _mapChunks[Random.Range(0, _mapChunks.Count)];
+            var bounds = randomChunk.TileMap.cellBounds;
             var maxIterations = 100;
             while (maxIterations > 0)
             {

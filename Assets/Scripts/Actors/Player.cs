@@ -30,7 +30,7 @@ namespace Maihem.Actors
         private AttackStrategy[] attackStrategies;
         private int _currentAttack;
 
-        public EventHandler OnStatusUpdate;
+        public event EventHandler OnStatusUpdate;
 
         public int MaxStamina => maxStamina;
         public int CurrentStamina { get; private set; }
