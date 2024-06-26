@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Cinemachine;
 using Maihem.Extensions;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -51,8 +52,10 @@ namespace Maihem.Managers
         public static MapManager Instance { get; private set; }
         [SerializeField] private Grid grid;
         [SerializeField] private PolygonCollider2D mapConstraints;
+        [SerializeField] private CinemachineConfiner2D cameraConfiner;
         [SerializeField] private GameObject[] mapPrefabs;
         [SerializeField] private GameObject goalPrefab;
+        [SerializeField] private float mapSpawnDistance = 20f;
         private List<MapChunk> _mapChunks;
         private int _instantiatedMapChunks;
         private int _currentMaxX;
@@ -86,9 +89,6 @@ namespace Maihem.Managers
         {
             _mapChunks = new List<MapChunk>();
             SpawnMap();
-            SpawnMap(1);
-            SpawnMap(1);
-            SpawnMap(2);
         }
 
         public void Reset()
@@ -135,6 +135,7 @@ namespace Maihem.Managers
             
             _currentMaxX = (int)mapObject.transform.localPosition.x + bounds.xMax;
             mapConstraints.SetPath(0,path);
+            cameraConfiner.InvalidateCache();
             _mapChunks.Add(mapChunk);
             GameManager.Instance.PassMapData(mapChunk.GetMapData());
             _instantiatedMapChunks++;
@@ -142,7 +143,13 @@ namespace Maihem.Managers
         
         public void UpdateMap()
         {
-            
+            if (_instantiatedMapChunks >= mapPrefabs.Length) return;
+            var lastChunk = _mapChunks[_instantiatedMapChunks - 1];
+            var playerPosition = GameManager.Instance.Player.transform.position;
+            if (Mathf.Abs(playerPosition.x - lastChunk.PotentialGoalPosition.position.x) < mapSpawnDistance)
+            {
+                SpawnMap(_instantiatedMapChunks);
+            }
         }
 
         public bool IsCellBlocking(Vector3 worldPosition)
