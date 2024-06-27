@@ -1,11 +1,9 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Maihem.Actors;
-using Maihem.Extensions;
-using UnityEditor.SceneManagement;
 using UnityEngine;
-using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 namespace Maihem.Managers
@@ -16,18 +14,29 @@ namespace Maihem.Managers
         [SerializeField] private int spawnRate;
         [SerializeField] private bool periodicSpawn;
         [SerializeField] private PickupManager pickupManager;
+
+        public Action AllEnemiesPerformedTurn;
         
         private List<Enemy> _activeEnemies;
+        private List<Enemy> _deadEnemies;
 
         private int _spawnTimer;
         private int _enemiesTakingTurn;
+        private bool _dispatchingEnemies;
 
         private void Start()
         {
             _activeEnemies = new List<Enemy>();
+            _deadEnemies = new List<Enemy>();
+            GameManager.Instance.PlayerInput.ToggleEnemyMarkersAction += ToggleEnemyMarkers;
         }
 
-        public void RegisterEnemy(Enemy newEnemy)
+        private void OnDestroy()
+        {
+            GameManager.Instance.PlayerInput.ToggleEnemyMarkersAction -= ToggleEnemyMarkers;
+        }
+
+        private void RegisterEnemy(Enemy newEnemy)
         {
             newEnemy.Died += EnemyDied;
             newEnemy.TurnStarted += EnemyStartedTurn;
@@ -46,6 +55,8 @@ namespace Maihem.Managers
 
         public void Reset()
         {
+            _deadEnemies?.Clear();
+            
             for (var i = _activeEnemies.Count - 1; i >= 0; i--)
             {
                 var enemy = _activeEnemies[i];
@@ -55,6 +66,7 @@ namespace Maihem.Managers
             _activeEnemies.Clear();
             _spawnTimer = 0;
             _enemiesTakingTurn = 0;
+            _dispatchingEnemies = false;
         }
 
         private void SpawnEnemy()
@@ -66,21 +78,20 @@ namespace Maihem.Managers
             RegisterEnemy(newEnemy);
         }
 
-        public bool AreAllActionsPerformed() => _enemiesTakingTurn == 0;
+        public bool AreAllActionsPerformed() => !_dispatchingEnemies && _enemiesTakingTurn == 0;
         
         private void CullDeadEnemies()
         {
-            for (var i = _activeEnemies.Count - 1; i >= 0; i--)
-            {
-                var enemy = _activeEnemies[i];
-                if (enemy.CurrentHealth > 0) continue;
-                enemy.Died -= EnemyDied;
-                enemy.TurnStarted -= EnemyStartedTurn;
-                enemy.TurnCompleted -= EnemyCompletedTurn;
-                _activeEnemies.RemoveAt(i);
-                Destroy(enemy.gameObject);
+            foreach (var deadEnemy in _deadEnemies)
+            { 
+                deadEnemy.Died -= EnemyDied;
+                deadEnemy.TurnStarted -= EnemyStartedTurn;
+                deadEnemy.TurnCompleted -= EnemyCompletedTurn;
+                _activeEnemies.Remove(deadEnemy);
+                Destroy(deadEnemy.gameObject);
             }
-           
+            
+            _deadEnemies.Clear();
         }
 
         public void Tick()
@@ -93,10 +104,21 @@ namespace Maihem.Managers
             }
             CullDeadEnemies();
             _enemiesTakingTurn = 0;
+            StartCoroutine(AmortizedEnemyTurn());
+            
+        }
+
+
+        
+        private IEnumerator AmortizedEnemyTurn()
+        {
+            _dispatchingEnemies = true;
             foreach (var enemy in _activeEnemies)
             {
                 enemy?.TakeTurn();
+                yield return null;
             }
+            _dispatchingEnemies = false;
         }
 
         private void EnemyStartedTurn(object sender, EventArgs args)
@@ -107,11 +129,17 @@ namespace Maihem.Managers
         private void EnemyCompletedTurn(object sender, EventArgs args)
         {
             _enemiesTakingTurn--;
+           
+            if (!_dispatchingEnemies && _enemiesTakingTurn == 0)
+            {
+                AllEnemiesPerformedTurn();
+            }
         }
         
         private void EnemyDied(object sender, DeathEventArgs eventArgs )
         {
-            pickupManager.SpawnPickup(eventArgs.DeadGameObject.transform.position);
+            _deadEnemies.Add(eventArgs.DeadGameObject.GetComponent<Enemy>());
+            pickupManager.TrySpawnPickup(eventArgs.DeadGameObject.transform.position);
         }
         
         public bool CellContainsEnemy(Vector2Int gridPosition)
@@ -133,7 +161,31 @@ namespace Maihem.Managers
 
         public IList<Enemy> GetEnemiesInProximity(Vector2Int origin, int range)
         {
-            return _activeEnemies.Where(enemy => origin.ManhattanDistance(enemy.GridPosition) <= range).ToList();
+            return _activeEnemies.Where(enemy => Vector2Int.Distance(origin,enemy.GridPosition) <= range).ToList();
+        }
+
+        private void HideEnemyMarkers()
+        {
+            foreach (var e in _activeEnemies)
+            {
+                e.ShowAttackMarkers(false);
+            }
+        }
+        
+        private void ToggleEnemyMarkers(object sender, ToggleEventArgs args)
+        {
+            if (args.ToggleValue)
+            {
+                var enemies = GameManager.Instance.GetEnemiesInProximity(GameManager.Instance.Player.GridPosition, 10);
+                foreach (var enemy in enemies)
+                {
+                    enemy.ShowAttackMarkers(true);
+                }
+            }
+            else
+            {
+                HideEnemyMarkers();
+            }
         }
     }
 }

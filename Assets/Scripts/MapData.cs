@@ -1,6 +1,5 @@
-﻿using System.Collections.Generic;
-using Maihem.Actors;
-using UnityEngine;
+﻿using Maihem.Actors;
+using Maihem.Pickups;
 
 namespace Maihem
 {

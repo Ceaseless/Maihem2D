@@ -1,15 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using Maihem.Pickups;
 using UnityEngine;
-using Random = System.Random;
 
 namespace Maihem.Managers
 {
     public class PickupManager : MonoBehaviour
     {
         [SerializeField] private GameObject[] pickupPrefabs;
-        [SerializeField] private int spawnRate;
         private List<Pickup> _activePickups;
         private int _spawnTimer;
 
@@ -29,34 +27,42 @@ namespace Maihem.Managers
             _activePickups.Clear();
         }
 
-        public void CullUsedPickups()
+        private void RegisterPickup(Pickup newPickup)
         {
-            foreach (var pickup in _activePickups.ToList())
+            _activePickups.Add(newPickup);
+        }
+        
+        public void RegisterPickups(IEnumerable<Pickup> pickups)
+        {
+            foreach (var newPickup in pickups)
             {
-                if (pickup.Used)
-                {
-                    _activePickups.Remove(pickup);
-                    Destroy(pickup.gameObject);
-                }
-                
+                RegisterPickup(newPickup);
             }
         }
 
-        public void SpawnPickup(Vector3 position)
+        public void CullUsedPickups()
         {
+            for (var i = _activePickups.Count - 1; i >= 0; i--)
+            {
+                var pickup = _activePickups[i];
+                if(!pickup.IsUsed) continue;
+                _activePickups.RemoveAt(i);
+                Destroy(pickup.gameObject);
+            }
+        }
 
+        public void TrySpawnPickup(Vector3 position)
+        {
             var pickup = pickupPrefabs[0];
 
             if (_activePickups.Any(activePickup => activePickup.transform.position == position))
             {
                 return;
             }
-            
-            var random = new Random();
-            if (!(pickup.GetComponent<Pickup>().spawnChance >= random.Next(1, 100))) return;
+
+            if (!(pickup.GetComponent<Pickup>().SpawnChance >= Random.Range(0,100))) return;
             var newPickup = Instantiate(pickup, position, Quaternion.identity, transform).GetComponent<Pickup>();
             _activePickups.Add(newPickup);
-
         }
     }
 }

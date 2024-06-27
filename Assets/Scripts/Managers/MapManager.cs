@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Maihem.Actors;
 using Maihem.Extensions;
+using Maihem.Pickups;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using Random = UnityEngine.Random;
@@ -55,6 +56,17 @@ namespace Maihem.Managers
         [SerializeField] private GameObject mapPrefab;
         private List<Tilemap> _tilemaps;
         
+        public static readonly Vector2Int[] CellNeighborOffsets =
+        {
+            Vector2Int.up,
+            Vector2Int.right,
+            Vector2Int.down,
+            Vector2Int.left,
+            new(1, 1),
+            new(1, -1),
+            new(-1, -1),
+            new(-1, 1)
+        };
         
         private void Awake()
         {
@@ -94,6 +106,15 @@ namespace Maihem.Managers
             var pickups = mapObject.GetComponentsInChildren<Pickup>();
             
             tileMap.CompressBounds();
+            var bounds = tileMap.cellBounds;
+            var path = new[]
+            {
+                new Vector2(bounds.xMin, bounds.yMin),
+                new Vector2(bounds.xMin, bounds.yMax),
+                new Vector2(bounds.xMax, bounds.yMax),
+                new Vector2(bounds.xMax, bounds.yMin)
+            };
+            mapConstraints.SetPath(0,path);
             _tilemaps.Add(tileMap);
             GameManager.Instance.PassMapData(new MapData(enemies, pickups));
         }
@@ -176,27 +197,21 @@ namespace Maihem.Managers
             return TryGetTilemapContainingCell(cellPosition.WithZ(0), out tilemap);
         }
 
+        
+        
         public static IList<Vector2Int> GetNeighbourPositions(Vector2Int cellPosition)
         {
-            return new List<Vector2Int>
-            {
-                cellPosition+Vector2Int.up,
-                cellPosition+Vector2Int.right,
-                cellPosition+Vector2Int.down,
-                cellPosition+Vector2Int.left,
-                cellPosition+new Vector2Int(1, 1),
-                cellPosition+new Vector2Int(1, -1),
-                cellPosition+new Vector2Int(-1, -1),
-                cellPosition+new Vector2Int(-1, 1)
-            };
+            var neighbours = new List<Vector2Int>(CellNeighborOffsets.Length);
+            neighbours.AddRange(CellNeighborOffsets.Select(offset => cellPosition + offset));
+            return neighbours;
         }
         
-        public List<Vector2Int> IsInDirectLine(Vector2Int cellPosition, Vector2Int target, int range)
+        
+        public bool IsInDirectLine(Vector2Int cellPosition, Vector2Int target, int range)
         {
             int diffX = cellPosition.x - target.x;
             int diffY = cellPosition.y - target.y;
-
-            List<Vector2Int> targetLine = new List<Vector2Int>();
+            
             Vector2Int checkDirection = cellPosition;
             
             int directionX = 0;
@@ -210,13 +225,13 @@ namespace Maihem.Managers
             for (int i = 0; i < range; i++)
             {
                 checkDirection = new Vector2Int(checkDirection.x + directionX, checkDirection.y + directionY);
-                if (!IsCellBlocking(checkDirection) && !IsCellBlockedDiagonal(checkDirection, cellPosition))
+                if (IsCellBlocking(checkDirection) || IsCellBlockedDiagonal(checkDirection, cellPosition))
                 {
-                   targetLine.Add(checkDirection); 
+                    return false;
                 }
             }
 
-            return targetLine;
+            return true;
         }
 
         private List<Node> GetNeighborNodes(Vector2Int cellPosition)
@@ -274,6 +289,7 @@ namespace Maihem.Managers
             
             var toSearch = new List<Node>() {startNode};
             var processed = new List<Vector2Int>();
+            var path = new List<Vector2Int>();
             
             while (toSearch.Count > 0)
             {
@@ -294,7 +310,6 @@ namespace Maihem.Managers
                 if (current.Position == targetPosition)
                 {
                     var currentPathNode = current;
-                    var path = new List<Vector2Int>();
                     while (currentPathNode.Position != startPosition)
                     {
                         path.Add(currentPathNode.Position);
@@ -327,17 +342,45 @@ namespace Maihem.Managers
                     }
                 }
             }
-            return null;
-        }
 
-        private bool IsNodeInList(Node t, List<Node> list)
-        {
-            foreach (var node in list)
+            var lowestDistance = int.MaxValue;
+            var bestNode = -1;
+            for(var i = 0; i < CellNeighborOffsets.Length; i++)
             {
-                if (node.Position == t.Position) return true;
+                var neighbor = startPosition + CellNeighborOffsets[i];
+                if(IsCellBlocking(neighbor) || IsCellBlockedDiagonal(neighbor, startPosition)) continue;
+                var distance = neighbor.ManhattanDistance(targetPosition);
+                if (distance < lowestDistance)
+                {
+                    lowestDistance = distance;
+                    bestNode = i;
+                }
             }
 
-            return false;
+            if (bestNode < 0)
+            {
+                path.Add(startPosition);
+                return path;
+            }
+            
+            path.Add(startPosition + CellNeighborOffsets[bestNode]);
+
+            // var freeNeighbours = GetFreeNeighbours(startPosition);
+            // if (freeNeighbours.Count <= 0) 
+            // { 
+            //     path.Add(startPosition); 
+            //     return path;
+            // }
+            //
+            // freeNeighbours = freeNeighbours.OrderBy(x => x.ManhattanDistance(targetPosition)).ToList();
+            // path.Add(freeNeighbours[0]);
+     
+            return path;
+        }
+
+        private static bool IsNodeInList(Node t, List<Node> list)
+        {
+            return list.Any(node => node.Position == t.Position);
         }
     }
     

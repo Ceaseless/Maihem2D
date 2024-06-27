@@ -1,6 +1,6 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
+using Maihem.Extensions;
 using Maihem.Managers;
 using UnityEngine;
 
@@ -11,43 +11,37 @@ namespace Maihem.Movements
     {
         public override Vector2Int ActivatedMove(Vector2Int gridPosition, int attackRange)
         {
-            var inRange = attackRange - 1;
             var player = GameManager.Instance.Player;
+            List<Vector2Int> shortestPath;
             
             var maxRangePositions = new List<Vector2Int>
             {
-                new (player.GridPosition.x + inRange, player.GridPosition.y),
-                new (player.GridPosition.x - inRange, player.GridPosition.y),
-                new (player.GridPosition.x,player.GridPosition.y + inRange),
-                new (player.GridPosition.x,player.GridPosition.y - inRange)
+                new (player.GridPosition.x + attackRange, player.GridPosition.y),
+                new (player.GridPosition.x - attackRange, player.GridPosition.y),
+                new (player.GridPosition.x,player.GridPosition.y + attackRange),
+                new (player.GridPosition.x,player.GridPosition.y - attackRange)
             };
 
-            foreach (var position in maxRangePositions.ToList().Where(position => MapManager.Instance.IsCellBlocking(position)))
+            foreach (var position in maxRangePositions.ToList().Where(position => MapManager.Instance.IsCellBlocking(position) || !MapManager.Instance.IsInDirectLine(position, player.GridPosition,attackRange)))
             { 
                 maxRangePositions.Remove(position);
             }
 
-            var checkTile = maxRangePositions[0];
-            var tileDistance = GetDistance(checkTile, player.GridPosition);
-            
-            foreach (var position in maxRangePositions)
+            if (maxRangePositions.Count > 0)
             {
-                var positionDistance = GetDistance(position, player.GridPosition);
-                if (positionDistance >= tileDistance) continue;
-                checkTile = position;
-                tileDistance = GetDistance(checkTile, player.GridPosition);
-
+                var maxRangeTarget = maxRangePositions.OrderBy(x => x.ManhattanDistance(player.GridPosition)).First();
+                shortestPath = MapManager.Instance.FindShortestDistance(gridPosition, maxRangeTarget);
             }
-            var shortestPath = MapManager.Instance.FindShortestDistance(gridPosition, checkTile);
-      
+            else
+            {
+                shortestPath = MapManager.Instance.FindShortestDistance(gridPosition, player.GridPosition);
+            }
             
             return shortestPath[^1];
         }
 
-        private static int GetDistance(Vector2Int a, Vector2Int b)
-        {
-            if (Math.Abs(a.x) == Math.Abs(b.x) && Math.Abs(a.y) == Math.Abs(b.x)) return Math.Abs(a.x);
-            return Math.Abs(a.x + b.x) + Math.Abs(a.y + b.y);
-        }
+        
+        
+
     }
 }

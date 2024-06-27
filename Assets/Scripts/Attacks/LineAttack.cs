@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
 
 namespace Maihem.Attacks
@@ -10,15 +11,16 @@ namespace Maihem.Attacks
         [SerializeField] private int range = 3;
         [Min(0)]
         [SerializeField] private int damageFalloff;
+        [SerializeField] private bool invertDamageFalloff;
         
         public override bool Attack(Vector2Int position, Vector2Int direction, bool isPlayerAttack)
         {
             var targets = GetAffectedTiles(position, direction, isPlayerAttack);
             var hitSomething = false;
- 
-            foreach (var target in targets)
+
+            foreach (var (target, damage) in targets)
             {
-                hitSomething = TryDamage(target, Damage, isPlayerAttack);
+                hitSomething = TryDamage(target, damage, isPlayerAttack);
             }
 
             return hitSomething;
@@ -26,12 +28,13 @@ namespace Maihem.Attacks
 
         
 
-        public override IList<Vector2Int> GetAffectedTiles(Vector2Int position, Vector2Int direction, bool isPlayerAttack)
+        public override IList<(Vector2Int, int)> GetAffectedTiles(Vector2Int position, Vector2Int direction, bool isPlayerAttack)
         {
-            var targets = new List<Vector2Int>();
+            var targets = new List<(Vector2Int,int)>();
             for (var i = 1; i <= range; i++)
             {
-                targets.Add(position+direction*i);
+                var adjustedDamage = math.max(0, invertDamageFalloff ? Damage - (range-i) * damageFalloff : Damage - damageFalloff * (i-1));
+                targets.Add((position+direction*i, adjustedDamage));
             }
             return targets;
         }
@@ -50,7 +53,7 @@ namespace Maihem.Attacks
             return tiles;
         }
         
-        public override int getRange()
+        public override int GetRange()
         {
             return 0;
         }

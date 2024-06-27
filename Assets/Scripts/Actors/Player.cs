@@ -7,22 +7,19 @@ using UnityEngine;
 
 namespace Maihem.Actors
 {
-    public class PlayerActor : Actor
+    public class Player : Actor
     {
         private enum PlayerControlState
         {
             Normal,
             Aiming,
-            Diagonal
         }
         
         [Header("Stat Settings")]
         [SerializeField] private int maxStamina;
         [SerializeField] private int moveCost;
         [SerializeField] private int diagonalMoveCost;
-        
-        [Header("System References")]
-        [SerializeField] private PlayerInput playerInput;
+        [SerializeField] private int idleStaminaRecovery;
         
         [Header("Children References")]
         [SerializeField] private GameObject aimGrid;
@@ -41,27 +38,18 @@ namespace Maihem.Actors
         public AttackStrategy CurrentAttack => attackSystem.currentAttackStrategy;
         
         private PlayerControlState _controlState = PlayerControlState.Normal;
-        private Animator _animator;
-        
-        private static readonly int AnimatorHorizontal = Animator.StringToHash("Horizontal");
-        private static readonly int AnimatorVertical = Animator.StringToHash("Vertical");
+        private bool _inDiagonalMode;
 
-        public override void TakeDamage(int damage)
-        {
-            if (IsDead) return;
-            CurrentHealth -= damage;
-            if (CurrentHealth <= 0) IsDead = true;
-   
-        }
+        private bool _isPaused;
 
         protected override void OnAnimationEnd()
         {
-            EndTurn();
+            OnTurnCompleted();
         }
 
         private void Awake()
         {
-            _animator = GetComponent<Animator>();
+            animator = GetComponentInChildren<Animator>();
         }
 
         private void Start()
@@ -72,6 +60,7 @@ namespace Maihem.Actors
         public override void Initialize()
         {
             base.Initialize();
+            _isPaused = false;
             CurrentStamina = maxStamina;
             if(attackStrategies.Length > 0)
                 attackSystem.currentAttackStrategy = attackStrategies[0];
@@ -80,29 +69,39 @@ namespace Maihem.Actors
 
         private void ConnectInputs()
         {
-            playerInput.OnAttackAction += Attack;
-            playerInput.OnToggleAimAction += ToggleAim;
-            playerInput.OnToggleDiagonalModeAction += ToggleDiagonalMode;
-            playerInput.OnMoveAction += ProcessMoveInput;
-            playerInput.OnAttackChangeAction += ChangeAttackStrategy;
+            var playerInput = GameManager.Instance.PlayerInput;
+            playerInput.AttackAction += Attack;
+            playerInput.ToggleAimAction += ToggleAim;
+            playerInput.ToggleDiagonalModeAction += ToggleDiagonalMode;
+            playerInput.MoveAction += ProcessMoveInput;
+            playerInput.AttackChangeAction += ChangeAttackStrategy;
         }
 
         private void OnDestroy()
         {
-            playerInput.OnAttackAction -= Attack;
-            playerInput.OnToggleAimAction -= ToggleAim;
-            playerInput.OnToggleDiagonalModeAction -= ToggleDiagonalMode;
-            playerInput.OnMoveAction -= ProcessMoveInput;
-            playerInput.OnAttackChangeAction -= ChangeAttackStrategy;
+            var playerInput = GameManager.Instance.PlayerInput;
+            playerInput.AttackAction -= Attack;
+            playerInput.ToggleAimAction -= ToggleAim;
+            playerInput.ToggleDiagonalModeAction -= ToggleDiagonalMode;
+            playerInput.MoveAction -= ProcessMoveInput;
+            playerInput.AttackChangeAction -= ChangeAttackStrategy;
             attackSystem?.HideTargetMarkers();
         }
 
         private void ChangeAttackStrategy(object sender, SingleAxisEventArgs e)
         {
+            if (_isPaused) return;
             _currentAttack += e.AxisValue;
             if (_currentAttack < 0) _currentAttack = attackStrategies.Length - 1;
             if (_currentAttack >= attackStrategies.Length) _currentAttack = 0;
+            
             attackSystem.currentAttackStrategy = attackStrategies[_currentAttack];
+            if (_controlState == PlayerControlState.Aiming)
+            {
+                attackSystem.HideTargetMarkers();
+                attackSystem.ShowTargetMarkers(GridPosition, CurrentFacing.GetFacingVector(), true);
+            }
+            
             OnStatusUpdate?.Invoke(this, EventArgs.Empty);
 
         }
@@ -110,55 +109,59 @@ namespace Maihem.Actors
 
         private void Attack(object sender, EventArgs e)
         {
-            if (!GameManager.Instance.CanTakeTurn()) return;
+            if (!GameManager.Instance.CanTakeTurn() || _isPaused) return;
 
-            if (attackSystem.currentAttackStrategy.StaminaCost > CurrentStamina) return;
+            if (CurrentStamina <= 0)
+            {
+                RecoverStamina(idleStaminaRecovery);
+                OnTurnCompleted();
+                return;
+            }
 
-            CurrentStamina -= attackSystem.currentAttackStrategy.StaminaCost;
+            if (!TryStaminaConsumingAction(attackSystem.currentAttackStrategy.StaminaCost)) return;
+            
             attackSystem.Attack(GridPosition, CurrentFacing.GetFacingVector(), true);
+            animator.SetTrigger(AnimatorAttack);
             StartAttackAnimation(GridPosition, CurrentFacing.GetFacingVector(), true);
         }
 
         private void ProcessMoveInput(object sender, EventArgs e)
         {
-            var moveInput = playerInput.BufferedMoveInput;
-            if (!GameManager.Instance.CanTakeTurn() || !(moveInput.sqrMagnitude > 0f)) return;
+            var moveInput = GameManager.Instance.PlayerInput.BufferedMoveInput;
+            if (!GameManager.Instance.CanTakeTurn() || !(moveInput.sqrMagnitude > 0f) || _isPaused) return;
 
-            var newFacing = new Vector2Int((int)moveInput.x, (int)moveInput.y);
-            _animator.SetInteger(AnimatorHorizontal, newFacing.x);
-            _animator.SetInteger(AnimatorVertical, newFacing.y);
-            CurrentFacing = CurrentFacing.GetFacingFromDirection(newFacing);
-
+            if (CurrentStamina <= 0)
+            {
+                RecoverStamina(idleStaminaRecovery);
+                OnTurnCompleted();
+                return;
+            }
             
+            if (_inDiagonalMode)
+            {
+                if (moveInput.x == 0 || moveInput.y == 0) return;
+                moveInput.x = math.round(moveInput.x);
+                moveInput.y = math.round(moveInput.y);
+            }
+            
+            UpdateFacing(moveInput);
 
             switch (_controlState)
             {
                 case PlayerControlState.Normal:
-                    ProcessMovement(moveInput);
+                    TryMove(moveInput);
                     break;
                 case PlayerControlState.Aiming:
-                    ProcessAim(moveInput);
-                    break;
-                case PlayerControlState.Diagonal:
-                    ProcessDiagonalMovement(moveInput);
+                    UpdateAimMarker();
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
         }
-
-        private void ProcessDiagonalMovement(Vector2 moveInput)
+        
+        private void UpdateFacing(Vector2 newFacingVector)
         {
-            if (moveInput.x == 0 || moveInput.y == 0) return;
-            moveInput.x = math.round(moveInput.x);
-            moveInput.y = math.round(moveInput.y);
-
-            TryMove(moveInput);
-        }
-
-        private void ProcessMovement(Vector2 moveInput)
-        {
-            TryMove(moveInput);
+            UpdateFacing(new Vector2Int((int)newFacingVector.x, (int)newFacingVector.y));
         }
 
         private bool TryMove(Vector2 moveInput)
@@ -185,16 +188,21 @@ namespace Maihem.Actors
                 }
             }
 
-            CurrentStamina -= cost;
+            TryStaminaConsumingAction(cost); 
+            animator.SetTrigger(AnimatorMove);
             StartMoveAnimation(targetPosition);
             UpdateGridPosition(targetPosition);
 
             return true;
         }
 
-        private void ProcessAim(Vector2 aimInput)
+        private void UpdateFacing(Vector2Int newFacingVector)
         {
-            UpdateAimMarker();
+            var newFacing = CurrentFacing.GetFacingFromDirection(newFacingVector);
+            if (CurrentFacing == newFacing) return;
+            animator.SetInteger(AnimatorHorizontal, newFacingVector.x);
+            animator.SetInteger(AnimatorVertical, newFacingVector.y);
+            CurrentFacing = newFacing;
         }
 
         private void UpdateAimMarker()
@@ -222,35 +230,43 @@ namespace Maihem.Actors
 
         private void ToggleDiagonalMode(object sender, ToggleEventArgs args)
         {
-            if (args.ToggleValue)
-            {
-                if (_controlState == PlayerControlState.Aiming) return;
-                _controlState = PlayerControlState.Diagonal;
-                diagonalModeMarker.SetActive(true);
-            }
-            else
-            {
-                if (_controlState != PlayerControlState.Diagonal) return;
-                _controlState = PlayerControlState.Normal;
-                diagonalModeMarker.SetActive(false);
-            }
+            _inDiagonalMode = args.ToggleValue;
+            diagonalModeMarker.SetActive(args.ToggleValue);
         }
-       
+
         
-        public void AdjustHealthAndStamina(int health, int stamina)
+
+        private bool TryStaminaConsumingAction(int cost)
         {
-            CurrentHealth = math.clamp(CurrentHealth + health, 0, MaxHealth);
-            CurrentStamina = math.clamp(CurrentStamina + stamina, 0, MaxStamina);
+            if (CurrentStamina < cost) return false;
+            CurrentStamina -= cost;
+            return true;
+        }
+
+        protected override void HealthChanged(object sender, HealthChangeEvent healthChangeEvent)
+        {
+            base.HealthChanged(sender, healthChangeEvent);
             OnStatusUpdate?.Invoke(this, EventArgs.Empty);
         }
 
-        private void EndTurn()
+
+        public void RecoverStamina(int amount)
         {
+            if (amount <= 0) return;
+            CurrentStamina = math.clamp(CurrentStamina + amount, 0, MaxStamina);
             OnStatusUpdate?.Invoke(this, EventArgs.Empty);
-            GameManager.Instance.TriggerTurn();
         }
         
+        protected override void OnTurnCompleted()
+        {
+            OnStatusUpdate?.Invoke(this, EventArgs.Empty);
+            base.OnTurnCompleted();
+        }
 
-        
+
+        public void PausePlayer()
+        {
+            _isPaused = true;
+        }
     }
 }

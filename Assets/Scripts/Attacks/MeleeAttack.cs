@@ -13,16 +13,16 @@ namespace Maihem.Attacks
             return TryDamage(target,Damage, isPlayerAttack);
         }
 
-        public override IList<Vector2Int> GetAffectedTiles(Vector2Int position, Vector2Int direction, bool isPlayerAttack)
+        public override IList<(Vector2Int, int)> GetAffectedTiles(Vector2Int position, Vector2Int direction, bool isPlayerAttack)
         {
-            return new List<Vector2Int>() { position + direction };
+            return new List<(Vector2Int, int)>() { (position + direction, Damage) };
         }
 
         public override IList<Vector2Int> GetPossibleTiles(Vector2Int position)
         {
             return MapManager.GetNeighbourPositions(position);
         }
-        public override int getRange()
+        public override int GetRange()
         {
             return 0;
         }

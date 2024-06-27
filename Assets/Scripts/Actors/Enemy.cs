@@ -1,17 +1,25 @@
-﻿using System.Linq;
-using Maihem.Attacks;
-using Maihem.Extensions;
+﻿using Maihem.Extensions;
 using Maihem.Managers;
 using Maihem.Movements;
 using Unity.Mathematics;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Maihem.Actors
 {
     public class Enemy : Actor
     {
-        [SerializeField] protected MovementSystem movementSystem;
+        
+        [SerializeField] private EnemyHealthDisplay healthDisplay;
+        [SerializeField] private MovementSystem movementSystem;
+        
+
+        public override void Initialize()
+        {
+            base.Initialize();
+            healthDisplay.SetMaxHealth(healthSystem.MaxHealth);
+            healthDisplay.SetHealth(healthSystem.CurrentHealth);
+            animator = GetComponentInChildren<Animator>();
+        }
         public void TakeTurn()
         {
             var player = GameManager.Instance.Player;
@@ -20,7 +28,8 @@ namespace Maihem.Actors
             {
                 var dir = new Vector2Int(math.clamp(player.GridPosition.x - GridPosition.x, -1, 1),
                     math.clamp(player.GridPosition.y - GridPosition.y, -1, 1));
-                CurrentFacing = CurrentFacing.GetFacingFromDirection(dir);
+                UpdateFacing(dir);
+                animator.SetTrigger(AnimatorAttack);
                 attackSystem.Attack(GridPosition, dir, false);
                 StartAttackAnimation(GridPosition, CurrentFacing.GetFacingVector(), false);
             }
@@ -31,6 +40,7 @@ namespace Maihem.Actors
                     OnTurnCompleted();
                 }
             }
+            attackSystem.UpdateTargetMarkerPositions(GridPosition, CurrentFacing.GetFacingVector(), false);
         }
 
         public void ShowAttackMarkers(bool show)
@@ -41,36 +51,44 @@ namespace Maihem.Actors
                 attackSystem.HideTargetMarkers();
         }
 
-        
-        
+        protected override void HealthChanged(object sender, HealthChangeEvent healthChangeEvent)
+        {
+            base.HealthChanged(sender, healthChangeEvent);
+            healthDisplay.SetHealth(healthSystem.CurrentHealth);
+        }
+
         private bool TryMove()
         {
             if (!movementSystem) return false;
-            var range = attackSystem.currentAttackStrategy.getRange();
+            var range = attackSystem.currentAttackStrategy.GetRange();
             var targetCell = movementSystem.Move(GridPosition,range);
             var newPosition = MapManager.Instance.CellToWorld(targetCell);
-            CurrentFacing = CurrentFacing.GetFacingFromDirection(targetCell - GridPosition);
+            var newFacingDirection = targetCell - GridPosition;
             
+            UpdateFacing(newFacingDirection);
+            animator.SetTrigger(AnimatorMove);
             StartMoveAnimation(newPosition);
             UpdateGridPosition(newPosition);
             return true;
 
         }
-
-        public override void TakeDamage(int damage)
-        {
-            if(IsDead) return;
-            CurrentHealth -= damage;
-            
-            if (CurrentHealth > 0) return;
-            IsDead = true;
-            OnDied(new DeathEventArgs { DeadGameObject = gameObject });
-        }
+      
 
         protected override void OnAnimationEnd()
         {
             OnTurnCompleted();
         }
+
+        private void OnDestroy()
+        {
+            attackSystem?.HideTargetMarkers();
+        }
         
+        private void UpdateFacing(Vector2Int newFacingVector)
+        {
+            animator.SetInteger(AnimatorHorizontal, newFacingVector.x);
+            animator.SetInteger(AnimatorVertical, newFacingVector.y);
+            CurrentFacing = CurrentFacing.GetFacingFromDirection(newFacingVector);
+        }
     }
 }
