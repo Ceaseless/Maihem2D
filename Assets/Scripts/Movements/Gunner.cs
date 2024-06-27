@@ -9,7 +9,7 @@ namespace Maihem.Movements
     [CreateAssetMenu(menuName = "Movement Strategies/Gunner")]
     public class Gunner : MovementStrategy
     {
-        public override Vector2Int ActivatedMove(Vector2Int gridPosition, int attackRange)
+        public override List<Vector2Int> ActivatedMove(Vector2Int gridPosition, int attackRange)
         {
             var player = GameManager.Instance.Player;
             List<Vector2Int> shortestPath;
@@ -36,12 +36,8 @@ namespace Maihem.Movements
             {
                 shortestPath = MapManager.Instance.FindShortestDistance(gridPosition, player.GridPosition);
             }
-            
-            return shortestPath[^1];
+            shortestPath.RemoveRange(0,shortestPath.Count-1);
+            return shortestPath;
         }
-
-        
-        
-
     }
 }

@@ -53,10 +53,16 @@ namespace Maihem.Actors
         {
             GridPosition = MapManager.Instance.WorldToCell(newPosition);
         }
-
-        protected void StartMoveAnimation(Vector3 target)
+        
+        protected void StartMoveAnimation(List<Vector3> target)
         {
             StartCoroutine(MoveAnimation(target));
+        }
+        
+        protected void StartMoveAnimation(Vector3 target)
+        {
+            var singleTarget = new List<Vector3> { target };
+            StartCoroutine(MoveAnimation(singleTarget));
         }
 
         protected void StartAttackAnimation(Vector2Int position, Vector2Int direction, bool isPlayerAttack)
@@ -65,19 +71,23 @@ namespace Maihem.Actors
         }
         
         // ReSharper disable Unity.PerformanceAnalysis
-        private IEnumerator MoveAnimation(Vector3 target)
+        private IEnumerator MoveAnimation(List<Vector3> target)
         {
             IsPerformingAction = true;
-            var time = 0f;
-            var startPosition = transform.position;
-            while (time < moveDuration && IsPerformingAction)
+            target.Reverse();
+            foreach (var subTarget in target)
             {
-                transform.position = Vector3.Lerp(startPosition, target, time / moveDuration);
-                time += Time.deltaTime;
-                yield return null;
+                var time = 0f;
+                var startPosition = transform.position;
+                while (time < (moveDuration/target.Count) && IsPerformingAction)
+                {
+                    transform.position = Vector3.Lerp(startPosition, subTarget, time / (moveDuration/target.Count));
+                    time += Time.deltaTime;
+                    yield return null;
+                }
+                transform.position = subTarget;
             }
-
-            transform.position = target;
+            
             IsPerformingAction = false;
             OnAnimationEnd();
         }
