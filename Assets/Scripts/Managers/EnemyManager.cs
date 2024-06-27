@@ -11,6 +11,8 @@ namespace Maihem.Managers
     public class EnemyManager : MonoBehaviour
     {
         [SerializeField] private GameObject[] enemyPrefabs;
+        [Min(1)]
+        [SerializeField] private int cullHorizontalDistance;
         [SerializeField] private int spawnRate;
         [SerializeField] private bool periodicSpawn;
         [SerializeField] private PickupManager pickupManager;
@@ -94,6 +96,19 @@ namespace Maihem.Managers
             _deadEnemies.Clear();
         }
 
+        private void KillLeftBehindEnemies()
+        {
+            var playerPosition = GameManager.Instance.Player.GridPosition;
+            foreach (var enemy in _activeEnemies)
+            {
+                var distance = playerPosition.x - enemy.GridPosition.x; // > 0 => Player is on the right
+                if (distance > cullHorizontalDistance)
+                {
+                    _deadEnemies.Add(enemy);
+                }
+            }
+        }
+
         public void Tick()
         {
             _spawnTimer++;
@@ -102,6 +117,8 @@ namespace Maihem.Managers
                 SpawnEnemy();
                 _spawnTimer = 0;
             }
+
+            KillLeftBehindEnemies();
             CullDeadEnemies();
             _enemiesTakingTurn = 0;
             StartCoroutine(AmortizedEnemyTurn());
