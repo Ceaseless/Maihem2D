@@ -145,6 +145,7 @@ namespace Maihem.Managers
             }
         }
         
+        // Just keep spawning maps if player is too close to the end until we run out of prefabs
         public void UpdateMap()
         {
             if (_instantiatedMapChunks >= mapPrefabs.Length) return;
@@ -167,10 +168,6 @@ namespace Maihem.Managers
             var position = cellPosition.WithZ(0);
             if (!TryGetTile(position, out var tile)) return true;
             return tile is null || tile.colliderType != Tile.ColliderType.None;
-            //if (!TryGetTilemapContainingCell(position, out var map)) return true;
-
-            //var cell = map.GetTile<Tile>(position);
-            //return cell is null || cell.colliderType != Tile.ColliderType.None;
         }
 
         private bool TryGetTile(Vector3Int cellPosition, out Tile tile)
