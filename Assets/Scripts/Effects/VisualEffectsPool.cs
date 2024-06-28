@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using System.Linq;
+using Maihem.Managers;
 using UnityEngine;
 
 namespace Maihem.Effects
@@ -6,23 +8,24 @@ namespace Maihem.Effects
     public enum VisualEffectType
     {
         Recover,
-        Damage,
+        PlayerDamage,
+        EnemyDamage,
     }
 
     [System.Serializable]
-    public class VisualEffectPair
+    public class VisualEffectSettings
     {
         public GameObject vfxPrefab;
         public VisualEffectType vfxType;
+        public int initialPoolSize;
+        public int poolGrowthStep;
     }
     
     public class VisualEffectsPool : MonoBehaviour
     {
         public static VisualEffectsPool Instance { get; private set;  }
 
-        [SerializeField] private VisualEffectPair[] availableVisualEffects;
-        [SerializeField] private int initialPoolSize;
-        [SerializeField] private int poolGrowthStep;
+        [SerializeField] private VisualEffectSettings[] availableVisualEffects;
         private Dictionary<VisualEffectType, List<GameObject>> _effectsPool;
         private void Awake()
         {
@@ -50,7 +53,7 @@ namespace Maihem.Effects
                 }
 
                 var effectObjects = new List<GameObject>();
-                for (var i = 0; i < initialPoolSize; i++)
+                for (var i = 0; i < effect.initialPoolSize; i++)
                 {
                     var tmp = Instantiate(effect.vfxPrefab, transform);
                     tmp.SetActive(false);
@@ -61,6 +64,8 @@ namespace Maihem.Effects
             }
         }
 
+        
+        
         public void PlayVisualEffect(VisualEffectType type, Vector3 position)
         {
             if (!_effectsPool.TryGetValue(type, out var effectInstances)) return;
@@ -77,7 +82,41 @@ namespace Maihem.Effects
                 }
             }
             // Grow pool
+            var effectSettings = availableVisualEffects.First(a => a.vfxType == type);
+            var effectPrefab = effectSettings.vfxPrefab;
+            for (var i = 0; i < effectSettings.poolGrowthStep; i++)
+            {
+                var tmp = Instantiate(effectPrefab, transform);
+                tmp.SetActive(false);
+                _effectsPool[type].Add(tmp);
+            }
             
+        }
+
+        public void PlayVisualEffects(VisualEffectType type, IList<Vector3> positions)
+        {
+            if(!_effectsPool.ContainsKey(type)) return;
+            foreach (var position in positions)
+            {
+                PlayVisualEffect(type,position);
+            }
+        }
+
+        public void PlayVisualEffects(VisualEffectType type, IList<Vector2Int> positions)
+        {
+            var worldPositions = positions.Select(a => MapManager.Instance.CellToWorld(a));
+            PlayVisualEffects(type, worldPositions as IList<Vector3>);
+        }
+
+        public void DisableAllEffects()
+        {
+            foreach (var (_, instances) in _effectsPool)
+            {
+                foreach (var effect in instances)
+                {
+                    effect.SetActive(false);
+                }
+            }
         }
 
         // public TargetMarker GetMarker()

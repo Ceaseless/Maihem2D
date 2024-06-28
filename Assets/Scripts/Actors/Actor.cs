@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Maihem.Attacks;
+using Maihem.Effects;
 using Maihem.Managers;
 using UnityEngine;
 
@@ -66,7 +67,15 @@ namespace Maihem.Actors
 
         protected void StartAttackAnimation(Vector2Int position, Vector2Int direction, bool isPlayerAttack)
         {
-            StartCoroutine(AttackAnimation(position, direction, isPlayerAttack));
+            var currentAttackStrategy = attackSystem.currentAttackStrategy;
+            var positions = currentAttackStrategy.GetAffectedTiles(position, direction, isPlayerAttack);
+            var effectType = isPlayerAttack ? VisualEffectType.PlayerDamage : VisualEffectType.EnemyDamage;
+            foreach (var (tile,_) in positions)
+            {
+                VisualEffectsPool.Instance.PlayVisualEffect(VisualEffectType.PlayerDamage, MapManager.Instance.CellToWorld(tile));
+            }
+            OnAnimationEnd();
+            //StartCoroutine(AttackAnimation(position, direction, isPlayerAttack));
         }
         
         // ReSharper disable Unity.PerformanceAnalysis
