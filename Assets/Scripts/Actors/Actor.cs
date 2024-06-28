@@ -74,8 +74,7 @@ namespace Maihem.Actors
             {
                 VisualEffectsPool.Instance.PlayVisualEffect(VisualEffectType.PlayerDamage, MapManager.Instance.CellToWorld(tile));
             }
-            OnAnimationEnd();
-            //StartCoroutine(AttackAnimation(position, direction, isPlayerAttack));
+            StartCoroutine(AttackAnimation(position, direction, isPlayerAttack));
         }
         
         // ReSharper disable Unity.PerformanceAnalysis
@@ -104,22 +103,23 @@ namespace Maihem.Actors
         private IEnumerator AttackAnimation(Vector2Int position, Vector2Int direction, bool isPlayerAttack)
         {
             IsPerformingAction = true;
-            var currentAttackStrategy = attackSystem.currentAttackStrategy;
-            var positions = currentAttackStrategy.GetAffectedTiles(position, direction, isPlayerAttack);
-            var activeAnimations = new List<GameObject>();
-            
-            foreach (var (tile,_) in positions)
-            {
-                activeAnimations.Add(Instantiate(currentAttackStrategy.attackAnimation, MapManager.Instance.CellToWorld(tile),
-                    Quaternion.identity));
-            }
-
-            while (activeAnimations.Any())
-            {
-                
-                activeAnimations.RemoveAll(s => !s);
-                yield return null;
-            }
+            yield return new WaitForSeconds(moveDuration);
+            // var currentAttackStrategy = attackSystem.currentAttackStrategy;
+            // var positions = currentAttackStrategy.GetAffectedTiles(position, direction, isPlayerAttack);
+            // var activeAnimations = new List<GameObject>();
+            //
+            // foreach (var (tile,_) in positions)
+            // {
+            //     activeAnimations.Add(Instantiate(currentAttackStrategy.attackAnimation, MapManager.Instance.CellToWorld(tile),
+            //         Quaternion.identity));
+            // }
+            //
+            // while (activeAnimations.Any())
+            // {
+            //     
+            //     activeAnimations.RemoveAll(s => !s);
+            //     yield return null;
+            // }
 
             IsPerformingAction = false;
             OnAnimationEnd();

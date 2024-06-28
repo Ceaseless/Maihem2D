@@ -26,6 +26,7 @@ namespace Maihem.Managers
 
         private bool _gameOver;
         private bool _triggerTurnOnNextFrame;
+        private bool _nonPlayerTurn;
 
         
         
@@ -78,6 +79,7 @@ namespace Maihem.Managers
             TurnCount = 0;
             SpawnPlayer();
             _gameOver = false;
+            _nonPlayerTurn = false;
             uiManager.Initialize();
             
             debugText.text = $"Turn: {TurnCount}";
@@ -134,7 +136,7 @@ namespace Maihem.Managers
 
         public bool CanTakeTurn()
         {
-            return !_triggerTurnOnNextFrame && enemyManager.AreAllActionsPerformed() && !Player.IsPerformingAction;
+            return !_nonPlayerTurn && !_triggerTurnOnNextFrame && enemyManager.AreAllActionsPerformed() && !Player.IsPerformingAction;
         }
 
         public IList<Enemy> GetEnemiesInProximity(Vector2Int origin ,int range)
@@ -144,6 +146,7 @@ namespace Maihem.Managers
 
         private void OnPlayerTurnComplete(object sender, EventArgs args)
         {
+            _nonPlayerTurn = true;
             _triggerTurnOnNextFrame = true;
         }
 
@@ -156,6 +159,7 @@ namespace Maihem.Managers
 
         private void TriggerTurn()
         {
+            
             _triggerTurnOnNextFrame = false;
             boundsController.UpdateBounds();
             if (Player.transform.position.x <= boundsController.transform.position.x)
@@ -174,6 +178,8 @@ namespace Maihem.Managers
             MapManager.Instance.UpdateMap();
             TurnCount++;
             UpdateUI();
+            _nonPlayerTurn = false;
+            
             
             if (!Player.IsDead) return;
             Debug.Log("Player died");
