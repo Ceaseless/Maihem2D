@@ -15,8 +15,8 @@ namespace Maihem.Managers
         [SerializeField] private TextMeshProUGUI staminaValue;
 
         [SerializeField] private TextMeshProUGUI distanceCounter;
-        [SerializeField] private TextMeshProUGUI currentAttack;
-        [SerializeField] private TextMeshProUGUI currentConsumable;
+        [SerializeField] private Image currentAttack;
+        [SerializeField] private Image currentConsumable;
 
         [SerializeField] private GameObject winScreen;
         
@@ -49,8 +49,8 @@ namespace Maihem.Managers
             var distanceCounterText = "Distance: "+ distance +"m";
             distanceCounter.text = distanceCounterText;
 
-            currentAttack.text = player.CurrentAttack.DisplayName;
-            currentConsumable.text = "Empty";
+            currentAttack.sprite = player.CurrentAttack.AttackDisplay;
+            //currentConsumable.sprite = player.CurrentConsumable.ConsumableDisplay;
         }
 
         public void ShowWinScreen()
