@@ -121,8 +121,13 @@ namespace Maihem.Managers
             KillLeftBehindEnemies();
             CullDeadEnemies();
             _enemiesTakingTurn = 0;
-            StartCoroutine(AmortizedEnemyTurn());
-            
+            if (_activeEnemies.Count > 0)
+                StartCoroutine(AmortizedEnemyTurn());
+            else
+                AllEnemiesPerformedTurn();
+
+
+
         }
 
 
