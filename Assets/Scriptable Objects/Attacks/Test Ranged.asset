@@ -13,7 +13,6 @@ MonoBehaviour:
   m_Name: Test Ranged
   m_EditorClassIdentifier: 
   displayName: Ranged
-  attackDisplay: {fileID: 21300000, guid: ab9c91471dec5564ea9a16a375e9cd28, type: 3}
   damage: 1
   staminaCost: 5
   attackAnimation: {fileID: 1207815041195216427, guid: 97d90143f3f48e045b3789762c6f5d5c, type: 3}

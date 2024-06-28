@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -17,10 +18,13 @@ namespace Maihem.Managers
         [SerializeField] private TextMeshProUGUI distanceCounter;
         [SerializeField] private Image currentAttack;
         [SerializeField] private Image currentConsumable;
+        
+        [SerializeField] private List<Sprite> attackSprites;
 
         [SerializeField] private GameObject winScreen;
         
         private Vector2Int _startingPoint;
+        
         
         public void Initialize()
         {
@@ -49,8 +53,25 @@ namespace Maihem.Managers
             var distanceCounterText = "Distance: "+ distance +"m";
             distanceCounter.text = distanceCounterText;
 
-            currentAttack.sprite = player.CurrentAttack.AttackDisplay;
-            //currentConsumable.sprite = player.CurrentConsumable.ConsumableDisplay;
+            switch(player.CurrentAttack.DisplayName)
+            {
+                case "Kick":
+                    currentAttack.sprite = attackSprites[0];
+                    break;
+                case "Slam":
+                    currentAttack.sprite = attackSprites[1];
+                    break;
+                case "Ranged":
+                    currentAttack.sprite = attackSprites[2];
+                    break;
+                case "Stomp":
+                    currentAttack.sprite = attackSprites[3];
+                    break;
+                case null:
+                    currentAttack = null;
+                    break;
+            }
+            //currentConsumable.text = "Empty";
         }
 
         public void ShowWinScreen()

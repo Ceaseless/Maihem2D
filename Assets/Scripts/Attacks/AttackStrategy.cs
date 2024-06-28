@@ -8,7 +8,6 @@ namespace Maihem.Attacks
     public abstract class AttackStrategy : ScriptableObject
     {
         [SerializeField] private string displayName;
-        [SerializeField] private Sprite attackDisplay;
         [Min(0)]
         [SerializeField] private int damage;
         [Min(0)]
@@ -17,8 +16,8 @@ namespace Maihem.Attacks
         [SerializeField] public GameObject attackAnimation;
         public int Damage => damage;
         public int StaminaCost => staminaCost;
-
-        public Sprite AttackDisplay => attackDisplay;
+        
+        public string DisplayName => displayName;
 
         protected static readonly Vector2Int[] AllDirections =
         {
