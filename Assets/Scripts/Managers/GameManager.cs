@@ -17,10 +17,9 @@ namespace Maihem.Managers
         [SerializeField] private EnemyManager enemyManager;
         [SerializeField] private PickupManager pickupManager;
         [SerializeField] private UIManager uiManager;
-        [SerializeField] private TextMeshProUGUI debugText;
         [SerializeField] private CinemachineVirtualCamera followCamera;
 
-        public int TurnCount { get; private set; }
+        private int TurnCount { get; set; }
         public Player Player { get; private set; }
         public PlayerInput PlayerInput => playerInput;
 
@@ -80,7 +79,6 @@ namespace Maihem.Managers
             _gameOver = false;
             uiManager.Initialize();
             
-            debugText.text = $"Turn: {TurnCount}";
         }
 
         public void PassMapData(MapData data)
@@ -173,16 +171,10 @@ namespace Maihem.Managers
         {
             MapManager.Instance.UpdateMap();
             TurnCount++;
-            UpdateUI();
             
             if (!Player.IsDead) return;
             Debug.Log("Player died");
             ResetGame();
-        }
-        
-        private void UpdateUI()
-        {
-            debugText.text = $"Turn: {TurnCount}";
         }
 
         public void Exit()

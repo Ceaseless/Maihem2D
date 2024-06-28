@@ -36,18 +36,18 @@ namespace Maihem.Managers
             
             healthBar.maxValue = player.healthSystem.MaxHealth;
             healthBar.value = player.healthSystem.CurrentHealth;
-            var healthValueText = player.healthSystem.CurrentHealth + "/" + player.healthSystem.MaxHealth + " HP";
-            healthValue.text = healthValueText.PadLeft(8,' ');
+            var healthValueText = player.healthSystem.CurrentHealth + "/" + player.healthSystem.MaxHealth;
+            healthValue.text = healthValueText;
             
             staminaBar.maxValue = player.MaxStamina;
             staminaBar.value = player.CurrentStamina;
             var staminaValueText = player.CurrentStamina + "/" + player.MaxStamina;
-            staminaValue.text = staminaValueText.PadLeft(8,' ');
+            staminaValue.text = staminaValueText;
 
             //var distance = Math.Abs(_startingPoint.x - player.GridPosition.x);
             var distance = Math.Abs(Math.Abs(_startingPoint.x - player.GridPosition.x) + Math.Abs(_startingPoint.y - player.GridPosition.y)/10);
             var distanceCounterText = "Distance: "+ distance +"m";
-            distanceCounter.text = distanceCounterText.PadRight(16, ' ');
+            distanceCounter.text = distanceCounterText;
 
             currentAttack.text = player.CurrentAttack.DisplayName;
             currentConsumable.text = "Empty";
