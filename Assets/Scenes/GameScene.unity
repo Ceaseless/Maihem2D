@@ -1937,7 +1937,12 @@ MonoBehaviour:
   staminaValue: {fileID: 203348808}
   distanceCounter: {fileID: 1049224849}
   currentAttack: {fileID: 407139298}
-  currentConsumable: {fileID: 0}
+  currentConsumable: {fileID: 1385533462}
+  attackSprites:
+  - {fileID: 21300000, guid: 898d444ec926e6d4e8d6d3132baee069, type: 3}
+  - {fileID: 21300000, guid: c617c7eb660b15f45a5bff7f69b1ab56, type: 3}
+  - {fileID: 21300000, guid: ab9c91471dec5564ea9a16a375e9cd28, type: 3}
+  - {fileID: 21300000, guid: 324ab63e20299144db11430d0439457d, type: 3}
   winScreen: {fileID: 1841272244}
 --- !u!1 &1375544828
 GameObject:
