@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Maihem.Movements
@@ -21,7 +22,7 @@ namespace Maihem.Movements
             }
         }
 
-        public Vector2Int Move(Vector2Int gridPosition, int range)
+        public List<Vector2Int> Move(Vector2Int gridPosition, int range)
         {
             CheckAlert(gridPosition);
             return _isActivated ? currentStrategy.ActivatedMove(gridPosition,range) : MovementStrategy.IdleMove(gridPosition);

@@ -4,15 +4,20 @@ using UnityEngine;
 
 namespace Maihem.Movements
 {
-    [CreateAssetMenu(menuName = "Movement Strategies/Runner")]
-    public class Runner : MovementStrategy
+    [CreateAssetMenu(menuName = "Movement Strategies/Sprinter")]
+    public class Sprinter : MovementStrategy
     {
         public override List<Vector2Int> ActivatedMove(Vector2Int gridPosition, int range)
         {
             var player = GameManager.Instance.Player;
             var shortestPath = MapManager.Instance.FindShortestDistance(gridPosition, player.GridPosition);
-            
-            shortestPath.RemoveRange(0,shortestPath.Count-1);
+
+            if (shortestPath.Count <= 2)
+            {
+                shortestPath.RemoveRange(0,shortestPath.Count-1);
+                return shortestPath;
+            }
+            shortestPath.RemoveRange(0,shortestPath.Count-2);
             return shortestPath;
         }
     }

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Maihem.Managers;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -9,21 +10,25 @@ namespace Maihem.Movements
     {
         [SerializeField] private float alertRange;
         
-        public static Vector2Int IdleMove(Vector2Int gridPosition)
+        public static List<Vector2Int> IdleMove(Vector2Int gridPosition)
         {
+            var randomPath = new List<Vector2Int>();
             var offsetLength = MapManager.CellNeighborOffsets.Length;
             for (var i = 0; i < 20; i++)
             {
                 var randomOffsetIndex = Random.Range(0, offsetLength);
                 var randomNeighbor = gridPosition + MapManager.CellNeighborOffsets[randomOffsetIndex];
                 if (!MapManager.Instance.IsCellBlocking(randomNeighbor) &&
-                      !MapManager.Instance.IsCellBlockedDiagonal(randomNeighbor, gridPosition))
+                      !MapManager.Instance.IsCellBlockedDiagonal(randomNeighbor, gridPosition) &&
+                      !GameManager.Instance.TryGetActorOnCell(randomNeighbor, out var actor))
                 {
-                    return randomNeighbor;
+                    randomPath.Add(randomNeighbor);
+                    return randomPath;
                 }
             } 
             Debug.Log("No Neighbour free");
-            return Vector2Int.zero;
+            randomPath.Add(Vector2Int.zero);
+            return randomPath;
         }
         
         public bool CheckAlert(Vector2Int gridPosition)
@@ -34,6 +39,6 @@ namespace Maihem.Movements
             return distance <= alertRange;
         }
 
-        public abstract Vector2Int ActivatedMove(Vector2Int gridPosition, int range);
+        public abstract List<Vector2Int> ActivatedMove(Vector2Int gridPosition, int range);
     }
 }

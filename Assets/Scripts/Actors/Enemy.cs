@@ -1,4 +1,5 @@
-﻿using Maihem.Extensions;
+﻿using System.Collections.Generic;
+using Maihem.Extensions;
 using Maihem.Managers;
 using Maihem.Movements;
 using Unity.Mathematics;
@@ -62,13 +63,17 @@ namespace Maihem.Actors
             if (!movementSystem) return false;
             var range = attackSystem.currentAttackStrategy.GetRange();
             var targetCell = movementSystem.Move(GridPosition,range);
-            var newPosition = MapManager.Instance.CellToWorld(targetCell);
-            var newFacingDirection = targetCell - GridPosition;
+            var newPath = new List<Vector3>();
+            foreach (var cell in targetCell)
+            {
+                newPath.Add(MapManager.Instance.CellToWorld(cell));
+            }
+            var newFacingDirection = targetCell[^1] - GridPosition;
             
             UpdateFacing(newFacingDirection);
             animator.SetTrigger(AnimatorMove);
-            StartMoveAnimation(newPosition);
-            UpdateGridPosition(newPosition);
+            StartMoveAnimation(newPath);
+            UpdateGridPosition(newPath[^1]);
             return true;
 
         }
