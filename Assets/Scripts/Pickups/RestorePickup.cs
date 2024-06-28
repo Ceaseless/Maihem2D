@@ -1,3 +1,4 @@
+using Maihem.Effects;
 using Maihem.Managers;
 using UnityEngine;
 
@@ -13,6 +14,7 @@ namespace Maihem.Pickups
             var player = GameManager.Instance.Player;
             player.healthSystem.RecoverHealth(healthRestored);
             player.RecoverStamina(staminaRestored);
+            VisualEffectsPool.Instance.PlayVisualEffect(VisualEffectType.Recover, transform.position);
         }
     }
 }

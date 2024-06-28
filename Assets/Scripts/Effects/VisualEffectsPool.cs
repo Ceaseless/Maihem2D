@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Maihem
+namespace Maihem.Effects
 {
     public enum VisualEffectType
     {
