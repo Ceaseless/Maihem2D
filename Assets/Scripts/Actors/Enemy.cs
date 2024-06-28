@@ -19,7 +19,6 @@ namespace Maihem.Actors
             base.Initialize();
             healthDisplay.SetMaxHealth(healthSystem.MaxHealth);
             healthDisplay.SetHealth(healthSystem.CurrentHealth);
-            animator = GetComponentInChildren<Animator>();
         }
         public void TakeTurn()
         {

@@ -15,6 +15,7 @@ namespace Maihem.Actors
         [SerializeField] private float moveDuration = 0.25f;
         [SerializeField] private Facing initialFacing;
         [SerializeField] protected AttackSystem attackSystem;
+        [SerializeField] protected Animator animator;
         public HealthSystem healthSystem;
         public Facing CurrentFacing { get; protected set; }
         public Vector2Int GridPosition { get; protected set; }
@@ -24,8 +25,6 @@ namespace Maihem.Actors
 
         public event EventHandler TurnStarted, TurnCompleted;
         public event EventHandler<DeathEventArgs> Died;
-
-        public Animator animator;
 
         protected static readonly int AnimatorHorizontal = Animator.StringToHash("Horizontal");
         protected static readonly int AnimatorVertical = Animator.StringToHash("Vertical");

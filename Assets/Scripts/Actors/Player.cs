@@ -47,11 +47,6 @@ namespace Maihem.Actors
             OnTurnCompleted();
         }
 
-        private void Awake()
-        {
-            animator = GetComponentInChildren<Animator>();
-        }
-
         private void Start()
         {
             ConnectInputs();

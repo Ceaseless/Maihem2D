@@ -100,8 +100,8 @@ MonoBehaviour:
   moveDuration: 0.1
   initialFacing: 1
   attackSystem: {fileID: 8664368089664306379}
+  animator: {fileID: 581173632226629406}
   healthSystem: {fileID: 8177856859162874820}
-  animator: {fileID: 0}
   healthDisplay: {fileID: 7788196142577276415}
   movementSystem: {fileID: -4224424134156153774}
 --- !u!114 &8664368089664306379
