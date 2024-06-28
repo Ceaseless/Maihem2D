@@ -2,21 +2,15 @@ using System.Collections.Generic;
 using System.Linq;
 using Maihem.Managers;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Maihem.Effects
 {
-    public enum VisualEffectType
-    {
-        Recover,
-        PlayerDamage,
-        EnemyDamage,
-    }
 
     [System.Serializable]
-    public class VisualEffectSettings
+    public class VisualEffectPoolSettings
     {
-        public GameObject vfxPrefab;
-        public VisualEffectType vfxType;
+        public VisualEffectSettings visualEffect;
         public int initialPoolSize;
         public int poolGrowthStep;
     }
@@ -25,8 +19,8 @@ namespace Maihem.Effects
     {
         public static VisualEffectsPool Instance { get; private set;  }
 
-        [SerializeField] private VisualEffectSettings[] availableVisualEffects;
-        private Dictionary<VisualEffectType, List<GameObject>> _effectsPool;
+        [SerializeField] private VisualEffectPoolSettings[] availableVisualEffects;
+        private Dictionary<VisualEffectSettings, List<GameObject>> _effectsPool;
         private void Awake()
         {
             if (Instance == null)
@@ -42,31 +36,32 @@ namespace Maihem.Effects
 
         private void Start()
         {
-            _effectsPool = new Dictionary<VisualEffectType, List<GameObject>>(availableVisualEffects.Length);
+            _effectsPool = new Dictionary<VisualEffectSettings, List<GameObject>>(availableVisualEffects.Length);
 
-            foreach (var effect in availableVisualEffects)
+            foreach (var effectSettings in availableVisualEffects)
             {
-                if (_effectsPool.ContainsKey(effect.vfxType))
+                var effect = effectSettings.visualEffect;
+                if (_effectsPool.ContainsKey(effect))
                 {
                     Debug.LogError("Duplicate effect type!");
                     continue;
                 }
 
                 var effectObjects = new List<GameObject>();
-                for (var i = 0; i < effect.initialPoolSize; i++)
+                for (var i = 0; i < effectSettings.initialPoolSize; i++)
                 {
                     var tmp = Instantiate(effect.vfxPrefab, transform);
                     tmp.SetActive(false);
                     effectObjects.Add(tmp);
                 }
-                _effectsPool.Add(effect.vfxType, effectObjects);
+                _effectsPool.Add(effect, effectObjects);
                 
             }
         }
 
         
         
-        public void PlayVisualEffect(VisualEffectType type, Vector3 position)
+        public void PlayVisualEffect(VisualEffectSettings type, Vector3 position)
         {
             if (!_effectsPool.TryGetValue(type, out var effectInstances)) return;
 
@@ -82,8 +77,8 @@ namespace Maihem.Effects
                 }
             }
             // Grow pool
-            var effectSettings = availableVisualEffects.First(a => a.vfxType == type);
-            var effectPrefab = effectSettings.vfxPrefab;
+            var effectSettings = availableVisualEffects.First(a => a.visualEffect == type);
+            var effectPrefab = effectSettings.visualEffect.vfxPrefab;
             for (var i = 0; i < effectSettings.poolGrowthStep; i++)
             {
                 var tmp = Instantiate(effectPrefab, transform);
@@ -93,7 +88,7 @@ namespace Maihem.Effects
             
         }
 
-        public void PlayVisualEffects(VisualEffectType type, IList<Vector3> positions)
+        public void PlayVisualEffects(VisualEffectSettings type, IList<Vector3> positions)
         {
             if(!_effectsPool.ContainsKey(type)) return;
             foreach (var position in positions)
@@ -102,7 +97,7 @@ namespace Maihem.Effects
             }
         }
 
-        public void PlayVisualEffects(VisualEffectType type, IList<Vector2Int> positions)
+        public void PlayVisualEffects(VisualEffectSettings type, IList<Vector2Int> positions)
         {
             var worldPositions = positions.Select(a => MapManager.Instance.CellToWorld(a));
             PlayVisualEffects(type, worldPositions as IList<Vector3>);

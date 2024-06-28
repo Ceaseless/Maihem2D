@@ -69,10 +69,9 @@ namespace Maihem.Actors
         {
             var currentAttackStrategy = attackSystem.currentAttackStrategy;
             var positions = currentAttackStrategy.GetAffectedTiles(position, direction, isPlayerAttack);
-            var effectType = isPlayerAttack ? VisualEffectType.PlayerDamage : VisualEffectType.EnemyDamage;
             foreach (var (tile,_) in positions)
             {
-                VisualEffectsPool.Instance.PlayVisualEffect(VisualEffectType.PlayerDamage, MapManager.Instance.CellToWorld(tile));
+                VisualEffectsPool.Instance.PlayVisualEffect(currentAttackStrategy.visualEffect, MapManager.Instance.CellToWorld(tile));
             }
             StartCoroutine(AttackAnimation(position, direction, isPlayerAttack));
         }
