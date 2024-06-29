@@ -20,6 +20,7 @@ namespace Maihem.Managers
         [SerializeField] private Image currentConsumable;
         
         [SerializeField] private List<Sprite> attackSprites;
+        [SerializeField] private Sprite emptyConsumable;
 
         [SerializeField] private GameObject winScreen;
         
@@ -71,7 +72,8 @@ namespace Maihem.Managers
                     currentAttack = null;
                     break;
             }
-            //currentConsumable.text = "Empty";
+
+            currentConsumable.sprite = player.consumable ? player.consumable.sprite : emptyConsumable;
         }
 
         public void ShowWinScreen()

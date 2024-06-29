@@ -1,9 +1,11 @@
 using System;
+using System.Collections.Generic;
 using Maihem.Attacks;
 using Maihem.Extensions;
 using Maihem.Managers;
 using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Maihem.Actors
 {
@@ -29,6 +31,8 @@ namespace Maihem.Actors
         [Header("Placeholder/Debug Stuff")] [SerializeField]
         private AttackStrategy[] attackStrategies;
         private int _currentAttack;
+        
+        public Consumable consumable;
 
         public event EventHandler OnStatusUpdate;
 
@@ -70,6 +74,7 @@ namespace Maihem.Actors
             playerInput.ToggleDiagonalModeAction += ToggleDiagonalMode;
             playerInput.MoveAction += ProcessMoveInput;
             playerInput.AttackChangeAction += ChangeAttackStrategy;
+            playerInput.ConsumableAction += UseConsumable;
         }
 
         private void OnDestroy()
@@ -80,8 +85,11 @@ namespace Maihem.Actors
             playerInput.ToggleDiagonalModeAction -= ToggleDiagonalMode;
             playerInput.MoveAction -= ProcessMoveInput;
             playerInput.AttackChangeAction -= ChangeAttackStrategy;
+            playerInput.ConsumableAction -= UseConsumable;
             attackSystem?.HideTargetMarkers();
         }
+
+       
 
         private void ChangeAttackStrategy(object sender, SingleAxisEventArgs e)
         {
@@ -228,7 +236,16 @@ namespace Maihem.Actors
             _inDiagonalMode = args.ToggleValue;
             diagonalModeMarker.SetActive(args.ToggleValue);
         }
+        
+        private void UseConsumable(object sender, EventArgs e)
+        {
+            if (!GameManager.Instance.CanTakeTurn() || _isPaused) return;
 
+            if (!consumable) return;
+            consumable.Activate();
+            consumable = null;
+            OnTurnCompleted();
+        }
         
 
         private bool TryStaminaConsumingAction(int cost)

@@ -7,8 +7,8 @@ namespace Maihem.Pickups
     {
 
         [SerializeField] private float spawnChance;
-        [SerializeField] private Color pickupColor;
-        [SerializeField] private SpriteRenderer spriteRenderer;
+        [SerializeField] protected Color pickupColor;
+        [SerializeField] protected SpriteRenderer spriteRenderer;
 
         public bool IsUsed { get; private set; }
         public float SpawnChance => spawnChance;
@@ -21,7 +21,7 @@ namespace Maihem.Pickups
             spriteRenderer.color = pickupColor;
         }
 
-        private void SnapToGrid()
+        protected void SnapToGrid()
         {
             var cellPosition = MapManager.Instance.WorldToCell(transform.position);
             GridPosition = cellPosition;
@@ -32,6 +32,7 @@ namespace Maihem.Pickups
 
         public void OnTriggerEnter2D(Collider2D other)
         {
+            if (IsUsed) return;
             OnPickUp();
             IsUsed = true;
         }

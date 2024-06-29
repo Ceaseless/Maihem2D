@@ -12,6 +12,7 @@ namespace Maihem
 
         public event EventHandler MoveAction;
         public event EventHandler AttackAction;
+        public event EventHandler ConsumableAction;
         public event EventHandler<SingleAxisEventArgs> AttackChangeAction;
         public event EventHandler<ToggleEventArgs> ToggleAimAction;
         public event EventHandler<ToggleEventArgs> ToggleDiagonalModeAction;
@@ -22,6 +23,7 @@ namespace Maihem
         private InputAction _moveAction, _mousePosition, _toggleAimAction, _toggleDiagonalModeAction, _attackAction;
         private InputAction _changeAttack;
         private InputAction _enemyMarkerToggle;
+        private InputAction _useConsumable;
 
         private void Awake()
         {
@@ -36,6 +38,7 @@ namespace Maihem
             _toggleDiagonalModeAction = inputActions["Diagonal Toggle"];
             _attackAction = inputActions["Attack"];
             _changeAttack = inputActions["Attack Scroll"];
+            _useConsumable = inputActions["Use Consumable"];
             _enemyMarkerToggle = inputActions["Enemy Toggle"];
 
             _moveAction.performed += MoveInputChanged;
@@ -51,8 +54,10 @@ namespace Maihem
             _enemyMarkerToggle.canceled += ToggleEnemyMarkers;
 
             _attackAction.performed += _ => AttackAction?.Invoke(this, EventArgs.Empty);
-
+            
             _changeAttack.performed += AttackChanged;
+
+            _useConsumable.performed += _ => ConsumableAction?.Invoke(this, EventArgs.Empty);
             
             _moveAction.Enable();
             _mousePosition.Enable();
@@ -60,6 +65,7 @@ namespace Maihem
             _toggleDiagonalModeAction.Enable();
             _attackAction.Enable();
             _changeAttack.Enable();
+            _useConsumable.Enable();
             _enemyMarkerToggle.Enable();
         }
 
