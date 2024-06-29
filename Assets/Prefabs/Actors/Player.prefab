@@ -266,6 +266,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44d833e16d7617041b70aae3da2b0b49, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  systemOwner: {fileID: 4040988182371635610}
   markerColor: {r: 0, g: 0.12823725, b: 1, a: 0.49803922}
   currentAttackStrategy: {fileID: 11400000, guid: 40c6fe6cdd010ed46a424771748fb724, type: 2}
 --- !u!61 &905535747534260031

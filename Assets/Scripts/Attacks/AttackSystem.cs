@@ -1,4 +1,7 @@
 using System.Collections.Generic;
+using Maihem.Actors;
+using Maihem.Effects;
+using Maihem.Extensions;
 using Maihem.Managers;
 using UnityEngine;
 
@@ -6,28 +9,44 @@ namespace Maihem.Attacks
 {
     public class AttackSystem : MonoBehaviour
     {
-        public Color markerColor;
+        [SerializeField] private Color markerColor;
+        private Actor _systemOwner;
+        private bool _isPlayerOwned;
         private List<TargetMarker> _targetMarkerPool;
-
         public AttackStrategy currentAttackStrategy;
 
-        public bool CanTargetBeHit(Vector2Int target, Vector2Int position)
+        private void Awake()
+        {
+            _systemOwner = GetComponent<Actor>();
+            _isPlayerOwned = _systemOwner.GetType() == typeof(Player);
+        }
+
+        public bool CanTargetBeHit(Vector2Int target)
         {
             if (!currentAttackStrategy) return false;
-            return currentAttackStrategy.GetPossibleTiles(position).Contains(target);
+            return currentAttackStrategy.GetPossibleTiles(_systemOwner.GridPosition).Contains(target);
         }
         
-        public bool Attack(Vector2Int position, Vector2Int direction, bool isPlayerAttack)
+        public bool Attack()
         {
             if(currentAttackStrategy) {
-                return currentAttackStrategy.Attack(position, direction, isPlayerAttack);
+                return currentAttackStrategy.Attack(_systemOwner.GridPosition, _systemOwner.CurrentFacing.GetFacingVector(), _isPlayerOwned);
             }
             return false;            
         }
-
-        public void ShowTargetMarkers(Vector2Int position, Vector2Int direction, bool isPlayerAttack)
+        
+        public void PlayHitVisualEffect()
         {
-            var positions = currentAttackStrategy.GetAffectedTiles(position, direction, isPlayerAttack);
+            var positions = currentAttackStrategy.GetAffectedTiles(_systemOwner.GridPosition, _systemOwner.CurrentFacing.GetFacingVector(), _isPlayerOwned);
+            foreach (var (tile,_) in positions)
+            {
+                VisualEffectsPool.Instance.PlayVisualEffect(currentAttackStrategy.visualEffect, MapManager.Instance.CellToWorld(tile));
+            }
+        }
+        
+        public void ShowTargetMarkers()
+        {
+            var positions = currentAttackStrategy.GetAffectedTiles(_systemOwner.GridPosition, _systemOwner.CurrentFacing.GetFacingVector(), _isPlayerOwned);
             _targetMarkerPool?.Clear();
             _targetMarkerPool = MarkerPool.Instance.GetMarkers(positions.Count);
             for (var i = 0; i < positions.Count; i++)
@@ -40,10 +59,10 @@ namespace Maihem.Attacks
             }
         }
 
-        public void UpdateTargetMarkerPositions(Vector2Int position, Vector2Int direction, bool isPlayerAttack)
+        public void UpdateTargetMarkerPositions()
         {
             if (!IsShowingTargetMarkers()) return;
-            var newPositions = currentAttackStrategy.GetAffectedTiles(position, direction, isPlayerAttack);
+            var newPositions = currentAttackStrategy.GetAffectedTiles(_systemOwner.GridPosition, _systemOwner.CurrentFacing.GetFacingVector(), _isPlayerOwned);
             for (var i = 0; i < newPositions.Count; i++)
             {
                 var marker = _targetMarkerPool[i];

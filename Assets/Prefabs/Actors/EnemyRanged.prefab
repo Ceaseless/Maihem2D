@@ -201,6 +201,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44d833e16d7617041b70aae3da2b0b49, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  systemOwner: {fileID: 2644207519441974735}
   markerColor: {r: 1, g: 0, b: 0, a: 0.5803922}
   currentAttackStrategy: {fileID: 11400000, guid: e2d86852e71541e46b698f63f0d2cdbc, type: 2}
 --- !u!114 &7494766608770200691
