@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using Cinemachine;
 using Maihem.Actors;
-using TMPro;
 using UnityEngine;
 
 namespace Maihem.Managers
@@ -174,7 +173,6 @@ namespace Maihem.Managers
         {
             MapManager.Instance.UpdateMap();
             TurnCount++;
-            UpdateUI();
             _nonPlayerTurn = false;
             
             
