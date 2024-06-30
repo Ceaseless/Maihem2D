@@ -170,6 +170,7 @@ namespace Maihem.Managers
         private void OnEnemyTurnCompleted()
         {
             MapManager.Instance.UpdateMap();
+            Player.DecayShield();
             TurnCount++;
             
             if (!Player.IsDead) return;

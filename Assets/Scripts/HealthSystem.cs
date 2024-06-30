@@ -9,7 +9,8 @@ namespace Maihem
         [SerializeField] private int maxHealth;
         [SerializeField] private SpriteRenderer shield;
 
-        private int _shield;
+        private float _shield;
+        private float _maxShield;
 
         public event EventHandler<HealthChangeEvent> OnHealthChange;
         public bool IsDead => maxHealth == 0 || CurrentHealth <= 0;
@@ -28,19 +29,7 @@ namespace Maihem
             if (IsDead || amount <= 0) return;
             if (_shield > 0)
             {
-                _shield -= 1;
-                var color = shield.color;
-
-                if (_shield <= 0)
-                {
-                    color.a = 0;
-                }
-                else
-                {
-                    color.g -= 0.3f;
-                    color.b -= 0.3f; 
-                }
-                shield.color = color;
+                ReduceShield();
                 return;
             }
             var old = CurrentHealth;
@@ -58,9 +47,35 @@ namespace Maihem
 
         public void AddShield(int strength)
         {
-            _shield = strength;
+            _shield = strength+1;
+            _maxShield = strength;
             var color = new Color(1,1,1,1);
             shield.color = color;
+        }
+
+        private void ReduceShield()
+        {
+            _shield -= 1;
+            var color = shield.color;
+
+            if (_shield <= 0)
+            {
+                color.a = 0;
+            }
+            else
+            {
+                color.g = _shield/_maxShield;
+                color.b = _shield/_maxShield; 
+            }
+            shield.color = color;
+        }
+
+        public void DecayShield()
+        {
+            if (_shield > 0)
+            {
+                ReduceShield();
+            }
         }
     }
     

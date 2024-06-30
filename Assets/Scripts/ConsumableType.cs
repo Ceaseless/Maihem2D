@@ -7,6 +7,7 @@ namespace Maihem
     public enum ConsumableType 
     {
         Health,
-        Shield
+        Shield,
+        Empty
     }
 }

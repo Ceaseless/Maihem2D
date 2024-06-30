@@ -31,6 +31,7 @@ namespace Maihem.Actors
         [Header("Placeholder/Debug Stuff")] [SerializeField]
         private AttackStrategy[] attackStrategies;
         private int _currentAttack;
+        private Consumable _emptyConsumable;
         
         public Consumable consumable;
 
@@ -59,6 +60,7 @@ namespace Maihem.Actors
         public override void Initialize()
         {
             base.Initialize();
+            _emptyConsumable = consumable;
             _isPaused = false;
             CurrentStamina = maxStamina;
             if(attackStrategies.Length > 0)
@@ -241,7 +243,7 @@ namespace Maihem.Actors
         {
             if (!GameManager.Instance.CanTakeTurn() || _isPaused) return;
 
-            if (!consumable) return;
+            if (consumable.type == ConsumableType.Empty) return;
 
             switch (consumable.type)
             {
@@ -250,17 +252,15 @@ namespace Maihem.Actors
                     break;
                 case ConsumableType.Shield:
                     healthSystem.AddShield(3);
-                    ActivateShield();
+                    consumable = _emptyConsumable;
                     break;
-                
             }
-            consumable = null;
             OnTurnCompleted();
         }
 
-        private void ActivateShield()
+        public void DecayShield()
         {
-            
+            healthSystem.DecayShield();
         }
 
 
