@@ -184,7 +184,8 @@ namespace Maihem.Actors
             }
 
             TryStaminaConsumingAction(cost); 
-            animator.SetTrigger(AnimatorMove);
+            animator.SetBool("Moving",true);
+            //animator.SetTrigger(AnimatorMove);
             StartMoveAnimation(targetPosition);
             UpdateGridPosition(targetPosition);
 

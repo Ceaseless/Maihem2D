@@ -117,7 +117,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44d833e16d7617041b70aae3da2b0b49, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  systemOwner: {fileID: 2784692613204437819}
   markerColor: {r: 1, g: 0, b: 0, a: 0.50980395}
   currentAttackStrategy: {fileID: 11400000, guid: 74101343d38c381469af9ca41353346c, type: 2}
 --- !u!114 &-4224424134156153774
@@ -156,7 +155,7 @@ Animator:
   m_GameObject: {fileID: 765410887786012589}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: efd4126b3ce58ce49bb52909ecc61d71, type: 2}
+  m_Controller: {fileID: 9100000, guid: 092b7868a90f8e34694aafd3e4d45c3a, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
