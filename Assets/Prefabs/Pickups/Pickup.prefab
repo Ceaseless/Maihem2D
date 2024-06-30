@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 301943b17629e0a4099ff2db22a1bb5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnChance: 30
+  spawnChance: 100
   pickupColor: {r: 0, g: 1, b: 0.06867337, a: 1}
   spriteRenderer: {fileID: 7828528102059523859}
   staminaRestored: 50
