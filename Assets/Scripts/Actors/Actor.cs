@@ -74,20 +74,22 @@ namespace Maihem.Actors
         private IEnumerator MoveAnimation(List<Vector3> target)
         {
             IsPerformingAction = true;
+            animator.SetBool("Moving",true);
             target.Reverse();
+            var timePerTarget = moveDuration / target.Count;
             foreach (var subTarget in target)
             {
                 var time = 0f;
                 var startPosition = transform.position;
-                while (time < (moveDuration/target.Count) && IsPerformingAction)
+                while (time < timePerTarget && IsPerformingAction)
                 {
-                    transform.position = Vector3.Lerp(startPosition, subTarget, time / (moveDuration/target.Count));
+                    transform.position = Vector3.Lerp(startPosition, subTarget, time / timePerTarget);
                     time += Time.deltaTime;
                     yield return null;
                 }
                 transform.position = subTarget;
             }
-            
+            animator.SetBool("Moving",false);
             IsPerformingAction = false;
             OnAnimationEnd();
         }
