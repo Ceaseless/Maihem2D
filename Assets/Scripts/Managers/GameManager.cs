@@ -172,6 +172,7 @@ namespace Maihem.Managers
         private void OnEnemyTurnCompleted()
         {
             MapManager.Instance.UpdateMap();
+            Player.DecayShield();
             TurnCount++;
             _nonPlayerTurn = false;
             

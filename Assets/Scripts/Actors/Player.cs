@@ -1,9 +1,11 @@
 using System;
+using System.Collections.Generic;
 using Maihem.Attacks;
 using Maihem.Extensions;
 using Maihem.Managers;
 using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Maihem.Actors
 {
@@ -29,6 +31,9 @@ namespace Maihem.Actors
         [Header("Placeholder/Debug Stuff")] [SerializeField]
         private AttackStrategy[] attackStrategies;
         private int _currentAttack;
+        private Consumable _emptyConsumable;
+        
+        public Consumable consumable;
 
         public event EventHandler OnStatusUpdate;
 
@@ -55,6 +60,7 @@ namespace Maihem.Actors
         public override void Initialize()
         {
             base.Initialize();
+            _emptyConsumable = consumable;
             _isPaused = false;
             CurrentStamina = maxStamina;
             if(attackStrategies.Length > 0)
@@ -70,6 +76,7 @@ namespace Maihem.Actors
             playerInput.ToggleDiagonalModeAction += ToggleDiagonalMode;
             playerInput.MoveAction += ProcessMoveInput;
             playerInput.AttackChangeAction += ChangeAttackStrategy;
+            playerInput.ConsumableAction += UseConsumable;
         }
 
         private void OnDestroy()
@@ -80,6 +87,7 @@ namespace Maihem.Actors
             playerInput.ToggleDiagonalModeAction -= ToggleDiagonalMode;
             playerInput.MoveAction -= ProcessMoveInput;
             playerInput.AttackChangeAction -= ChangeAttackStrategy;
+            playerInput.ConsumableAction -= UseConsumable;
             attackSystem?.HideTargetMarkers();
         }
 
@@ -229,8 +237,31 @@ namespace Maihem.Actors
             _inDiagonalMode = args.ToggleValue;
             diagonalModeMarker.SetActive(args.ToggleValue);
         }
-
         
+        private void UseConsumable(object sender, EventArgs e)
+        {
+            if (!GameManager.Instance.CanTakeTurn() || _isPaused) return;
+
+            if (consumable.type == ConsumableType.Empty) return;
+
+            switch (consumable.type)
+            {
+                case ConsumableType.Health:
+                    healthSystem.RecoverHealth(10);
+                    break;
+                case ConsumableType.Shield:
+                    healthSystem.AddShield(3);
+                    consumable = _emptyConsumable;
+                    break;
+            }
+            OnTurnCompleted();
+        }
+
+        public void DecayShield()
+        {
+            healthSystem.DecayShield();
+        }
+
 
         private bool TryStaminaConsumingAction(int cost)
         {
@@ -264,5 +295,6 @@ namespace Maihem.Actors
         {
             _isPaused = true;
         }
+        
     }
 }

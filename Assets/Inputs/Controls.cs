@@ -89,6 +89,15 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Use Consumable"",
+                    ""type"": ""Button"",
+                    ""id"": ""458421ad-5ee7-4d5b-8614-92cf9c449fcc"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -388,6 +397,17 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""action"": ""Enemy Toggle"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e03b2f61-d031-4caa-8851-46b931910ff0"",
+                    ""path"": ""<Keyboard>/ctrl"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Use Consumable"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -403,6 +423,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         m_Default_AimToggle = m_Default.FindAction("Aim Toggle", throwIfNotFound: true);
         m_Default_DiagonalToggle = m_Default.FindAction("Diagonal Toggle", throwIfNotFound: true);
         m_Default_EnemyToggle = m_Default.FindAction("Enemy Toggle", throwIfNotFound: true);
+        m_Default_UseConsumable = m_Default.FindAction("Use Consumable", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -471,6 +492,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Default_AimToggle;
     private readonly InputAction m_Default_DiagonalToggle;
     private readonly InputAction m_Default_EnemyToggle;
+    private readonly InputAction m_Default_UseConsumable;
     public struct DefaultActions
     {
         private @Controls m_Wrapper;
@@ -482,6 +504,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         public InputAction @AimToggle => m_Wrapper.m_Default_AimToggle;
         public InputAction @DiagonalToggle => m_Wrapper.m_Default_DiagonalToggle;
         public InputAction @EnemyToggle => m_Wrapper.m_Default_EnemyToggle;
+        public InputAction @UseConsumable => m_Wrapper.m_Default_UseConsumable;
         public InputActionMap Get() { return m_Wrapper.m_Default; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -512,6 +535,9 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @EnemyToggle.started += instance.OnEnemyToggle;
             @EnemyToggle.performed += instance.OnEnemyToggle;
             @EnemyToggle.canceled += instance.OnEnemyToggle;
+            @UseConsumable.started += instance.OnUseConsumable;
+            @UseConsumable.performed += instance.OnUseConsumable;
+            @UseConsumable.canceled += instance.OnUseConsumable;
         }
 
         private void UnregisterCallbacks(IDefaultActions instance)
@@ -537,6 +563,9 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @EnemyToggle.started -= instance.OnEnemyToggle;
             @EnemyToggle.performed -= instance.OnEnemyToggle;
             @EnemyToggle.canceled -= instance.OnEnemyToggle;
+            @UseConsumable.started -= instance.OnUseConsumable;
+            @UseConsumable.performed -= instance.OnUseConsumable;
+            @UseConsumable.canceled -= instance.OnUseConsumable;
         }
 
         public void RemoveCallbacks(IDefaultActions instance)
@@ -563,5 +592,6 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         void OnAimToggle(InputAction.CallbackContext context);
         void OnDiagonalToggle(InputAction.CallbackContext context);
         void OnEnemyToggle(InputAction.CallbackContext context);
+        void OnUseConsumable(InputAction.CallbackContext context);
     }
 }

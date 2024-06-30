@@ -71,7 +71,9 @@ namespace Maihem.Managers
                     currentAttack = null;
                     break;
             }
-            //currentConsumable.text = "Empty";
+
+            currentConsumable.sprite = player.consumable.sprite;
+            
         }
 
         public void ShowWinScreen()

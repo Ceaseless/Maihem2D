@@ -48,7 +48,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   visualEffect: {fileID: 11400000, guid: 0e64d1f5e20973a469d65359d640a900, type: 2}
-  spawnChance: 50
+  spawnChance: 100
   pickupColor: {r: 0, g: 1, b: 0.06867337, a: 1}
   spriteRenderer: {fileID: 7828528102059523859}
   staminaRestored: 50

@@ -1581,6 +1581,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pickupPrefabs:
   - {fileID: 3336585378749860948, guid: ef64c4178bfa1e049a296f13461cee7a, type: 3}
+  - {fileID: 4656127568512484811, guid: f4f4a88564cf76f459aa3a433c703fc4, type: 3}
+  - {fileID: 4656127568512484811, guid: 9065cd78df1e6e04cb74c8fe9981457f, type: 3}
 --- !u!4 &996597389
 Transform:
   m_ObjectHideFlags: 0
@@ -2004,6 +2006,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: c617c7eb660b15f45a5bff7f69b1ab56, type: 3}
   - {fileID: 21300000, guid: ab9c91471dec5564ea9a16a375e9cd28, type: 3}
   - {fileID: 21300000, guid: 324ab63e20299144db11430d0439457d, type: 3}
+  emptyConsumable: {fileID: 10917, guid: 0000000000000000f000000000000000, type: 0}
   winScreen: {fileID: 1841272244}
 --- !u!1 &1375544828
 GameObject:
@@ -2195,7 +2198,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -2203,7 +2206,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_Sprite: {fileID: 0}
-  m_Type: 0
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -3063,11 +3066,11 @@ MonoBehaviour:
   grid: {fileID: 1936159251}
   mapConstraints: {fileID: 1936159253}
   cameraConfiner: {fileID: 669772592}
-  mapPrefabs:
-  - {fileID: 7509609231449073766, guid: eae03ec3a9c51fb488edd26083644587, type: 3}
-  - {fileID: 7509609231449073766, guid: bd2b2c138be71d945a4729645e34c0bf, type: 3}
   goalPrefab: {fileID: 6327711029831941524, guid: 9be4bfffd413d5146ad9dc859f139857,
     type: 3}
+  mapPrefabs:
+  - {fileID: 7509609231449073766, guid: bd2b2c138be71d945a4729645e34c0bf, type: 3}
+  - {fileID: 7509609231449073766, guid: eae03ec3a9c51fb488edd26083644587, type: 3}
   mapSpawnDistance: 20
 --- !u!4 &1727441955
 Transform:
