@@ -70,7 +70,7 @@ namespace Maihem.Actors
             var newFacingDirection = targetCell[^1] - GridPosition;
             
             UpdateFacing(newFacingDirection);
-            animator.SetTrigger(AnimatorMove);
+            
             StartMoveAnimation(newPath);
             UpdateGridPosition(newPath[^1]);
             return true;

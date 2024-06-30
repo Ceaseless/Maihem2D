@@ -28,8 +28,8 @@ namespace Maihem.Actors
         protected static readonly int AnimatorHorizontal = Animator.StringToHash("Horizontal");
         protected static readonly int AnimatorVertical = Animator.StringToHash("Vertical");
         protected static readonly int AnimatorAttack = Animator.StringToHash("Attack");
-        protected static readonly int AnimatorMove = Animator.StringToHash("Move");
-        
+        protected static readonly int AnimatorMoving = Animator.StringToHash("Moving");
+
         public virtual void Initialize()
         {
             GridPosition = MapManager.Instance.WorldToCell(transform.position);
@@ -74,7 +74,7 @@ namespace Maihem.Actors
         private IEnumerator MoveAnimation(List<Vector3> target)
         {
             IsPerformingAction = true;
-            animator.SetBool("Moving",true);
+            animator.SetBool(AnimatorMoving,true);
             target.Reverse();
             var timePerTarget = moveDuration / target.Count;
             foreach (var subTarget in target)
@@ -89,7 +89,7 @@ namespace Maihem.Actors
                 }
                 transform.position = subTarget;
             }
-            animator.SetBool("Moving",false);
+            animator.SetBool(AnimatorMoving,false);
             IsPerformingAction = false;
             OnAnimationEnd();
         }
