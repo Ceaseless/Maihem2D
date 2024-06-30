@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 8664368089664306379}
   - component: {fileID: -4224424134156153774}
   - component: {fileID: 8177856859162874820}
+  - component: {fileID: 3400881978582435252}
   m_Layer: 7
   m_Name: EnemyFast
   m_TagString: Untagged
@@ -100,7 +101,7 @@ MonoBehaviour:
   moveDuration: 0.1
   initialFacing: 1
   attackSystem: {fileID: 8664368089664306379}
-  animator: {fileID: 581173632226629406}
+  animator: {fileID: 3400881978582435252}
   healthSystem: {fileID: 8177856859162874820}
   healthDisplay: {fileID: 7788196142577276415}
   movementSystem: {fileID: -4224424134156153774}
@@ -116,6 +117,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44d833e16d7617041b70aae3da2b0b49, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  systemOwner: {fileID: 2784692613204437819}
   markerColor: {r: 1, g: 0, b: 0, a: 0.50980395}
   currentAttackStrategy: {fileID: 11400000, guid: 74101343d38c381469af9ca41353346c, type: 2}
 --- !u!114 &-4224424134156153774
@@ -144,6 +146,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 2
+--- !u!95 &3400881978582435252
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 765410887786012589}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: efd4126b3ce58ce49bb52909ecc61d71, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &7186892262794404224
 GameObject:
   m_ObjectHideFlags: 0
@@ -154,9 +177,8 @@ GameObject:
   m_Component:
   - component: {fileID: 7335923615814270360}
   - component: {fileID: 4681996450969363017}
-  - component: {fileID: 581173632226629406}
   m_Layer: 7
-  m_Name: DEBUG_Duck_128x128_4
+  m_Name: Visual
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -229,27 +251,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!95 &581173632226629406
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7186892262794404224}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: efd4126b3ce58ce49bb52909ecc61d71, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!1001 &2324315094559886801
 PrefabInstance:
   m_ObjectHideFlags: 0

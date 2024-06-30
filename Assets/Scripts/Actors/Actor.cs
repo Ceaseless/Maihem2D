@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using Maihem.Attacks;
 using Maihem.Managers;
 using UnityEngine;
@@ -64,9 +63,11 @@ namespace Maihem.Actors
             StartCoroutine(MoveAnimation(singleTarget));
         }
 
-        protected void StartAttackAnimation(Vector2Int position, Vector2Int direction, bool isPlayerAttack)
+        
+
+        protected void StartAttackAnimation()
         {
-            StartCoroutine(AttackAnimation(position, direction, isPlayerAttack));
+            StartCoroutine(AttackAnimation());
         }
         
         // ReSharper disable Unity.PerformanceAnalysis
@@ -92,26 +93,10 @@ namespace Maihem.Actors
         }
         
         // ReSharper disable Unity.PerformanceAnalysis
-        private IEnumerator AttackAnimation(Vector2Int position, Vector2Int direction, bool isPlayerAttack)
+        private IEnumerator AttackAnimation()
         {
             IsPerformingAction = true;
-            var currentAttackStrategy = attackSystem.currentAttackStrategy;
-            var positions = currentAttackStrategy.GetAffectedTiles(position, direction, isPlayerAttack);
-            var activeAnimations = new List<GameObject>();
-            
-            foreach (var (tile,_) in positions)
-            {
-                activeAnimations.Add(Instantiate(currentAttackStrategy.attackAnimation, MapManager.Instance.CellToWorld(tile),
-                    Quaternion.identity));
-            }
-
-            while (activeAnimations.Any())
-            {
-                
-                activeAnimations.RemoveAll(s => !s);
-                yield return null;
-            }
-
+            yield return new WaitForSeconds(moveDuration);
             IsPerformingAction = false;
             OnAnimationEnd();
         }

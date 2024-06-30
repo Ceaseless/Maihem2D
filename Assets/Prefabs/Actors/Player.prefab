@@ -183,6 +183,7 @@ GameObject:
   - component: {fileID: 905535747534260031}
   - component: {fileID: 4751365496943257098}
   - component: {fileID: 8340483265586802800}
+  - component: {fileID: 5659617669747785819}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -225,7 +226,7 @@ MonoBehaviour:
   moveDuration: 0.2
   initialFacing: 0
   attackSystem: {fileID: 9002999657413362015}
-  animator: {fileID: 1315126361331221125}
+  animator: {fileID: 5659617669747785819}
   healthSystem: {fileID: 4751365496943257098}
   maxStamina: 200
   moveCost: 1
@@ -265,6 +266,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44d833e16d7617041b70aae3da2b0b49, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  systemOwner: {fileID: 4040988182371635610}
   markerColor: {r: 0, g: 0.12823725, b: 1, a: 0.49803922}
   currentAttackStrategy: {fileID: 11400000, guid: 40c6fe6cdd010ed46a424771748fb724, type: 2}
 --- !u!61 &905535747534260031
@@ -303,8 +305,8 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
-    newSize: {x: 1, y: 1}
+    oldSize: {x: 1, y: 2}
+    newSize: {x: 1, y: 2}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
@@ -352,6 +354,27 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 7
+--- !u!95 &5659617669747785819
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4653786670576362675}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 99e31da7c811755458ccbc646af62d7b, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &8864121623866758279
 GameObject:
   m_ObjectHideFlags: 0
@@ -362,9 +385,8 @@ GameObject:
   m_Component:
   - component: {fileID: 2854179749033946593}
   - component: {fileID: 8381417263059300217}
-  - component: {fileID: 1315126361331221125}
   m_Layer: 6
-  m_Name: DEBUG_Duck_128x128_8
+  m_Name: Visual
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -437,27 +459,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!95 &1315126361331221125
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8864121623866758279}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 99e31da7c811755458ccbc646af62d7b, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!1001 &8043172072316065359
 PrefabInstance:
   m_ObjectHideFlags: 0
