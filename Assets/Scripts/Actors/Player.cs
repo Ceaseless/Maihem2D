@@ -242,11 +242,27 @@ namespace Maihem.Actors
             if (!GameManager.Instance.CanTakeTurn() || _isPaused) return;
 
             if (!consumable) return;
-            consumable.Activate();
+
+            switch (consumable.type)
+            {
+                case ConsumableType.Health:
+                    healthSystem.RecoverHealth(10);
+                    break;
+                case ConsumableType.Shield:
+                    healthSystem.AddShield(3);
+                    ActivateShield();
+                    break;
+                
+            }
             consumable = null;
             OnTurnCompleted();
         }
-        
+
+        private void ActivateShield()
+        {
+            
+        }
+
 
         private bool TryStaminaConsumingAction(int cost)
         {
@@ -280,5 +296,6 @@ namespace Maihem.Actors
         {
             _isPaused = true;
         }
+        
     }
 }

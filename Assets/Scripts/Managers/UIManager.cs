@@ -74,6 +74,7 @@ namespace Maihem.Managers
             }
 
             currentConsumable.sprite = player.consumable ? player.consumable.sprite : emptyConsumable;
+            
         }
 
         public void ShowWinScreen()

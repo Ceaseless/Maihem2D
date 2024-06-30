@@ -53,15 +53,16 @@ namespace Maihem.Managers
 
         public void TrySpawnPickup(Vector3 position)
         {
-            var pickup = pickupPrefabs[0];
-
             if (_activePickups.Any(activePickup => activePickup.transform.position == position))
             {
                 return;
             }
 
-            if (!(pickup.GetComponent<Pickup>().SpawnChance >= Random.Range(0,100))) return;
-            var newPickup = Instantiate(pickup, position, Quaternion.identity, transform).GetComponent<Pickup>();
+            var randomSpawn = Random.Range(0, pickupPrefabs.Length - 1);
+
+            var pickupSpawn = pickupPrefabs[randomSpawn];
+            if (!(pickupSpawn.GetComponent<Pickup>().SpawnChance >= Random.Range(0,100))) return;
+            var newPickup = Instantiate(pickupSpawn, position, Quaternion.identity, transform).GetComponent<Pickup>();
             _activePickups.Add(newPickup);
         }
     }

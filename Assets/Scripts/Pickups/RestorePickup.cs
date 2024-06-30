@@ -13,6 +13,7 @@ namespace Maihem.Pickups
             var player = GameManager.Instance.Player;
             player.healthSystem.RecoverHealth(healthRestored);
             player.RecoverStamina(staminaRestored);
+            IsUsed = true;
         }
     }
 }

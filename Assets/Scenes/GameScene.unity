@@ -1575,6 +1575,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pickupPrefabs:
   - {fileID: 3336585378749860948, guid: ef64c4178bfa1e049a296f13461cee7a, type: 3}
+  - {fileID: 4656127568512484811, guid: f4f4a88564cf76f459aa3a433c703fc4, type: 3}
+  - {fileID: 4656127568512484811, guid: 9065cd78df1e6e04cb74c8fe9981457f, type: 3}
 --- !u!4 &996597389
 Transform:
   m_ObjectHideFlags: 0
@@ -2134,7 +2136,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1

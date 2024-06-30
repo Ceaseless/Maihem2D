@@ -6,11 +6,11 @@ namespace Maihem.Pickups
     public abstract class Pickup : MonoBehaviour
     {
 
-        [SerializeField] private float spawnChance;
+        [SerializeField] public float spawnChance;
         [SerializeField] protected Color pickupColor;
         [SerializeField] protected SpriteRenderer spriteRenderer;
 
-        public bool IsUsed { get; private set; }
+        public bool IsUsed { get; protected set; }
         public float SpawnChance => spawnChance;
         private Vector2Int GridPosition { get; set; }
         
@@ -21,7 +21,7 @@ namespace Maihem.Pickups
             spriteRenderer.color = pickupColor;
         }
 
-        protected void SnapToGrid()
+        private void SnapToGrid()
         {
             var cellPosition = MapManager.Instance.WorldToCell(transform.position);
             GridPosition = cellPosition;
@@ -30,11 +30,10 @@ namespace Maihem.Pickups
         }
 
 
-        public void OnTriggerEnter2D(Collider2D other)
+        private void OnTriggerEnter2D(Collider2D other)
         {
             if (IsUsed) return;
             OnPickUp();
-            IsUsed = true;
         }
 
         protected abstract void OnPickUp();
