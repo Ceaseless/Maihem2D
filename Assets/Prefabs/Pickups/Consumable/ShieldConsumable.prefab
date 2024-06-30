@@ -130,6 +130,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e65c67a474285a488a4e901e99dc736, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  visualEffect: {fileID: 0}
   spawnChance: 30
   pickupColor: {r: 1, g: 1, b: 1, a: 1}
   spriteRenderer: {fileID: 6633896297199098025}
@@ -177,5 +178,5 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.05, y: 0.05}
+  m_Size: {x: 0.01, y: 0.01}
   m_EdgeRadius: 0
