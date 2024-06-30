@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34f1fd77b1174d6ab2f599a66cebd594, type: 3}
   m_Name: Test EnemyRanged
   m_EditorClassIdentifier: 
+  displayName: 
   damage: 1
   staminaCost: 5
-  attackAnimation: {fileID: 7003012535162078422, guid: 9d6242cbc73a0ce4489daf4b351b34a1, type: 3}
+  visualEffect: {fileID: 11400000, guid: c0482b1fbc9132943b1e45b9579eadf6, type: 2}
   range: 3
   blockedByActors: 0

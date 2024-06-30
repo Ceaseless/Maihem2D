@@ -24,14 +24,14 @@ namespace Maihem.Actors
         {
             var player = GameManager.Instance.Player;
             OnTurnStarted();
-            if (attackSystem.CanTargetBeHit(GameManager.Instance.Player.GridPosition, GridPosition))
+            if (attackSystem.CanTargetBeHit(GameManager.Instance.Player.GridPosition))
             {
                 var dir = new Vector2Int(math.clamp(player.GridPosition.x - GridPosition.x, -1, 1),
                     math.clamp(player.GridPosition.y - GridPosition.y, -1, 1));
                 UpdateFacing(dir);
                 animator.SetTrigger(AnimatorAttack);
-                attackSystem.Attack(GridPosition, dir, false);
-                StartAttackAnimation(GridPosition, CurrentFacing.GetFacingVector(), false);
+                attackSystem.Attack();
+                StartAttackAnimation();
             }
             else
             {
@@ -40,13 +40,13 @@ namespace Maihem.Actors
                     OnTurnCompleted();
                 }
             }
-            attackSystem.UpdateTargetMarkerPositions(GridPosition, CurrentFacing.GetFacingVector(), false);
+            attackSystem.UpdateTargetMarkerPositions();
         }
 
         public void ShowAttackMarkers(bool show)
         {
             if(show)
-                attackSystem.ShowTargetMarkers(GridPosition, CurrentFacing.GetFacingVector(), false);
+                attackSystem.ShowTargetMarkers();
             else
                 attackSystem.HideTargetMarkers();
         }
@@ -70,7 +70,7 @@ namespace Maihem.Actors
             var newFacingDirection = targetCell[^1] - GridPosition;
             
             UpdateFacing(newFacingDirection);
-            animator.SetTrigger(AnimatorMove);
+            
             StartMoveAnimation(newPath);
             UpdateGridPosition(newPath[^1]);
             return true;

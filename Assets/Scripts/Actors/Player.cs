@@ -91,8 +91,6 @@ namespace Maihem.Actors
             attackSystem?.HideTargetMarkers();
         }
 
-       
-
         private void ChangeAttackStrategy(object sender, SingleAxisEventArgs e)
         {
             if (_isPaused) return;
@@ -104,7 +102,7 @@ namespace Maihem.Actors
             if (_controlState == PlayerControlState.Aiming)
             {
                 attackSystem.HideTargetMarkers();
-                attackSystem.ShowTargetMarkers(GridPosition, CurrentFacing.GetFacingVector(), true);
+                attackSystem.ShowTargetMarkers();
             }
             
             OnStatusUpdate?.Invoke(this, EventArgs.Empty);
@@ -125,9 +123,9 @@ namespace Maihem.Actors
 
             if (!TryStaminaConsumingAction(attackSystem.currentAttackStrategy.StaminaCost)) return;
             
-            attackSystem.Attack(GridPosition, CurrentFacing.GetFacingVector(), true);
+            attackSystem.Attack();
             animator.SetTrigger(AnimatorAttack);
-            StartAttackAnimation(GridPosition, CurrentFacing.GetFacingVector(), true);
+            StartAttackAnimation();
         }
 
         private void ProcessMoveInput(object sender, EventArgs e)
@@ -194,7 +192,8 @@ namespace Maihem.Actors
             }
 
             TryStaminaConsumingAction(cost); 
-            animator.SetTrigger(AnimatorMove);
+            animator.SetBool("Moving",true);
+            //animator.SetTrigger(AnimatorMove);
             StartMoveAnimation(targetPosition);
             UpdateGridPosition(targetPosition);
 
@@ -212,7 +211,7 @@ namespace Maihem.Actors
 
         private void UpdateAimMarker()
         {
-            attackSystem.UpdateTargetMarkerPositions(GridPosition, CurrentFacing.GetFacingVector(), true);
+            attackSystem.UpdateTargetMarkerPositions();
         }
 
         private void ToggleAim(object sender, ToggleEventArgs args)
@@ -221,7 +220,7 @@ namespace Maihem.Actors
             {
                 if (_controlState != PlayerControlState.Normal) return;
                 _controlState = PlayerControlState.Aiming;
-                attackSystem.ShowTargetMarkers(GridPosition, CurrentFacing.GetFacingVector(), true);
+                attackSystem.ShowTargetMarkers();
                 aimGrid.SetActive(true);
             }
             else

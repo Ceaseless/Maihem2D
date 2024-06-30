@@ -15,6 +15,6 @@ MonoBehaviour:
   displayName: Ranged
   damage: 1
   staminaCost: 5
-  attackAnimation: {fileID: 1207815041195216427, guid: 97d90143f3f48e045b3789762c6f5d5c, type: 3}
+  visualEffect: {fileID: 11400000, guid: af22410dd999bb24f879b5d224ac83e4, type: 2}
   range: 3
   blockedByActors: 0

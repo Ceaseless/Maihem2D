@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using Cinemachine;
 using Maihem.Actors;
-using TMPro;
 using UnityEngine;
 
 namespace Maihem.Managers
@@ -25,6 +24,7 @@ namespace Maihem.Managers
 
         private bool _gameOver;
         private bool _triggerTurnOnNextFrame;
+        private bool _nonPlayerTurn;
 
         
         
@@ -77,6 +77,7 @@ namespace Maihem.Managers
             TurnCount = 0;
             SpawnPlayer();
             _gameOver = false;
+            _nonPlayerTurn = false;
             uiManager.Initialize();
             
         }
@@ -132,7 +133,7 @@ namespace Maihem.Managers
 
         public bool CanTakeTurn()
         {
-            return !_triggerTurnOnNextFrame && enemyManager.AreAllActionsPerformed() && !Player.IsPerformingAction;
+            return !_nonPlayerTurn && !_triggerTurnOnNextFrame && enemyManager.AreAllActionsPerformed() && !Player.IsPerformingAction;
         }
 
         public IList<Enemy> GetEnemiesInProximity(Vector2Int origin ,int range)
@@ -142,6 +143,7 @@ namespace Maihem.Managers
 
         private void OnPlayerTurnComplete(object sender, EventArgs args)
         {
+            _nonPlayerTurn = true;
             _triggerTurnOnNextFrame = true;
         }
 
@@ -172,6 +174,8 @@ namespace Maihem.Managers
             MapManager.Instance.UpdateMap();
             Player.DecayShield();
             TurnCount++;
+            _nonPlayerTurn = false;
+            
             
             if (!Player.IsDead) return;
             Debug.Log("Player died");

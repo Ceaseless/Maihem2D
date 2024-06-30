@@ -1,3 +1,4 @@
+using Maihem.Effects;
 using Maihem.Managers;
 using UnityEngine;
 
@@ -5,6 +6,7 @@ namespace Maihem.Pickups
 {
     public abstract class Pickup : MonoBehaviour
     {
+        [SerializeField] protected VisualEffectSettings visualEffect;
 
         [SerializeField] public float spawnChance;
         [SerializeField] protected Color pickupColor;
