@@ -13,6 +13,8 @@ namespace Maihem.Attacks
         [SerializeField] private int damageFalloff;
         [SerializeField] private bool invertDamageFalloff;
         
+        protected static readonly int AnimatorAttack = Animator.StringToHash("Slam");
+        
         public override bool Attack(Vector2Int position, Vector2Int direction, bool isPlayerAttack)
         {
             var targets = GetAffectedTiles(position, direction, isPlayerAttack);
