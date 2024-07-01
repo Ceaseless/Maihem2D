@@ -47,6 +47,11 @@ namespace Maihem.Actors
             }
         }
 
+        public virtual void Tick()
+        {
+            healthSystem.Tick();
+        }
+
         protected void UpdateGridPosition(Vector3 newPosition)
         {
             GridPosition = MapManager.Instance.WorldToCell(newPosition);

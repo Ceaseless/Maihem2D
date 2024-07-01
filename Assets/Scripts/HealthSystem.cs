@@ -7,16 +7,23 @@ namespace Maihem
     public class HealthSystem : MonoBehaviour
     {
         [SerializeField] private int maxHealth;
-        [SerializeField] private SpriteRenderer shield;
+        [SerializeField] private SpriteRenderer shieldRenderer;
 
-        private float _shield;
-        private float _maxShield;
+        private bool HasShield => _currentShield > 0;
+        
+        private int _currentShield;
+        private int _maxShield;
 
         public event EventHandler<HealthChangeEvent> OnHealthChange;
         public bool IsDead => maxHealth == 0 || CurrentHealth <= 0;
         public int CurrentHealth { get; private set; }
         public int MaxHealth => maxHealth;
 
+        public void Tick()
+        {
+            if(HasShield) DecayShield();
+        }
+        
         public void RecoverFullHealth()
         {
             var old = CurrentHealth;
@@ -27,9 +34,9 @@ namespace Maihem
         public void TakeDamage(int amount)
         {
             if (IsDead || amount <= 0) return;
-            if (_shield > 0)
+            if (HasShield)
             {
-                ReduceShield();
+                ReduceShield(1);
                 return;
             }
             var old = CurrentHealth;
@@ -47,35 +54,31 @@ namespace Maihem
 
         public void AddShield(int strength)
         {
-            _shield = strength+1;
+            _currentShield = strength+1;
             _maxShield = strength;
-            var color = new Color(1,1,1,1);
-            shield.color = color;
+            shieldRenderer.color = Color.white;
         }
 
-        private void ReduceShield()
+        private void ReduceShield(int amount)
         {
-            _shield -= 1;
-            var color = shield.color;
+            _currentShield = math.max(0,_currentShield-amount);
+            var color = shieldRenderer.color;
 
-            if (_shield <= 0)
+            if (_currentShield <= 0)
             {
                 color.a = 0;
             }
             else
             {
-                color.g = _shield/_maxShield;
-                color.b = _shield/_maxShield; 
+                color.g = (float)_currentShield/_maxShield;
+                color.b = (float)_currentShield/_maxShield; 
             }
-            shield.color = color;
+            shieldRenderer.color = color;
         }
 
-        public void DecayShield()
+        private void DecayShield()
         {
-            if (_shield > 0)
-            {
-                ReduceShield();
-            }
+            ReduceShield(1);
         }
     }
     

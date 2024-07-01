@@ -72,7 +72,7 @@ namespace Maihem.Managers
                     break;
             }
 
-            currentConsumable.sprite = player.consumable.sprite;
+            currentConsumable.sprite = player.currentConsumable.sprite;
             
         }
 
