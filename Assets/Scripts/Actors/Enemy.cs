@@ -12,6 +12,7 @@ namespace Maihem.Actors
         
         [SerializeField] private EnemyHealthDisplay healthDisplay;
         [SerializeField] private MovementSystem movementSystem;
+        protected static readonly int AnimatorAttack = Animator.StringToHash("Attack");
         
 
         public override void Initialize()

@@ -13,7 +13,6 @@ namespace Maihem.Attacks
         [SerializeField] private int damageFalloff;
 
         [SerializeField] private bool invertDamageFalloff;
-       
         
         public override bool Attack(Vector2Int position, Vector2Int direction, bool isPlayerAttack)
         {

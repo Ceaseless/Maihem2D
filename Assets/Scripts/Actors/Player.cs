@@ -32,6 +32,7 @@ namespace Maihem.Actors
         [SerializeField] private AttackStrategy[] attackStrategies;
         
         private int _currentAttack;
+        private int _currentAttackAnimId;
         private Consumable _emptyConsumable;
         
         
@@ -42,6 +43,11 @@ namespace Maihem.Actors
         public int CurrentStamina { get; private set; }
 
         public AttackStrategy CurrentAttack => attackSystem.currentAttackStrategy;
+        
+
+        protected static readonly int AnimatorKick = Animator.StringToHash("Kick");
+        protected static readonly int AnimatorSlam = Animator.StringToHash("Slam");
+        protected static readonly int AnimatorStomp = Animator.StringToHash("Stomp");
         
         private PlayerControlState _controlState = PlayerControlState.Normal;
         private bool _inDiagonalMode;
@@ -64,8 +70,21 @@ namespace Maihem.Actors
             _emptyConsumable = currentConsumable;
             _isPaused = false;
             CurrentStamina = maxStamina;
-            if(attackStrategies.Length > 0)
+            if (attackStrategies.Length > 0)
+            {
                 attackSystem.currentAttackStrategy = attackStrategies[0];
+                _currentAttackAnimId = attackSystem.currentAttackStrategy.DisplayName switch
+                {
+                    "Kick" => AnimatorKick,
+                    "Slam" => AnimatorSlam,
+                    "Stomp" => AnimatorStomp,
+                    _ => AnimatorKick
+                };
+            }
+                
+
+            
+            
             OnStatusUpdate?.Invoke(this, EventArgs.Empty);
         }
 
@@ -105,7 +124,15 @@ namespace Maihem.Actors
                 attackSystem.HideTargetMarkers();
                 attackSystem.ShowTargetMarkers();
             }
-            
+
+            _currentAttackAnimId = attackSystem.currentAttackStrategy.DisplayName switch
+            {
+                "Kick" => AnimatorKick,
+                "Slam" => AnimatorSlam,
+                "Stomp" => AnimatorStomp,
+                _ => AnimatorKick
+            };
+
             OnStatusUpdate?.Invoke(this, EventArgs.Empty);
 
         }
@@ -125,7 +152,7 @@ namespace Maihem.Actors
             if (!TryStaminaConsumingAction(attackSystem.currentAttackStrategy.StaminaCost)) return;
             
             attackSystem.Attack();
-            animator.SetTrigger(AnimatorAttack);
+            animator.SetTrigger(_currentAttackAnimId);
             StartAttackAnimation();
         }
 
