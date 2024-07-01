@@ -9,9 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b1348f89d0d6d844bb91124ea5b11800, type: 3}
-  m_Name: Shield
+  m_Script: {fileID: 11500000, guid: 1b0925d5488d4561b32ac8d544bc7c47, type: 3}
+  m_Name: Shield Start
   m_EditorClassIdentifier: 
-  type: 1
-  sprite: {fileID: 21300000, guid: 338414e065727a14b8cc7e949e52470d, type: 3}
-  visualEffect: {fileID: 11400000, guid: e664a23e7ceb64d469b9be956d3ebad2, type: 2}
+  vfxPrefab: {fileID: 8589864510799941822, guid: 58c3da4c4c1212f419b806f0b30b2cfd, type: 3}

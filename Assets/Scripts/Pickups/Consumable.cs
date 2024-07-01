@@ -1,13 +1,13 @@
-using System.Collections;
-using System.Collections.Generic;
+using Maihem.Effects;
 using UnityEngine;
 
-namespace Maihem
+namespace Maihem.Pickups
 {
     [CreateAssetMenu(menuName = "Consumable")]
     public class Consumable : ScriptableObject
     {
         [SerializeField] public ConsumableType type;
         [SerializeField] public Sprite sprite;
+        [SerializeField] public VisualEffectSettings visualEffect;
     }
 }

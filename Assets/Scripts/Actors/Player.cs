@@ -1,7 +1,9 @@
 using System;
 using Maihem.Attacks;
+using Maihem.Effects;
 using Maihem.Extensions;
 using Maihem.Managers;
+using Maihem.Pickups;
 using Unity.Mathematics;
 using UnityEngine;
 
@@ -247,13 +249,18 @@ namespace Maihem.Actors
                     break;
                 case ConsumableType.Shield:
                     healthSystem.AddShield(3);
-                    currentConsumable = _emptyConsumable;
                     break;
                 case ConsumableType.Empty:
                     return;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
+
+            if (currentConsumable.visualEffect)
+            {
+                VisualEffectsPool.Instance.PlayVisualEffect(currentConsumable.visualEffect, transform.position);
+            }
+            currentConsumable = _emptyConsumable;
             OnTurnCompleted();
         }
         
