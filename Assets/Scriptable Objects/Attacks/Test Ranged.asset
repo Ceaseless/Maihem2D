@@ -16,5 +16,7 @@ MonoBehaviour:
   damage: 1
   staminaCost: 5
   visualEffect: {fileID: 11400000, guid: af22410dd999bb24f879b5d224ac83e4, type: 2}
+  projectilePrefab: {fileID: 742405011139257204, guid: 41305faeab409e14a8a85b46cb8b45bb, type: 3}
+  projectileTime: 0.15
   range: 3
   blockedByActors: 0

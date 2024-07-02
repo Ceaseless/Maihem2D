@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using Maihem.Managers;
 using UnityEngine;
 
@@ -7,18 +8,29 @@ namespace Maihem.Attacks
     [CreateAssetMenu(menuName = "Attack Strategies/Ranged Attack")]
     public class RangedAttack : AttackStrategy
     {
+        [SerializeField] private GameObject projectilePrefab;
+        [SerializeField] private float projectileTime;
         [SerializeField] private int range;
         [SerializeField] private bool blockedByActors;
         public override bool Attack(Vector2Int position, Vector2Int direction, bool isPlayerAttack)
         {
+            
             var lineTiles = GetAffectedTiles(position, direction, isPlayerAttack);
             foreach (var (target, damage) in lineTiles)
             {
-                if (TryDamage(target, damage, isPlayerAttack)) return true;
+                if (TryDamage(target, damage, isPlayerAttack))
+                {
+                    Instantiate(projectilePrefab).GetComponent<ProjectileEffect>().LaunchFromTo(MapManager.Instance.CellToWorld(position), MapManager.Instance.CellToWorld(target), projectileTime);
+                    return true;
+                }
             }
 
+            var lastTarget = lineTiles[^1];
+            Instantiate(projectilePrefab).GetComponent<ProjectileEffect>().LaunchFromTo(MapManager.Instance.CellToWorld(position), MapManager.Instance.CellToWorld(lastTarget.Item1), projectileTime);
+            
             return false;
         }
+     
 
         public override IList<(Vector2Int,int)> GetAffectedTiles(Vector2Int position, Vector2Int direction, bool isPlayerAttack)
         {
