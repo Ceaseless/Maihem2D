@@ -7,17 +7,28 @@ namespace Maihem
     public class HealthSystem : MonoBehaviour
     {
         [SerializeField] private int maxHealth;
-        [SerializeField] private SpriteRenderer shieldRenderer;
+        [SerializeField] private GameObject shieldObject;
+
+        private SpriteRenderer _shieldRenderer;
+        private Animator _shieldAnimator;
 
         private bool HasShield => _currentShield > 0;
         
         private int _currentShield;
         private int _maxShield;
+        private static readonly int AnimatorActivate = Animator.StringToHash("Activate");
 
         public event EventHandler<HealthChangeEvent> OnHealthChange;
         public bool IsDead => maxHealth == 0 || CurrentHealth <= 0;
         public int CurrentHealth { get; private set; }
         public int MaxHealth => maxHealth;
+
+        private void Awake()
+        {
+            if (!shieldObject) return;
+            _shieldRenderer = shieldObject.GetComponent<SpriteRenderer>();
+            _shieldAnimator = shieldObject.GetComponent<Animator>();
+        }
 
         public void Tick()
         {
@@ -54,15 +65,21 @@ namespace Maihem
 
         public void AddShield(int strength)
         {
+            _shieldRenderer.color = Color.white;
+            if (_shieldAnimator && !HasShield)
+            {
+                _shieldAnimator.SetTrigger(AnimatorActivate);
+            }
+            
             _currentShield = strength+1;
             _maxShield = strength;
-            shieldRenderer.color = Color.white;
+            
         }
 
         private void ReduceShield(int amount)
         {
             _currentShield = math.max(0,_currentShield-amount);
-            var color = shieldRenderer.color;
+            var color = _shieldRenderer.color;
 
             if (_currentShield <= 0)
             {
@@ -73,7 +90,7 @@ namespace Maihem
                 color.g = (float)_currentShield/_maxShield;
                 color.b = (float)_currentShield/_maxShield; 
             }
-            shieldRenderer.color = color;
+            _shieldRenderer.color = color;
         }
 
         private void DecayShield()

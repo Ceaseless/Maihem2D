@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Maihem.Managers;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Maihem.Effects
 {

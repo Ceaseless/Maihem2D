@@ -45,9 +45,9 @@ namespace Maihem.Actors
         public AttackStrategy CurrentAttack => attackSystem.currentAttackStrategy;
         
 
-        protected static readonly int AnimatorKick = Animator.StringToHash("Kick");
-        protected static readonly int AnimatorSlam = Animator.StringToHash("Slam");
-        protected static readonly int AnimatorStomp = Animator.StringToHash("Stomp");
+        private static readonly int AnimatorKick = Animator.StringToHash("Kick");
+        private static readonly int AnimatorSlam = Animator.StringToHash("Slam");
+        private static readonly int AnimatorStomp = Animator.StringToHash("Stomp");
         
         private PlayerControlState _controlState = PlayerControlState.Normal;
         private bool _inDiagonalMode;
@@ -73,13 +73,7 @@ namespace Maihem.Actors
             if (attackStrategies.Length > 0)
             {
                 attackSystem.currentAttackStrategy = attackStrategies[0];
-                _currentAttackAnimId = attackSystem.currentAttackStrategy.DisplayName switch
-                {
-                    "Kick" => AnimatorKick,
-                    "Slam" => AnimatorSlam,
-                    "Stomp" => AnimatorStomp,
-                    _ => AnimatorKick
-                };
+                UpdateAttackAnimationId();
             }
                 
 
@@ -125,6 +119,15 @@ namespace Maihem.Actors
                 attackSystem.ShowTargetMarkers();
             }
 
+            UpdateAttackAnimationId();
+            
+
+            OnStatusUpdate?.Invoke(this, EventArgs.Empty);
+
+        }
+
+        private void UpdateAttackAnimationId()
+        {
             _currentAttackAnimId = attackSystem.currentAttackStrategy.DisplayName switch
             {
                 "Kick" => AnimatorKick,
@@ -132,9 +135,6 @@ namespace Maihem.Actors
                 "Stomp" => AnimatorStomp,
                 _ => AnimatorKick
             };
-
-            OnStatusUpdate?.Invoke(this, EventArgs.Empty);
-
         }
 
 
