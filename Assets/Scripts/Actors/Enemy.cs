@@ -30,9 +30,11 @@ namespace Maihem.Actors
                 var dir = new Vector2Int(math.clamp(player.GridPosition.x - GridPosition.x, -1, 1),
                     math.clamp(player.GridPosition.y - GridPosition.y, -1, 1));
                 UpdateFacing(dir);
+                
+                IsPerformingAction = true;
                 animator.SetTrigger(AnimatorAttack);
-                attackSystem.Attack();
-                StartAttackAnimation();
+                //attackSystem.PerformAttack();
+                //StartAttackAnimation();
             }
             else
             {
@@ -81,6 +83,7 @@ namespace Maihem.Actors
 
         protected override void OnAnimationEnd()
         {
+            IsPerformingAction = false;
             OnTurnCompleted();
         }
 

@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using Maihem.Actors;
-using Maihem.Effects;
 using Maihem.Extensions;
 using Maihem.Managers;
 using UnityEngine;
@@ -27,22 +26,14 @@ namespace Maihem.Attacks
             return currentAttackStrategy.GetPossibleTiles(_systemOwner.GridPosition).Contains(target);
         }
         
-        public bool Attack()
+        public void PerformAttack()
         {
             if(currentAttackStrategy) {
-                return currentAttackStrategy.Attack(_systemOwner.GridPosition, _systemOwner.CurrentFacing.GetFacingVector(), _isPlayerOwned);
+                currentAttackStrategy.Attack(_systemOwner.GridPosition, _systemOwner.CurrentFacing.GetFacingVector(), _isPlayerOwned);
             }
-            return false;            
         }
         
-        public void PlayHitVisualEffect()
-        {
-            var positions = currentAttackStrategy.GetAffectedTiles(_systemOwner.GridPosition, _systemOwner.CurrentFacing.GetFacingVector(), _isPlayerOwned);
-            foreach (var (tile,_) in positions)
-            {
-                VisualEffectsPool.Instance.PlayVisualEffect(currentAttackStrategy.visualEffect, MapManager.Instance.CellToWorld(tile));
-            }
-        }
+        
         
         public void ShowTargetMarkers()
         {

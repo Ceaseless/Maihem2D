@@ -56,6 +56,7 @@ namespace Maihem.Actors
 
         protected override void OnAnimationEnd()
         {
+            IsPerformingAction = false;
             OnTurnCompleted();
         }
 
@@ -151,9 +152,10 @@ namespace Maihem.Actors
 
             if (!TryStaminaConsumingAction(attackSystem.currentAttackStrategy.StaminaCost)) return;
             
-            attackSystem.Attack();
+            //attackSystem.PerformAttack();
+            IsPerformingAction = true;
             animator.SetTrigger(_currentAttackAnimId);
-            StartAttackAnimation();
+            //StartAttackAnimation();
         }
 
         private void ProcessMoveInput(object sender, EventArgs e)

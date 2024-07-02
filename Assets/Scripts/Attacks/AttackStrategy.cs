@@ -38,12 +38,13 @@ namespace Maihem.Attacks
         public abstract int GetRange();
         protected bool TryDamage(Vector2Int target, int adjustedDamage, bool isPlayerAttack)
         {
+            var hitSomething = false;
             if (isPlayerAttack)
             {
                 if (GameManager.Instance.TryGetActorOnCell(target, out var actor))
                 {
                     actor.healthSystem.TakeDamage(adjustedDamage);
-                    return true;
+                    hitSomething = true;
                 }
             }
             else
@@ -51,11 +52,17 @@ namespace Maihem.Attacks
                 if (GameManager.Instance.CellContainsPlayer(target))
                 {
                     GameManager.Instance.Player.healthSystem.TakeDamage(adjustedDamage);
-                    return true;
+                    hitSomething = true;
                 }
             }
-
-            return false;
+            
+            PlayHitVisualEffect(target);
+            return hitSomething;
+        }
+        
+        private void PlayHitVisualEffect(Vector2Int tile)
+        {
+            VisualEffectsPool.Instance.PlayVisualEffect(visualEffect, MapManager.Instance.CellToWorld(tile));
         }
 
         
