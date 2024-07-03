@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Maihem.Effects;
 using Maihem.Managers;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Maihem.Attacks
 {
@@ -14,7 +15,8 @@ namespace Maihem.Attacks
         [Min(0)]
         [SerializeField] private int staminaCost;
 
-        [SerializeField] public VisualEffectSettings visualEffect;
+        [SerializeField] private VisualEffectSettings visualEffect;
+        [SerializeField] private AudioClip hitSfx;
         public int Damage => damage;
         public int StaminaCost => staminaCost;
         
