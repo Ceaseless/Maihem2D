@@ -854,13 +854,13 @@ Camera:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 0.5
-    height: 0.6666667
+    width: 1
+    height: 1
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 34
   orthographic: 1
-  orthographic size: 15
+  orthographic size: 11.25
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
@@ -885,7 +885,7 @@ Transform:
   m_GameObject: {fileID: 519420028}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 21.375721, y: 0.7401983, z: -28.692225}
+  m_LocalPosition: {x: 26.083998, y: 0.74018997, z: -28.692225}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1176,7 +1176,7 @@ GameObject:
   m_Layer: 0
   m_Name: Audio Manager
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: -1412012063857583412, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -1192,7 +1192,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1c7561f7f65406abbfd11032904a714, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  soundFXSource: {fileID: 6624374567831465483, guid: f2c0cf0dabf79fe42a541f5c3caa8af0, type: 3}
+  minimalTimeBetweenSfx: 0.02
+  soundFXSourcePrefab: {fileID: 6624374567831465483, guid: f2c0cf0dabf79fe42a541f5c3caa8af0, type: 3}
+  initialPoolSize: 5
+  poolGrowthStep: 1
 --- !u!4 &709442637
 Transform:
   m_ObjectHideFlags: 0
@@ -1222,7 +1225,7 @@ GameObject:
   m_Layer: 0
   m_Name: Game Manager
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 7250588514170254948, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -1378,7 +1381,7 @@ GameObject:
   m_Layer: 0
   m_Name: Enemy Manager
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -1602,7 +1605,7 @@ GameObject:
   m_Layer: 0
   m_Name: Pickup Manager
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
