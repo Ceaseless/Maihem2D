@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using Maihem.Effects;
 using Maihem.Managers;
 using UnityEngine;
-using UnityEngine.Serialization;
+
 
 namespace Maihem.Attacks
 {
@@ -59,6 +59,7 @@ namespace Maihem.Attacks
             }
             
             PlayHitVisualEffect(target);
+            if(hitSomething) AudioManager.Instance.PlaySoundFX(hitSfx, target, 1f); 
             return hitSomething;
         }
         

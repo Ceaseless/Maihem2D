@@ -16,6 +16,7 @@ MonoBehaviour:
   damage: 3
   staminaCost: 25
   visualEffect: {fileID: 11400000, guid: af22410dd999bb24f879b5d224ac83e4, type: 2}
+  hitSfx: {fileID: 8300000, guid: 4d1346813eb9b1044b9290c8725c92c3, type: 3}
   range: 3
   damageFalloff: 1
   invertDamageFalloff: 0

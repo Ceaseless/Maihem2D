@@ -16,6 +16,7 @@ MonoBehaviour:
   damage: 1
   staminaCost: 5
   visualEffect: {fileID: 11400000, guid: af22410dd999bb24f879b5d224ac83e4, type: 2}
+  hitSfx: {fileID: 8300000, guid: 4d1346813eb9b1044b9290c8725c92c3, type: 3}
   projectilePrefab: {fileID: 742405011139257204, guid: 41305faeab409e14a8a85b46cb8b45bb, type: 3}
   projectileTime: 0.15
   range: 3
