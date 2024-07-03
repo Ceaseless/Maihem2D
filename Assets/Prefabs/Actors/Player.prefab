@@ -241,6 +241,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 6204d5b69cc29d84c83cf5d01d4753de, type: 2}
   - {fileID: 11400000, guid: 40c6fe6cdd010ed46a424771748fb724, type: 2}
   - {fileID: 11400000, guid: fe3f629371e17e447a5868b6061e48e8, type: 2}
+  selectSoundFX: {fileID: 8300000, guid: a4a3dc14bae8abc4f9aefb57c4f53a89, type: 3}
 --- !u!114 &4102898974549345930
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -6,8 +6,11 @@ namespace Maihem.Pickups
 {
     public abstract class Pickup : MonoBehaviour
     {
+        [Header("On Pickup Effects")]
+        [SerializeField] protected AudioClip soundEffect;
         [SerializeField] protected VisualEffectSettings visualEffect;
 
+        [Header("Settings")]
         [SerializeField] public float spawnChance;
         [SerializeField] protected Color pickupColor;
         [SerializeField] protected SpriteRenderer spriteRenderer;

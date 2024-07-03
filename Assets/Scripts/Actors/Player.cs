@@ -30,7 +30,8 @@ namespace Maihem.Actors
        
         [Header("Placeholder/Debug Stuff")] 
         [SerializeField] private AttackStrategy[] attackStrategies;
-        
+
+        [SerializeField] private AudioClip selectSoundFX;
         private int _currentAttack;
         private int _currentAttackAnimId;
         private Consumable _emptyConsumable;
@@ -120,6 +121,7 @@ namespace Maihem.Actors
                 attackSystem.ShowTargetMarkers();
             }
 
+            AudioManager.Instance.PlaySoundFX(selectSoundFX, transform.position, 1f);
             UpdateAttackAnimationId();
             
 

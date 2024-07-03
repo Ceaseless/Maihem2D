@@ -8,8 +8,8 @@ namespace Maihem.Managers
     {
         public static AudioManager Instance { get; private set; }
 
+        [Header("Sound Effects Settings")]
         [SerializeField] private float minimalTimeBetweenSfx;
-        
         [SerializeField] private AudioSource soundFXSourcePrefab;
         [SerializeField] private int initialPoolSize;
         [SerializeField] private int poolGrowthStep;

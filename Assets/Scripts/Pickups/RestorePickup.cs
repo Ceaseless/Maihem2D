@@ -15,6 +15,7 @@ namespace Maihem.Pickups
             player.healthSystem.RecoverHealth(healthRestored);
             player.RecoverStamina(staminaRestored);
             VisualEffectsPool.Instance.PlayVisualEffect(visualEffect, transform.position);
+            AudioManager.Instance.PlaySoundFX(soundEffect, transform.position, 1f);
             IsUsed = true;
         }
     }
