@@ -1907,9 +1907,12 @@ MonoBehaviour:
     initialPoolSize: 2
     poolGrowthStep: 1
   - visualEffect: {fileID: 11400000, guid: c0482b1fbc9132943b1e45b9579eadf6, type: 2}
-    initialPoolSize: 25
+    initialPoolSize: 10
     poolGrowthStep: 5
   - visualEffect: {fileID: 11400000, guid: af22410dd999bb24f879b5d224ac83e4, type: 2}
+    initialPoolSize: 25
+    poolGrowthStep: 5
+  - visualEffect: {fileID: 11400000, guid: ea374f545bf096d478e7ccbff6a9e540, type: 2}
     initialPoolSize: 25
     poolGrowthStep: 5
 --- !u!4 &1163005468

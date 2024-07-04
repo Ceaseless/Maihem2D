@@ -7,6 +7,7 @@ namespace Maihem.Attacks
     [CreateAssetMenu(menuName = "Attack Strategies/Ranged Attack")]
     public class RangedAttack : AttackStrategy
     {
+        [Header("Ranged Attack Settings")]
         [SerializeField] private GameObject projectilePrefab;
         [SerializeField] private float projectileTime;
         [SerializeField] private int range;

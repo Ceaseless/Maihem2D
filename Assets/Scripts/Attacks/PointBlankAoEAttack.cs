@@ -7,6 +7,7 @@ namespace Maihem.Attacks
     [CreateAssetMenu(menuName = "Attack Strategies/Point Blank AoE Attack")]
     public class PointBlankAoEAttack : AttackStrategy
     {
+        [Header("PBAoE Settings")]
         [Min(1)]
         [SerializeField] private int range = 3;
         [Min(0)]

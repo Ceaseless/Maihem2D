@@ -9,14 +9,21 @@ namespace Maihem.Attacks
 
     public abstract class AttackStrategy : ScriptableObject
     {
+        [Header("General Settings")]
         [SerializeField] private string displayName;
         [Min(0)]
         [SerializeField] private int damage;
         [Min(0)]
         [SerializeField] private int staminaCost;
 
-        [SerializeField] private VisualEffectSettings visualEffect;
-        [SerializeField] private AudioClip hitSfx;
+        [Header("General Effects")]
+        [SerializeField] private VisualEffectSettings attackVisualEffect;
+        [SerializeField] private AudioClip attackSoundEffect;
+        
+        [Header("On Hit Effects")]
+        [SerializeField] private VisualEffectSettings onHitVisualEffect;
+        [SerializeField] private AudioClip onHitSoundEffect;
+        
         public int Damage => damage;
         public int StaminaCost => staminaCost;
         
@@ -57,16 +64,37 @@ namespace Maihem.Attacks
                     hitSomething = true;
                 }
             }
+
+            if (!hitSomething)
+            {
+                if (attackVisualEffect is not null)
+                {
+                    VisualEffectsPool.Instance.PlayVisualEffect(attackVisualEffect, MapManager.Instance.CellToWorld(target));
+                }
+            }
+            else
+            {
+                PlayOnHitEffects(target);
+            } 
             
-            PlayHitVisualEffect(target);
-            if(hitSomething) AudioManager.Instance.PlaySoundFX(hitSfx, target, 1f); 
             return hitSomething;
         }
         
-        private void PlayHitVisualEffect(Vector2Int tile)
+        private void PlayOnHitEffects(Vector2Int tile)
         {
-            VisualEffectsPool.Instance.PlayVisualEffect(visualEffect, MapManager.Instance.CellToWorld(tile));
+            var worldPosition = MapManager.Instance.CellToWorld(tile);
+            if (onHitVisualEffect is not null)
+            {
+                VisualEffectsPool.Instance.PlayVisualEffect(onHitVisualEffect, MapManager.Instance.CellToWorld(tile));
+            }
+            
+            if (onHitSoundEffect is not null)
+            {
+                AudioManager.Instance.PlaySoundFX(onHitSoundEffect, worldPosition, 1f);
+            }
         }
+        
+        
 
         
 
