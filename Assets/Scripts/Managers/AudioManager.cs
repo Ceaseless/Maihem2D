@@ -77,10 +77,11 @@ namespace Maihem.Managers
             PlaySoundFX(audioClip, sourcePosition, volume);
         }
 
-        public void PlaySoundFX(AudioClip audioClip, Vector3 sourcePosition, float volume)
+        public void PlaySoundFX(AudioClip audioClip, Vector3 sourcePosition, float volume, bool hasBeenDelayed = false)
         {
             if (!IsSfxAllowedToPlay())
             {
+                if (hasBeenDelayed) return;
                 PlaySoundFXDelayed(audioClip, sourcePosition, volume, minimalTimeBetweenSfx);
                 return;
             }
@@ -139,7 +140,7 @@ namespace Maihem.Managers
         private IEnumerator DelayedSfx(AudioClip audioClip, Vector3 sourcePosition, float volume, float delay)
         {
             yield return new WaitForSeconds(delay);
-            PlaySoundFX(audioClip, sourcePosition,volume);
+            PlaySoundFX(audioClip, sourcePosition,volume, true);
         }
         
         
