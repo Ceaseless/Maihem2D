@@ -287,10 +287,7 @@ namespace Maihem.Actors
                     throw new ArgumentOutOfRangeException();
             }
 
-            if (currentConsumable.visualEffect)
-            {
-                VisualEffectsPool.Instance.PlayVisualEffect(currentConsumable.visualEffect, transform.position);
-            }
+            currentConsumable.PlayActivateEffects(transform.position);
             currentConsumable = _emptyConsumable;
             OnTurnCompleted();
         }
