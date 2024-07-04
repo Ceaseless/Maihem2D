@@ -41,6 +41,18 @@ namespace Maihem.Pickups
             OnPickUp();
         }
 
+        protected void PlayOnPickUpEffects()
+        {
+            if (visualEffect is not null)
+            {
+                VisualEffectsPool.Instance.PlayVisualEffect(visualEffect, transform.position);
+            }
+            if (soundEffect is not null)
+            {
+                AudioManager.Instance.PlaySoundFX(soundEffect, transform.position, 1f);
+            }
+        }
+
         protected abstract void OnPickUp();
     }
 }

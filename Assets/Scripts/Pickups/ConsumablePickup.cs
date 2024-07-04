@@ -11,6 +11,7 @@ namespace Maihem.Pickups
             var player = GameManager.Instance.Player;
             if (player.currentConsumable.type != ConsumableType.Empty) return;
             player.currentConsumable = consumable;
+            PlayOnPickUpEffects();
             IsUsed = true;
         }
     }
