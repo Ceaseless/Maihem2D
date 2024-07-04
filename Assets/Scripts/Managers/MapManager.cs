@@ -165,10 +165,10 @@ namespace Maihem.Managers
 
         public bool IsCellBlocking(Vector2Int cellPosition)
         {
-            for (var z = 0; z < 3; z++)
+            for (var z = 0; z < 2; z++)
             {
                 var position = cellPosition.WithZ(z);
-                TryGetTile(position, out var tile);
+                if(!TryGetTile(position, out var tile)) continue;
                 if (tile is not null && tile.colliderType != Tile.ColliderType.None) return true;
             }
             return false;
