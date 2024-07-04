@@ -6,8 +6,11 @@ namespace Maihem.Pickups
 {
     public abstract class Pickup : MonoBehaviour
     {
+        [Header("On Pickup Effects")]
+        [SerializeField] protected AudioClip soundEffect;
         [SerializeField] protected VisualEffectSettings visualEffect;
 
+        [Header("Settings")]
         [SerializeField] public float spawnChance;
         [SerializeField] protected Color pickupColor;
         [SerializeField] protected SpriteRenderer spriteRenderer;
@@ -36,6 +39,18 @@ namespace Maihem.Pickups
         {
             if (IsUsed) return;
             OnPickUp();
+        }
+
+        protected void PlayOnPickUpEffects()
+        {
+            if (visualEffect is not null)
+            {
+                VisualEffectsPool.Instance.PlayVisualEffect(visualEffect, transform.position);
+            }
+            if (soundEffect is not null)
+            {
+                AudioManager.Instance.PlaySoundFX(soundEffect, transform.position, 1f);
+            }
         }
 
         protected abstract void OnPickUp();

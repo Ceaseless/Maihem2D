@@ -16,6 +16,7 @@ namespace Maihem.Managers
         [SerializeField] private EnemyManager enemyManager;
         [SerializeField] private PickupManager pickupManager;
         [SerializeField] private UIManager uiManager;
+        [SerializeField] private AudioManager audioManager;
         [SerializeField] private CinemachineVirtualCamera followCamera;
 
         private int TurnCount { get; set; }
@@ -48,6 +49,7 @@ namespace Maihem.Managers
             _gameOver = false;
             uiManager.Initialize();
             enemyManager.AllEnemiesPerformedTurn = OnEnemyTurnCompleted;
+            audioManager.FadeInMusic(2f);
         }
 
         private void SpawnPlayer()
@@ -79,6 +81,7 @@ namespace Maihem.Managers
             _gameOver = false;
             _nonPlayerTurn = false;
             uiManager.Initialize();
+            audioManager.ResetMusic();
             
         }
 

@@ -7,6 +7,7 @@ namespace Maihem.Attacks
     [CreateAssetMenu(menuName = "Attack Strategies/Line Attack")]
     public class LineAttack : AttackStrategy
     {
+        [Header("Line Attack Settings")]
         [Min(1)]
         [SerializeField] private int range = 3;
         [Min(0)]
