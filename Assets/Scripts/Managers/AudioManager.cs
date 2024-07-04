@@ -8,6 +8,9 @@ namespace Maihem.Managers
     {
         public static AudioManager Instance { get; private set; }
 
+        [Header("Music Settings")] [SerializeField]
+        private AudioSource musicSource;
+        
         [Header("Sound Effects Settings")]
         [SerializeField] private float minimalTimeBetweenSfx;
         [SerializeField] private AudioSource soundFXSourcePrefab;
@@ -27,7 +30,7 @@ namespace Maihem.Managers
             {
                 Destroy(gameObject);
             }
-
+            
             InitializeSfxSourcePool();
 
         }
@@ -40,6 +43,27 @@ namespace Maihem.Managers
                 var newSource = Instantiate(soundFXSourcePrefab, transform);
                 _sfxSourcePool.Add(newSource);
             }
+        }
+
+        public void PlayMusic()
+        {
+            musicSource.Play();
+        }
+
+        public void PauseMusic()
+        {
+            musicSource.Pause();
+        }
+
+        public void ResetMusic()
+        {
+            musicSource.Stop();
+            musicSource.Play();
+        }
+
+        public void FadeInMusic(float fadeTime)
+        {
+            StartCoroutine(FadeInAudioSource(musicSource, fadeTime));
         }
 
         public void PlaySoundFXDelayed(AudioClip audioClip, Vector3 sourcePosition, float volume, float delay)
@@ -55,7 +79,7 @@ namespace Maihem.Managers
 
         public void PlaySoundFX(AudioClip audioClip, Vector3 sourcePosition, float volume)
         {
-            if (!IsAllowedToPlay())
+            if (!IsSfxAllowedToPlay())
             {
                 PlaySoundFXDelayed(audioClip, sourcePosition, volume, minimalTimeBetweenSfx);
                 return;
@@ -84,13 +108,43 @@ namespace Maihem.Managers
             return _sfxSourcePool[^1];
         }
 
+        private IEnumerator FadeInAudioSource(AudioSource source, float fadeTime)
+        {
+            source.volume = 0f;
+            source.Play();
+            var time = 0f;
+            while (source.volume < 1f)
+            {
+                source.volume = Mathf.Lerp(0f, 1f, time / fadeTime);
+                time += Time.deltaTime;
+                yield return null;
+            }
+            source.volume = 1f;
+        }
+        
+        private IEnumerator FadeOutAudioSource(AudioSource source, float fadeTime)
+        {
+            source.volume = 1f;
+            source.Play();
+            var time = 0f;
+            while (source.volume > 0f)
+            {
+                source.volume = Mathf.Lerp(1f, 0f, time / fadeTime);
+                time += Time.deltaTime;
+                yield return null;
+            }
+            source.volume = 0f;
+        }
+        
         private IEnumerator DelayedSfx(AudioClip audioClip, Vector3 sourcePosition, float volume, float delay)
         {
             yield return new WaitForSeconds(delay);
             PlaySoundFX(audioClip, sourcePosition,volume);
         }
+        
+        
 
-        private bool IsAllowedToPlay()
+        private bool IsSfxAllowedToPlay()
         {
             return Time.time - _lastSfxTimestamp >= minimalTimeBetweenSfx;
         }
