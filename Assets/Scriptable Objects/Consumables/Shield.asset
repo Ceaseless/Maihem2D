@@ -15,4 +15,4 @@ MonoBehaviour:
   type: 1
   sprite: {fileID: 21300000, guid: 338414e065727a14b8cc7e949e52470d, type: 3}
   activateVisualEffect: {fileID: 0}
-  activateSoundEffect: {fileID: 0}
+  activateSoundEffect: {fileID: 8300000, guid: 178ab500cb3107043a17c258dd3bd51b, type: 3}
