@@ -165,9 +165,13 @@ namespace Maihem.Managers
 
         public bool IsCellBlocking(Vector2Int cellPosition)
         {
-            var position = cellPosition.WithZ(0);
-            if (!TryGetTile(position, out var tile)) return true;
-            return tile is null || tile.colliderType != Tile.ColliderType.None;
+            for (var z = 0; z < 2; z++)
+            {
+                var position = cellPosition.WithZ(z);
+                if(!TryGetTile(position, out var tile)) continue;
+                if (tile is not null && tile.colliderType != Tile.ColliderType.None) return true;
+            }
+            return false;
         }
 
         private bool TryGetTile(Vector3Int cellPosition, out Tile tile)
@@ -175,7 +179,7 @@ namespace Maihem.Managers
             foreach (var chunk in _mapChunks)
             {
                 var localPosition = new Vector3Int((int)(cellPosition.x - chunk.transform.localPosition.x),
-                    (int)(cellPosition.y - chunk.transform.localPosition.y), 0);
+                    (int)(cellPosition.y - chunk.transform.localPosition.y), (int)(cellPosition.z - chunk.transform.localPosition.z));
                 
                 if (!chunk.TileMap.HasTile(localPosition)) continue;
                 tile = chunk.TileMap.GetTile<Tile>(localPosition);
