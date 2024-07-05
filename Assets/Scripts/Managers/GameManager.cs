@@ -163,8 +163,8 @@ namespace Maihem.Managers
             boundsController.UpdateBounds();
             if (Player.transform.position.x <= boundsController.transform.position.x)
             {
-                Debug.Log("Player walked into the light!");
-                ResetGame();
+                uiManager.PlayerInLight();
+                GameOver();
                 return;
             }
             pickupManager.CullUsedPickups();
@@ -181,8 +181,8 @@ namespace Maihem.Managers
             
             
             if (!Player.IsDead) return;
-            Debug.Log("Player died");
-            ResetGame();
+            uiManager.PlayerBeaten();
+            GameOver();
         }
 
         public void Exit()
@@ -194,7 +194,7 @@ namespace Maihem.Managers
         {
             _gameOver = true;
             Player.PausePlayer();
-            uiManager.ShowWinScreen();
+            uiManager.ShowGameOverScreen();
         }
     }
 }

@@ -22,6 +22,10 @@ namespace Maihem.Managers
         [SerializeField] private List<Sprite> attackSprites;
 
         [SerializeField] private GameObject winScreen;
+        [SerializeField] private GameObject playerBeatenMsg;
+        [SerializeField] private GameObject playerWonMsg;
+        [SerializeField] private GameObject playerLightMsg;
+        
         
         private Vector2Int _startingPoint;
         
@@ -31,6 +35,11 @@ namespace Maihem.Managers
             _startingPoint = GameManager.Instance.Player.GridPosition;
             GameManager.Instance.Player.OnStatusUpdate += UpdateStatusUI;
             winScreen.SetActive(false);
+
+            playerWonMsg.SetActive(true);
+            playerBeatenMsg.SetActive(false);
+            playerLightMsg.SetActive(false);
+            
             UpdateStatusUI(this, EventArgs.Empty);
         }
         
@@ -76,10 +85,36 @@ namespace Maihem.Managers
             
         }
 
-        public void ShowWinScreen()
+        public void ShowGameOverScreen()
         {
             winScreen.SetActive(true);
         }
-        
+
+        public void PlayerInLight()
+        {
+            if (playerWonMsg.activeSelf)
+            {
+                playerWonMsg.SetActive(false);
+            }
+            if (playerBeatenMsg.activeSelf)
+            {
+                playerBeatenMsg.SetActive(false);
+            }
+            playerLightMsg.SetActive(true);
+        }
+
+        public void PlayerBeaten()
+        {
+            if (playerWonMsg.activeSelf)
+            {
+                playerWonMsg.SetActive(false);
+            }
+            if (playerLightMsg.activeSelf)
+            {
+                playerLightMsg.SetActive(false);
+            }
+            playerBeatenMsg.SetActive(true);
+            }
+        }
     }
-}
+
