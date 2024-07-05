@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Cinemachine;
 using Maihem.Extensions;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using Random = UnityEngine.Random;
@@ -240,30 +241,14 @@ namespace Maihem.Managers
         }
         
         
-        public bool IsInDirectLine(Vector2Int cellPosition, Vector2Int target, int range)
+        public bool IsInDirectLine(Vector2Int origin, Vector2Int target, int range)
         {
-            int diffX = cellPosition.x - target.x;
-            int diffY = cellPosition.y - target.y;
-            
-            Vector2Int checkDirection = cellPosition;
-            
-            int directionX = 0;
-            int directionY = 0;
-
-            if (diffX > 0) directionX = -1;
-            if (diffX < 0) directionX = 1;
-            if (diffY > 0) directionY = -1;
-            if (diffY < 0) directionY = 1;
-
-            for (int i = 0; i < range; i++)
+            var dir = new Vector2Int(math.clamp(origin.x - target.x, -1, 1),math.clamp(origin.y - target.y, -1, 1));
+            for (var i = 1; i <= range; i++)
             {
-                checkDirection = new Vector2Int(checkDirection.x + directionX, checkDirection.y + directionY);
-                if (IsCellBlocking(checkDirection) || IsCellBlockedDiagonal(checkDirection, cellPosition))
-                {
-                    return false;
-                }
+                var checkPosition = origin + dir*i;
+                if (IsCellBlocking(checkPosition) || IsCellBlockedDiagonal(checkPosition, origin)) return false;
             }
-
             return true;
         }
 
@@ -313,7 +298,6 @@ namespace Maihem.Managers
         
         public List<Vector2Int> FindShortestDistance(Vector2Int startPosition, Vector2Int targetPosition)
         {
-            
             var startNode = new Node(startPosition);
             
             startNode.SetG(0);
@@ -323,9 +307,19 @@ namespace Maihem.Managers
             var toSearch = new List<Node>() {startNode};
             var processed = new List<Vector2Int>();
             var path = new List<Vector2Int>();
+
+            var maxIterations = 0;
             
             while (toSearch.Count > 0)
             {
+                if (maxIterations >= 2500)
+                {
+                    Debug.Log("Exceeded iterations");
+                    Debug.Log($"Could not find path from {startPosition} to {targetPosition}");
+                    Debug.DrawLine(CellToWorld(startPosition), CellToWorld(targetPosition));
+                    return new List<Vector2Int>();
+                }
+                
                 var current = toSearch.First();
                 foreach (var t in toSearch)
                 {
@@ -374,6 +368,8 @@ namespace Maihem.Managers
                         
                     }
                 }
+
+                maxIterations++;
             }
 
             var lowestDistance = int.MaxValue;
@@ -381,7 +377,7 @@ namespace Maihem.Managers
             for(var i = 0; i < CellNeighborOffsets.Length; i++)
             {
                 var neighbor = startPosition + CellNeighborOffsets[i];
-                if(IsCellBlocking(neighbor) || IsCellBlockedDiagonal(neighbor, startPosition)) continue;
+                if(IsCellBlocking(neighbor) || IsCellBlockedDiagonal(neighbor, startPosition) || GameManager.Instance.CellContainsActor(neighbor)) continue;
                 var distance = neighbor.ManhattanDistance(targetPosition);
                 if (distance < lowestDistance)
                 {
