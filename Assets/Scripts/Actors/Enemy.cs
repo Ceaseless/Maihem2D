@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
-using Maihem.Extensions;
+﻿using Maihem.Extensions;
 using Maihem.Managers;
 using Maihem.Movements;
 using Unity.Mathematics;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Maihem.Actors
 {
@@ -12,7 +12,7 @@ namespace Maihem.Actors
         
         [SerializeField] private EnemyHealthDisplay healthDisplay;
         [SerializeField] private MovementSystem movementSystem;
-        protected static readonly int AnimatorAttack = Animator.StringToHash("Attack");
+        private static readonly int AnimatorAttack = Animator.StringToHash("Attack");
         
 
         public override void Initialize()
@@ -64,20 +64,23 @@ namespace Maihem.Actors
         {
             if (!movementSystem) return false;
             var range = attackSystem.currentAttackStrategy.GetRange();
-            var targetCell = movementSystem.Move(GridPosition,range);
-            var newPath = new List<Vector3>();
-            foreach (var cell in targetCell)
-            {
-                newPath.Add(MapManager.Instance.CellToWorld(cell));
-            }
-            var newFacingDirection = targetCell[^1] - GridPosition;
-            
-            UpdateFacing(newFacingDirection);
-            
-            StartMoveAnimation(newPath);
-            UpdateGridPosition(newPath[^1]);
-            return true;
 
+            if (movementSystem.TryMove(GridPosition, range, out var movePath))
+            {
+                var newFacingDirection = movePath[^1] - GridPosition;
+                UpdateFacing(newFacingDirection);
+                StartMoveAnimation(movePath);
+                UpdateGridPosition(movePath[^1]);
+                return true;
+            }
+
+            var randomFacing = MapManager.CellNeighborOffsets[Random.Range(0, MapManager.CellNeighborOffsets.Length)];
+            UpdateFacing(randomFacing);
+            return false;
+            
+            
+            
+            
         }
       
 
