@@ -98,7 +98,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b149546183ed4dcca67328ac3e17996a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 2
+  maxHealth: 5
   moveDuration: 0.1
   initialFacing: 0
   attackSystem: {fileID: 8664368089664306379}
@@ -145,7 +145,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 454c6843711f40e6a8399f3d946d6d48, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 2
+  maxHealth: 5
   shieldObject: {fileID: 5450685710401113948}
 --- !u!95 &5203436605365279184
 Animator:

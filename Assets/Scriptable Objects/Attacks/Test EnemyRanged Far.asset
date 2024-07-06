@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34f1fd77b1174d6ab2f599a66cebd594, type: 3}
+  m_Name: Test EnemyRanged Far
+  m_EditorClassIdentifier: 
+  displayName: 
+  damage: 1
+  staminaCost: 5
+  attackVisualEffect: {fileID: 11400000, guid: ea374f545bf096d478e7ccbff6a9e540, type: 2}
+  attackSoundEffect: {fileID: 0}
+  onHitVisualEffect: {fileID: 11400000, guid: c0482b1fbc9132943b1e45b9579eadf6, type: 2}
+  onHitSoundEffect: {fileID: 8300000, guid: 4d1346813eb9b1044b9290c8725c92c3, type: 3}
+  projectilePrefab: {fileID: 742405011139257204, guid: 41305faeab409e14a8a85b46cb8b45bb, type: 3}
+  projectileTime: 0.2
+  range: 4
+  blockedByActors: 0

@@ -169,14 +169,16 @@ namespace Maihem.Managers
             for (var z = 0; z < 2; z++)
             {
                 var position = cellPosition.WithZ(z);
-                if(!TryGetTile(position, out var tile)) continue;
+                var tile = TryGetTile(position);
+                if (z == 0 && tile is null) return true;
                 if (tile is not null && tile.colliderType != Tile.ColliderType.None) return true;
             }
             return false;
         }
 
-        private bool TryGetTile(Vector3Int cellPosition, out Tile tile)
+        private Tile TryGetTile(Vector3Int cellPosition)
         {
+            Tile tile = null;
             foreach (var chunk in _mapChunks)
             {
                 var localPosition = new Vector3Int((int)(cellPosition.x - chunk.transform.localPosition.x),
@@ -184,10 +186,8 @@ namespace Maihem.Managers
                 
                 if (!chunk.TileMap.HasTile(localPosition)) continue;
                 tile = chunk.TileMap.GetTile<Tile>(localPosition);
-                return true;
             }
-            tile = null;
-            return false;
+            return tile;
         }
 
         public bool IsCellBlockedDiagonal(Vector2Int cellPosition, Vector2Int origin)

@@ -74,7 +74,7 @@ SpriteRenderer:
   m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: 113070545, guid: 033003b72dfb67647aac50dd7b11aed6, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -100,7 +100,7 @@ GameObject:
   - component: {fileID: 483628311430970088}
   - component: {fileID: 7014631942697327723}
   m_Layer: 7
-  m_Name: EnemyRanged
+  m_Name: EnemySniper
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -182,7 +182,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b149546183ed4dcca67328ac3e17996a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 3
+  maxHealth: 1
   moveDuration: 0.1
   initialFacing: 0
   attackSystem: {fileID: 6315963427758200423}
@@ -203,7 +203,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   markerColor: {r: 1, g: 0, b: 0, a: 0.5803922}
-  currentAttackStrategy: {fileID: 11400000, guid: e2d86852e71541e46b698f63f0d2cdbc, type: 2}
+  currentAttackStrategy: {fileID: 11400000, guid: 2202a04ae9d9e4341b31b348a9cc0c82, type: 2}
 --- !u!114 &7494766608770200691
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -229,7 +229,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 454c6843711f40e6a8399f3d946d6d48, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 3
+  maxHealth: 1
   shieldObject: {fileID: 6239827842773834752}
 --- !u!95 &7014631942697327723
 Animator:

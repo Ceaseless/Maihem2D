@@ -96,7 +96,8 @@ namespace Maihem.Attacks
                         }
                     }
                 }
-                if(direction.y != 0)
+
+                if (direction.y == 0) continue;
                 {
                     for (var x = -width; x <= width; x++)
                     {
