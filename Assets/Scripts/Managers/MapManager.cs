@@ -243,11 +243,11 @@ namespace Maihem.Managers
         
         public bool IsInDirectLine(Vector2Int origin, Vector2Int target, int range)
         {
-            var dir = new Vector2Int(math.clamp(origin.x - target.x, -1, 1),math.clamp(origin.y - target.y, -1, 1));
+            var dir = new Vector2Int(math.clamp(target.x-origin.x, -1, 1),math.clamp(target.y - origin.y, -1, 1));
             for (var i = 1; i <= range; i++)
             {
                 var checkPosition = origin + dir*i;
-                if (IsCellBlocking(checkPosition) || IsCellBlockedDiagonal(checkPosition, origin)) return false;
+                if (IsCellBlocking(checkPosition)) return false;
             }
             return true;
         }
