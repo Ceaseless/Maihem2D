@@ -20,7 +20,7 @@ namespace Maihem.Movements
                 var randomNeighbor = gridPosition + MapManager.CellNeighborOffsets[randomOffsetIndex];
                 if (!MapManager.Instance.IsCellBlocking(randomNeighbor) &&
                       !MapManager.Instance.IsCellBlockedDiagonal(randomNeighbor, gridPosition) &&
-                      !GameManager.Instance.TryGetActorOnCell(randomNeighbor, out var actor))
+                      !GameManager.Instance.CellContainsActor(randomNeighbor))
                 {
                     randomPath.Add(randomNeighbor);
                     return randomPath;

@@ -33,7 +33,7 @@ namespace Maihem.Movements
             
             if (potentialTargets.Count > 0)
             {
-                foreach (var target in potentialTargets.OrderBy(x => x.ManhattanDistance(player.GridPosition)))
+                foreach (var target in potentialTargets.OrderBy(x => x.ManhattanDistance(gridPosition)))
                 {
                     if (GameManager.Instance.CellContainsActor(target)) continue;
                     shortestPath = MapManager.Instance.FindShortestDistance(gridPosition, target);

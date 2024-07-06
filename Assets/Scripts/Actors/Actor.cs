@@ -29,8 +29,6 @@ namespace Maihem.Actors
         protected static readonly int AnimatorVertical = Animator.StringToHash("Vertical");
         protected static readonly int AnimatorMoving = Animator.StringToHash("Moving");
         
-        
-
         public virtual void Initialize()
         {
             GridPosition = MapManager.Instance.WorldToCell(transform.position);
@@ -53,14 +51,24 @@ namespace Maihem.Actors
             healthSystem.Tick();
         }
 
+        protected void UpdateGridPosition(Vector2Int newCellPosition)
+        {
+            GridPosition = newCellPosition;
+        }
+
         protected void UpdateGridPosition(Vector3 newPosition)
         {
             GridPosition = MapManager.Instance.WorldToCell(newPosition);
         }
         
-        protected void StartMoveAnimation(List<Vector3> target)
+        protected void StartMoveAnimation(List<Vector2Int> cellPath)
         {
-            StartCoroutine(MoveAnimation(target));
+            StartCoroutine(MoveAnimation(cellPath));
+        }
+        
+        protected void StartMoveAnimation(List<Vector3> path)
+        {
+            StartCoroutine(MoveAnimation(path));
         }
         
         protected void StartMoveAnimation(Vector3 target)
@@ -70,10 +78,29 @@ namespace Maihem.Actors
         }
 
         
-
-        protected void StartAttackAnimation()
+        
+        private IEnumerator MoveAnimation(List<Vector2Int> path)
         {
-            StartCoroutine(AttackAnimation());
+            IsPerformingAction = true;
+            animator.SetBool(AnimatorMoving,true);
+            path.Reverse();
+            var timePerTarget = moveDuration / path.Count;
+            foreach (var nodeInPath in path)
+            {
+                var time = 0f;
+                var startPosition = transform.position;
+                var subTarget = MapManager.Instance.CellToWorld(nodeInPath);
+                while (time < timePerTarget && IsPerformingAction)
+                {
+                    transform.position = Vector3.Lerp(startPosition, subTarget, time / timePerTarget);
+                    time += Time.deltaTime;
+                    yield return null;
+                }
+                transform.position = subTarget;
+            }
+            animator.SetBool(AnimatorMoving,false);
+            IsPerformingAction = false;
+            OnAnimationEnd();
         }
         
         // ReSharper disable Unity.PerformanceAnalysis
@@ -100,16 +127,7 @@ namespace Maihem.Actors
             OnAnimationEnd();
         }
         
-        // ReSharper disable Unity.PerformanceAnalysis
-        private IEnumerator AttackAnimation()
-        {
-            IsPerformingAction = true;
-            yield return new WaitForSeconds(moveDuration);
-            IsPerformingAction = false;
-            OnAnimationEnd();
-        }
-
-        
+       
         protected abstract void OnAnimationEnd();
 
         protected virtual void OnTurnStarted()
