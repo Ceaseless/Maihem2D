@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Maihem.Managers;
 using Unity.Mathematics;
 using UnityEngine;
 
@@ -45,6 +46,7 @@ namespace Maihem.Attacks
                     if(x == 0 && y== 0 || math.abs(x) + math.abs(y) > range) continue;
                     
                     var targetPosition = position+new Vector2Int(x, y);
+                    if(MapManager.Instance.IsCellBlocking(targetPosition)) continue;
                     var dist = math.max(math.abs(x), math.abs(y));
                     var adjustedDamage = CalculateTileDamage(dist);
                     targets.Add((targetPosition, adjustedDamage));
@@ -62,7 +64,10 @@ namespace Maihem.Attacks
                 for (var y = -range; y <= range; y++)
                 {
                     if(x == 0 && y== 0 || math.abs(x) + math.abs(y) > range) continue;
-                    targets.Add((position+new Vector2Int(x,y)));
+                    var targetPosition = position+new Vector2Int(x, y);
+                    if(MapManager.Instance.IsCellBlocking(targetPosition)) continue;
+                    targets.Add(targetPosition);
+                    
                 }
             }
 
