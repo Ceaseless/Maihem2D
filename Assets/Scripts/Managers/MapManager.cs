@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Cinemachine;
@@ -60,6 +61,7 @@ namespace Maihem.Managers
         private List<MapChunk> _mapChunks;
         private int _instantiatedMapChunks;
         private int _currentMaxX;
+        private bool _isSpawningMap;
         
         public static readonly Vector2Int[] CellNeighborOffsets =
         {
@@ -112,10 +114,33 @@ namespace Maihem.Managers
                 Debug.LogError("Not enough map prefabs set!");
                 return;
             }
-            var mapObject = Instantiate(mapPrefabs[index], grid.transform);
+            _isSpawningMap = true;
+            if (_mapChunks.Count == 0)
+            {
+                var mapObject = Instantiate(mapPrefabs[index], grid.transform);
+                PerformChunkSetup(mapObject,index);
+            }
+            else
+            {
+                StartCoroutine(LoadMapAsync(index));
+            }
+        }
+
+        private IEnumerator LoadMapAsync(int index)
+        {
+            _isSpawningMap = true;
+            var operation = InstantiateAsync(mapPrefabs[index], grid.transform);
+            while (!operation.isDone)
+            {
+                yield return null;
+            }
+            PerformChunkSetup(operation.Result[0], index);
+        }
+        
+        private void PerformChunkSetup(GameObject mapObject, int index)
+        {
             var mapChunk = mapObject.GetComponent<MapChunk>();
             var tileMap = mapChunk.TileMap;
-
             if (index > 0)
             {
                 var predecessor = _mapChunks[index - 1];
@@ -130,8 +155,8 @@ namespace Maihem.Managers
             {
                 oldBounds[0],
                 oldBounds[1],
-                new Vector2(bounds.xMax*(_instantiatedMapChunks+1), bounds.yMax),
-                new Vector2(bounds.xMax*(_instantiatedMapChunks+1), bounds.yMin)
+                new Vector2(oldBounds[2].x+bounds.xMax, bounds.yMax),
+                new Vector2(oldBounds[3].x+bounds.xMax, bounds.yMin)
             };
             
             _currentMaxX = (int)mapObject.transform.localPosition.x + bounds.xMax;
@@ -144,12 +169,16 @@ namespace Maihem.Managers
             {
                 Instantiate(goalPrefab, mapChunk.PotentialGoalPosition.position, Quaternion.identity, mapChunk.transform);
             }
+
+            _isSpawningMap = false;
         }
+
+        
         
         // Just keep spawning maps if player is too close to the end until we run out of prefabs
         public void UpdateMap()
         {
-            if (_instantiatedMapChunks >= mapPrefabs.Length) return;
+            if (_instantiatedMapChunks >= mapPrefabs.Length || _isSpawningMap) return;
             var lastChunk = _mapChunks[_instantiatedMapChunks - 1];
             var playerPosition = GameManager.Instance.Player.transform.position;
             if (Mathf.Abs(playerPosition.x - lastChunk.PotentialGoalPosition.position.x) < mapSpawnDistance)
