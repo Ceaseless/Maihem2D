@@ -26,16 +26,25 @@ namespace Maihem.Movements
             CheckAlert(gridPosition);
             if (!_isActivated)
             {
+                // Wait instead of trying to idle move
                 if (waitChanceWhileIdle >= Random.Range(0, 1f))
                 {
                     path = null;
                     return false;
                 }
+
+                // Idle move found a position
+                if (MovementStrategy.TryIdleMove(gridPosition, out path))
+                {
+                    return true;
+                }
                 
-                path = MovementStrategy.IdleMove(gridPosition);
-                return true;
+                // Idle move didn't find a position -> Wait
+                path = null;
+                return false;
             }
 
+            // We are active -> Move
             path = currentStrategy.ActivatedMove(gridPosition, range);
             return true;
         }

@@ -11,6 +11,7 @@ namespace Maihem.Managers
     public class EnemyManager : MonoBehaviour
     {
         [SerializeField] private GameObject[] enemyPrefabs;
+        [SerializeField] private float minimalTurnTime = 0.25f;
         [Min(1)]
         [SerializeField] private int cullHorizontalDistance;
         [SerializeField] private int spawnRate;
@@ -109,8 +110,10 @@ namespace Maihem.Managers
             }
         }
 
+        private float _turnStartTime;
         public void Tick()
         {
+            _turnStartTime = Time.time;
             _spawnTimer++;
             if (periodicSpawn && _spawnTimer >= spawnRate)
             {
@@ -124,13 +127,28 @@ namespace Maihem.Managers
             if (_activeEnemies.Count > 0)
                 StartCoroutine(AmortizedEnemyTurn());
             else
-                AllEnemiesPerformedTurn();
-
-
-
+                TryFinishEnemyTurn();
         }
 
 
+        private void TryFinishEnemyTurn()
+        {
+            var now = Time.time;
+            var elapsedTime = now - _turnStartTime;
+            if(elapsedTime > minimalTurnTime) {
+                AllEnemiesPerformedTurn();
+            }
+            else
+            {
+                StartCoroutine(WaitTillMinimalTurnTime(minimalTurnTime - elapsedTime));
+            }
+        }
+
+        private IEnumerator WaitTillMinimalTurnTime(float timeDiff)
+        {
+            yield return new WaitForSeconds(timeDiff);
+            AllEnemiesPerformedTurn();
+        }
         
         private IEnumerator AmortizedEnemyTurn()
         {
@@ -141,6 +159,11 @@ namespace Maihem.Managers
                 yield return null;
             }
             _dispatchingEnemies = false;
+            if (AreAllActionsPerformed())
+            {
+                TryFinishEnemyTurn();
+            }
+            
         }
 
         private void EnemyStartedTurn(object sender, EventArgs args)
@@ -154,7 +177,7 @@ namespace Maihem.Managers
            
             if (!_dispatchingEnemies && _enemiesTakingTurn == 0)
             {
-                AllEnemiesPerformedTurn();
+                TryFinishEnemyTurn();
             }
         }
         

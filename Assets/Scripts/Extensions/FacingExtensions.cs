@@ -34,6 +34,7 @@ namespace Maihem.Extensions
                 (1,-1) => Facing.SouthEast,
                 (-1,-1) => Facing.SouthWest,
                 (-1,1) => Facing.NorthWest,
+                (0,0) => facing,
                 _ => throw new ArgumentOutOfRangeException(nameof(direction), direction, null)
             };
         }

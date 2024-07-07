@@ -10,9 +10,8 @@ namespace Maihem.Movements
     {
         [SerializeField] private float alertRange;
         
-        public static List<Vector2Int> IdleMove(Vector2Int gridPosition)
+        public static bool TryIdleMove(Vector2Int gridPosition, out List<Vector2Int> path)
         {
-            var randomPath = new List<Vector2Int>();
             var offsetLength = MapManager.CellNeighborOffsets.Length;
             for (var i = 0; i < 20; i++)
             {
@@ -22,13 +21,12 @@ namespace Maihem.Movements
                       !MapManager.Instance.IsCellBlockedDiagonal(randomNeighbor, gridPosition) &&
                       !GameManager.Instance.CellContainsActor(randomNeighbor))
                 {
-                    randomPath.Add(randomNeighbor);
-                    return randomPath;
+                    path = new List<Vector2Int> { randomNeighbor };
+                    return true;
                 }
             } 
-            Debug.Log("No Neighbour free");
-            randomPath.Add(Vector2Int.zero);
-            return randomPath;
+            path = null;
+            return false;
         }
         
         public bool CheckAlert(Vector2Int gridPosition)
