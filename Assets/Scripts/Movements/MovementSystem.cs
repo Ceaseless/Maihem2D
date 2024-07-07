@@ -29,7 +29,6 @@ namespace Maihem.Movements
             if (currentStrategy.CheckAlert(_parentActor.GridPosition))
             {
                 _isActivated = true;
-                Debug.Log("Play detection");
                 var effectPosition = _parentActor.transform.position + Vector3.up;
                 
                 VisualEffectsPool.Instance.PlayVisualEffect(detectionEffect, effectPosition);
