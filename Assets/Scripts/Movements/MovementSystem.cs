@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Maihem.Actors;
 using Maihem.Effects;
 using Maihem.Extensions;
+using Maihem.Managers;
 using UnityEngine;
 
 namespace Maihem.Movements
@@ -11,6 +12,7 @@ namespace Maihem.Movements
         [SerializeField] private float waitChanceWhileIdle = 0.5f;
         [SerializeField] private MovementStrategy currentStrategy;
         [SerializeField] private VisualEffectSettings detectionEffect;
+        [SerializeField] private AudioClip detectionSoundEffect;
         
         private Actor _parentActor;
         private bool _isActivated;
@@ -31,6 +33,7 @@ namespace Maihem.Movements
                 var effectPosition = _parentActor.transform.position + Vector3.up;
                 
                 VisualEffectsPool.Instance.PlayVisualEffect(detectionEffect, effectPosition);
+                AudioManager.Instance.PlaySoundFX(detectionSoundEffect, effectPosition,1f);
             }
         }
 

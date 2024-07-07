@@ -219,6 +219,7 @@ MonoBehaviour:
   waitChanceWhileIdle: 0.5
   currentStrategy: {fileID: 11400000, guid: 0c9d0d9e15e847a4fbaa3211551e3af6, type: 2}
   detectionEffect: {fileID: 11400000, guid: 342b928f51365264680172f90139608a, type: 2}
+  detectionSoundEffect: {fileID: 8300000, guid: e0b2aded161a9074bb05912d4000f459, type: 3}
 --- !u!114 &483628311430970088
 MonoBehaviour:
   m_ObjectHideFlags: 0
