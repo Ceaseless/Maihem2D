@@ -10,23 +10,36 @@ namespace Maihem.Movements
     {
         [SerializeField] private float alertRange;
         
-        public static bool TryIdleMove(Vector2Int gridPosition, out List<Vector2Int> path)
+        public static bool TryIdleMove(Vector2Int gridPosition, Vector2Int facing, out List<Vector2Int> path)
         {
-            var offsetLength = MapManager.CellNeighborOffsets.Length;
-            for (var i = 0; i < 20; i++)
+            var cellInFacingDir = gridPosition + facing;
+            if (!MapManager.Instance.IsCellBlocking(cellInFacingDir) &&
+                !MapManager.Instance.IsCellBlockedDiagonal(cellInFacingDir, gridPosition) &&
+                !GameManager.Instance.CellContainsActor(cellInFacingDir))
             {
-                var randomOffsetIndex = Random.Range(0, offsetLength);
-                var randomNeighbor = gridPosition + MapManager.CellNeighborOffsets[randomOffsetIndex];
-                if (!MapManager.Instance.IsCellBlocking(randomNeighbor) &&
-                      !MapManager.Instance.IsCellBlockedDiagonal(randomNeighbor, gridPosition) &&
-                      !GameManager.Instance.CellContainsActor(randomNeighbor))
-                {
-                    path = new List<Vector2Int> { randomNeighbor };
-                    return true;
-                }
-            } 
+                path = new List<Vector2Int> { cellInFacingDir };
+                return true;
+            }
+
             path = null;
             return false;
+            
+
+            // var offsetLength = MapManager.CellNeighborOffsets.Length;
+            // for (var i = 0; i < 20; i++)
+            // {
+            //     var randomOffsetIndex = Random.Range(0, offsetLength);
+            //     var randomNeighbor = gridPosition + MapManager.CellNeighborOffsets[randomOffsetIndex];
+            //     if (!MapManager.Instance.IsCellBlocking(randomNeighbor) &&
+            //           !MapManager.Instance.IsCellBlockedDiagonal(randomNeighbor, gridPosition) &&
+            //           !GameManager.Instance.CellContainsActor(randomNeighbor))
+            //     {
+            //         path = new List<Vector2Int> { randomNeighbor };
+            //         return true;
+            //     }
+            // } 
+            // path = null;
+            // return false;
         }
         
         public bool CheckAlert(Vector2Int gridPosition)

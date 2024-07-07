@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using Maihem.Actors;
+using Maihem.Extensions;
 using UnityEngine;
 
 namespace Maihem.Movements
@@ -8,22 +10,24 @@ namespace Maihem.Movements
         [SerializeField] private float waitChanceWhileIdle = 0.5f;
         [SerializeField] private MovementStrategy currentStrategy;
 
+        private Actor _parentActor;
         private bool _isActivated;
 
         private void Awake()
         {
+            _parentActor = GetComponent<Actor>();
             _isActivated = false;
         }
 
-        private void CheckAlert( Vector2Int gridPosition)
+        private void CheckAlert()
         {
             if (_isActivated) return;
-            _isActivated = currentStrategy.CheckAlert(gridPosition);
+            _isActivated = currentStrategy.CheckAlert(_parentActor.GridPosition);
         }
 
-        public bool TryMove(Vector2Int gridPosition, int range, out List<Vector2Int> path)
+        public bool TryMove(int range, out List<Vector2Int> path)
         {
-            CheckAlert(gridPosition);
+            CheckAlert();
             if (!_isActivated)
             {
                 // Wait instead of trying to idle move
@@ -34,7 +38,7 @@ namespace Maihem.Movements
                 }
 
                 // Idle move found a position
-                if (MovementStrategy.TryIdleMove(gridPosition, out path))
+                if (MovementStrategy.TryIdleMove(_parentActor.GridPosition, _parentActor.CurrentFacing.GetFacingVector(), out path))
                 {
                     return true;
                 }
@@ -45,7 +49,7 @@ namespace Maihem.Movements
             }
 
             // We are active -> Move
-            path = currentStrategy.ActivatedMove(gridPosition, range);
+            path = currentStrategy.ActivatedMove(_parentActor.GridPosition, range);
             return true;
         }
     }

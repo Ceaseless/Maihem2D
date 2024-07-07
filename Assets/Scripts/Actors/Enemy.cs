@@ -65,7 +65,7 @@ namespace Maihem.Actors
             if (!movementSystem) return false;
             var range = attackSystem.currentAttackStrategy.GetRange();
 
-            if (movementSystem.TryMove(GridPosition, range, out var movePath))
+            if (movementSystem.TryMove(range, out var movePath))
             {
                 var newFacingDirection = movePath[^1] - GridPosition;
                 UpdateFacing(newFacingDirection);
