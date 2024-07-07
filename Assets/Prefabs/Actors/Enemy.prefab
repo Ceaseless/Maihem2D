@@ -134,6 +134,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   waitChanceWhileIdle: 0.5
   currentStrategy: {fileID: 11400000, guid: 424c46b68dd906544913c07c47030f38, type: 2}
+  detectionEffect: {fileID: 11400000, guid: 342b928f51365264680172f90139608a, type: 2}
 --- !u!114 &8177856859162874820
 MonoBehaviour:
   m_ObjectHideFlags: 0

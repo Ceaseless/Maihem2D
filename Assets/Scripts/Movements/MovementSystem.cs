@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Maihem.Actors;
+using Maihem.Effects;
 using Maihem.Extensions;
 using UnityEngine;
 
@@ -9,7 +10,8 @@ namespace Maihem.Movements
     {
         [SerializeField] private float waitChanceWhileIdle = 0.5f;
         [SerializeField] private MovementStrategy currentStrategy;
-
+        [SerializeField] private VisualEffectSettings detectionEffect;
+        
         private Actor _parentActor;
         private bool _isActivated;
 
@@ -22,7 +24,14 @@ namespace Maihem.Movements
         private void CheckAlert()
         {
             if (_isActivated) return;
-            _isActivated = currentStrategy.CheckAlert(_parentActor.GridPosition);
+            if (currentStrategy.CheckAlert(_parentActor.GridPosition))
+            {
+                _isActivated = true;
+                Debug.Log("Play detection");
+                var effectPosition = _parentActor.transform.position + Vector3.up;
+                
+                VisualEffectsPool.Instance.PlayVisualEffect(detectionEffect, effectPosition);
+            }
         }
 
         public bool TryMove(int range, out List<Vector2Int> path)
