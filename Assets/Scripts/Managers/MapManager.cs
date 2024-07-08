@@ -4,6 +4,7 @@ using Cinemachine;
 using Maihem.Extensions;
 using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.Tilemaps;
 using Random = UnityEngine.Random;
 
@@ -58,11 +59,12 @@ namespace Maihem.Managers
         [SerializeField] private GameObject[] mapPrefabs;
         [SerializeField] private GameObject tutorialPrefab;
         [SerializeField] private float mapSpawnDistance = 20f;
+        [SerializeField] private bool tutorialCompleted;
         private List<MapChunk> _mapChunks;
         private int _instantiatedMapChunks;
         private int _currentMaxX;
         
-        private bool _tutorialCompleted;
+        
         
         public static readonly Vector2Int[] CellNeighborOffsets =
         {
@@ -112,7 +114,7 @@ namespace Maihem.Managers
         {
             GameObject mapObject;
             
-            if (!_tutorialCompleted && tutorialPrefab)
+            if (!tutorialCompleted && tutorialPrefab)
             {
                 mapObject = Instantiate(tutorialPrefab, grid.transform);
             }
@@ -164,7 +166,7 @@ namespace Maihem.Managers
         // Just keep spawning maps if player is too close to the end until we run out of prefabs
         public void UpdateMap()
         {
-            if (_instantiatedMapChunks >= mapPrefabs.Length || !_tutorialCompleted) return;
+            if (_instantiatedMapChunks >= mapPrefabs.Length || !tutorialCompleted) return;
             var lastChunk = _mapChunks[_instantiatedMapChunks - 1];
             var playerPosition = GameManager.Instance.Player.transform.position;
             if (Mathf.Abs(playerPosition.x - lastChunk.PotentialGoalPosition.position.x) < mapSpawnDistance)
@@ -429,7 +431,7 @@ namespace Maihem.Managers
 
         public void TutorialFinished()
         {
-            _tutorialCompleted = true;
+            tutorialCompleted = true;
         }
     }
     
