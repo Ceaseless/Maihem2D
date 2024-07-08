@@ -93,6 +93,7 @@ namespace Maihem.Managers
 
         private void Start()
         {
+            tutorialCompleted = !MenuManager.TutorialActivated;
             _mapChunks = new List<MapChunk>();
             SpawnMap();
         }
