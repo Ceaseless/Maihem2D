@@ -45,6 +45,7 @@ namespace Maihem.Managers
         private void Start()
         {
             enemyManager.Initialize();
+            pickupManager.Initialize();
             MapManager.Instance.Initialize();
             SpawnPlayer();
             _gameOver = false;

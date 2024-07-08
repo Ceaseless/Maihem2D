@@ -14,7 +14,7 @@ namespace Maihem
         public bool stopped;
         private void Start()
         {
-            Reset();
+            transform.position = Vector3.zero;
         }
 
         public void Reset()

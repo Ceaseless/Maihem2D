@@ -176,20 +176,31 @@ namespace Maihem.Managers
 
         private void SpawnMap(int index = 0)
         {
-            if (index < 0 || index >= mapPrefabs.Length)
+            if (MenuManager.TutorialActivated)
             {
-                Debug.LogError("Not enough map prefabs set!");
-                return;
-            }
-            _isSpawningMap = true;
-            if (_mapChunks.Count == 0)
-            {
-                var mapObject = Instantiate(mapPrefabs[index], grid.transform);
+                tutorialCompleted = false;
+                _isSpawningMap = true;
+                var mapObject = Instantiate(tutorialPrefab, grid.transform);
                 PerformChunkSetup(mapObject,index);
+                
             }
             else
             {
-                StartCoroutine(LoadMapAsync(index));
+                if (index < 0 || index >= mapPrefabs.Length)
+                {
+                    Debug.LogError("Not enough map prefabs set!");
+                    return;
+                }
+                _isSpawningMap = true;
+                if (_mapChunks.Count == 0)
+                {
+                    var mapObject = Instantiate(mapPrefabs[index], grid.transform);
+                    PerformChunkSetup(mapObject,index);
+                }
+                else
+                {
+                    StartCoroutine(LoadMapAsync(index));
+                } 
             }
         }
 
