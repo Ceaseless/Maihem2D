@@ -65,7 +65,7 @@ namespace Maihem.Actors
             if (!movementSystem) return false;
             var range = attackSystem.currentAttackStrategy.GetRange();
 
-            if (movementSystem.TryMove(GridPosition, range, out var movePath))
+            if (movementSystem.TryMove(range, out var movePath))
             {
                 var newFacingDirection = movePath[^1] - GridPosition;
                 UpdateFacing(newFacingDirection);
@@ -74,14 +74,14 @@ namespace Maihem.Actors
                 return true;
             }
 
-            var randomFacing = MapManager.CellNeighborOffsets[Random.Range(0, MapManager.CellNeighborOffsets.Length)];
+            var randomFacing = Random.Range(0f, 1f) < 0.5f
+                ? CurrentFacing.NextFacingClockWise()
+                : CurrentFacing.NextFacingCounterClockWise();
+            //MapManager.CellNeighborOffsets[Random.Range(0, MapManager.CellNeighborOffsets.Length)];
             UpdateFacing(randomFacing);
             return false;
-            
-            
-            
-            
         }
+
       
 
         protected override void OnAnimationEnd()
@@ -93,6 +93,14 @@ namespace Maihem.Actors
         private void OnDestroy()
         {
             attackSystem?.HideTargetMarkers();
+        }
+
+        private void UpdateFacing(Facing newFacing)
+        {
+            var newFacingVector = newFacing.GetFacingVector();
+            animator.SetInteger(AnimatorHorizontal, newFacingVector.x);
+            animator.SetInteger(AnimatorVertical, newFacingVector.y);
+            CurrentFacing = newFacing;
         }
         
         private void UpdateFacing(Vector2Int newFacingVector)

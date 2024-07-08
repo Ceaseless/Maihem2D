@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Maihem.Managers;
@@ -58,7 +59,12 @@ namespace Maihem.Effects
             }
         }
 
-        
+        public void PlayVisualEffectDelayed(VisualEffectSettings type, Vector3 position, float delay)
+        {
+            if (delay < 0) return;
+            StartCoroutine(DelayedEffect(type, position, delay));
+
+        }
         
         public void PlayVisualEffect(VisualEffectSettings type, Vector3 position)
         {
@@ -111,6 +117,13 @@ namespace Maihem.Effects
                     effect.SetActive(false);
                 }
             }
+        }
+
+        private IEnumerator DelayedEffect(VisualEffectSettings type, Vector3 position, float delay)
+        {
+            yield return new WaitForSeconds(delay);
+            PlayVisualEffect(type,position);
+            
         }
 
         // public TargetMarker GetMarker()
