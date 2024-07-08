@@ -11,19 +11,21 @@ namespace Maihem
         [Min(0f)]
         [SerializeField] private float activeMoveSpeed = 1f;
 
-
+        public bool stopped;
         private void Start()
         {
-            Reset();
+            transform.position = Vector3.zero;
         }
 
         public void Reset()
         {
+            stopped = false;
             transform.position = Vector3.zero;
         }
         
         public void UpdateBounds()
         {
+            if (stopped) return;
             var player = GameManager.Instance.Player;
             var speed = player.transform.position.x - transform.position.x > playerMaxDistance
                 ? activeMoveSpeed
@@ -31,6 +33,7 @@ namespace Maihem
             
             transform.Translate(Vector3.right * speed);
         }
+        
 
        
     }

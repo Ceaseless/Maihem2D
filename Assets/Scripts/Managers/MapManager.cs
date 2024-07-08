@@ -5,6 +5,7 @@ using Cinemachine;
 using Maihem.Extensions;
 using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 namespace Maihem.Managers
@@ -56,7 +57,9 @@ namespace Maihem.Managers
         [SerializeField] private CinemachineConfiner2D cameraConfiner;
         [SerializeField] private GameObject goalPrefab;
         [SerializeField] private GameObject[] mapPrefabs;
+        [SerializeField] private GameObject tutorialPrefab;
         [SerializeField] private float mapSpawnDistance = 20f;
+        [SerializeField] private bool tutorialCompleted;
         private List<MapChunk> _mapChunks;
         private int _instantiatedMapChunks;
         private int _currentMaxX;
@@ -65,8 +68,8 @@ namespace Maihem.Managers
         
         // Collision stuff
         private int _mapCollisionLayerMask;
-        private Collider2D[] _overlapBoxResults = new Collider2D[20];
-        private readonly Vector2 _halfVector = Vector2.one * 0.5f;
+        
+        
         
         public static readonly Vector2Int[] CellNeighborOffsets =
         {
@@ -79,6 +82,8 @@ namespace Maihem.Managers
             new(-1, -1),
             new(-1, 1)
         };
+        private Collider2D[] _overlapBoxResults = new Collider2D[20];
+        private readonly Vector2 _halfVector = Vector2.one * 0.5f;
         
         private void Awake()
         {
@@ -98,6 +103,7 @@ namespace Maihem.Managers
 
         public void Initialize()
         {
+            tutorialCompleted = !MenuManager.TutorialActivated;
             _mapChunks = new List<MapChunk>();
             SpawnMap();
         }
@@ -116,36 +122,6 @@ namespace Maihem.Managers
             _currentMaxX = 0;
             SpawnMap();
             
-        }
-
-        private void SpawnMap(int index = 0)
-        {
-            if (index < 0 || index >= mapPrefabs.Length)
-            {
-                Debug.LogError("Not enough map prefabs set!");
-                return;
-            }
-            _isSpawningMap = true;
-            if (_mapChunks.Count == 0)
-            {
-                var mapObject = Instantiate(mapPrefabs[index], grid.transform);
-                PerformChunkSetup(mapObject,index);
-            }
-            else
-            {
-                StartCoroutine(LoadMapAsync(index));
-            }
-        }
-
-        private IEnumerator LoadMapAsync(int index)
-        {
-            _isSpawningMap = true;
-            var operation = InstantiateAsync(mapPrefabs[index], grid.transform);
-            while (!operation.isDone)
-            {
-                yield return null;
-            }
-            PerformChunkSetup(operation.Result[0], index);
         }
         
         private void PerformChunkSetup(GameObject mapObject, int index)
@@ -183,6 +159,61 @@ namespace Maihem.Managers
 
             _isSpawningMap = false;
         }
+        
+        
+        
+        // Just keep spawning maps if player is too close to the end until we run out of prefabs
+        public void UpdateMap()
+        {
+            if (_instantiatedMapChunks >= mapPrefabs.Length || !tutorialCompleted || _isSpawningMap) return;
+            var lastChunk = _mapChunks[_instantiatedMapChunks - 1];
+            var playerPosition = GameManager.Instance.Player.transform.position;
+            if (Mathf.Abs(playerPosition.x - lastChunk.PotentialGoalPosition.position.x) < mapSpawnDistance)
+            {
+                SpawnMap(_instantiatedMapChunks);
+            }
+        }
+
+        private void SpawnMap(int index = 0)
+        {
+            if (MenuManager.TutorialActivated)
+            {
+                tutorialCompleted = false;
+                _isSpawningMap = true;
+                var mapObject = Instantiate(tutorialPrefab, grid.transform);
+                PerformChunkSetup(mapObject,index);
+                
+            }
+            else
+            {
+                if (index < 0 || index >= mapPrefabs.Length)
+                {
+                    Debug.LogError("Not enough map prefabs set!");
+                    return;
+                }
+                _isSpawningMap = true;
+                if (_mapChunks.Count == 0)
+                {
+                    var mapObject = Instantiate(mapPrefabs[index], grid.transform);
+                    PerformChunkSetup(mapObject,index);
+                }
+                else
+                {
+                    StartCoroutine(LoadMapAsync(index));
+                } 
+            }
+        }
+
+        private IEnumerator LoadMapAsync(int index)
+        {
+            _isSpawningMap = true;
+            var operation = InstantiateAsync(mapPrefabs[index], grid.transform);
+            while (!operation.isDone)
+            {
+                yield return null;
+            }
+            PerformChunkSetup(operation.Result[0], index);
+        }
 
         public Vector3 GetStartPosition()
         {
@@ -193,20 +224,6 @@ namespace Maihem.Managers
             }
 
             return _mapChunks[0].PotentialStartPosition.position;
-        }
-
-        
-        
-        // Just keep spawning maps if player is too close to the end until we run out of prefabs
-        public void UpdateMap()
-        {
-            if (_instantiatedMapChunks >= mapPrefabs.Length || _isSpawningMap) return;
-            var lastChunk = _mapChunks[_instantiatedMapChunks - 1];
-            var playerPosition = GameManager.Instance.Player.transform.position;
-            if (Mathf.Abs(playerPosition.x - lastChunk.PotentialGoalPosition.position.x) < mapSpawnDistance)
-            {
-                SpawnMap(_instantiatedMapChunks);
-            }
         }
 
         public bool IsCellBlocking(Vector3 worldPosition)
@@ -224,7 +241,7 @@ namespace Maihem.Managers
             }
             return Physics2D.OverlapBoxNonAlloc(worldPosition, _halfVector, 0f, _overlapBoxResults, _mapCollisionLayerMask) > 0;
         }
-       
+
         public bool IsCellBlockedDiagonal(Vector2Int cellPosition, Vector2Int origin)
         {
             var moveVector = new Vector2Int(cellPosition.x - origin.x,cellPosition.y-origin.y);
@@ -246,6 +263,8 @@ namespace Maihem.Managers
             world = new Vector3(world.x + 0.5f, world.y + 0.5f, 0);
             return world;
         }
+
+        
         
         public static IList<Vector2Int> GetNeighbourPositions(Vector2Int cellPosition)
         {
@@ -424,6 +443,11 @@ namespace Maihem.Managers
         private static bool IsNodeInList(Node t, List<Node> list)
         {
             return list.Any(node => node.Position == t.Position);
+        }
+
+        public void TutorialFinished()
+        {
+            tutorialCompleted = true;
         }
     }
     

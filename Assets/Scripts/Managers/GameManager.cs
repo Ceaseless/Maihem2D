@@ -45,6 +45,7 @@ namespace Maihem.Managers
         private void Start()
         {
             enemyManager.Initialize();
+            pickupManager.Initialize();
             MapManager.Instance.Initialize();
             SpawnPlayer();
             _gameOver = false;
@@ -180,7 +181,6 @@ namespace Maihem.Managers
             TurnCount++;
             _nonPlayerTurn = false;
             
-            
             if (!Player.IsDead) return;
             uiManager.PlayerBeaten();
             GameOver();
@@ -196,6 +196,16 @@ namespace Maihem.Managers
             _gameOver = true;
             Player.PausePlayer();
             uiManager.ShowGameOverScreen();
+        }
+
+        public void ToggleKillZone(bool active)
+        {
+            boundsController.stopped = active;
+        }
+
+        public void TogglePlayerStats(bool active)
+        {
+            uiManager.TogglePlayerStats(active);
         }
     }
 }

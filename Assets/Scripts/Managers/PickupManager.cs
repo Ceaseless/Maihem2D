@@ -11,7 +11,8 @@ namespace Maihem.Managers
         private List<Pickup> _activePickups;
         private int _spawnTimer;
 
-        private void Start()
+
+        public void Initialize()
         {
             _activePickups = new List<Pickup>();
         }
