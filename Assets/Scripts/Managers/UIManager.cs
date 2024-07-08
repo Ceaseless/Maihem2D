@@ -21,6 +21,8 @@ namespace Maihem.Managers
         
         [SerializeField] private List<Sprite> attackSprites;
 
+        [SerializeField] private GameObject playerStats;
+        
         [SerializeField] private GameObject winScreen;
         [SerializeField] private GameObject playerBeatenMsg;
         [SerializeField] private GameObject playerWonMsg;
@@ -114,7 +116,13 @@ namespace Maihem.Managers
                 playerLightMsg.SetActive(false);
             }
             playerBeatenMsg.SetActive(true);
-            }
         }
+        public void TogglePlayerStats(bool active)
+        {
+            playerStats.SetActive(active);
+        }
+    }
+   
+        
     }
 
