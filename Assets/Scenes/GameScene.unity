@@ -855,12 +855,12 @@ Camera:
     x: 0
     y: 0
     width: 1
-    height: 1
+    height: 0.99990284
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 34
   orthographic: 1
-  orthographic size: 0
+  orthographic size: 11.25
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
@@ -907,9 +907,9 @@ MonoBehaviour:
   m_AssetsPPU: 16
   m_RefResolutionX: 640
   m_RefResolutionY: 360
-  m_CropFrame: 1
+  m_CropFrame: 4
   m_GridSnapping: 1
-  m_FilterMode: 0
+  m_FilterMode: 1
   m_UpscaleRT: 0
   m_PixelSnapping: 0
   m_CropFrameX: 0
@@ -1341,7 +1341,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerPrefab: {fileID: 4653786670576362675, guid: 879202ec493dcdf4db1a256f79c1ee11, type: 3}
   playerInput: {fileID: 755707658}
-  playerStartPosition: {x: 2, y: 0, z: 0}
   boundsController: {fileID: 917795378}
   enemyManager: {fileID: 894944140}
   pickupManager: {fileID: 996597388}
@@ -3463,6 +3462,7 @@ MonoBehaviour:
   goalPrefab: {fileID: 6327711029831941524, guid: 9be4bfffd413d5146ad9dc859f139857, type: 3}
   mapPrefabs:
   - {fileID: 8775701524382913767, guid: e7a826aef82e06946a5cc1fa6a46a8b1, type: 3}
+  - {fileID: 8775701524382913767, guid: e7a826aef82e06946a5cc1fa6a46a8b1, type: 3}
   mapSpawnDistance: 20
 --- !u!4 &1727441955
 Transform:
@@ -4284,8 +4284,8 @@ PolygonCollider2D:
     m_Paths:
     - - {x: 0, y: -19}
       - {x: 0, y: 15}
-      - {x: 200, y: 15}
-      - {x: 200, y: -19}
+      - {x: 0, y: 15}
+      - {x: 0, y: -19}
   m_UseDelaunayMesh: 0
 --- !u!1 &1969234358
 GameObject:

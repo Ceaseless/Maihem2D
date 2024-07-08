@@ -11,7 +11,6 @@ namespace Maihem.Managers
         public static GameManager Instance { get; private set; }
         [SerializeField] private GameObject playerPrefab;
         [SerializeField] private PlayerInput playerInput;
-        [SerializeField] private Vector3 playerStartPosition;
         [SerializeField] private KillZoneController boundsController;
         [SerializeField] private EnemyManager enemyManager;
         [SerializeField] private PickupManager pickupManager;
@@ -45,6 +44,8 @@ namespace Maihem.Managers
 
         private void Start()
         {
+            enemyManager.Initialize();
+            MapManager.Instance.Initialize();
             SpawnPlayer();
             _gameOver = false;
             uiManager.Initialize();
@@ -60,7 +61,7 @@ namespace Maihem.Managers
                 Destroy(Player.gameObject);
             }
 
-            var playerObject = Instantiate(playerPrefab, playerStartPosition, Quaternion.identity);
+            var playerObject = Instantiate(playerPrefab, MapManager.Instance.GetStartPosition(), Quaternion.identity);
             Player = playerObject.GetComponent<Player>();
             Player.Initialize();
             Player.TurnCompleted += OnPlayerTurnComplete;

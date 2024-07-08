@@ -91,9 +91,10 @@ namespace Maihem.Managers
                 Destroy(gameObject);
             }
             _mapCollisionLayerMask =  1 << LayerMask.NameToLayer("Map");
+            
         }
 
-        private void Start()
+        public void Initialize()
         {
             _mapChunks = new List<MapChunk>();
             SpawnMap();
@@ -176,6 +177,17 @@ namespace Maihem.Managers
             }
 
             _isSpawningMap = false;
+        }
+
+        public Vector3 GetStartPosition()
+        {
+            if (_instantiatedMapChunks == 0)
+            {
+                Debug.Log("No maps are instantiated");
+                return Vector3.zero;
+            }
+
+            return _mapChunks[0].PotentialStartPosition.position;
         }
 
         
