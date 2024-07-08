@@ -9,10 +9,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7170855160608702570}
-  - component: {fileID: 581283691865055232}
+  - component: {fileID: 9222639357119815852}
   - component: {fileID: -1860902277704988873}
   m_Layer: 8
-  m_Name: Pickup
+  m_Name: Kick Pickup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -35,7 +35,7 @@ Transform:
   - {fileID: 7347793664829112686}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &581283691865055232
+--- !u!114 &9222639357119815852
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -44,14 +44,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 3336585378749860948}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 301943b17629e0a4099ff2db22a1bb5c, type: 3}
+  m_Script: {fileID: 11500000, guid: 6a3099527fd24fd6b24c5fd569565d91, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   soundEffect: {fileID: 8300000, guid: 2e99c0e7b90643449aef74f4b45efc83, type: 3}
-  visualEffect: {fileID: 11400000, guid: 0e64d1f5e20973a469d65359d640a900, type: 2}
-  spawnChance: 100
-  staminaRestored: 50
-  healthRestored: 2
+  visualEffect: {fileID: 0}
+  spawnChance: 0
+  attackStrategy: {fileID: 11400000, guid: 6105c1a528ada6c4f903a3d483724391, type: 2}
 --- !u!61 &-1860902277704988873
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -124,7 +123,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 10, y: 10, z: 10}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 7170855160608702570}
@@ -170,7 +169,7 @@ SpriteRenderer:
   m_SortingLayerID: -1734520703
   m_SortingLayer: 2
   m_SortingOrder: 2
-  m_Sprite: {fileID: 21300000, guid: a2cf4ea3d191437468dd96d114338959, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 898d444ec926e6d4e8d6d3132baee069, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
