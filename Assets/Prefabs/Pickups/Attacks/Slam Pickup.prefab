@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 7170855160608702570}
   - component: {fileID: 9222639357119815852}
   - component: {fileID: -1860902277704988873}
+  - component: {fileID: 6008404336625027808}
   m_Layer: 8
   m_Name: Slam Pickup
   m_TagString: Untagged
@@ -96,6 +97,27 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.01, y: 0.01}
   m_EdgeRadius: 0
+--- !u!95 &6008404336625027808
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3336585378749860948}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: c5221cf6cebd3414dbbb896326b98d6b, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &4105007628180951067
 GameObject:
   m_ObjectHideFlags: 0
