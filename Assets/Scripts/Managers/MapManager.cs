@@ -61,6 +61,7 @@ namespace Maihem.Managers
         private int _instantiatedMapChunks;
         private int _currentMaxX;
         private bool _isSpawningMap;
+        private Vector2[] initialBoundsPath;
         
         // Collision stuff
         private int _mapCollisionLayerMask;
@@ -91,7 +92,8 @@ namespace Maihem.Managers
                 Destroy(gameObject);
             }
             _mapCollisionLayerMask =  1 << LayerMask.NameToLayer("Map");
-            
+            initialBoundsPath = mapConstraints.GetPath(0);
+
         }
 
         public void Initialize()
@@ -107,6 +109,9 @@ namespace Maihem.Managers
                 Destroy(chunk.gameObject);
             }
             _mapChunks.Clear();
+            mapConstraints.SetPath(0, initialBoundsPath);
+            cameraConfiner.InvalidateCache();
+            
             _instantiatedMapChunks = 0;
             _currentMaxX = 0;
             SpawnMap();
