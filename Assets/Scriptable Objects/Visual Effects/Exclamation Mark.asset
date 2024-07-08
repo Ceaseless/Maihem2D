@@ -1,0 +1,15 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b0925d5488d4561b32ac8d544bc7c47, type: 3}
+  m_Name: Exclamation Mark
+  m_EditorClassIdentifier: 
+  vfxPrefab: {fileID: 3968493727251261306, guid: c138747039d3b104d8f1dc4932a51118, type: 3}
