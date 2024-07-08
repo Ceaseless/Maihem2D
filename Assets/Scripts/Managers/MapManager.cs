@@ -5,7 +5,6 @@ using Cinemachine;
 using Maihem.Extensions;
 using Unity.Mathematics;
 using UnityEngine;
-using UnityEngine.Tilemaps;
 using Random = UnityEngine.Random;
 
 namespace Maihem.Managers
@@ -62,6 +61,12 @@ namespace Maihem.Managers
         private int _instantiatedMapChunks;
         private int _currentMaxX;
         private bool _isSpawningMap;
+        private Vector2[] initialBoundsPath;
+        
+        // Collision stuff
+        private int _mapCollisionLayerMask;
+        private Collider2D[] _overlapBoxResults = new Collider2D[20];
+        private readonly Vector2 _halfVector = Vector2.one * 0.5f;
         
         public static readonly Vector2Int[] CellNeighborOffsets =
         {
@@ -86,9 +91,12 @@ namespace Maihem.Managers
             {
                 Destroy(gameObject);
             }
+            _mapCollisionLayerMask =  1 << LayerMask.NameToLayer("Map");
+            initialBoundsPath = mapConstraints.GetPath(0);
+
         }
 
-        private void Start()
+        public void Initialize()
         {
             _mapChunks = new List<MapChunk>();
             SpawnMap();
@@ -101,6 +109,9 @@ namespace Maihem.Managers
                 Destroy(chunk.gameObject);
             }
             _mapChunks.Clear();
+            mapConstraints.SetPath(0, initialBoundsPath);
+            cameraConfiner.InvalidateCache();
+            
             _instantiatedMapChunks = 0;
             _currentMaxX = 0;
             SpawnMap();
@@ -140,7 +151,7 @@ namespace Maihem.Managers
         private void PerformChunkSetup(GameObject mapObject, int index)
         {
             var mapChunk = mapObject.GetComponent<MapChunk>();
-            var tileMap = mapChunk.TileMap;
+            var groundLayer = mapChunk.GroundLayer;
             if (index > 0)
             {
                 var predecessor = _mapChunks[index - 1];
@@ -148,8 +159,8 @@ namespace Maihem.Managers
                 mapObject.transform.localPosition = new Vector3(_currentMaxX, prePosition.y, 0);
             }
             
-            tileMap.CompressBounds();
-            var bounds = tileMap.cellBounds;
+            groundLayer.CompressBounds();
+            var bounds = groundLayer.cellBounds;
             var oldBounds = mapConstraints.GetPath(0);
             var path = new[]
             {
@@ -173,6 +184,17 @@ namespace Maihem.Managers
             _isSpawningMap = false;
         }
 
+        public Vector3 GetStartPosition()
+        {
+            if (_instantiatedMapChunks == 0)
+            {
+                Debug.Log("No maps are instantiated");
+                return Vector3.zero;
+            }
+
+            return _mapChunks[0].PotentialStartPosition.position;
+        }
+
         
         
         // Just keep spawning maps if player is too close to the end until we run out of prefabs
@@ -192,33 +214,17 @@ namespace Maihem.Managers
             var cellPosition = WorldToCell(worldPosition);
             return IsCellBlocking(cellPosition);
         }
-
+        
         public bool IsCellBlocking(Vector2Int cellPosition)
         {
-            for (var z = 0; z < 2; z++)
+            var worldPosition = CellToWorld(cellPosition).XY();
+            if (!mapConstraints.OverlapPoint(worldPosition))
             {
-                var position = cellPosition.WithZ(z);
-                var tile = TryGetTile(position);
-                if (z == 0 && tile is null) return true;
-                if (tile is not null && tile.colliderType != Tile.ColliderType.None) return true;
+                return true;
             }
-            return false;
+            return Physics2D.OverlapBoxNonAlloc(worldPosition, _halfVector, 0f, _overlapBoxResults, _mapCollisionLayerMask) > 0;
         }
-
-        private Tile TryGetTile(Vector3Int cellPosition)
-        {
-            Tile tile = null;
-            foreach (var chunk in _mapChunks)
-            {
-                var localPosition = new Vector3Int((int)(cellPosition.x - chunk.transform.localPosition.x),
-                    (int)(cellPosition.y - chunk.transform.localPosition.y), (int)(cellPosition.z - chunk.transform.localPosition.z));
-                
-                if (!chunk.TileMap.HasTile(localPosition)) continue;
-                tile = chunk.TileMap.GetTile<Tile>(localPosition);
-            }
-            return tile;
-        }
-
+       
         public bool IsCellBlockedDiagonal(Vector2Int cellPosition, Vector2Int origin)
         {
             var moveVector = new Vector2Int(cellPosition.x - origin.x,cellPosition.y-origin.y);
@@ -240,27 +246,6 @@ namespace Maihem.Managers
             world = new Vector3(world.x + 0.5f, world.y + 0.5f, 0);
             return world;
         }
-        
-        private bool TryGetTilemapContainingCell(Vector3Int cellPosition, out Tilemap tilemap)
-        {
-            foreach (var chunk in _mapChunks)
-            {
-                var localPosition = new Vector3Int((int)(cellPosition.x - chunk.transform.localPosition.x),
-                    (int)(cellPosition.y - chunk.transform.localPosition.y), 0);
-                if (!chunk.TileMap.HasTile(localPosition)) continue;
-                tilemap = chunk.TileMap;
-                return true;
-            }
-            tilemap = null;
-            return false;
-        }
-
-        private bool TryGetTilemapContainingCell(Vector2Int cellPosition, out Tilemap tilemap)
-        {
-            return TryGetTilemapContainingCell(cellPosition.WithZ(0), out tilemap);
-        }
-
-        
         
         public static IList<Vector2Int> GetNeighbourPositions(Vector2Int cellPosition)
         {
@@ -310,7 +295,7 @@ namespace Maihem.Managers
         public Vector2Int GetFreeCell()
         {
             var randomChunk = _mapChunks[Random.Range(0, _mapChunks.Count)];
-            var bounds = randomChunk.TileMap.cellBounds;
+            var bounds = randomChunk.GroundLayer.cellBounds;
             var maxIterations = 100;
             while (maxIterations > 0)
             {

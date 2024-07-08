@@ -27,7 +27,9 @@ namespace Maihem.Managers
         private int _enemiesTakingTurn;
         private bool _dispatchingEnemies;
 
-        private void Start()
+       
+
+        public void Initialize()
         {
             _activeEnemies = new List<Enemy>();
             _deadEnemies = new List<Enemy>();
