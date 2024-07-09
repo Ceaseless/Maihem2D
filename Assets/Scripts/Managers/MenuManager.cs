@@ -14,5 +14,10 @@ namespace Maihem
             TutorialActivated = tutorial;
             SceneManager.LoadScene("GameScene");
         }
+
+        public void Exit()
+        {
+            Application.Quit();
+        }
     }
 }
