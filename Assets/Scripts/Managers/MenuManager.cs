@@ -8,6 +8,7 @@ namespace Maihem
 {
     public class MenuManager : MonoBehaviour
     {
+        [SerializeField] private GameObject infoWindow;
         public static bool TutorialActivated { get; private set; }
         public void StartGame(bool tutorial)
         {
@@ -18,6 +19,16 @@ namespace Maihem
         public void Exit()
         {
             Application.Quit();
+        }
+
+        public void ToggleInfo()
+        {
+            if (!infoWindow.activeSelf)
+            {
+                infoWindow.SetActive(true);
+                return;
+            }
+            infoWindow.SetActive(false);
         }
     }
 }
