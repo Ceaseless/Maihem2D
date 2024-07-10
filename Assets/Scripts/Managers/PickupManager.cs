@@ -52,17 +52,17 @@ namespace Maihem.Managers
             }
         }
 
-        public void TrySpawnPickup(Vector3 position)
+        public void TrySpawnPickup(Vector3 position, LootTable table)
         {
             if (_activePickups.Any(activePickup => activePickup.transform.position == position))
             {
                 return;
             }
 
-            var randomSpawn = Random.Range(0, pickupPrefabs.Length - 1);
+            if (!table) return;
+            var pickupSpawn = table.rollOnLootTable();
 
-            var pickupSpawn = pickupPrefabs[randomSpawn];
-            if (!(pickupSpawn.GetComponent<Pickup>().SpawnChance >= Random.Range(0,100))) return;
+            if (!pickupSpawn) return;
             var newPickup = Instantiate(pickupSpawn, position, Quaternion.identity, transform).GetComponent<Pickup>();
             _activePickups.Add(newPickup);
         }

@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 159018034a8754545ad741556695fa43, type: 3}
+  m_Name: RareMelee
+  m_EditorClassIdentifier: 
+  possibleItems:
+  - droppedLoot: {fileID: 3336585378749860948, guid: ef64c4178bfa1e049a296f13461cee7a, type: 3}
+    dropChance: 50
+  - droppedLoot: {fileID: 4656127568512484811, guid: f4f4a88564cf76f459aa3a433c703fc4, type: 3}
+    dropChance: 20
+  - droppedLoot: {fileID: 4656127568512484811, guid: 9065cd78df1e6e04cb74c8fe9981457f, type: 3}
+    dropChance: 30
+  - droppedLoot: {fileID: 0}
+    dropChance: 0
