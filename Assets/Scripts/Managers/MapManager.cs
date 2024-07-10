@@ -5,7 +5,6 @@ using Cinemachine;
 using Maihem.Extensions;
 using Unity.Mathematics;
 using UnityEngine;
-using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 namespace Maihem.Managers
@@ -57,14 +56,17 @@ namespace Maihem.Managers
         [SerializeField] private CinemachineConfiner2D cameraConfiner;
         [SerializeField] private GameObject goalPrefab;
         [SerializeField] private GameObject[] mapPrefabs;
-        [SerializeField] private GameObject tutorialPrefab;
+
+        [SerializeField] private bool preloadAllMaps;
         [SerializeField] private float mapSpawnDistance = 20f;
+        
+        [SerializeField] private GameObject tutorialPrefab;
         [SerializeField] private bool tutorialCompleted;
         private List<MapChunk> _mapChunks;
         private int _instantiatedMapChunks;
         private int _currentMaxX;
         private bool _isSpawningMap;
-        private Vector2[] initialBoundsPath;
+        private Vector2[] _initialBoundsPath;
         
         // Collision stuff
         private int _mapCollisionLayerMask;
@@ -97,7 +99,7 @@ namespace Maihem.Managers
                 Destroy(gameObject);
             }
             _mapCollisionLayerMask =  1 << LayerMask.NameToLayer("Map");
-            initialBoundsPath = mapConstraints.GetPath(0);
+            _initialBoundsPath = mapConstraints.GetPath(0);
 
         }
 
@@ -105,7 +107,15 @@ namespace Maihem.Managers
         {
             tutorialCompleted = !MenuManager.TutorialActivated;
             _mapChunks = new List<MapChunk>();
-            SpawnMap();
+            if (preloadAllMaps)
+            {
+                SpawnAllMaps();
+            }
+            else
+            {
+                SpawnMap();
+            }
+            
         }
 
         public void Reset()
@@ -115,13 +125,29 @@ namespace Maihem.Managers
                 Destroy(chunk.gameObject);
             }
             _mapChunks.Clear();
-            mapConstraints.SetPath(0, initialBoundsPath);
+            mapConstraints.SetPath(0, _initialBoundsPath);
             cameraConfiner.InvalidateCache();
             
             _instantiatedMapChunks = 0;
             _currentMaxX = 0;
-            SpawnMap();
+            if (preloadAllMaps)
+            {
+                SpawnAllMaps();
+            }
+            else
+            {
+                SpawnMap();
+            }
             
+        }
+
+        private void SpawnAllMaps()
+        {
+            for (var i = 0; i < mapPrefabs.Length; i++)
+            {
+                var mapObject = Instantiate(mapPrefabs[i], grid.transform);
+                PerformChunkSetup(mapObject,i);
+            }
         }
         
         private void PerformChunkSetup(GameObject mapObject, int index)
@@ -165,6 +191,7 @@ namespace Maihem.Managers
         // Just keep spawning maps if player is too close to the end until we run out of prefabs
         public void UpdateMap()
         {
+            
             if (_instantiatedMapChunks >= mapPrefabs.Length || !tutorialCompleted || _isSpawningMap) return;
             var lastChunk = _mapChunks[_instantiatedMapChunks - 1];
             var playerPosition = GameManager.Instance.Player.transform.position;
@@ -172,6 +199,15 @@ namespace Maihem.Managers
             {
                 SpawnMap(_instantiatedMapChunks);
             }
+        }
+
+        private void OnDrawGizmos()
+        {
+            if (_instantiatedMapChunks >= mapPrefabs.Length || !tutorialCompleted || _isSpawningMap) return;
+            var lastChunk = _mapChunks[_instantiatedMapChunks - 1];
+            var lineX = lastChunk.PotentialGoalPosition.position.x - mapSpawnDistance;
+            Gizmos.color = Color.red;
+            Gizmos.DrawLine(new Vector3(lineX,19,1), new Vector3(lineX,-19,1));
         }
 
         private void SpawnMap(int index = 0)

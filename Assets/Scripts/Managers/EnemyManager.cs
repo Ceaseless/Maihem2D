@@ -14,6 +14,8 @@ namespace Maihem.Managers
         [SerializeField] private float minimalTurnTime = 0.25f;
         [Min(1)]
         [SerializeField] private int cullHorizontalDistance;
+        
+        [SerializeField] private int minimalUpdateDistance;
         [SerializeField] private int spawnRate;
         [SerializeField] private bool periodicSpawn;
         [SerializeField] private PickupManager pickupManager;
@@ -154,10 +156,12 @@ namespace Maihem.Managers
         
         private IEnumerator AmortizedEnemyTurn()
         {
+            var playerPosition = GameManager.Instance.Player.transform.position;
             _dispatchingEnemies = true;
             foreach (var enemy in _activeEnemies)
             {
-                enemy?.TakeTurn();
+                if(Mathf.Abs(playerPosition.x-enemy.transform.position.x) > minimalUpdateDistance) continue;
+                enemy.TakeTurn();
                 yield return null;
             }
             _dispatchingEnemies = false;
