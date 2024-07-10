@@ -50,12 +50,21 @@ namespace Maihem.Managers
     
     public class MapManager : MonoBehaviour
     {
+        [System.Serializable]
+        private class SpawnSlot
+        {
+            public GameObject[] includeSpawns;
+            public GameObject[] excludeSpawns;
+        }
+        
         public static MapManager Instance { get; private set; }
         [SerializeField] private Grid grid;
         [SerializeField] private PolygonCollider2D mapConstraints;
         [SerializeField] private CinemachineConfiner2D cameraConfiner;
         [SerializeField] private GameObject goalPrefab;
         [SerializeField] private GameObject[] mapPrefabs;
+
+        [SerializeField] private SpawnSlot[] spawnSlots;
 
         [SerializeField] private bool preloadAllMaps;
         [SerializeField] private float mapSpawnDistance = 20f;
@@ -107,19 +116,14 @@ namespace Maihem.Managers
         {
             tutorialCompleted = !MenuManager.TutorialActivated;
             _mapChunks = new List<MapChunk>();
-            if (!tutorialCompleted)
+            if (!tutorialCompleted || !preloadAllMaps)
             {
                 SpawnMap();
-            }
-            else if (preloadAllMaps)
-            {
-                SpawnAllMaps();
             }
             else
             {
-                SpawnMap();
+                SpawnAllMaps();
             }
-            
         }
 
         public void Reset()
@@ -147,9 +151,52 @@ namespace Maihem.Managers
 
         private void SpawnAllMaps()
         {
-            for (var i = 0; i < mapPrefabs.Length; i++)
+            if (spawnSlots.Length == 0)
             {
-                var mapObject = Instantiate(mapPrefabs[i], grid.transform);
+                Debug.Log("[Map Manager]: No spawn slots set!");
+                return;
+            }
+            if (mapPrefabs.Length == 0)
+            {
+                Debug.Log("[Map Manager]: No map prefabs set!");
+                return;
+            }
+            var spawnList = new List<GameObject>();
+            var spawnedMaps = new HashSet<GameObject>();
+            for (var i = 0; i < spawnSlots.Length; i++)
+            {
+                spawnList.Clear();
+                var slot = spawnSlots[i];
+                GameObject selectedPrefab;
+                // Include spawns
+                if (spawnSlots[i].includeSpawns.Length > 0)
+                {
+                    var randomMap = Random.Range(0, slot.includeSpawns.Length);
+                    selectedPrefab = slot.includeSpawns[randomMap];
+                }
+                else 
+                {
+                    // Exclude spawns
+                    if (slot.excludeSpawns.Length > 0)
+                    {
+                        spawnList = mapPrefabs.Where(prefab =>
+                            !slot.excludeSpawns.Contains(prefab) && !spawnedMaps.Contains(prefab)).ToList();
+                        var randomMap = Random.Range(0, spawnList.Count);
+                        selectedPrefab = spawnList[randomMap];
+                    }
+                    else
+                    {
+                        spawnList = mapPrefabs.Where(prefab => !spawnedMaps.Contains(prefab)).ToList();
+                        var randomMap = Random.Range(0, spawnList.Count);
+                        selectedPrefab = spawnList[randomMap];
+                    }
+                }
+                if (selectedPrefab is null) continue;
+                
+                if (spawnedMaps.Contains(selectedPrefab)) Debug.Log("[Map Manager] Same map spawned twice");
+               
+                spawnedMaps.Add(selectedPrefab);
+                var mapObject = Instantiate(selectedPrefab, grid.transform);
                 PerformChunkSetup(mapObject,i);
             }
         }
