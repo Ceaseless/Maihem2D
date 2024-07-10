@@ -12,8 +12,6 @@ namespace Maihem.Managers
     {
         [SerializeField] private GameObject[] enemyPrefabs;
         [SerializeField] private float minimalTurnTime = 0.25f;
-        [Min(1)]
-        [SerializeField] private int cullHorizontalDistance;
         [SerializeField] private int spawnRate;
         [SerializeField] private bool periodicSpawn;
         [SerializeField] private PickupManager pickupManager;
@@ -105,7 +103,7 @@ namespace Maihem.Managers
             foreach (var enemy in _activeEnemies)
             {
                 var distance = playerPosition.x - enemy.GridPosition.x; // > 0 => Player is on the right
-                if (distance > cullHorizontalDistance)
+                if (distance > GameManager.Instance.ObjectHorizontalCullDistance)
                 {
                     _deadEnemies.Add(enemy);
                 }

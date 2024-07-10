@@ -18,6 +18,7 @@ namespace Maihem.Managers
         [SerializeField] private AudioManager audioManager;
         [SerializeField] private CinemachineVirtualCamera followCamera;
 
+        [field: SerializeField] public float ObjectHorizontalCullDistance { get; private set; }
         private int TurnCount { get; set; }
         public Player Player { get; private set; }
         public PlayerInput PlayerInput => playerInput;
@@ -169,7 +170,7 @@ namespace Maihem.Managers
                 GameOver();
                 return;
             }
-            pickupManager.CullUsedPickups();
+            pickupManager.Tick();
             enemyManager.Tick();
         }
         

@@ -13,7 +13,7 @@ namespace Maihem.Pickups
         [Header("Settings")]
         [SerializeField] public float spawnChance;
         
-        public bool IsUsed { get; protected set; }
+        public bool IsUsed { get; set; }
         public float SpawnChance => spawnChance;
         private Vector2Int GridPosition { get; set; }
         
@@ -22,6 +22,8 @@ namespace Maihem.Pickups
         {
             SnapToGrid();
         }
+        
+        
 
         private void SnapToGrid()
         {
