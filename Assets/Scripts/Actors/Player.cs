@@ -1,6 +1,6 @@
 using System;
+using System.Collections.Generic;
 using Maihem.Attacks;
-using Maihem.Effects;
 using Maihem.Extensions;
 using Maihem.Managers;
 using Maihem.Pickups;
@@ -29,7 +29,7 @@ namespace Maihem.Actors
         [SerializeField] private GameObject diagonalModeMarker;
        
         [Header("Placeholder/Debug Stuff")] 
-        [SerializeField] private AttackStrategy[] attackStrategies;
+        [SerializeField] private AttackStrategy[] startAttacks;
 
         [SerializeField] private AudioClip selectSoundFX;
         private int _currentAttack;
@@ -49,6 +49,8 @@ namespace Maihem.Actors
         private static readonly int AnimatorKick = Animator.StringToHash("Kick");
         private static readonly int AnimatorSlam = Animator.StringToHash("Slam");
         private static readonly int AnimatorStomp = Animator.StringToHash("Stomp");
+
+        private List<AttackStrategy> _availableAttacks;
         
         private PlayerControlState _controlState = PlayerControlState.Normal;
         private bool _inDiagonalMode;
@@ -71,11 +73,20 @@ namespace Maihem.Actors
             base.Initialize();
             _emptyConsumable = currentConsumable;
             _isPaused = false;
+            _availableAttacks = new List<AttackStrategy>();
             CurrentStamina = maxStamina;
-            if (attackStrategies.Length > 0)
+            if (startAttacks.Length > 0)
             {
-                attackSystem.currentAttackStrategy = attackStrategies[0];
+                foreach (var attack in startAttacks)
+                {
+                    _availableAttacks.Add(attack);
+                }
+                attackSystem.currentAttackStrategy = _availableAttacks[0];
                 UpdateAttackAnimationId();
+            }
+            else
+            {
+                Debug.Log("No start attacks set");
             }
                 
 
@@ -105,16 +116,17 @@ namespace Maihem.Actors
             playerInput.AttackChangeAction -= ChangeAttackStrategy;
             playerInput.ConsumableAction -= UseConsumable;
             attackSystem?.HideTargetMarkers();
+            _availableAttacks.Clear();
         }
 
         private void ChangeAttackStrategy(object sender, SingleAxisEventArgs e)
         {
             if (_isPaused) return;
             _currentAttack += e.AxisValue;
-            if (_currentAttack < 0) _currentAttack = attackStrategies.Length - 1;
-            if (_currentAttack >= attackStrategies.Length) _currentAttack = 0;
+            if (_currentAttack < 0) _currentAttack = _availableAttacks.Count - 1;
+            if (_currentAttack >= _availableAttacks.Count) _currentAttack = 0;
             
-            attackSystem.currentAttackStrategy = attackStrategies[_currentAttack];
+            attackSystem.currentAttackStrategy = _availableAttacks[_currentAttack];
             if (_controlState == PlayerControlState.Aiming)
             {
                 attackSystem.HideTargetMarkers();
@@ -127,6 +139,12 @@ namespace Maihem.Actors
 
             OnStatusUpdate?.Invoke(this, EventArgs.Empty);
 
+        }
+
+        public void AddAttackStrategy(AttackStrategy newAttack)
+        {
+            if (_availableAttacks.Contains(newAttack)) return;
+            _availableAttacks.Add(newAttack);
         }
 
         private void UpdateAttackAnimationId()

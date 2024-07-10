@@ -28,6 +28,12 @@ namespace Maihem.Managers
             _activePickups.Clear();
         }
 
+        public void Tick()
+        {
+            CullLeftBehindPickups();
+            CullUsedPickups();
+        }
+
         private void RegisterPickup(Pickup newPickup)
         {
             _activePickups.Add(newPickup);
@@ -49,6 +55,19 @@ namespace Maihem.Managers
                 if(!pickup.IsUsed) continue;
                 _activePickups.RemoveAt(i);
                 Destroy(pickup.gameObject);
+            }
+        }
+
+        private void CullLeftBehindPickups()
+        {
+            var playerPosition = GameManager.Instance.Player.transform.position;
+            foreach (var pickup in _activePickups)
+            {
+                var distance = playerPosition.x - pickup.transform.position.x; // > 0 => Player is on the right
+                if (distance > GameManager.Instance.ObjectHorizontalCullDistance)
+                {
+                    pickup.IsUsed = true;
+                }
             }
         }
 

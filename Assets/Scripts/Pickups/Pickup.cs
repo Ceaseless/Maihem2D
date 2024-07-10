@@ -12,10 +12,8 @@ namespace Maihem.Pickups
 
         [Header("Settings")]
         [SerializeField] public float spawnChance;
-        [SerializeField] protected Color pickupColor;
-        [SerializeField] protected SpriteRenderer spriteRenderer;
-
-        public bool IsUsed { get; protected set; }
+        
+        public bool IsUsed { get; set; }
         public float SpawnChance => spawnChance;
         private Vector2Int GridPosition { get; set; }
         
@@ -23,8 +21,9 @@ namespace Maihem.Pickups
         protected virtual void Start()
         {
             SnapToGrid();
-            spriteRenderer.color = pickupColor;
         }
+        
+        
 
         private void SnapToGrid()
         {
