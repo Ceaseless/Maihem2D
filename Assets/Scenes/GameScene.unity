@@ -368,7 +368,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -30.6077, y: -0.18159962}
+  m_AnchoredPosition: {x: -30.6077, y: -0.18160057}
   m_SizeDelta: {x: 25.4914, y: -10.4727}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &288719314
@@ -860,7 +860,7 @@ Camera:
   far clip plane: 1000
   field of view: 34
   orthographic: 1
-  orthographic size: 16.875
+  orthographic size: 13.5
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
@@ -1776,7 +1776,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0.98066574, y: 1}
-  m_AnchoredPosition: {x: 0.35584068, y: 0.00018692017}
+  m_AnchoredPosition: {x: 0.3558426, y: 0.00018692017}
   m_SizeDelta: {x: 0.71172, y: -0.53}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1037854336
@@ -2372,7 +2372,7 @@ MonoBehaviour:
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
-  m_fontSizeMin: 18
+  m_fontSizeMin: 15
   m_fontSizeMax: 72
   m_fontStyle: 0
   m_HorizontalAlignment: 2
@@ -3168,12 +3168,12 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: -99
+  m_fontSize: 15.85
   m_fontSizeBase: 36
   m_fontWeight: 400
-  m_enableAutoSizing: 0
-  m_fontSizeMin: 0
-  m_fontSizeMax: 0
+  m_enableAutoSizing: 1
+  m_fontSizeMin: 15
+  m_fontSizeMax: 72
   m_fontStyle: 0
   m_HorizontalAlignment: 1
   m_VerticalAlignment: 256
@@ -3184,17 +3184,17 @@ MonoBehaviour:
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
-  m_enableWordWrapping: 0
+  m_enableWordWrapping: 1
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
   m_linkedTextComponent: {fileID: 0}
   parentLinkedComponent: {fileID: 0}
-  m_enableKerning: 0
+  m_enableKerning: 1
   m_enableExtraPadding: 0
   checkPaddingRequired: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
-  m_isOrthographic: 0
+  m_isOrthographic: 1
   m_isCullingEnabled: 0
   m_horizontalMapping: 0
   m_verticalMapping: 0
@@ -3463,9 +3463,9 @@ MonoBehaviour:
   cameraConfiner: {fileID: 669772592}
   goalPrefab: {fileID: 6327711029831941524, guid: 9be4bfffd413d5146ad9dc859f139857, type: 3}
   mapPrefabs:
+  - {fileID: 7509609231449073766, guid: de5ff1368fb256f46855f38847821e9d, type: 3}
   - {fileID: 7509609231449073766, guid: 99b2a4df235d16548a1b6ec588839719, type: 3}
   - {fileID: 7509609231449073766, guid: 1f88423f37dfd0c469c4455638f89542, type: 3}
-  - {fileID: 7509609231449073766, guid: de5ff1368fb256f46855f38847821e9d, type: 3}
   - {fileID: 7509609231449073766, guid: b2a445f3a84bef94985b05d08858cdd2, type: 3}
   - {fileID: 7509609231449073766, guid: eae03ec3a9c51fb488edd26083644587, type: 3}
   - {fileID: 7509609231449073766, guid: bd2b2c138be71d945a4729645e34c0bf, type: 3}
