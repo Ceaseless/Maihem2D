@@ -107,7 +107,11 @@ namespace Maihem.Managers
         {
             tutorialCompleted = !MenuManager.TutorialActivated;
             _mapChunks = new List<MapChunk>();
-            if (preloadAllMaps)
+            if (!tutorialCompleted)
+            {
+                SpawnMap();
+            }
+            else if (preloadAllMaps)
             {
                 SpawnAllMaps();
             }
@@ -192,7 +196,7 @@ namespace Maihem.Managers
         public void UpdateMap()
         {
             
-            if (_instantiatedMapChunks >= mapPrefabs.Length || !tutorialCompleted || _isSpawningMap) return;
+            if (preloadAllMaps || _instantiatedMapChunks >= mapPrefabs.Length || !tutorialCompleted || _isSpawningMap) return;
             var lastChunk = _mapChunks[_instantiatedMapChunks - 1];
             var playerPosition = GameManager.Instance.Player.transform.position;
             if (Mathf.Abs(playerPosition.x - lastChunk.PotentialGoalPosition.position.x) < mapSpawnDistance)
@@ -201,14 +205,14 @@ namespace Maihem.Managers
             }
         }
 
-        private void OnDrawGizmos()
-        {
-            if (_instantiatedMapChunks >= mapPrefabs.Length || !tutorialCompleted || _isSpawningMap) return;
-            var lastChunk = _mapChunks[_instantiatedMapChunks - 1];
-            var lineX = lastChunk.PotentialGoalPosition.position.x - mapSpawnDistance;
-            Gizmos.color = Color.red;
-            Gizmos.DrawLine(new Vector3(lineX,19,1), new Vector3(lineX,-19,1));
-        }
+        // private void OnDrawGizmos()
+        // {
+        //     if (_instantiatedMapChunks >= mapPrefabs.Length || !tutorialCompleted || _isSpawningMap) return;
+        //     var lastChunk = _mapChunks[_instantiatedMapChunks - 1];
+        //     var lineX = lastChunk.PotentialGoalPosition.position.x - mapSpawnDistance;
+        //     Gizmos.color = Color.red;
+        //     Gizmos.DrawLine(new Vector3(lineX,19,1), new Vector3(lineX,-19,1));
+        // }
 
         private void SpawnMap(int index = 0)
         {
