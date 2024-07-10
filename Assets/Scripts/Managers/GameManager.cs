@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Cinemachine;
 using Maihem.Actors;
+using Maihem.Maps;
 using UnityEngine;
 
 namespace Maihem.Managers

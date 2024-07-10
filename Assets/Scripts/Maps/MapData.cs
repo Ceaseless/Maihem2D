@@ -1,7 +1,7 @@
 ﻿using Maihem.Actors;
 using Maihem.Pickups;
 
-namespace Maihem
+namespace Maihem.Maps
 {
     public class MapData
     {

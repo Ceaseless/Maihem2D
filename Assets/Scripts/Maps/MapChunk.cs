@@ -3,7 +3,7 @@ using Maihem.Pickups;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-namespace Maihem
+namespace Maihem.Maps
 {
    
     public class MapChunk : MonoBehaviour

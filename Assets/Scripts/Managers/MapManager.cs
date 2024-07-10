@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using Cinemachine;
 using Maihem.Extensions;
+using Maihem.Maps;
 using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 namespace Maihem.Managers
@@ -50,12 +52,7 @@ namespace Maihem.Managers
     
     public class MapManager : MonoBehaviour
     {
-        [System.Serializable]
-        private class SpawnSlot
-        {
-            public GameObject[] includeSpawns;
-            public GameObject[] excludeSpawns;
-        }
+        
         
         public static MapManager Instance { get; private set; }
         [SerializeField] private Grid grid;
@@ -64,7 +61,8 @@ namespace Maihem.Managers
         [SerializeField] private GameObject goalPrefab;
         [SerializeField] private GameObject[] mapPrefabs;
 
-        [SerializeField] private SpawnSlot[] spawnSlots;
+        [FormerlySerializedAs("spawnConfiguration")] [SerializeField] private MapSpawnOrder mapSpawnOrder;
+        //[SerializeField] private SpawnSlot[] spawnSlots;
 
         [SerializeField] private bool preloadAllMaps;
         [SerializeField] private float mapSpawnDistance = 20f;
@@ -151,6 +149,12 @@ namespace Maihem.Managers
 
         private void SpawnAllMaps()
         {
+            if (mapSpawnOrder is null)
+            {
+                Debug.Log("[Map Manager]: No spawn configuration set!");
+                return;
+            }
+            var spawnSlots = mapSpawnOrder.spawnSlots;
             if (spawnSlots.Length == 0)
             {
                 Debug.Log("[Map Manager]: No spawn slots set!");
@@ -229,7 +233,7 @@ namespace Maihem.Managers
             _mapChunks.Add(mapChunk);
             GameManager.Instance.PassMapData(mapChunk.GetMapData());
             _instantiatedMapChunks++;
-            if (_instantiatedMapChunks == spawnSlots.Length)
+            if (_instantiatedMapChunks == mapSpawnOrder.spawnSlots.Length)
             {
                 Instantiate(goalPrefab, mapChunk.PotentialGoalPosition.position, Quaternion.identity, mapChunk.transform);
             }
