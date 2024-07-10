@@ -190,6 +190,7 @@ MonoBehaviour:
   healthSystem: {fileID: 483628311430970088}
   healthDisplay: {fileID: 1720457957876625323}
   movementSystem: {fileID: 7494766608770200691}
+  loot: {fileID: 11400000, guid: af1f9c0bfa0c6954fbb07478db959feb, type: 2}
 --- !u!114 &6315963427758200423
 MonoBehaviour:
   m_ObjectHideFlags: 0

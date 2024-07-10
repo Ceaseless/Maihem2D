@@ -13,7 +13,8 @@ namespace Maihem.Actors
         [SerializeField] private EnemyHealthDisplay healthDisplay;
         [SerializeField] private MovementSystem movementSystem;
         private static readonly int AnimatorAttack = Animator.StringToHash("Attack");
-        
+        public LootTable loot;
+
 
         public override void Initialize()
         {

@@ -185,8 +185,9 @@ namespace Maihem.Managers
         
         private void EnemyDied(object sender, DeathEventArgs eventArgs )
         {
-            _deadEnemies.Add(eventArgs.DeadGameObject.GetComponent<Enemy>());
-            pickupManager.TrySpawnPickup(eventArgs.DeadGameObject.transform.position);
+            var enemy = eventArgs.DeadGameObject.GetComponent<Enemy>();
+            _deadEnemies.Add(enemy);
+            pickupManager.TrySpawnPickup(eventArgs.DeadGameObject.transform.position, enemy.loot);
         }
         
         public bool CellContainsEnemy(Vector2Int gridPosition)
