@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 8177856859162874820}
   - component: {fileID: 5203436605365279184}
   m_Layer: 7
-  m_Name: Enemy Scarecrow
+  m_Name: MiniBossSlam
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -106,7 +106,7 @@ MonoBehaviour:
   healthSystem: {fileID: 8177856859162874820}
   healthDisplay: {fileID: 7788196142577276415}
   movementSystem: {fileID: -4224424134156153774}
-  loot: {fileID: 0}
+  loot: {fileID: 11400000, guid: 13d0be8a087f64a45bb7805c34aac4a8, type: 2}
 --- !u!114 &8664368089664306379
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -120,7 +120,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   markerColor: {r: 1, g: 0, b: 0, a: 0.50980395}
-  currentAttackStrategy: {fileID: 11400000, guid: 9f65ba41077be104baf2f42b0e2d1809, type: 2}
+  currentAttackStrategy: {fileID: 11400000, guid: 2e9ce0a12284bab438337333287a07e3, type: 2}
 --- !u!114 &-4224424134156153774
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -133,10 +133,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b42b4a19a82fb504f90f0eb0345e2934, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waitChanceWhileIdle: 1
-  currentStrategy: {fileID: 11400000, guid: 5cd9efd41fff5354c8e065243942c21e, type: 2}
-  detectionEffect: {fileID: 0}
-  detectionSoundEffect: {fileID: 0}
+  waitChanceWhileIdle: 0.5
+  currentStrategy: {fileID: 11400000, guid: 424c46b68dd906544913c07c47030f38, type: 2}
+  detectionEffect: {fileID: 11400000, guid: 342b928f51365264680172f90139608a, type: 2}
+  detectionSoundEffect: {fileID: 8300000, guid: e0b2aded161a9074bb05912d4000f459, type: 3}
 --- !u!114 &8177856859162874820
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -149,7 +149,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 454c6843711f40e6a8399f3d946d6d48, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 2
+  maxHealth: 6
   shieldObject: {fileID: 5450685710401113948}
 --- !u!95 &5203436605365279184
 Animator:
@@ -242,11 +242,11 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -1734520703
-  m_SortingLayer: 2
-  m_SortingOrder: 1
+  m_SortingLayerID: 172655383
+  m_SortingLayer: 3
+  m_SortingOrder: 0
   m_Sprite: {fileID: -536345189, guid: 03403b8a51845b347bf9b114f4cbd65b, type: 3}
-  m_Color: {r: 1, g: 1, b: 0, a: 1}
+  m_Color: {r: 1, g: 0, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
