@@ -42,7 +42,7 @@ namespace Maihem.Actors
             if (healthSystem.IsDead)
             {
                 IsDead = true;
-                Died?.Invoke(this, new DeathEventArgs {DeadGameObject = gameObject});
+                Died?.Invoke(this, new DeathEventArgs {DeadGameObject = gameObject, Reason = DeathEventArgs.DeathReason.Damage});
             }
         }
 
@@ -149,6 +149,13 @@ namespace Maihem.Actors
 
     public class DeathEventArgs : EventArgs
     {
+        public enum DeathReason
+        {
+            Default,
+            Damage,
+            Removed,
+        }
         public GameObject DeadGameObject { get; set; }
+        public DeathReason Reason { get; set; }
     }
 }
