@@ -51,6 +51,7 @@ namespace Maihem.Managers
             _gameOver = false;
             uiManager.Initialize();
             enemyManager.AllEnemiesPerformedTurn = OnEnemyTurnCompleted;
+            enemyManager.UpdateEnemiesActiveState();
             audioManager.FadeInMusic(2f);
         }
 
@@ -82,6 +83,7 @@ namespace Maihem.Managers
             SpawnPlayer();
             _gameOver = false;
             _nonPlayerTurn = false;
+            enemyManager.UpdateEnemiesActiveState();
             uiManager.Initialize();
             audioManager.ResetMusic();
             
