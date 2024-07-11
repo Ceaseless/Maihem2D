@@ -284,6 +284,9 @@ MonoBehaviour:
   shieldObject: {fileID: 3478774070881899539}
   parentSpriteRenderer: {fileID: 8381417263059300217}
   damageFlashDuration: 0.1
+  healFlashDuration: 0.2
+  damageFlashColor: {r: 1, g: 0, b: 0, a: 1}
+  healFlashColor: {r: 0, g: 1, b: 0, a: 1}
 --- !u!95 &5659617669747785819
 Animator:
   serializedVersion: 5
@@ -601,11 +604,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8331148861509856047, guid: 4a71d860b49ebe247aed5ddb3539213f, type: 3}
       propertyPath: m_SortingLayer
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8331148861509856047, guid: 4a71d860b49ebe247aed5ddb3539213f, type: 3}
       propertyPath: m_SortingLayerID
-      value: -1734520703
+      value: 172655383
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
