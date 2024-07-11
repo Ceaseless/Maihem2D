@@ -8,13 +8,15 @@ namespace Maihem.Managers
     public class PickupManager : MonoBehaviour
     {
         [SerializeField] private GameObject[] pickupPrefabs;
+        [SerializeField] private ObjectBoundSettings boundSettings;
         private List<Pickup> _activePickups;
         private int _spawnTimer;
-
+        private Transform _cameraTransform;
 
         public void Initialize()
         {
             _activePickups = new List<Pickup>();
+            _cameraTransform = Camera.main?.transform;
         }
         
         public void Reset()
@@ -27,15 +29,28 @@ namespace Maihem.Managers
             }
             _activePickups.Clear();
         }
+        
+        public void UpdatePickupsActiveState()
+        {
+            var checkPosition = _cameraTransform.position;
+            foreach (var pickup in _activePickups)
+            {
+                if(pickup.gameObject.activeInHierarchy) continue;
+                if (!boundSettings.IsInActivateDistance(checkPosition, pickup.transform.position)) continue;
+                pickup.gameObject.SetActive(true);
+            }
+        }
 
         public void Tick()
         {
             CullLeftBehindPickups();
             CullUsedPickups();
+            UpdatePickupsActiveState();
         }
 
         private void RegisterPickup(Pickup newPickup)
         {
+            newPickup.gameObject.SetActive(false);
             _activePickups.Add(newPickup);
         }
         
@@ -60,11 +75,10 @@ namespace Maihem.Managers
 
         private void CullLeftBehindPickups()
         {
-            var playerPosition = GameManager.Instance.Player.transform.position;
+            var checkPosition = _cameraTransform.position;
             foreach (var pickup in _activePickups)
             {
-                var distance = playerPosition.x - pickup.transform.position.x; // > 0 => Player is on the right
-                if (distance > GameManager.Instance.ObjectHorizontalCullDistance)
+                if (boundSettings.IsOutsideOfCullDistance(checkPosition, pickup.transform.position))
                 {
                     pickup.IsUsed = true;
                 }

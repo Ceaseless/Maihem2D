@@ -12,8 +12,7 @@ namespace Maihem.Managers
     {
         [SerializeField] private GameObject[] enemyPrefabs;
         [SerializeField] private float minimalTurnTime = 0.25f;
-        
-        [SerializeField] private int minimalUpdateDistance;
+        [SerializeField] private ObjectBoundSettings boundSettings;
         [SerializeField] private int spawnRate;
         [SerializeField] private bool periodicSpawn;
         [SerializeField] private PickupManager pickupManager;
@@ -26,6 +25,7 @@ namespace Maihem.Managers
         private int _spawnTimer;
         private int _enemiesTakingTurn;
         private bool _dispatchingEnemies;
+        private Transform _cameraTransform;
 
        
 
@@ -34,6 +34,7 @@ namespace Maihem.Managers
             _aliveEnemies = new List<Enemy>();
             _deadEnemies = new List<Enemy>();
             GameManager.Instance.PlayerInput.ToggleEnemyMarkersAction += ToggleEnemyMarkers;
+            _cameraTransform = Camera.main?.transform;
         }
 
         private void OnDestroy()
@@ -78,11 +79,11 @@ namespace Maihem.Managers
 
         public void UpdateEnemiesActiveState()
         {
-            var playerPosition = GameManager.Instance.Player.transform.position;
+            var cameraPosition = _cameraTransform.position;
             foreach (var enemy in _aliveEnemies)
             {
                 if(enemy.gameObject.activeInHierarchy) continue;
-                if (Mathf.Abs(playerPosition.x - enemy.transform.position.x) > minimalUpdateDistance) continue;
+                if(!boundSettings.IsInActivateDistance(cameraPosition, enemy.transform.position)) continue;
                 enemy.gameObject.SetActive(true);
             }
         }
@@ -114,11 +115,10 @@ namespace Maihem.Managers
 
         private void KillLeftBehindEnemies()
         {
-            var playerPosition = GameManager.Instance.Player.GridPosition;
+            var playerPosition = GameManager.Instance.Player.transform.position;
             foreach (var enemy in _aliveEnemies)
             {
-                var distance = playerPosition.x - enemy.GridPosition.x; // > 0 => Player is on the right
-                if (distance > GameManager.Instance.ObjectHorizontalCullDistance)
+                if (boundSettings.IsOutsideOfCullDistance(playerPosition, enemy.transform.position))
                 {
                     _deadEnemies.Add(enemy);
                 }
@@ -164,19 +164,21 @@ namespace Maihem.Managers
             yield return new WaitForSeconds(timeDiff);
             AllEnemiesPerformedTurn();
         }
-        
+      
         private IEnumerator AmortizedEnemyTurn()
         {
-            var playerPosition = GameManager.Instance.Player.transform.position;
+            var checkPosition = _cameraTransform.position;
             _dispatchingEnemies = true;
             foreach (var enemy in _aliveEnemies)
             {
-                if(Mathf.Abs(playerPosition.x-enemy.transform.position.x) > minimalUpdateDistance) continue;
-                if (!enemy.gameObject.activeInHierarchy)
+                if (!enemy.gameObject.activeInHierarchy && boundSettings.IsInActivateDistance(checkPosition, enemy.transform.position))
                 {
                     enemy.gameObject.SetActive(true);
                 }
-                enemy.TakeTurn();
+                if(!boundSettings.IsInUpdateDistance(checkPosition, enemy.transform.position)) continue;
+                
+                if(enemy.gameObject.activeInHierarchy)
+                    enemy.TakeTurn();
                 yield return null;
             }
             _dispatchingEnemies = false;

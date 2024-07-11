@@ -860,7 +860,7 @@ Camera:
   far clip plane: 1000
   field of view: 34
   orthographic: 1
-  orthographic size: 16.875
+  orthographic size: 11.25
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
@@ -1347,7 +1347,6 @@ MonoBehaviour:
   uiManager: {fileID: 1329198448}
   audioManager: {fileID: 709442636}
   followCamera: {fileID: 669772589}
-  <ObjectHorizontalCullDistance>k__BackingField: 32
 --- !u!4 &755707657
 Transform:
   m_ObjectHideFlags: 0
@@ -1500,7 +1499,7 @@ MonoBehaviour:
   - {fileID: 765410887786012589, guid: a6a0cc2a1e09d504892992c226c6d810, type: 3}
   - {fileID: 6853223784441661472, guid: 8b3f81cf84f6ad34793143ccbff79cab, type: 3}
   minimalTurnTime: 0.25
-  minimalUpdateDistance: 30
+  boundSettings: {fileID: 11400000, guid: 236a946a817adc248b18b7565a51ff54, type: 2}
   spawnRate: 10
   periodicSpawn: 0
   pickupManager: {fileID: 996597388}
@@ -1727,6 +1726,7 @@ MonoBehaviour:
   - {fileID: 3336585378749860948, guid: ef64c4178bfa1e049a296f13461cee7a, type: 3}
   - {fileID: 4656127568512484811, guid: f4f4a88564cf76f459aa3a433c703fc4, type: 3}
   - {fileID: 4656127568512484811, guid: 9065cd78df1e6e04cb74c8fe9981457f, type: 3}
+  boundSettings: {fileID: 11400000, guid: 236a946a817adc248b18b7565a51ff54, type: 2}
 --- !u!4 &996597389
 Transform:
   m_ObjectHideFlags: 0
@@ -3471,7 +3471,7 @@ MonoBehaviour:
   - {fileID: 7509609231449073766, guid: eae03ec3a9c51fb488edd26083644587, type: 3}
   - {fileID: 7509609231449073766, guid: bd2b2c138be71d945a4729645e34c0bf, type: 3}
   - {fileID: 8775701524382913767, guid: e7a826aef82e06946a5cc1fa6a46a8b1, type: 3}
-  spawnConfiguration: {fileID: 11400000, guid: 2d4f9610522f0144899f62ce1fdf31a1, type: 2}
+  mapSpawnOrder: {fileID: 11400000, guid: 2d4f9610522f0144899f62ce1fdf31a1, type: 2}
   preloadAllMaps: 1
   mapSpawnDistance: 10
   tutorialPrefab: {fileID: 7509609231449073766, guid: 3d9b6ed79fa8cf7459d5f05cd5a2adfd, type: 3}
