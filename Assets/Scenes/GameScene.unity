@@ -860,7 +860,7 @@ Camera:
   far clip plane: 1000
   field of view: 34
   orthographic: 1
-  orthographic size: 13.5
+  orthographic size: 15
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
@@ -3463,13 +3463,16 @@ MonoBehaviour:
   cameraConfiner: {fileID: 669772592}
   goalPrefab: {fileID: 6327711029831941524, guid: 9be4bfffd413d5146ad9dc859f139857, type: 3}
   mapPrefabs:
-  - {fileID: 7509609231449073766, guid: de5ff1368fb256f46855f38847821e9d, type: 3}
-  - {fileID: 7509609231449073766, guid: 99b2a4df235d16548a1b6ec588839719, type: 3}
+  - {fileID: 8775701524382913767, guid: 17a57659d8e9e58418528d967f05fc5f, type: 3}
+  - {fileID: 8775701524382913767, guid: 0e06e2cbea8fbc643bf114997e0d90ba, type: 3}
   - {fileID: 7509609231449073766, guid: 1f88423f37dfd0c469c4455638f89542, type: 3}
   - {fileID: 7509609231449073766, guid: b2a445f3a84bef94985b05d08858cdd2, type: 3}
+  - {fileID: 7509609231449073766, guid: 99b2a4df235d16548a1b6ec588839719, type: 3}
+  - {fileID: 7509609231449073766, guid: de5ff1368fb256f46855f38847821e9d, type: 3}
+  - {fileID: 8775701524382913767, guid: 5fa7008dce583af43b0783a03daeaa01, type: 3}
   - {fileID: 7509609231449073766, guid: eae03ec3a9c51fb488edd26083644587, type: 3}
-  - {fileID: 7509609231449073766, guid: bd2b2c138be71d945a4729645e34c0bf, type: 3}
   - {fileID: 8775701524382913767, guid: e7a826aef82e06946a5cc1fa6a46a8b1, type: 3}
+  - {fileID: 7509609231449073766, guid: bd2b2c138be71d945a4729645e34c0bf, type: 3}
   tutorialPrefab: {fileID: 7509609231449073766, guid: 3d9b6ed79fa8cf7459d5f05cd5a2adfd, type: 3}
   mapSpawnDistance: 20
   tutorialCompleted: 0
