@@ -20,25 +20,25 @@ namespace Maihem.Pickups
         // Start is called before the first frame update
         protected virtual void Start()
         {
-            SnapToGrid();
+    
         }
-        
-        
 
-        private void SnapToGrid()
+        /*
+         private void SnapToGrid()
         {
             var cellPosition = MapManager.Instance.WorldToCell(transform.position);
             GridPosition = cellPosition;
             var newPosition = MapManager.Instance.CellToWorld(GridPosition);
             transform.position = newPosition;
         }
+        */
 
 
-        private void OnTriggerEnter2D(Collider2D other)
-        {
-            if (IsUsed) return;
-            OnPickUp();
-        }
+          private void OnTriggerEnter2D(Collider2D other)
+          {
+              if (IsUsed) return;
+              OnPickUp();
+          }
 
         protected void PlayOnPickUpEffects()
         {
