@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 159018034a8754545ad741556695fa43, type: 3}
-  m_Name: Miniboss Slam
+  m_Name: Miniboss Stomp
   m_EditorClassIdentifier: 
   possibleItems:
-  - droppedLoot: {fileID: 3336585378749860948, guid: 9fb6cd48a66e1f647adf4734538e819b, type: 3}
+  - droppedLoot: {fileID: 3336585378749860948, guid: 151edf70daeadbd428d61b50c8c27f1e, type: 3}
     dropChance: 100

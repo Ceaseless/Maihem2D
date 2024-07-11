@@ -15,8 +15,15 @@ MonoBehaviour:
   spawnSlots:
   - includeSpawns:
     - {fileID: 7509609231449073766, guid: 99b2a4df235d16548a1b6ec588839719, type: 3}
-    excludeSpawns: []
+    excludeSpawns:
+    - {fileID: 8775701524382913767, guid: 0e06e2cbea8fbc643bf114997e0d90ba, type: 3}
+    - {fileID: 8775701524382913767, guid: 17a57659d8e9e58418528d967f05fc5f, type: 3}
+  - includeSpawns:
+    - {fileID: 8775701524382913767, guid: 0e06e2cbea8fbc643bf114997e0d90ba, type: 3}
+    excludeSpawns:
+    - {fileID: 8775701524382913767, guid: 0e06e2cbea8fbc643bf114997e0d90ba, type: 3}
+    - {fileID: 8775701524382913767, guid: 17a57659d8e9e58418528d967f05fc5f, type: 3}
   - includeSpawns: []
-    excludeSpawns: []
-  - includeSpawns: []
-    excludeSpawns: []
+    excludeSpawns:
+    - {fileID: 8775701524382913767, guid: 0e06e2cbea8fbc643bf114997e0d90ba, type: 3}
+    - {fileID: 8775701524382913767, guid: 17a57659d8e9e58418528d967f05fc5f, type: 3}

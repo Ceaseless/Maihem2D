@@ -106,7 +106,7 @@ MonoBehaviour:
   healthSystem: {fileID: 8177856859162874820}
   healthDisplay: {fileID: 7788196142577276415}
   movementSystem: {fileID: -4224424134156153774}
-  loot: {fileID: 11400000, guid: 735904ef4105467408e567b3b56bb1c4, type: 2}
+  loot: {fileID: 11400000, guid: 38a30b7cd26825342ac4b1105842730e, type: 2}
 --- !u!114 &8664368089664306379
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -151,6 +151,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 9
   shieldObject: {fileID: 5450685710401113948}
+  parentSpriteRenderer: {fileID: 4681996450969363017}
+  damageFlashDuration: 0.1
+  healFlashDuration: 0.2
+  damageFlashColor: {r: 1, g: 0, b: 0, a: 1}
+  healFlashColor: {r: 0, g: 1, b: 0, a: 1}
 --- !u!95 &5203436605365279184
 Animator:
   serializedVersion: 5

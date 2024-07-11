@@ -151,6 +151,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 6
   shieldObject: {fileID: 5450685710401113948}
+  parentSpriteRenderer: {fileID: 4681996450969363017}
+  damageFlashDuration: 0.1
+  healFlashDuration: 0.2
+  damageFlashColor: {r: 1, g: 0, b: 0, a: 1}
+  healFlashColor: {r: 0, g: 1, b: 0, a: 1}
 --- !u!95 &5203436605365279184
 Animator:
   serializedVersion: 5
