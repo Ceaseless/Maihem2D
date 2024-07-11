@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -7,6 +8,12 @@ namespace Maihem.Managers
     {
         [SerializeField] private GameObject infoWindow;
         public static bool TutorialActivated { get; private set; }
+
+        private void Start()
+        {
+            AudioManager.Instance.FadeInMusic(2f);
+        }
+
         public void StartGame(bool tutorial)
         {
             TutorialActivated = tutorial;

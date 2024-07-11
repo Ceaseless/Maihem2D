@@ -56,6 +56,11 @@ namespace Maihem.Managers
             musicSource.Pause();
         }
 
+        public void StopMusic()
+        {
+            musicSource.Stop();
+        }
+
         public void ResetMusic()
         {
             musicSource.Stop();
