@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using Unity.Mathematics;
 using UnityEngine;
 
@@ -8,10 +9,14 @@ namespace Maihem
     {
         [SerializeField] private int maxHealth;
         [SerializeField] private GameObject shieldObject;
-
+        [SerializeField] private SpriteRenderer parentSpriteRenderer;
+        [SerializeField] private float damageFlashDuration = 0.1f;
         private SpriteRenderer _shieldRenderer;
         private Animator _shieldAnimator;
 
+        private Material _parentMaterial;
+        private bool _isFlashing;
+        private static readonly int FlashAmountID = Shader.PropertyToID("_FlashAmount");
         private bool HasShield => _currentShield > 0;
         
         private int _currentShield;
@@ -25,6 +30,9 @@ namespace Maihem
 
         private void Awake()
         {
+            if(parentSpriteRenderer)
+                _parentMaterial = parentSpriteRenderer.material;
+            
             if (!shieldObject) return;
             _shieldRenderer = shieldObject.GetComponent<SpriteRenderer>();
             _shieldAnimator = shieldObject.GetComponent<Animator>();
@@ -52,6 +60,7 @@ namespace Maihem
             }
             var old = CurrentHealth;
             CurrentHealth = math.max(0, CurrentHealth - amount);
+            if (!_isFlashing) StartCoroutine(DamageFlash());
             OnHealthChange?.Invoke(this, new HealthChangeEvent{ ChangeAmount = old - CurrentHealth });
         }
 
@@ -96,6 +105,31 @@ namespace Maihem
         private void DecayShield()
         {
             ReduceShield(1);
+        }
+
+        
+
+        private IEnumerator DamageFlash()
+        {
+            _isFlashing = true;
+            var time = 0f;
+            var halfTime = damageFlashDuration * 0.5f;
+            while (time < halfTime)
+            {
+                _parentMaterial.SetFloat(FlashAmountID, Mathf.Lerp(0, 1, time / halfTime));
+                time += Time.deltaTime;
+                yield return null;
+            }
+            _parentMaterial.SetFloat(FlashAmountID, 1f);
+            time = 0f;
+            while (time < halfTime)
+            {
+                _parentMaterial.SetFloat(FlashAmountID, Mathf.Lerp(1, 0, time / halfTime));
+                time += Time.deltaTime;
+                yield return null;
+            }
+            _parentMaterial.SetFloat(FlashAmountID, 0f);
+            _isFlashing = false;
         }
     }
     
