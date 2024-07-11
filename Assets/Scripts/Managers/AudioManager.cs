@@ -29,6 +29,7 @@ namespace Maihem.Managers
             else
             {
                 Destroy(gameObject);
+                return;
             }
             
             InitializeSfxSourcePool();

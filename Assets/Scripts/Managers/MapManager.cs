@@ -203,6 +203,7 @@ namespace Maihem.Managers
                 var mapObject = Instantiate(selectedPrefab, grid.transform);
                 PerformChunkSetup(mapObject,i);
             }
+            
         }
         
         private void PerformChunkSetup(GameObject mapObject, int index)

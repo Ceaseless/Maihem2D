@@ -1,10 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
-using Maihem.Managers;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace Maihem
+namespace Maihem.Managers
 {
     public class MenuManager : MonoBehaviour
     {
@@ -23,12 +20,7 @@ namespace Maihem
 
         public void ToggleInfo()
         {
-            if (!infoWindow.activeSelf)
-            {
-                infoWindow.SetActive(true);
-                return;
-            }
-            infoWindow.SetActive(false);
+            infoWindow.SetActive(!infoWindow.activeSelf);
         }
     }
 }
