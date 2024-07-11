@@ -29,6 +29,7 @@ namespace Maihem.Managers
             else
             {
                 Destroy(gameObject);
+                return;
             }
             
             InitializeSfxSourcePool();
@@ -53,6 +54,11 @@ namespace Maihem.Managers
         public void PauseMusic()
         {
             musicSource.Pause();
+        }
+
+        public void StopMusic()
+        {
+            musicSource.Stop();
         }
 
         public void ResetMusic()

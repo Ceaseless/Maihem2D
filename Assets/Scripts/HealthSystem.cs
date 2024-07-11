@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using Unity.Mathematics;
 using UnityEngine;
 
@@ -8,10 +9,19 @@ namespace Maihem
     {
         [SerializeField] private int maxHealth;
         [SerializeField] private GameObject shieldObject;
-
+        [Header("Flash Effect Settings")]
+        [SerializeField] private SpriteRenderer parentSpriteRenderer;
+        [SerializeField] private float damageFlashDuration = 0.1f;
+        [SerializeField] private float healFlashDuration = 0.2f;
+        [SerializeField][ColorUsage(true,true)] private Color damageFlashColor = Color.red;
+        [SerializeField][ColorUsage(true,true)] private Color healFlashColor = Color.green;
         private SpriteRenderer _shieldRenderer;
         private Animator _shieldAnimator;
 
+        private Material _parentMaterial;
+        private bool _isFlashing;
+        private static readonly int FlashAmountID = Shader.PropertyToID("_FlashAmount");
+        private static readonly int FlashColorID = Shader.PropertyToID("_FlashColor");
         private bool HasShield => _currentShield > 0;
         
         private int _currentShield;
@@ -25,6 +35,9 @@ namespace Maihem
 
         private void Awake()
         {
+            if(parentSpriteRenderer)
+                _parentMaterial = parentSpriteRenderer.material;
+            
             if (!shieldObject) return;
             _shieldRenderer = shieldObject.GetComponent<SpriteRenderer>();
             _shieldAnimator = shieldObject.GetComponent<Animator>();
@@ -52,6 +65,11 @@ namespace Maihem
             }
             var old = CurrentHealth;
             CurrentHealth = math.max(0, CurrentHealth - amount);
+            if (!_isFlashing)
+            {
+                _parentMaterial.SetColor(FlashColorID, damageFlashColor);
+                StartCoroutine(PerformFlash(damageFlashDuration));
+            }
             OnHealthChange?.Invoke(this, new HealthChangeEvent{ ChangeAmount = old - CurrentHealth });
         }
 
@@ -60,6 +78,11 @@ namespace Maihem
             if (amount <= 0) return;
             var old = CurrentHealth;
             CurrentHealth = math.min(maxHealth, CurrentHealth + amount);
+            if (!_isFlashing)
+            {
+                _parentMaterial.SetColor(FlashColorID, healFlashColor);
+                StartCoroutine(PerformFlash(healFlashDuration));
+            }
             OnHealthChange?.Invoke(this, new HealthChangeEvent{ ChangeAmount = CurrentHealth - old });
         }
 
@@ -96,6 +119,31 @@ namespace Maihem
         private void DecayShield()
         {
             ReduceShield(1);
+        }
+
+        
+
+        private IEnumerator PerformFlash(float duration)
+        {
+            _isFlashing = true;
+            var time = 0f;
+            var halfTime = duration * 0.5f;
+            while (time < halfTime)
+            {
+                _parentMaterial.SetFloat(FlashAmountID, Mathf.Lerp(0, 1, time / halfTime));
+                time += Time.deltaTime;
+                yield return null;
+            }
+            _parentMaterial.SetFloat(FlashAmountID, 1f);
+            time = 0f;
+            while (time < halfTime)
+            {
+                _parentMaterial.SetFloat(FlashAmountID, Mathf.Lerp(1, 0, time / halfTime));
+                time += Time.deltaTime;
+                yield return null;
+            }
+            _parentMaterial.SetFloat(FlashAmountID, 0f);
+            _isFlashing = false;
         }
     }
     

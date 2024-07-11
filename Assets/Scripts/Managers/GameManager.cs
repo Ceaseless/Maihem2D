@@ -18,6 +18,7 @@ namespace Maihem.Managers
         [SerializeField] private UIManager uiManager;
         [SerializeField] private AudioManager audioManager;
         [SerializeField] private CinemachineVirtualCamera followCamera;
+        [SerializeField] private CinemachineConfiner2D cameraConfiner;
        
         private int TurnCount { get; set; }
         public Player Player { get; private set; }
@@ -26,7 +27,7 @@ namespace Maihem.Managers
         private bool _gameOver;
         private bool _triggerTurnOnNextFrame;
         private bool _nonPlayerTurn;
-
+        private bool _performPostSceneChangeSetup;
         
         
 
@@ -35,12 +36,13 @@ namespace Maihem.Managers
             if (Instance == null)
             {
                 Instance = this;
-                DontDestroyOnLoad(gameObject);
             }
             else
             {
                 Destroy(gameObject);
             }
+
+            
         }
 
         private void Start()
@@ -55,6 +57,8 @@ namespace Maihem.Managers
             enemyManager.UpdateEnemiesActiveState();
             pickupManager.UpdatePickupsActiveState();
             audioManager.FadeInMusic(2f);
+            _performPostSceneChangeSetup = true;
+            
         }
 
         private void SpawnPlayer()
@@ -71,6 +75,8 @@ namespace Maihem.Managers
             Player.TurnCompleted += OnPlayerTurnComplete;
             
             followCamera.Follow = Player.transform;
+            
+            
         }
 
         public void ResetGame()
@@ -160,6 +166,13 @@ namespace Maihem.Managers
         
         private void Update()
         {
+            if (_performPostSceneChangeSetup)
+            {
+                cameraConfiner.InvalidateCache();
+                followCamera.Follow = Player.transform;
+                _performPostSceneChangeSetup = false;
+            }
+            
             if (_gameOver || !_triggerTurnOnNextFrame) return;
             TriggerTurn();
         }

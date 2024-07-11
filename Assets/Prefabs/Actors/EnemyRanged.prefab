@@ -52,7 +52,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: 2e35b6f522f431a4eaf72adc5f7dd1f6, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -235,6 +235,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 3
   shieldObject: {fileID: 6239827842773834752}
+  parentSpriteRenderer: {fileID: 8086444718174155007}
+  damageFlashDuration: 0.1
 --- !u!95 &7014631942697327723
 Animator:
   serializedVersion: 5
