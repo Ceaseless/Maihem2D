@@ -28,8 +28,8 @@ namespace Maihem
                 if (loadHandle.progress >= 0.9f)
                 {
                     loadHandle.allowSceneActivation = true;
+                    
                 }
-
                 yield return null;
             }
         }

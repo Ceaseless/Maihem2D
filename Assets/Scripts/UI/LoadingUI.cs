@@ -7,10 +7,12 @@ namespace Maihem.UI
     {
         [SerializeField] private LoadTrigger loadTrigger;
         [SerializeField] private Image loadingBar;
+        [SerializeField] private float loadingBarFudgeThreshold = 0.89f;
 
         private void LateUpdate()
         {
-            loadingBar.fillAmount = loadTrigger.LoadProgress;
+            var progress = loadTrigger.LoadProgress >= loadingBarFudgeThreshold ? 1f : loadTrigger.LoadProgress;
+            loadingBar.fillAmount = 1f-progress;
         }
     }
 }
