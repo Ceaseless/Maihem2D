@@ -1,15 +1,13 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Maihem.Pickups;
 using UnityEngine;
 using static UnityEngine.Random;
 
 
-namespace Maihem
+namespace Maihem.Pickups
 {
-    [CreateAssetMenu(menuName = "Loot Tabel")]
+    [CreateAssetMenu(fileName = "Loot Table")]
     public class LootTable : ScriptableObject
     {
         

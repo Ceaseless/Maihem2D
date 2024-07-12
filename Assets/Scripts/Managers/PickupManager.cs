@@ -96,15 +96,18 @@ namespace Maihem.Managers
             if (_activePickups.Any(activePickup => activePickup.transform.position == position))
             {
                 var allNeighbours = MapManager.GetNeighbourPositions(MapManager.Instance.WorldToCell(position));
-                IList<Vector2Int> possibleNeighbours = new List<Vector2Int>();
+                var possibleNeighbours = new List<Vector2Int>();
                 foreach (var neighbour in allNeighbours)
                 {
-                    if (!MapManager.Instance.IsCellBlocking(neighbour) && _activePickups.Any(activePickup =>
-                            activePickup.transform.position != MapManager.Instance.CellToWorld(neighbour)) && GameManager.Instance.Player.transform.position != MapManager.Instance.CellToWorld(neighbour))
+                    var worldPosition = MapManager.Instance.CellToWorld(neighbour);
+                    if (GameManager.Instance.Player.GridPosition != neighbour && !MapManager.Instance.IsCellBlocking(neighbour) && _activePickups.All(activePickup => activePickup.transform.position != worldPosition))
                     {
                         possibleNeighbours.Add(neighbour);
                     }
                 }
+
+                if (possibleNeighbours.Count == 0) return;
+                
                 var randomPosition = possibleNeighbours[Random.Range(0, possibleNeighbours.Count)];
                 pickupPosition = MapManager.Instance.CellToWorld(randomPosition);
             }
