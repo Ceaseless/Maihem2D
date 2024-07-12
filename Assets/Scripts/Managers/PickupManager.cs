@@ -87,16 +87,29 @@ namespace Maihem.Managers
 
         public void TrySpawnPickup(Vector3 position, LootTable table)
         {
+            if (!table) return;
+            var pickupPosition = position;
+
+            var pickupSpawn = table.rollOnLootTable();
+            if (!pickupSpawn) return;
+            
             if (_activePickups.Any(activePickup => activePickup.transform.position == position))
             {
-                return;
+                var allNeighbours = MapManager.GetNeighbourPositions(MapManager.Instance.WorldToCell(position));
+                IList<Vector2Int> possibleNeighbours = new List<Vector2Int>();
+                foreach (var neighbour in allNeighbours)
+                {
+                    if (!MapManager.Instance.IsCellBlocking(neighbour) && _activePickups.Any(activePickup =>
+                            activePickup.transform.position != MapManager.Instance.CellToWorld(neighbour)) && GameManager.Instance.Player.transform.position != MapManager.Instance.CellToWorld(neighbour))
+                    {
+                        possibleNeighbours.Add(neighbour);
+                    }
+                }
+                var randomPosition = possibleNeighbours[Random.Range(0, possibleNeighbours.Count)];
+                pickupPosition = MapManager.Instance.CellToWorld(randomPosition);
             }
-
-            if (!table) return;
-            var pickupSpawn = table.rollOnLootTable();
-
-            if (!pickupSpawn) return;
-            var newPickup = Instantiate(pickupSpawn, position, Quaternion.identity, transform).GetComponent<Pickup>();
+            
+            var newPickup = Instantiate(pickupSpawn, pickupPosition, Quaternion.identity, transform).GetComponent<Pickup>();
             _activePickups.Add(newPickup);
         }
     }
