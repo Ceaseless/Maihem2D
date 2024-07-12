@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b1348f89d0d6d844bb91124ea5b11800, type: 3}
-  m_Name: Health
+  m_Name: Stamina
   m_EditorClassIdentifier: 
-  type: 0
-  sprite: {fileID: 21300000, guid: 3f82d6b16bb45974a9f6f55e3888b082, type: 3}
+  type: 1
+  sprite: {fileID: 21300000, guid: 57c64307905a68c409701661d65f2d83, type: 3}
   activateVisualEffect: {fileID: 11400000, guid: 0e64d1f5e20973a469d65359d640a900, type: 2}
   activateSoundEffect: {fileID: 0}

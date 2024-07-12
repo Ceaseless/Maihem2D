@@ -301,6 +301,9 @@ namespace Maihem.Actors
                     break;
                 case ConsumableType.Empty:
                     return;
+                case ConsumableType.Stamina:
+                    RecoverStamina(25);
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }

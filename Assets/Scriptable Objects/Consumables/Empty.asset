@@ -12,5 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1348f89d0d6d844bb91124ea5b11800, type: 3}
   m_Name: Empty
   m_EditorClassIdentifier: 
-  type: 2
+  type: 3
   sprite: {fileID: 10917, guid: 0000000000000000f000000000000000, type: 0}
+  activateVisualEffect: {fileID: 0}
+  activateSoundEffect: {fileID: 0}

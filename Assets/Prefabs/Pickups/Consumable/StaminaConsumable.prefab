@@ -73,7 +73,7 @@ SpriteRenderer:
   m_SortingLayerID: -1734520703
   m_SortingLayer: 2
   m_SortingOrder: 2
-  m_Sprite: {fileID: 21300000, guid: 3f82d6b16bb45974a9f6f55e3888b082, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 57c64307905a68c409701661d65f2d83, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -97,7 +97,7 @@ GameObject:
   - component: {fileID: -6869427483611057616}
   - component: {fileID: 6395304254444210624}
   m_Layer: 0
-  m_Name: HealthConsumable
+  m_Name: StaminaConsumable
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -134,7 +134,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   soundEffect: {fileID: 8300000, guid: d1cf18a6f604ec94694a0b7975e780bf, type: 3}
   visualEffect: {fileID: 0}
-  consumable: {fileID: 11400000, guid: 215985021ecf64b458ad65fe58a19daf, type: 2}
+  consumable: {fileID: 11400000, guid: d698c09cac1da234bb70f7ae0f018862, type: 2}
 --- !u!61 &-6869427483611057616
 BoxCollider2D:
   m_ObjectHideFlags: 0
