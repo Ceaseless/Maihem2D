@@ -1,10 +1,7 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using Maihem.Managers;
 using UnityEngine;
 
-namespace Maihem
+namespace Maihem.Tutorial
 {
     public class TutorialMap : MonoBehaviour
     {

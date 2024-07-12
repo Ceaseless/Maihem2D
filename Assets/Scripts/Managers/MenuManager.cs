@@ -17,7 +17,8 @@ namespace Maihem.Managers
         public void StartGame(bool tutorial)
         {
             TutorialActivated = tutorial;
-            SceneManager.LoadScene("GameScene");
+            SceneLoadingData.SceneToLoad = SceneLoadingData.LoadableScene.GameScene;
+            SceneManager.LoadScene(SceneLoadingData.LoadableScene.LoadingScene.ToString());
         }
 
         public void Exit()
