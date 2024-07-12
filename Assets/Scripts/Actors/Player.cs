@@ -297,7 +297,7 @@ namespace Maihem.Actors
                     healthSystem.RecoverHealth(10);
                     break;
                 case ConsumableType.Shield:
-                    healthSystem.AddShield(3);
+                    healthSystem.AddShield(3, 10);
                     break;
                 case ConsumableType.Empty:
                     return;

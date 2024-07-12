@@ -281,6 +281,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 10
   shieldObject: {fileID: 3478774070881899539}
+  shieldDestroyEffect: {fileID: 11400000, guid: 0ac057e66d1178f4da0f1cc99d550c29, type: 2}
   parentSpriteRenderer: {fileID: 8381417263059300217}
   damageFlashDuration: 0.1
   healFlashDuration: 0.2
