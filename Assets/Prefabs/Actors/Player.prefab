@@ -238,7 +238,6 @@ MonoBehaviour:
   diagonalModeMarker: {fileID: 3964736874558905028}
   startAttacks:
   - {fileID: 11400000, guid: 6105c1a528ada6c4f903a3d483724391, type: 2}
-  - {fileID: 11400000, guid: fe3f629371e17e447a5868b6061e48e8, type: 2}
   selectSoundFX: {fileID: 8300000, guid: a4a3dc14bae8abc4f9aefb57c4f53a89, type: 3}
 --- !u!114 &4102898974549345930
 MonoBehaviour:

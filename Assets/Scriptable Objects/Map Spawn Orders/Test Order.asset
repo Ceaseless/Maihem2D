@@ -14,14 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spawnSlots:
   - includeSpawns:
-    - {fileID: 7509609231449073766, guid: 99b2a4df235d16548a1b6ec588839719, type: 3}
+    - {fileID: 8775701524382913767, guid: f0f1a60b2a2623d4abd5b42fbee03c25, type: 3}
+    - {fileID: 8775701524382913767, guid: 434603bf389522840b48bbb1f3ba5367, type: 3}
     excludeSpawns:
     - {fileID: 8775701524382913767, guid: 0e06e2cbea8fbc643bf114997e0d90ba, type: 3}
     - {fileID: 8775701524382913767, guid: 17a57659d8e9e58418528d967f05fc5f, type: 3}
   - includeSpawns:
     - {fileID: 8775701524382913767, guid: 0e06e2cbea8fbc643bf114997e0d90ba, type: 3}
     excludeSpawns:
-    - {fileID: 8775701524382913767, guid: 0e06e2cbea8fbc643bf114997e0d90ba, type: 3}
     - {fileID: 8775701524382913767, guid: 17a57659d8e9e58418528d967f05fc5f, type: 3}
   - includeSpawns: []
     excludeSpawns:
