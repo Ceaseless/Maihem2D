@@ -860,7 +860,7 @@ Camera:
   far clip plane: 1000
   field of view: 34
   orthographic: 1
-  orthographic size: 15
+  orthographic size: 11.25
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
@@ -1908,6 +1908,9 @@ MonoBehaviour:
   - visualEffect: {fileID: 11400000, guid: 342b928f51365264680172f90139608a, type: 2}
     initialPoolSize: 10
     poolGrowthStep: 5
+  - visualEffect: {fileID: 11400000, guid: 0ac057e66d1178f4da0f1cc99d550c29, type: 2}
+    initialPoolSize: 1
+    poolGrowthStep: 1
 --- !u!4 &1163005468
 Transform:
   m_ObjectHideFlags: 0

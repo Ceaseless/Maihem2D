@@ -150,7 +150,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 6
-  shieldObject: {fileID: 5450685710401113948}
+  shield: {fileID: 5977075960933311441}
   parentSpriteRenderer: {fileID: 4681996450969363017}
   damageFlashDuration: 0.1
   healFlashDuration: 0.2
@@ -323,11 +323,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1588900236492608223, guid: 4a71d860b49ebe247aed5ddb3539213f, type: 3}
   m_PrefabInstance: {fileID: 927031331302827985}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &5450685710401113948 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5150362963155609741, guid: 4a71d860b49ebe247aed5ddb3539213f, type: 3}
+--- !u!114 &5977075960933311441 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6786833373261366272, guid: 4a71d860b49ebe247aed5ddb3539213f, type: 3}
   m_PrefabInstance: {fileID: 927031331302827985}
   m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ea683d8fc9e1fb49a36b8fc3d683bdc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &2324315094559886801
 PrefabInstance:
   m_ObjectHideFlags: 0

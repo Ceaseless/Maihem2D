@@ -8,26 +8,19 @@ namespace Maihem
     public class HealthSystem : MonoBehaviour
     {
         [SerializeField] private int maxHealth;
-        [SerializeField] private GameObject shieldObject;
+        [SerializeField] private Shield shield;
         [Header("Flash Effect Settings")]
         [SerializeField] private SpriteRenderer parentSpriteRenderer;
         [SerializeField] private float damageFlashDuration = 0.1f;
         [SerializeField] private float healFlashDuration = 0.2f;
         [SerializeField][ColorUsage(true,true)] private Color damageFlashColor = Color.red;
         [SerializeField][ColorUsage(true,true)] private Color healFlashColor = Color.green;
-        private SpriteRenderer _shieldRenderer;
-        private Animator _shieldAnimator;
 
         private Material _parentMaterial;
         private bool _isFlashing;
         private static readonly int FlashAmountID = Shader.PropertyToID("_FlashAmount");
         private static readonly int FlashColorID = Shader.PropertyToID("_FlashColor");
-        private bool HasShield => _currentShield > 0;
-        
-        private int _currentShield;
-        private int _maxShield;
-        private static readonly int AnimatorActivate = Animator.StringToHash("Activate");
-
+       
         public event EventHandler<HealthChangeEvent> OnHealthChange;
         public bool IsDead => maxHealth == 0 || CurrentHealth <= 0;
         public int CurrentHealth { get; private set; }
@@ -37,15 +30,11 @@ namespace Maihem
         {
             if(parentSpriteRenderer)
                 _parentMaterial = parentSpriteRenderer.material;
-            
-            if (!shieldObject) return;
-            _shieldRenderer = shieldObject.GetComponent<SpriteRenderer>();
-            _shieldAnimator = shieldObject.GetComponent<Animator>();
         }
 
         public void Tick()
         {
-            if(HasShield) DecayShield();
+            shield.Tick();
         }
         
         public void RecoverFullHealth()
@@ -55,12 +44,17 @@ namespace Maihem
             OnHealthChange?.Invoke(this, new HealthChangeEvent{ ChangeAmount = CurrentHealth - old });
         }
 
+        public void AddShield(int strength, int lifetime)
+        {
+            shield.ActivateShield(strength, lifetime);
+        }
+
         public void TakeDamage(int amount)
         {
             if (IsDead || amount <= 0) return;
-            if (HasShield)
+            if (shield.IsActive)
             {
-                ReduceShield(1);
+                shield.ReduceShield(1);
                 return;
             }
             var old = CurrentHealth;
@@ -85,43 +79,6 @@ namespace Maihem
             }
             OnHealthChange?.Invoke(this, new HealthChangeEvent{ ChangeAmount = CurrentHealth - old });
         }
-
-        public void AddShield(int strength)
-        {
-            _shieldRenderer.color = Color.white;
-            if (_shieldAnimator && !HasShield)
-            {
-                _shieldAnimator.SetTrigger(AnimatorActivate);
-            }
-            
-            _currentShield = strength+1;
-            _maxShield = strength;
-            
-        }
-
-        private void ReduceShield(int amount)
-        {
-            _currentShield = math.max(0,_currentShield-amount);
-            var color = _shieldRenderer.color;
-
-            if (_currentShield <= 0)
-            {
-                color.a = 0;
-            }
-            else
-            {
-                color.g = (float)_currentShield/_maxShield;
-                color.b = (float)_currentShield/_maxShield; 
-            }
-            _shieldRenderer.color = color;
-        }
-
-        private void DecayShield()
-        {
-            ReduceShield(1);
-        }
-
-        
 
         private IEnumerator PerformFlash(float duration)
         {
