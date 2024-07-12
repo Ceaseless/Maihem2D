@@ -9,12 +9,9 @@ namespace Maihem.Pickups
         [Header("On Pickup Effects")]
         [SerializeField] protected AudioClip soundEffect;
         [SerializeField] protected VisualEffectSettings visualEffect;
-
-        [Header("Settings")]
-        [SerializeField] public float spawnChance;
+        
         
         public bool IsUsed { get; set; }
-        public float SpawnChance => spawnChance;
         private Vector2Int GridPosition { get; set; }
         
         // Start is called before the first frame update
