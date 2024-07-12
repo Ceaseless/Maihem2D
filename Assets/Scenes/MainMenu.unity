@@ -440,6 +440,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4836779303924377767, guid: d42c3c4865b05234da5f1eca014503c4, type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 40da69681baf99d43b5f090502de57e6, type: 3}
     - target: {fileID: 7623088904701361558, guid: d42c3c4865b05234da5f1eca014503c4, type: 3}
       propertyPath: initialPoolSize
       value: 2
@@ -1218,7 +1222,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.19887407, y: 0.2057344}
   m_AnchorMax: {x: 0.82174814, y: 0.83279675}
-  m_AnchoredPosition: {x: -2.5, y: -1.5}
+  m_AnchoredPosition: {x: -2.5, y: -1.5000381}
   m_SizeDelta: {x: 93, y: 29}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &674756446
@@ -1270,7 +1274,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 25.4
+  m_fontSize: 72
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1554,7 +1558,7 @@ MonoBehaviour:
     m_Right: 0
     m_Top: 0
     m_Bottom: 0
-  m_ChildAlignment: 1
+  m_ChildAlignment: 0
   m_Spacing: 0
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 0
@@ -1663,6 +1667,7 @@ GameObject:
   - component: {fileID: 808032835}
   - component: {fileID: 808032837}
   - component: {fileID: 808032836}
+  - component: {fileID: 808032838}
   m_Layer: 5
   m_Name: Asset Credits
   m_TagString: Untagged
@@ -1709,10 +1714,21 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "<style=\"H2\">Asset Credits</style>\n\nClouds: Image by  freepik\n<ahref=\"https://www.freepik.com/free-vector/flat-design-pixel-art-cloud-illustration_38528378.htm#query=8%20bit%20cloud&position=2&from_view=\nkeyword&track=ais_hybrid&uuid=a9c6a69a-69f7-4622-8a23-52fba14b16d6\">Freepik</a>\r\n\r\nTileset
-    Village: Tileset by trislin\n https://trislin.itch.io/pixel-lands-village\n"
+  m_text: '<style="H2">Asset Credits</style>
+
+
+    <link="https://www.freepik.com"><style="H3">Freepik</style>
+    </link>
+
+    Flat design pixel art cloud illustration
+
+
+    <link="https://trislin.itch.io/pixel-lands-village"><style="H3">Trislin</style>
+    </link>
+
+    Tileset Village'
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 3a9d11c881c4d6049874e4b4e135fbec, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -1737,12 +1753,12 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 53.5
-  m_fontSizeBase: 70
+  m_fontSize: 55
+  m_fontSizeBase: 55
   m_fontWeight: 400
   m_enableAutoSizing: 1
-  m_fontSizeMin: 25
-  m_fontSizeMax: 100
+  m_fontSizeMin: 1
+  m_fontSizeMax: 38
   m_fontStyle: 0
   m_HorizontalAlignment: 1
   m_VerticalAlignment: 256
@@ -1776,7 +1792,7 @@ MonoBehaviour:
   m_margin: {x: 16.938873, y: 38.681274, z: 10.555298, w: -7.6250305}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
+  m_hasFontAssetChanged: 1
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!222 &808032837
@@ -1787,6 +1803,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 808032834}
   m_CullTransparentMesh: 1
+--- !u!114 &808032838
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 808032834}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77da951a02be38e4a9bf4901c1fd85e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cameraToUse: {fileID: 592143164}
 --- !u!1 &908756356
 GameObject:
   m_ObjectHideFlags: 0
@@ -1871,7 +1900,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 19.4
+  m_fontSize: 55.95
   m_fontSizeBase: 25.7
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -2185,10 +2214,10 @@ RectTransform:
   - {fileID: 674756445}
   m_Father: {fileID: 1426549307}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.09176954, y: 0.3497778}
-  m_AnchorMax: {x: 0.32023048, y: 0.4212963}
-  m_AnchoredPosition: {x: 0.32788086, y: 0.7999878}
-  m_SizeDelta: {x: 2.8692017, y: 0.47698975}
+  m_AnchorMin: {x: 0.093861714, y: 0.10022222}
+  m_AnchorMax: {x: 0.32356915, y: 0.172}
+  m_AnchoredPosition: {x: -0.0053710938, y: -0.49993896}
+  m_SizeDelta: {x: 0.86920166, y: -0.52301025}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1107873996
 MonoBehaviour:
@@ -2259,7 +2288,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.4784314, g: 0.227451, b: 0.039215688, a: 1}
+  m_Color: {r: 0.4784314, g: 0.227451, b: 0.039215688, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -2445,7 +2474,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 25.65
+  m_fontSize: 72
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -2654,10 +2683,10 @@ RectTransform:
   - {fileID: 908756357}
   m_Father: {fileID: 1426549307}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.087000005, y: 0.71970373}
-  m_AnchorMax: {x: 0.32500002, y: 0.7897037}
-  m_AnchoredPosition: {x: 0.8279419, y: -1.2459717}
-  m_SizeDelta: {x: -4.1307983, y: 1.4769897}
+  m_AnchorMin: {x: 0.088853724, y: 0.46330556}
+  m_AnchorMax: {x: 0.32428458, y: 0.5344723}
+  m_AnchoredPosition: {x: -0.5053711, y: 0.08999634}
+  m_SizeDelta: {x: -0.13079834, y: -0.52301025}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1378129475
 MonoBehaviour:
@@ -2728,7 +2757,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.4784314, g: 0.227451, b: 0.039215688, a: 1}
+  m_Color: {r: 0.4784314, g: 0.227451, b: 0.039215688, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -2826,11 +2855,12 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 690652624}
   - {fileID: 1515746554}
   - {fileID: 2144084572}
   - {fileID: 1378129474}
   - {fileID: 1107873995}
-  - {fileID: 690652624}
+  - {fileID: 1849516856}
   m_Father: {fileID: 25143231}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.22700001, y: 0}
@@ -2922,7 +2952,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 17.15
+  m_fontSize: 51.4
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -3140,10 +3170,10 @@ RectTransform:
   - {fileID: 1452096046}
   m_Father: {fileID: 1426549307}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.679, y: 0.716}
-  m_AnchorMax: {x: 0.90800005, y: 0.786}
-  m_AnchoredPosition: {x: 0.49871826, y: 0}
-  m_SizeDelta: {x: 0.14001465, y: -0.4039917}
+  m_AnchorMin: {x: 0.6804309, y: 0.46544448}
+  m_AnchorMax: {x: 0.91014636, y: 0.5344723}
+  m_AnchoredPosition: {x: -0.16143799, y: 0.05999756}
+  m_SizeDelta: {x: -0.85998535, y: 0.5960083}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1515746555
 MonoBehaviour:
@@ -3339,6 +3369,7 @@ GameObject:
   - component: {fileID: 1679859437}
   - component: {fileID: 1679859439}
   - component: {fileID: 1679859438}
+  - component: {fileID: 1679859440}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -3408,7 +3439,7 @@ MonoBehaviour:
     After the ransom is paid, the tree must be returned undamaged. Once set up, it
     is off-limits to thieves.'
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 3a9d11c881c4d6049874e4b4e135fbec, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -3433,12 +3464,12 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 54.8
-  m_fontSizeBase: 70
+  m_fontSize: 55
+  m_fontSizeBase: 55
   m_fontWeight: 400
   m_enableAutoSizing: 1
   m_fontSizeMin: 1
-  m_fontSizeMax: 100
+  m_fontSizeMax: 38
   m_fontStyle: 0
   m_HorizontalAlignment: 1
   m_VerticalAlignment: 256
@@ -3472,7 +3503,7 @@ MonoBehaviour:
   m_margin: {x: 18.86792, y: 0, z: 6.9249268, w: 1.7345886}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
+  m_hasFontAssetChanged: 1
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!222 &1679859439
@@ -3483,6 +3514,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1679859436}
   m_CullTransparentMesh: 1
+--- !u!114 &1679859440
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1679859436}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77da951a02be38e4a9bf4901c1fd85e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cameraToUse: {fileID: 592143164}
 --- !u!1 &1737691597
 GameObject:
   m_ObjectHideFlags: 0
@@ -3698,6 +3742,81 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1774064874}
   m_CullTransparentMesh: 1
+--- !u!1 &1849516855
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1849516856}
+  - component: {fileID: 1849516858}
+  - component: {fileID: 1849516857}
+  m_Layer: 5
+  m_Name: Image
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1849516856
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1849516855}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1426549307}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.088853724, y: 0.6953056}
+  m_AnchorMax: {x: 0.91014636, y: 0.94600004}
+  m_AnchoredPosition: {x: -0.014831543, y: -0.5}
+  m_SizeDelta: {x: -0.5999756, y: -0.94000244}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1849516857
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1849516855}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: abbbae302fa2bd2488a35b6e93c875bd, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1849516858
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1849516855}
+  m_CullTransparentMesh: 1
 --- !u!1 &2083598323
 GameObject:
   m_ObjectHideFlags: 0
@@ -3897,10 +4016,10 @@ RectTransform:
   - {fileID: 1138015957}
   m_Father: {fileID: 1426549307}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.679, y: 0.3497778}
-  m_AnchorMax: {x: 0.90800005, y: 0.4212963}
-  m_AnchoredPosition: {x: -0.9420166, y: 0.7999878}
-  m_SizeDelta: {x: 1.9799805, y: -1.309021}
+  m_AnchorMin: {x: 0.679, y: 0.10022222}
+  m_AnchorMax: {x: 0.90800005, y: 0.172}
+  m_AnchoredPosition: {x: 1.4185791, y: -1.2498779}
+  m_SizeDelta: {x: 1.9799805, y: 0.690979}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2144084573
 MonoBehaviour:
@@ -3971,7 +4090,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.4784314, g: 0.227451, b: 0.039215688, a: 1}
+  m_Color: {r: 0.4784314, g: 0.227451, b: 0.039215688, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
