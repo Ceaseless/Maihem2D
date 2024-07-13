@@ -332,6 +332,7 @@ namespace Maihem.Actors
         public void RecoverStamina(int amount)
         {
             if (amount <= 0) return;
+            healthSystem.Flash(Color.yellow,0.2f);
             CurrentStamina = math.clamp(CurrentStamina + amount, 0, MaxStamina);
             OnStatusUpdate?.Invoke(this, EventArgs.Empty);
         }

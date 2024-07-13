@@ -14,11 +14,7 @@ namespace Maihem.Pickups
         public bool IsUsed { get; set; }
         private Vector2Int GridPosition { get; set; }
         
-        // Start is called before the first frame update
-        protected virtual void Start()
-        {
-    
-        }
+     
 
         /*
          private void SnapToGrid()
