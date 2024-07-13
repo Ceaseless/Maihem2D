@@ -82,6 +82,8 @@ namespace Maihem.Effects
 
         }
 
+        // Performance warning applies only if pool needs to grow
+        // ReSharper disable Unity.PerformanceAnalysis
         public void PlayFloatingTextEffect(string text, Color color, Vector3 position, bool randomDisplacement = true)
         {
             
@@ -104,6 +106,7 @@ namespace Maihem.Effects
                 _floatingTextPool.Add(tmp);
             }
         }
+        
         
         public void PlayVisualEffect(VisualEffectSettings type, Vector3 position)
         {

@@ -35,10 +35,12 @@ namespace Maihem
         
         public void Tick()
         {
+            if(LifeTime == 0) return;
             TurnsActive++;
             var color = spriteRenderer.color;
             if (TurnsActive > LifeTime)
             {
+                VisualEffectsPool.Instance.PlayFloatingTextEffect($"-Shield", Color.cyan, transform.position, false);
                 color.a = 0;
                 ResetState();
             }
