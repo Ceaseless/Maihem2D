@@ -1,0 +1,69 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &8965088643529079976
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8322418119947819265}
+  - component: {fileID: 3468432497996330858}
+  m_Layer: 0
+  m_Name: Visual Effects Pool
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8322418119947819265
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8965088643529079976}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3468432497996330858
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8965088643529079976}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2f7248d31cfe8343bc3a00c429d2738, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  availableVisualEffects:
+  - visualEffect: {fileID: 11400000, guid: 0e64d1f5e20973a469d65359d640a900, type: 2}
+    initialPoolSize: 2
+    poolGrowthStep: 1
+  - visualEffect: {fileID: 11400000, guid: c0482b1fbc9132943b1e45b9579eadf6, type: 2}
+    initialPoolSize: 10
+    poolGrowthStep: 5
+  - visualEffect: {fileID: 11400000, guid: af22410dd999bb24f879b5d224ac83e4, type: 2}
+    initialPoolSize: 25
+    poolGrowthStep: 5
+  - visualEffect: {fileID: 11400000, guid: ea374f545bf096d478e7ccbff6a9e540, type: 2}
+    initialPoolSize: 25
+    poolGrowthStep: 5
+  - visualEffect: {fileID: 11400000, guid: 342b928f51365264680172f90139608a, type: 2}
+    initialPoolSize: 8
+    poolGrowthStep: 5
+  - visualEffect: {fileID: 11400000, guid: 0ac057e66d1178f4da0f1cc99d550c29, type: 2}
+    initialPoolSize: 1
+    poolGrowthStep: 1
+  floatingTextPoolSettings:
+    visualEffect: {fileID: 11400000, guid: b0eb4a4b1e7457c4ea74e39b4a9797c9, type: 2}
+    initialPoolSize: 10
+    poolGrowthStep: 5

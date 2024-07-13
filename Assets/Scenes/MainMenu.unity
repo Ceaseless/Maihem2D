@@ -155,7 +155,6 @@ RectTransform:
   m_Children:
   - {fileID: 614779195}
   - {fileID: 1426549307}
-  - {fileID: 103412028}
   m_Father: {fileID: 592143165}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -251,19 +250,19 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 103412027}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 456907337}
   - {fileID: 286117934}
-  m_Father: {fileID: 25143231}
+  m_Father: {fileID: 1426549307}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.23116668, y: 0}
   m_AnchorMax: {x: 0.77300006, y: 1}
-  m_AnchoredPosition: {x: -1.9998779, y: 0}
-  m_SizeDelta: {x: 4.300049, y: 0}
+  m_AnchoredPosition: {x: -0.78930664, y: 0}
+  m_SizeDelta: {x: 319.17026, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &103412029
 MonoBehaviour:
@@ -400,55 +399,68 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 954820479527633275, guid: d42c3c4865b05234da5f1eca014503c4, type: 3}
+    - target: {fileID: 954820479527633275, guid: d42c3c4865b05234da5f1eca014503c4,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 954820479527633275, guid: d42c3c4865b05234da5f1eca014503c4, type: 3}
+    - target: {fileID: 954820479527633275, guid: d42c3c4865b05234da5f1eca014503c4,
+        type: 3}
       propertyPath: m_LocalPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 954820479527633275, guid: d42c3c4865b05234da5f1eca014503c4, type: 3}
+    - target: {fileID: 954820479527633275, guid: d42c3c4865b05234da5f1eca014503c4,
+        type: 3}
       propertyPath: m_LocalPosition.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 954820479527633275, guid: d42c3c4865b05234da5f1eca014503c4, type: 3}
+    - target: {fileID: 954820479527633275, guid: d42c3c4865b05234da5f1eca014503c4,
+        type: 3}
       propertyPath: m_LocalRotation.w
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 954820479527633275, guid: d42c3c4865b05234da5f1eca014503c4, type: 3}
+    - target: {fileID: 954820479527633275, guid: d42c3c4865b05234da5f1eca014503c4,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
-    - target: {fileID: 954820479527633275, guid: d42c3c4865b05234da5f1eca014503c4, type: 3}
+    - target: {fileID: 954820479527633275, guid: d42c3c4865b05234da5f1eca014503c4,
+        type: 3}
       propertyPath: m_LocalRotation.y
       value: -0
       objectReference: {fileID: 0}
-    - target: {fileID: 954820479527633275, guid: d42c3c4865b05234da5f1eca014503c4, type: 3}
+    - target: {fileID: 954820479527633275, guid: d42c3c4865b05234da5f1eca014503c4,
+        type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
       objectReference: {fileID: 0}
-    - target: {fileID: 954820479527633275, guid: d42c3c4865b05234da5f1eca014503c4, type: 3}
+    - target: {fileID: 954820479527633275, guid: d42c3c4865b05234da5f1eca014503c4,
+        type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 954820479527633275, guid: d42c3c4865b05234da5f1eca014503c4, type: 3}
+    - target: {fileID: 954820479527633275, guid: d42c3c4865b05234da5f1eca014503c4,
+        type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 954820479527633275, guid: d42c3c4865b05234da5f1eca014503c4, type: 3}
+    - target: {fileID: 954820479527633275, guid: d42c3c4865b05234da5f1eca014503c4,
+        type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4836779303924377767, guid: d42c3c4865b05234da5f1eca014503c4, type: 3}
+    - target: {fileID: 4836779303924377767, guid: d42c3c4865b05234da5f1eca014503c4,
+        type: 3}
       propertyPath: m_audioClip
       value: 
       objectReference: {fileID: 8300000, guid: 40da69681baf99d43b5f090502de57e6, type: 3}
-    - target: {fileID: 7623088904701361558, guid: d42c3c4865b05234da5f1eca014503c4, type: 3}
+    - target: {fileID: 7623088904701361558, guid: d42c3c4865b05234da5f1eca014503c4,
+        type: 3}
       propertyPath: initialPoolSize
       value: 2
       objectReference: {fileID: 0}
-    - target: {fileID: 8649285526460588111, guid: d42c3c4865b05234da5f1eca014503c4, type: 3}
+    - target: {fileID: 8649285526460588111, guid: d42c3c4865b05234da5f1eca014503c4,
+        type: 3}
       propertyPath: m_Name
       value: Audio Manager
       objectReference: {fileID: 0}
@@ -1250,7 +1262,8 @@ MonoBehaviour:
 '
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3a9d11c881c4d6049874e4b4e135fbec, type: 2}
-  m_sharedMaterial: {fileID: 2251000785959839317, guid: 3a9d11c881c4d6049874e4b4e135fbec, type: 2}
+  m_sharedMaterial: {fileID: 2251000785959839317, guid: 3a9d11c881c4d6049874e4b4e135fbec,
+    type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1274,11 +1287,11 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 72
+  m_fontSize: 25.25
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
-  m_fontSizeMin: 10
+  m_fontSizeMin: 1
   m_fontSizeMax: 72
   m_fontStyle: 0
   m_HorizontalAlignment: 2
@@ -1336,7 +1349,7 @@ GameObject:
   - component: {fileID: 690652626}
   - component: {fileID: 690652625}
   m_Layer: 5
-  m_Name: Image
+  m_Name: Maibaum Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1359,7 +1372,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 1.5909424, y: 0}
-  m_SizeDelta: {x: 2.5648804, y: 0}
+  m_SizeDelta: {x: 2.5648193, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &690652625
 MonoBehaviour:
@@ -1823,8 +1836,7 @@ MonoBehaviour:
   m_text: '<style="H2">Asset Credits</style>
 
 
-    <link="https://www.freepik.com"><style="H3">Freepik</style>
-    </link>
+    <link="https://www.freepik.com"><style="H3">Freepik</style> </link>
 
     Flat design pixel art cloud illustration
 
@@ -1982,7 +1994,8 @@ MonoBehaviour:
   m_text: Start Game
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3a9d11c881c4d6049874e4b4e135fbec, type: 2}
-  m_sharedMaterial: {fileID: 2251000785959839317, guid: 3a9d11c881c4d6049874e4b4e135fbec, type: 2}
+  m_sharedMaterial: {fileID: 2251000785959839317, guid: 3a9d11c881c4d6049874e4b4e135fbec,
+    type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -2006,11 +2019,11 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 55.95
+  m_fontSize: 19
   m_fontSizeBase: 25.7
   m_fontWeight: 400
   m_enableAutoSizing: 1
-  m_fontSizeMin: 10
+  m_fontSizeMin: 1
   m_fontSizeMax: 72
   m_fontStyle: 0
   m_HorizontalAlignment: 2
@@ -2369,9 +2382,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1378501293}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: Maihem.MenuManager, Assembly-CSharp
-        m_MethodName: ToggleInfo
+        m_MethodName: 
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2380,7 +2393,7 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
-        m_CallState: 2
+        m_CallState: 0
 --- !u!114 &1107873997
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2394,7 +2407,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.4784314, g: 0.227451, b: 0.039215688, a: 0}
+  m_Color: {r: 0.4784314, g: 0.227451, b: 0.039215688, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -2556,7 +2569,8 @@ MonoBehaviour:
 '
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3a9d11c881c4d6049874e4b4e135fbec, type: 2}
-  m_sharedMaterial: {fileID: 2251000785959839317, guid: 3a9d11c881c4d6049874e4b4e135fbec, type: 2}
+  m_sharedMaterial: {fileID: 2251000785959839317, guid: 3a9d11c881c4d6049874e4b4e135fbec,
+    type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -2580,11 +2594,11 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 72
+  m_fontSize: 25.65
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
-  m_fontSizeMin: 10
+  m_fontSizeMin: 1
   m_fontSizeMax: 72
   m_fontStyle: 0
   m_HorizontalAlignment: 2
@@ -2768,7 +2782,7 @@ GameObject:
   - component: {fileID: 1378129476}
   - component: {fileID: 1378129475}
   m_Layer: 5
-  m_Name: Game
+  m_Name: Start Game
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2791,8 +2805,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.088853724, y: 0.46330556}
   m_AnchorMax: {x: 0.32428458, y: 0.5344723}
-  m_AnchoredPosition: {x: -0.5053711, y: 0.08999634}
-  m_SizeDelta: {x: -0.13079834, y: -0.52301025}
+  m_AnchoredPosition: {x: 1.329956, y: 0.08999634}
+  m_SizeDelta: {x: -0.25991523, y: -0.52301025}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1378129475
 MonoBehaviour:
@@ -2838,10 +2852,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1378501293}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: Maihem.MenuManager, Assembly-CSharp
-        m_MethodName: StartGame
-        m_Mode: 6
+        m_MethodName: 
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -2849,7 +2863,7 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
-        m_CallState: 2
+        m_CallState: 0
 --- !u!114 &1378129476
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2863,7 +2877,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.4784314, g: 0.227451, b: 0.039215688, a: 0}
+  m_Color: {r: 0.4784314, g: 0.227451, b: 0.039215688, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -2918,6 +2932,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   infoWindow: {fileID: 103412027}
+  startButton: {fileID: 1378129475}
+  tutorialButton: {fileID: 1515746555}
+  infoButton: {fileID: 1107873996}
+  exitButton: {fileID: 2144084573}
+  delayTime: 0.05
+  selectSound: {fileID: 8300000, guid: a4a3dc14bae8abc4f9aefb57c4f53a89, type: 3}
 --- !u!4 &1378501294
 Transform:
   m_ObjectHideFlags: 0
@@ -2961,12 +2981,13 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 690652624}
   - {fileID: 1515746554}
   - {fileID: 2144084572}
   - {fileID: 1378129474}
   - {fileID: 1107873995}
+  - {fileID: 690652624}
   - {fileID: 1849516856}
+  - {fileID: 103412028}
   m_Father: {fileID: 25143231}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.22700001, y: 0}
@@ -3034,7 +3055,8 @@ MonoBehaviour:
   m_text: Tutorial
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3a9d11c881c4d6049874e4b4e135fbec, type: 2}
-  m_sharedMaterial: {fileID: 2251000785959839317, guid: 3a9d11c881c4d6049874e4b4e135fbec, type: 2}
+  m_sharedMaterial: {fileID: 2251000785959839317, guid: 3a9d11c881c4d6049874e4b4e135fbec,
+    type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -3058,11 +3080,11 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 51.4
+  m_fontSize: 17.35
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
-  m_fontSizeMin: 10
+  m_fontSizeMin: 1
   m_fontSizeMax: 72
   m_fontStyle: 0
   m_HorizontalAlignment: 2
@@ -3278,8 +3300,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.6804309, y: 0.46544448}
   m_AnchorMax: {x: 0.91014636, y: 0.5344723}
-  m_AnchoredPosition: {x: -0.16143799, y: 0.05999756}
-  m_SizeDelta: {x: -0.85998535, y: 0.5960083}
+  m_AnchoredPosition: {x: 0.7049866, y: 0.05999756}
+  m_SizeDelta: {x: 1.2300243, y: 0.5960083}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1515746555
 MonoBehaviour:
@@ -3325,10 +3347,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1378501293}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: Maihem.MenuManager, Assembly-CSharp
-        m_MethodName: StartGame
-        m_Mode: 6
+        m_MethodName: 
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -3336,7 +3358,7 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 1
-        m_CallState: 2
+        m_CallState: 0
 --- !u!114 &1515746556
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3410,7 +3432,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.6862564, y: 0.09200001}
   m_AnchorMax: {x: 0.7403419, y: 0.18400002}
-  m_AnchoredPosition: {x: -3.000122, y: 3.5}
+  m_AnchoredPosition: {x: -3.000122, y: 3.500061}
   m_SizeDelta: {x: -1, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1571341119
@@ -3525,25 +3547,24 @@ MonoBehaviour:
   m_text: '<style="H2">Maypole tradition</style>
 
 
-    Traditionally, a maypole is
-    planted the day before or directly on May 1. The decoration of the tree symbolizes
-    at the same time the wealth of the respective place and, by its green top and
-    the winding wreaths, it stands for the fertility and the growth of flora and
-    fauna, which is particularly important in agriculturally characterized areas.
-    Here, however, there is still a reference to old pagan customs - people hoped
-    for protection from any disaster, be it in the form of thunderstorms or vermin.
+    Traditionally, a maypole is planted the day before or directly on May 1. The decoration
+    of the tree symbolizes at the same time the wealth of the respective place and,
+    by its green top and the winding wreaths, it stands for the fertility and the
+    growth of flora and fauna, which is particularly important in agriculturally characterized
+    areas. Here, however, there is still a reference to old pagan customs - people
+    hoped for protection from any disaster, be it in the form of thunderstorms or
+    vermin.
 
 
 
-    Until
-    the actual festival, the decorated tree must be carefully guarded. Boys'' associations
-    or other groups from the neighboring communities try to steal the good piece
-    and only give it back if an appropriate release is paid. Most of the time it''s
-    about beer and a good snack. The rules of maypole stealing have only been handed
-    down orally, but their observance is still a matter of honor. Only already felled
-    trees may be stolen, and these only from the village, not already in the forest.
-    After the ransom is paid, the tree must be returned undamaged. Once set up, it
-    is off-limits to thieves.'
+    Until the actual festival, the decorated tree must be carefully guarded. Boys''
+    associations or other groups from the neighboring communities try to steal the
+    good piece and only give it back if an appropriate release is paid. Most of the
+    time it''s about beer and a good snack. The rules of maypole stealing have only
+    been handed down orally, but their observance is still a matter of honor. Only
+    already felled trees may be stolen, and these only from the village, not already
+    in the forest. After the ransom is paid, the tree must be returned undamaged.
+    Once set up, it is off-limits to thieves.'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3a9d11c881c4d6049874e4b4e135fbec, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -3860,7 +3881,7 @@ GameObject:
   - component: {fileID: 1849516858}
   - component: {fileID: 1849516857}
   m_Layer: 5
-  m_Name: Image
+  m_Name: Logo Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4171,9 +4192,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1378501293}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: Maihem.MenuManager, Assembly-CSharp
-        m_MethodName: Exit
+        m_MethodName: 
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4182,7 +4203,7 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 1
-        m_CallState: 2
+        m_CallState: 0
 --- !u!114 &2144084574
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4196,7 +4217,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.4784314, g: 0.227451, b: 0.039215688, a: 0}
+  m_Color: {r: 0.4784314, g: 0.227451, b: 0.039215688, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1

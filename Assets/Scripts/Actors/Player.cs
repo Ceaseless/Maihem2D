@@ -1,11 +1,13 @@
 using System;
 using System.Collections.Generic;
 using Maihem.Attacks;
+using Maihem.Effects;
 using Maihem.Extensions;
 using Maihem.Managers;
 using Maihem.Pickups;
 using Unity.Mathematics;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Maihem.Actors
 {
@@ -333,6 +335,7 @@ namespace Maihem.Actors
         {
             if (amount <= 0) return;
             healthSystem.Flash(Color.yellow,0.2f);
+            VisualEffectsPool.Instance.PlayFloatingTextEffect($"+{amount}ST", Color.yellow, transform.position);
             CurrentStamina = math.clamp(CurrentStamina + amount, 0, MaxStamina);
             OnStatusUpdate?.Invoke(this, EventArgs.Empty);
         }

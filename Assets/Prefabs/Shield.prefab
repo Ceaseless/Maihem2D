@@ -122,3 +122,4 @@ MonoBehaviour:
   spriteRenderer: {fileID: 8331148861509856047}
   animator: {fileID: 2955882268643655109}
   shieldDestroyEffect: {fileID: 11400000, guid: 0ac057e66d1178f4da0f1cc99d550c29, type: 2}
+  shieldDestroySfx: {fileID: 8300000, guid: 6d8e22cebc4a5b3438e96548a9b3c234, type: 3}
