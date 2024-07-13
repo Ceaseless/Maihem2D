@@ -16,8 +16,12 @@ MonoBehaviour:
   - droppedLoot: {fileID: 3336585378749860948, guid: ef64c4178bfa1e049a296f13461cee7a, type: 3}
     dropChance: 50
   - droppedLoot: {fileID: 4656127568512484811, guid: f4f4a88564cf76f459aa3a433c703fc4, type: 3}
-    dropChance: 25
+    dropChance: 15
   - droppedLoot: {fileID: 4656127568512484811, guid: 9065cd78df1e6e04cb74c8fe9981457f, type: 3}
-    dropChance: 25
+    dropChance: 15
   - droppedLoot: {fileID: 0}
     dropChance: 0
+  - droppedLoot: {fileID: 3336585378749860948, guid: 415242048bf5a2745b3308fc4ff2cf57, type: 3}
+    dropChance: 10
+  - droppedLoot: {fileID: 4656127568512484811, guid: 6c727e56747d5684a90af33a7931cf05, type: 3}
+    dropChance: 10
