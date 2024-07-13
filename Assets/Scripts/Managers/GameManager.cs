@@ -212,8 +212,13 @@ namespace Maihem.Managers
         public void GameOver()
         {
             _gameOver = true;
-            Player.PausePlayer();
             uiManager.ShowGameOverScreen();
+        }
+
+        public void GoalReached()
+        {
+            Player.PausePlayer();
+            Player.gameObject.SetActive(false);
         }
 
         public void ToggleKillZone(bool active)
