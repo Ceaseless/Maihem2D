@@ -26,7 +26,7 @@ namespace Maihem
 
         private void Start()
         {
-            _markerPool = new List<TargetMarker>();
+            _markerPool = new List<TargetMarker>(initialPoolSize);
             for (var i = 0; i < initialPoolSize; i++)
             {
                 var tmp = Instantiate(markerPrefab, transform);
@@ -54,6 +54,7 @@ namespace Maihem
 
         public List<TargetMarker> GetMarkers(int count)
         {
+            if(count == 0) return new List<TargetMarker>(0);
             var markers = new List<TargetMarker>(count);
             foreach (var marker in _markerPool)
             {
@@ -82,7 +83,7 @@ namespace Maihem
         {
             foreach (var marker in _markerPool)
             {
-                marker.HideMarker();
+                marker.DisableMarker();
             }
         }
     }

@@ -197,7 +197,7 @@ namespace Maihem.Actors
                 moveInput.y = math.round(moveInput.y);
             }
             
-            UpdateFacing(moveInput);
+            var wasFacingUpdated = UpdateFacing(moveInput);
 
             switch (_controlState)
             {
@@ -205,16 +205,17 @@ namespace Maihem.Actors
                     TryMove(moveInput);
                     break;
                 case PlayerControlState.Aiming:
-                    UpdateAimMarker();
+                    if(wasFacingUpdated)
+                        UpdateAimMarker();
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
         }
         
-        private void UpdateFacing(Vector2 newFacingVector)
+        private bool UpdateFacing(Vector2 newFacingVector)
         {
-            UpdateFacing(new Vector2Int((int)newFacingVector.x, (int)newFacingVector.y));
+            return UpdateFacing(new Vector2Int((int)newFacingVector.x, (int)newFacingVector.y));
         }
 
         private bool TryMove(Vector2 moveInput)
@@ -248,13 +249,14 @@ namespace Maihem.Actors
             return true;
         }
 
-        private void UpdateFacing(Vector2Int newFacingVector)
+        private bool UpdateFacing(Vector2Int newFacingVector)
         {
             var newFacing = CurrentFacing.GetFacingFromDirection(newFacingVector);
-            if (CurrentFacing == newFacing) return;
+            if (CurrentFacing == newFacing) return false;
             animator.SetInteger(AnimatorHorizontal, newFacingVector.x);
             animator.SetInteger(AnimatorVertical, newFacingVector.y);
             CurrentFacing = newFacing;
+            return true;
         }
 
         private void UpdateAimMarker()

@@ -23,13 +23,13 @@ namespace Maihem
         {
             markerText.text = newText;
         }
-
+        
         public void ShowMarker()
         {
             gameObject.SetActive(true);
         }
 
-        public void HideMarker()
+        public void DisableMarker()
         {
             gameObject.SetActive(false);
         }
