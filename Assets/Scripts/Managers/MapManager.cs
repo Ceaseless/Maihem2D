@@ -236,7 +236,10 @@ namespace Maihem.Managers
             _instantiatedMapChunks++;
             if (_instantiatedMapChunks == mapSpawnOrder.spawnSlots.Length)
             {
-                Instantiate(goalPrefab, mapChunk.PotentialGoalPosition.position, Quaternion.identity, mapChunk.transform);
+                var goalSize = goalPrefab.GetComponent<Renderer>().bounds.size;
+                var goalPosition = new Vector3(mapChunk.PotentialGoalPosition.position.x - goalSize.x / 2,
+                    mapChunk.PotentialGoalPosition.position.y + goalSize.y / 3, mapChunk.PotentialGoalPosition.position.z);
+                Instantiate(goalPrefab, goalPosition, Quaternion.identity, mapChunk.transform);
             }
 
             _isSpawningMap = false;

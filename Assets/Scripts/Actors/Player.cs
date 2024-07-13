@@ -348,6 +348,10 @@ namespace Maihem.Actors
         {
             _isPaused = true;
         }
-        
+
+        public void HidePlayer()
+        {
+            
+        }
     }
 }
