@@ -54,14 +54,31 @@ namespace Maihem.Attacks
         {
             if (!IsShowingTargetMarkers()) return;
             var newPositions = currentAttackStrategy.GetAffectedTiles(_systemOwner.GridPosition, _systemOwner.CurrentFacing.GetFacingVector(), _isPlayerOwned);
+            var diff = newPositions.Count - _targetMarkerPool.Count;
+            if (diff > 0)
+            { 
+                var newMarkers = MarkerPool.Instance.GetMarkers(diff);
+                foreach (var marker in newMarkers)
+                {
+                    marker.SetMarkerColor(markerColor);
+                    marker.ShowMarker();
+                }
+                _targetMarkerPool.AddRange(newMarkers);
+            }
             for (var i = 0; i < newPositions.Count; i++)
             {
                 var marker = _targetMarkerPool[i];
                 var (markerPosition, markerDamage) = newPositions[i];
                 marker.transform.position = MapManager.Instance.CellToWorld(markerPosition);
-                
                 marker.SetMarkerText(markerDamage.ToString());
-                
+            }
+
+            if (diff < 0)
+            {
+                for (var i = newPositions.Count; i < _targetMarkerPool.Count; i++)
+                {
+                    _targetMarkerPool[i].transform.position = Vector3.left;
+                }
             }
         }
         public void HideTargetMarkers()
@@ -70,7 +87,7 @@ namespace Maihem.Attacks
             
             foreach (var marker in _targetMarkerPool)
             {
-                marker.HideMarker();
+                marker.DisableMarker();
             }
             _targetMarkerPool.Clear();
         }
