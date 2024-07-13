@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Maihem.Extensions;
 using Maihem.Managers;
 using UnityEngine;
 
@@ -18,9 +19,11 @@ namespace Maihem.Effects
     public class VisualEffectsPool : MonoBehaviour
     {
         public static VisualEffectsPool Instance { get; private set;  }
-
+        
         [SerializeField] private VisualEffectPoolSettings[] availableVisualEffects;
+        [SerializeField] private VisualEffectPoolSettings floatingTextPoolSettings;
         private Dictionary<VisualEffectSettings, List<GameObject>> _effectsPool;
+        private List<FloatingTextEffect> _floatingTextPool;
         private void Awake()
         {
             if (Instance == null)
@@ -37,7 +40,7 @@ namespace Maihem.Effects
         private void Start()
         {
             _effectsPool = new Dictionary<VisualEffectSettings, List<GameObject>>(availableVisualEffects.Length);
-
+            
             foreach (var effectSettings in availableVisualEffects)
             {
                 var effect = effectSettings.visualEffect;
@@ -57,6 +60,19 @@ namespace Maihem.Effects
                 _effectsPool.Add(effect, effectObjects);
                 
             }
+
+            SetupFloatingTextPool();
+        }
+
+        private void SetupFloatingTextPool()
+        {
+            _floatingTextPool = new List<FloatingTextEffect>(floatingTextPoolSettings.initialPoolSize);
+            for (var i = 0; i < floatingTextPoolSettings.initialPoolSize; i++)
+            {
+                var tmp = Instantiate(floatingTextPoolSettings.visualEffect.vfxPrefab, transform).GetComponent<FloatingTextEffect>();
+                tmp.gameObject.SetActive(false);
+                _floatingTextPool.Add(tmp);
+            }
         }
 
         public void PlayVisualEffectDelayed(VisualEffectSettings type, Vector3 position, float delay)
@@ -64,6 +80,29 @@ namespace Maihem.Effects
             if (delay < 0) return;
             StartCoroutine(DelayedEffect(type, position, delay));
 
+        }
+
+        public void PlayFloatingTextEffect(string text, Color color, Vector3 position, bool randomDisplacement = true)
+        {
+            
+            foreach (var floatingText in _floatingTextPool)
+            {
+                if (!floatingText.gameObject.activeInHierarchy)
+                {
+                    floatingText.transform.position = randomDisplacement ? position + Random.insideUnitCircle.WithZ(0)*0.5f : position;
+                    floatingText.SetTextAndColor(text, color);
+                    floatingText.gameObject.SetActive(true);
+                    return;
+                }
+            }
+            // Grow pool
+            var effectPrefab = floatingTextPoolSettings.visualEffect.vfxPrefab;
+            for (var i = 0; i < floatingTextPoolSettings.poolGrowthStep; i++)
+            {
+                var tmp = Instantiate(effectPrefab, transform).GetComponent<FloatingTextEffect>();
+                tmp.gameObject.SetActive(false);
+                _floatingTextPool.Add(tmp);
+            }
         }
         
         public void PlayVisualEffect(VisualEffectSettings type, Vector3 position)

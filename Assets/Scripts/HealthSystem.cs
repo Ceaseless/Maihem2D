@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using Maihem.Effects;
 using Unity.Mathematics;
 using UnityEngine;
 
@@ -62,6 +63,8 @@ namespace Maihem
             var old = CurrentHealth;
             CurrentHealth = math.max(0, CurrentHealth - amount);
             Flash(damageFlashColor, damageFlashDuration);
+            
+            VisualEffectsPool.Instance.PlayFloatingTextEffect($"-{amount}", damageFlashColor, transform.position);
             OnHealthChange?.Invoke(this, new HealthChangeEvent{ ChangeAmount = old - CurrentHealth });
         }
 
@@ -71,11 +74,7 @@ namespace Maihem
             var old = CurrentHealth;
             CurrentHealth = math.min(maxHealth, CurrentHealth + amount);
             Flash(healFlashColor,healFlashDuration);
-            if (!_isFlashing)
-            {
-                _parentMaterial.SetColor(FlashColorID, healFlashColor);
-                StartCoroutine(PerformFlash(healFlashDuration));
-            }
+            VisualEffectsPool.Instance.PlayFloatingTextEffect($"+{amount}HP", healFlashColor, transform.position);
             OnHealthChange?.Invoke(this, new HealthChangeEvent{ ChangeAmount = CurrentHealth - old });
         }
 

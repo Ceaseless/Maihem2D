@@ -286,6 +286,7 @@ MonoBehaviour:
   healFlashDuration: 0.2
   damageFlashColor: {r: 1, g: 0, b: 0, a: 1}
   healFlashColor: {r: 0, g: 1, b: 0, a: 1}
+  shieldFlashColor: {r: 0, g: 0, b: 1, a: 1}
 --- !u!95 &5659617669747785819
 Animator:
   serializedVersion: 5

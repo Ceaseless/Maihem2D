@@ -1,4 +1,5 @@
 using Maihem.Effects;
+using Maihem.Managers;
 using Unity.Mathematics;
 using UnityEngine;
 
@@ -9,6 +10,7 @@ namespace Maihem
         [SerializeField] private SpriteRenderer spriteRenderer;
         [SerializeField] private Animator animator;
         [SerializeField] private VisualEffectSettings shieldDestroyEffect;
+        [SerializeField] private AudioClip shieldDestroySfx;
         
         public int CurrentShield { get; private set; }
         public int MaxShield { get; private set; }
@@ -70,6 +72,7 @@ namespace Maihem
             if (CurrentShield <= 0)
             {
                 VisualEffectsPool.Instance.PlayVisualEffect(shieldDestroyEffect, transform.position);
+                AudioManager.Instance.PlaySoundFX(shieldDestroySfx, transform.position, 1f);
                 color.a = 0;
                 ResetState();
             }
