@@ -29,7 +29,11 @@ namespace Maihem.Attacks
         public void PerformAttack()
         {
             if(currentAttackStrategy) {
-                currentAttackStrategy.Attack(_systemOwner.GridPosition, _systemOwner.CurrentFacing.GetFacingVector(), _isPlayerOwned);
+                var hitSomething = currentAttackStrategy.Attack(_systemOwner.GridPosition, _systemOwner.CurrentFacing.GetFacingVector(), _isPlayerOwned);
+                if (!hitSomething)
+                {
+                    // Play whiff sound effect
+                }
             }
         }
         
