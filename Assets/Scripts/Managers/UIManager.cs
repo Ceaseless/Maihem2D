@@ -17,6 +17,7 @@ namespace Maihem.Managers
 
         [SerializeField] private TextMeshProUGUI distanceCounter;
         [SerializeField] private Image currentAttack;
+        [SerializeField] private TextMeshProUGUI attackCost;
         [SerializeField] private Image currentConsumable;
         
         [SerializeField] private List<Sprite> attackSprites;
@@ -96,6 +97,7 @@ namespace Maihem.Managers
                     break;
             }
 
+            attackCost.text = " "+ player.CurrentAttack.StaminaCost;
             currentConsumable.sprite = player.currentConsumable.sprite;
             
         }
