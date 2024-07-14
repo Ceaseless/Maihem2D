@@ -133,7 +133,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b42b4a19a82fb504f90f0eb0345e2934, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waitChanceWhileIdle: 0.5
+  waitChanceWhileIdle: 0.3
   currentStrategy: {fileID: 11400000, guid: c67d19655d93366409dd21ac554b052a, type: 2}
   detectionEffect: {fileID: 11400000, guid: 342b928f51365264680172f90139608a, type: 2}
   detectionSoundEffect: {fileID: 8300000, guid: e0b2aded161a9074bb05912d4000f459, type: 3}
@@ -149,13 +149,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 454c6843711f40e6a8399f3d946d6d48, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 2
+  maxHealth: 3
   shield: {fileID: 5930311799576056969}
   parentSpriteRenderer: {fileID: 4681996450969363017}
   damageFlashDuration: 0.1
   healFlashDuration: 0.2
   damageFlashColor: {r: 1, g: 0, b: 0, a: 1}
   healFlashColor: {r: 0, g: 1, b: 0, a: 1}
+  shieldFlashColor: {r: 0, g: 0, b: 1, a: 1}
 --- !u!95 &3400881978582435252
 Animator:
   serializedVersion: 5
@@ -247,9 +248,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -1734520703
-  m_SortingLayer: 2
-  m_SortingOrder: 1
+  m_SortingLayerID: 172655383
+  m_SortingLayer: 3
+  m_SortingOrder: 0
   m_Sprite: {fileID: -536345189, guid: 03403b8a51845b347bf9b114f4cbd65b, type: 3}
   m_Color: {r: 0.05702554, g: 0.8396226, b: 0, a: 1}
   m_FlipX: 0

@@ -28,9 +28,14 @@ MonoBehaviour:
   - includeSpawns: []
     excludeSpawns:
     - {fileID: 8775701524382913767, guid: 17a57659d8e9e58418528d967f05fc5f, type: 3}
-  - includeSpawns: []
-    excludeSpawns:
+  - includeSpawns:
     - {fileID: 8775701524382913767, guid: 17a57659d8e9e58418528d967f05fc5f, type: 3}
+    excludeSpawns: []
+  - includeSpawns: []
+    excludeSpawns: []
+  - includeSpawns:
+    - {fileID: 8775701524382913767, guid: 17a57659d8e9e58418528d967f05fc5f, type: 3}
+    excludeSpawns: []
   - includeSpawns:
     - {fileID: 8775701524382913767, guid: 17a57659d8e9e58418528d967f05fc5f, type: 3}
     excludeSpawns: []

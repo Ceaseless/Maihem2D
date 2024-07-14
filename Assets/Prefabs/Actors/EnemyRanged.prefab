@@ -70,8 +70,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -1734520703
-  m_SortingLayer: 2
+  m_SortingLayerID: 172655383
+  m_SortingLayer: 3
   m_SortingOrder: 1
   m_Sprite: {fileID: 113070545, guid: 033003b72dfb67647aac50dd7b11aed6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -217,7 +217,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b42b4a19a82fb504f90f0eb0345e2934, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waitChanceWhileIdle: 0.5
+  waitChanceWhileIdle: 0.75
   currentStrategy: {fileID: 11400000, guid: 0c9d0d9e15e847a4fbaa3211551e3af6, type: 2}
   detectionEffect: {fileID: 11400000, guid: 342b928f51365264680172f90139608a, type: 2}
   detectionSoundEffect: {fileID: 8300000, guid: e0b2aded161a9074bb05912d4000f459, type: 3}
@@ -240,6 +240,7 @@ MonoBehaviour:
   healFlashDuration: 0.2
   damageFlashColor: {r: 1, g: 0, b: 0, a: 1}
   healFlashColor: {r: 0, g: 1, b: 0, a: 1}
+  shieldFlashColor: {r: 0, g: 0, b: 1, a: 1}
 --- !u!95 &7014631942697327723
 Animator:
   serializedVersion: 5
