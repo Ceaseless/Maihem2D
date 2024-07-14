@@ -57,7 +57,7 @@ namespace Maihem.Actors
         private PlayerControlState _controlState = PlayerControlState.Normal;
         private bool _inDiagonalMode;
 
-        private bool _isPaused;
+        public bool IsPaused { get; private set; }
 
         protected override void OnAnimationEnd()
         {
@@ -74,7 +74,7 @@ namespace Maihem.Actors
         {
             base.Initialize();
             _emptyConsumable = currentConsumable;
-            _isPaused = false;
+            IsPaused = false;
             _availableAttacks = new List<AttackStrategy>();
             CurrentStamina = maxStamina;
             if (startAttacks.Length > 0)
@@ -123,7 +123,7 @@ namespace Maihem.Actors
 
         private void ChangeAttackStrategy(object sender, SingleAxisEventArgs e)
         {
-            if (_isPaused) return;
+            if (IsPaused) return;
             _currentAttack += e.AxisValue;
             if (_currentAttack < 0) _currentAttack = _availableAttacks.Count - 1;
             if (_currentAttack >= _availableAttacks.Count) _currentAttack = 0;
@@ -163,7 +163,7 @@ namespace Maihem.Actors
 
         private void Attack(object sender, EventArgs e)
         {
-            if (!GameManager.Instance.CanTakeTurn() || _isPaused) return;
+            if (!GameManager.Instance.CanTakeTurn() || IsPaused) return;
 
             if (CurrentStamina <= 0)
             {
@@ -183,7 +183,7 @@ namespace Maihem.Actors
         private void ProcessMoveInput(object sender, EventArgs e)
         {
             var moveInput = GameManager.Instance.PlayerInput.BufferedMoveInput;
-            if (!GameManager.Instance.CanTakeTurn() || !(moveInput.sqrMagnitude > 0f) || _isPaused) return;
+            if (!GameManager.Instance.CanTakeTurn() || !(moveInput.sqrMagnitude > 0f) || IsPaused) return;
 
             if (CurrentStamina <= 0)
             {
@@ -292,7 +292,7 @@ namespace Maihem.Actors
         
         private void UseConsumable(object sender, EventArgs e)
         {
-            if (!GameManager.Instance.CanTakeTurn() || _isPaused) return;
+            if (!GameManager.Instance.CanTakeTurn() || IsPaused) return;
 
             
             switch (currentConsumable.type)
@@ -347,9 +347,9 @@ namespace Maihem.Actors
         }
 
 
-        public void PausePlayer()
+        public void PausePlayer(bool pause)
         {
-            _isPaused = true;
+            IsPaused = pause;
         }
 
         public void HidePlayer()

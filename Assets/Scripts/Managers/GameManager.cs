@@ -58,7 +58,8 @@ namespace Maihem.Managers
             pickupManager.UpdatePickupsActiveState();
             audioManager.FadeInMusic(2f);
             _performPostSceneChangeSetup = true;
-            
+            PlayerInput.PauseGameAction += PauseGame;
+
         }
 
         private void SpawnPlayer()
@@ -93,7 +94,7 @@ namespace Maihem.Managers
             _nonPlayerTurn = false;
             enemyManager.UpdateEnemiesActiveState();
             pickupManager.UpdatePickupsActiveState();
-            uiManager.Initialize();
+            uiManager.ResetState();
             audioManager.ResetMusic();
             
         }
@@ -204,6 +205,16 @@ namespace Maihem.Managers
             GameOver();
         }
 
+        public void PauseGame(object sender, EventArgs args)
+        {
+            if (!CanTakeTurn() || _gameOver) return;
+            var toggleValue = !Player.IsPaused;
+            if (uiManager.TrySetPauseMenuActive(toggleValue))
+            {
+                Player.PausePlayer(toggleValue);
+            }
+        }
+        
         public void Exit()
         {
             Application.Quit();
@@ -217,7 +228,7 @@ namespace Maihem.Managers
 
         public void GoalReached()
         {
-            Player.PausePlayer();
+            Player.PausePlayer(true);
             Player.gameObject.SetActive(false);
         }
 
