@@ -26695,7 +26695,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Use Q and E to switch between unlocked attacks
+  m_text: Use Q or E to cycle between unlocked attacks
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3a9d11c881c4d6049874e4b4e135fbec, type: 2}
   m_sharedMaterial: {fileID: 2251000785959839317, guid: 3a9d11c881c4d6049874e4b4e135fbec, type: 2}

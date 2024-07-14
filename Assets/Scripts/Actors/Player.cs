@@ -146,6 +146,7 @@ namespace Maihem.Actors
         public void AddAttackStrategy(AttackStrategy newAttack)
         {
             if (_availableAttacks.Contains(newAttack)) return;
+            VisualEffectsPool.Instance.PlayFloatingTextEffect(newAttack.DisplayName+" unlocked", Color.white, transform.position,false);
             _availableAttacks.Add(newAttack);
         }
 

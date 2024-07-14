@@ -100,6 +100,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 7869331664241599405}
+  victory: {fileID: 8300000, guid: b3b8f40e739319b459a4b30308488e16, type: 3}
 --- !u!95 &7869331664241599405
 Animator:
   serializedVersion: 5
