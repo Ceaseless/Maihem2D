@@ -17,6 +17,7 @@ namespace Maihem
         public event EventHandler<ToggleEventArgs> ToggleAimAction;
         public event EventHandler<ToggleEventArgs> ToggleDiagonalModeAction;
         public event EventHandler<ToggleEventArgs> ToggleEnemyMarkersAction;
+        public event EventHandler PauseGameAction;
         
         public Vector2 BufferedMoveInput { get; private set; }
         private float _lastMoveInput;
@@ -24,6 +25,7 @@ namespace Maihem
         private InputAction _changeAttack;
         private InputAction _enemyMarkerToggle;
         private InputAction _useConsumable;
+        private InputAction _pauseGame;
 
         private void Awake()
         {
@@ -40,6 +42,7 @@ namespace Maihem
             _changeAttack = inputActions["Attack Scroll"];
             _useConsumable = inputActions["Use Consumable"];
             _enemyMarkerToggle = inputActions["Enemy Toggle"];
+            _pauseGame = inputActions["Pause Game"];
 
             _moveAction.performed += MoveInputChanged;
             _moveAction.canceled += MoveInputChanged;
@@ -53,6 +56,7 @@ namespace Maihem
             _enemyMarkerToggle.performed += ToggleEnemyMarkers;
             _enemyMarkerToggle.canceled += ToggleEnemyMarkers;
 
+            _pauseGame.performed += _ => PauseGameAction?.Invoke(this, EventArgs.Empty);
             _attackAction.performed += _ => AttackAction?.Invoke(this, EventArgs.Empty);
             
             _changeAttack.performed += AttackChanged;
@@ -67,6 +71,7 @@ namespace Maihem
             _changeAttack.Enable();
             _useConsumable.Enable();
             _enemyMarkerToggle.Enable();
+            _pauseGame.Enable();
         }
 
         private void Update()

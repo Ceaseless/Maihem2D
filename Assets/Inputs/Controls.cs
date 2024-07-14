@@ -98,6 +98,15 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Pause Game"",
+                    ""type"": ""Button"",
+                    ""id"": ""b16f9bf4-38e2-4e8c-ac38-72afa42d5e8e"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -408,6 +417,17 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""action"": ""Use Consumable"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a9c1c047-c291-46b4-bc5a-32d2a8b7d511"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Pause Game"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -424,6 +444,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         m_Default_DiagonalToggle = m_Default.FindAction("Diagonal Toggle", throwIfNotFound: true);
         m_Default_EnemyToggle = m_Default.FindAction("Enemy Toggle", throwIfNotFound: true);
         m_Default_UseConsumable = m_Default.FindAction("Use Consumable", throwIfNotFound: true);
+        m_Default_PauseGame = m_Default.FindAction("Pause Game", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -493,6 +514,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Default_DiagonalToggle;
     private readonly InputAction m_Default_EnemyToggle;
     private readonly InputAction m_Default_UseConsumable;
+    private readonly InputAction m_Default_PauseGame;
     public struct DefaultActions
     {
         private @Controls m_Wrapper;
@@ -505,6 +527,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         public InputAction @DiagonalToggle => m_Wrapper.m_Default_DiagonalToggle;
         public InputAction @EnemyToggle => m_Wrapper.m_Default_EnemyToggle;
         public InputAction @UseConsumable => m_Wrapper.m_Default_UseConsumable;
+        public InputAction @PauseGame => m_Wrapper.m_Default_PauseGame;
         public InputActionMap Get() { return m_Wrapper.m_Default; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -538,6 +561,9 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @UseConsumable.started += instance.OnUseConsumable;
             @UseConsumable.performed += instance.OnUseConsumable;
             @UseConsumable.canceled += instance.OnUseConsumable;
+            @PauseGame.started += instance.OnPauseGame;
+            @PauseGame.performed += instance.OnPauseGame;
+            @PauseGame.canceled += instance.OnPauseGame;
         }
 
         private void UnregisterCallbacks(IDefaultActions instance)
@@ -566,6 +592,9 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @UseConsumable.started -= instance.OnUseConsumable;
             @UseConsumable.performed -= instance.OnUseConsumable;
             @UseConsumable.canceled -= instance.OnUseConsumable;
+            @PauseGame.started -= instance.OnPauseGame;
+            @PauseGame.performed -= instance.OnPauseGame;
+            @PauseGame.canceled -= instance.OnPauseGame;
         }
 
         public void RemoveCallbacks(IDefaultActions instance)
@@ -593,5 +622,6 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         void OnDiagonalToggle(InputAction.CallbackContext context);
         void OnEnemyToggle(InputAction.CallbackContext context);
         void OnUseConsumable(InputAction.CallbackContext context);
+        void OnPauseGame(InputAction.CallbackContext context);
     }
 }

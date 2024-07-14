@@ -19,7 +19,7 @@ namespace Maihem.Managers
             _cameraTransform = Camera.main?.transform;
         }
         
-        public void Reset()
+        public void ResetState()
         {
             for (var i = _activePickups.Count - 1; i >= 0; i--)
             {

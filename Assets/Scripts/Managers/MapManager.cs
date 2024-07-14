@@ -124,7 +124,7 @@ namespace Maihem.Managers
             }
         }
 
-        public void Reset()
+        public void ResetState()
         {
             foreach (var chunk in _mapChunks)
             {

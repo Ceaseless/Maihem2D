@@ -27,16 +27,28 @@ namespace Maihem.Managers
         [SerializeField] private GameObject playerBeatenMsg;
         [SerializeField] private GameObject playerWonMsg;
         [SerializeField] private GameObject playerLightMsg;
-        
+
+        [SerializeField] private GameObject pauseScreen;
+        [SerializeField] private Button pauseResumeButton;
+        [SerializeField] private Button pauseQuitButton;
         
         private Vector2Int _startingPoint;
         
         
         public void Initialize()
         {
+            pauseResumeButton.onClick.AddListener(() => GameManager.Instance.PauseGame(this, EventArgs.Empty));
+            pauseQuitButton.onClick.AddListener(() => GameManager.Instance.Exit());
+            
+            ResetState();
+        }
+
+        public void ResetState()
+        {
             _startingPoint = GameManager.Instance.Player.GridPosition;
             GameManager.Instance.Player.OnStatusUpdate += UpdateStatusUI;
             winScreen.SetActive(false);
+            pauseScreen.SetActive(false);
 
             playerWonMsg.SetActive(true);
             playerBeatenMsg.SetActive(false);
@@ -44,6 +56,7 @@ namespace Maihem.Managers
             
             UpdateStatusUI(this, EventArgs.Empty);
         }
+       
         
         private void UpdateStatusUI(object sender, EventArgs e)
         {
@@ -121,6 +134,14 @@ namespace Maihem.Managers
         {
             playerStats.SetActive(active);
         }
+
+        public bool TrySetPauseMenuActive(bool show)
+        {
+            if (winScreen.activeSelf || show == pauseScreen.activeInHierarchy) return false;
+            pauseScreen.SetActive(show);
+            return true;
+        }
+        
     }
    
         

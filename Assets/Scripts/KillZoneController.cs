@@ -17,7 +17,7 @@ namespace Maihem
             transform.position = Vector3.zero;
         }
 
-        public void Reset()
+        public void ResetState()
         {
             stopped = false;
             transform.position = Vector3.zero;
