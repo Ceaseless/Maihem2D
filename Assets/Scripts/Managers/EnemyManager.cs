@@ -61,7 +61,7 @@ namespace Maihem.Managers
             }
         }
 
-        public void Reset()
+        public void ResetState()
         {
             _deadEnemies?.Clear();
             

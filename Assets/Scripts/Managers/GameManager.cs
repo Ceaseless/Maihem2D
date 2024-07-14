@@ -83,10 +83,10 @@ namespace Maihem.Managers
         public void ResetGame()
         {
             _triggerTurnOnNextFrame = false;
-            enemyManager.Reset();
-            pickupManager.Reset();
-            boundsController.Reset();
-            MapManager.Instance.Reset();
+            enemyManager.ResetState();
+            pickupManager.ResetState();
+            boundsController.ResetState();
+            MapManager.Instance.ResetState();
             MarkerPool.Instance.HideAllMarkers();
             TurnCount = 0;
             SpawnPlayer();
