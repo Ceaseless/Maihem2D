@@ -19,17 +19,19 @@ namespace Maihem.Managers
         [SerializeField] private AudioManager audioManager;
         [SerializeField] private CinemachineVirtualCamera followCamera;
         [SerializeField] private CinemachineConfiner2D cameraConfiner;
-       
+        [SerializeField] private AudioClip playerLostSound;
+        
         private int TurnCount { get; set; }
         public Player Player { get; private set; }
         public PlayerInput PlayerInput => playerInput;
 
+        private bool _playerLost;
         private bool _gameOver;
         private bool _triggerTurnOnNextFrame;
         private bool _nonPlayerTurn;
         private bool _performPostSceneChangeSetup;
         
-        
+
 
         private void Awake()
         {
@@ -52,6 +54,7 @@ namespace Maihem.Managers
             MapManager.Instance.Initialize();
             SpawnPlayer();
             _gameOver = false;
+            _playerLost = false;
             uiManager.Initialize();
             enemyManager.AllEnemiesPerformedTurn = OnEnemyTurnCompleted;
             enemyManager.UpdateEnemiesActiveState();
@@ -92,6 +95,7 @@ namespace Maihem.Managers
             SpawnPlayer();
             _gameOver = false;
             _nonPlayerTurn = false;
+            _playerLost = false;
             enemyManager.UpdateEnemiesActiveState();
             pickupManager.UpdatePickupsActiveState();
             uiManager.ResetState();
@@ -185,6 +189,7 @@ namespace Maihem.Managers
             if (Player.transform.position.x <= boundsController.transform.position.x)
             {
                 uiManager.PlayerInLight();
+                _playerLost = true;
                 GameOver();
                 return;
             }
@@ -202,6 +207,7 @@ namespace Maihem.Managers
             
             if (!Player.IsDead) return;
             uiManager.PlayerBeaten();
+            _playerLost = true;
             GameOver();
         }
 
@@ -223,6 +229,11 @@ namespace Maihem.Managers
         public void GameOver()
         {
             _gameOver = true;
+            if (_playerLost)
+            {
+                AudioManager.Instance.StopMusic();
+                AudioManager.Instance.PlaySoundFX(playerLostSound,Player.GridPosition,1f);
+            }
             uiManager.ShowGameOverScreen();
         }
 
@@ -241,5 +252,6 @@ namespace Maihem.Managers
         {
             uiManager.TogglePlayerStats(active);
         }
+        
     }
 }
