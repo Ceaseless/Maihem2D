@@ -50446,7 +50446,7 @@ Transform:
   m_GameObject: {fileID: 889010662596897073}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 145.19, y: 5.79, z: 0}
+  m_LocalPosition: {x: 145.5, y: 5.79, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -50530,7 +50530,7 @@ Transform:
   m_GameObject: {fileID: 910326213238367058}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 145.19, y: 6.93, z: 0}
+  m_LocalPosition: {x: 145.5, y: 6.93, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -51204,7 +51204,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Use pickups or Items to restore Health and Stamina
+  m_text: Use pickups or items to restore Health and Stamina
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3a9d11c881c4d6049874e4b4e135fbec, type: 2}
   m_sharedMaterial: {fileID: 2251000785959839317, guid: 3a9d11c881c4d6049874e4b4e135fbec, type: 2}
@@ -51302,7 +51302,7 @@ Transform:
   m_GameObject: {fileID: 3821794437535699963}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 145.19, y: 8.08, z: 0}
+  m_LocalPosition: {x: 145.5, y: 8.08, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -51490,7 +51490,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: While holding the shift key you can only move diagonally
+  m_text: While holding the Shift key you can only move diagonally
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3a9d11c881c4d6049874e4b4e135fbec, type: 2}
   m_sharedMaterial: {fileID: 2251000785959839317, guid: 3a9d11c881c4d6049874e4b4e135fbec, type: 2}
@@ -51897,8 +51897,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Stay out of their sight or knock them out before they they do the same
-    to you
+  m_text: Avoid them or knock them out before they they do the same to you
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3a9d11c881c4d6049874e4b4e135fbec, type: 2}
   m_sharedMaterial: {fileID: 2251000785959839317, guid: 3a9d11c881c4d6049874e4b4e135fbec, type: 2}
@@ -57118,7 +57117,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Press the escape key to open the pause menu '
+  m_text: 'Press the Escape key to open the pause menu '
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3a9d11c881c4d6049874e4b4e135fbec, type: 2}
   m_sharedMaterial: {fileID: 2251000785959839317, guid: 3a9d11c881c4d6049874e4b4e135fbec, type: 2}
@@ -57289,7 +57288,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Use your arrow keys
+  m_text: 'Use the Arrow keys
 
     or WASD to move'
   m_isRightToLeft: 0
@@ -57462,7 +57461,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Press the space key to attack in front of you
+  m_text: Press Spacebar to attack in front of you
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3a9d11c881c4d6049874e4b4e135fbec, type: 2}
   m_sharedMaterial: {fileID: 2251000785959839317, guid: 3a9d11c881c4d6049874e4b4e135fbec, type: 2}
@@ -57754,7 +57753,7 @@ Transform:
   m_GameObject: {fileID: 7624273695906316666}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 145.19, y: 9.28, z: 0}
+  m_LocalPosition: {x: 145.5, y: 9.28, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -57911,7 +57910,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Attacks and moving consume Stamina
+  m_text: Attacking and moving consumes Stamina
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3a9d11c881c4d6049874e4b4e135fbec, type: 2}
   m_sharedMaterial: {fileID: 2251000785959839317, guid: 3a9d11c881c4d6049874e4b4e135fbec, type: 2}
@@ -58017,8 +58016,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 80.07, y: 6.27}
-  m_SizeDelta: {x: 20, y: 5}
+  m_AnchoredPosition: {x: 80.07, y: 6.1221}
+  m_SizeDelta: {x: 20, y: 4.7043}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!23 &4742311970632326961
 MeshRenderer:
@@ -58085,7 +58084,8 @@ MonoBehaviour:
   m_text: 'Moving costs 1 Stamina
 
 
-    The cost of attacking is shown under in ATTACK'
+    The cost of attacking is shown under the
+    current ATTACK'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3a9d11c881c4d6049874e4b4e135fbec, type: 2}
   m_sharedMaterial: {fileID: 2251000785959839317, guid: 3a9d11c881c4d6049874e4b4e135fbec, type: 2}
@@ -58292,7 +58292,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Use strg/ctrl to activate your current item
+  m_text: Press Ctrl to activate your current item
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3a9d11c881c4d6049874e4b4e135fbec, type: 2}
   m_sharedMaterial: {fileID: 2251000785959839317, guid: 3a9d11c881c4d6049874e4b4e135fbec, type: 2}
@@ -58514,7 +58514,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: You can always only hold one item so use them and find out what they do
+  m_text: You can only carry one item, so use them and find out what they do
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3a9d11c881c4d6049874e4b4e135fbec, type: 2}
   m_sharedMaterial: {fileID: 2251000785959839317, guid: 3a9d11c881c4d6049874e4b4e135fbec, type: 2}
