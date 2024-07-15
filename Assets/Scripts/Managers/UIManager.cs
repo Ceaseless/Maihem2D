@@ -97,7 +97,7 @@ namespace Maihem.Managers
                     break;
             }
 
-            attackCost.text = " "+ player.CurrentAttack.StaminaCost;
+            attackCost.text = player.CurrentAttack.StaminaCost.ToString();
             currentConsumable.sprite = player.currentConsumable.sprite;
             
         }

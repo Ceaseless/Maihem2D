@@ -399,68 +399,55 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 954820479527633275, guid: d42c3c4865b05234da5f1eca014503c4,
-        type: 3}
+    - target: {fileID: 954820479527633275, guid: d42c3c4865b05234da5f1eca014503c4, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 954820479527633275, guid: d42c3c4865b05234da5f1eca014503c4,
-        type: 3}
+    - target: {fileID: 954820479527633275, guid: d42c3c4865b05234da5f1eca014503c4, type: 3}
       propertyPath: m_LocalPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 954820479527633275, guid: d42c3c4865b05234da5f1eca014503c4,
-        type: 3}
+    - target: {fileID: 954820479527633275, guid: d42c3c4865b05234da5f1eca014503c4, type: 3}
       propertyPath: m_LocalPosition.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 954820479527633275, guid: d42c3c4865b05234da5f1eca014503c4,
-        type: 3}
+    - target: {fileID: 954820479527633275, guid: d42c3c4865b05234da5f1eca014503c4, type: 3}
       propertyPath: m_LocalRotation.w
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 954820479527633275, guid: d42c3c4865b05234da5f1eca014503c4,
-        type: 3}
+    - target: {fileID: 954820479527633275, guid: d42c3c4865b05234da5f1eca014503c4, type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
-    - target: {fileID: 954820479527633275, guid: d42c3c4865b05234da5f1eca014503c4,
-        type: 3}
+    - target: {fileID: 954820479527633275, guid: d42c3c4865b05234da5f1eca014503c4, type: 3}
       propertyPath: m_LocalRotation.y
       value: -0
       objectReference: {fileID: 0}
-    - target: {fileID: 954820479527633275, guid: d42c3c4865b05234da5f1eca014503c4,
-        type: 3}
+    - target: {fileID: 954820479527633275, guid: d42c3c4865b05234da5f1eca014503c4, type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
       objectReference: {fileID: 0}
-    - target: {fileID: 954820479527633275, guid: d42c3c4865b05234da5f1eca014503c4,
-        type: 3}
+    - target: {fileID: 954820479527633275, guid: d42c3c4865b05234da5f1eca014503c4, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 954820479527633275, guid: d42c3c4865b05234da5f1eca014503c4,
-        type: 3}
+    - target: {fileID: 954820479527633275, guid: d42c3c4865b05234da5f1eca014503c4, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 954820479527633275, guid: d42c3c4865b05234da5f1eca014503c4,
-        type: 3}
+    - target: {fileID: 954820479527633275, guid: d42c3c4865b05234da5f1eca014503c4, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4836779303924377767, guid: d42c3c4865b05234da5f1eca014503c4,
-        type: 3}
+    - target: {fileID: 4836779303924377767, guid: d42c3c4865b05234da5f1eca014503c4, type: 3}
       propertyPath: m_audioClip
       value: 
       objectReference: {fileID: 8300000, guid: 40da69681baf99d43b5f090502de57e6, type: 3}
-    - target: {fileID: 7623088904701361558, guid: d42c3c4865b05234da5f1eca014503c4,
-        type: 3}
+    - target: {fileID: 7623088904701361558, guid: d42c3c4865b05234da5f1eca014503c4, type: 3}
       propertyPath: initialPoolSize
       value: 2
       objectReference: {fileID: 0}
-    - target: {fileID: 8649285526460588111, guid: d42c3c4865b05234da5f1eca014503c4,
-        type: 3}
+    - target: {fileID: 8649285526460588111, guid: d42c3c4865b05234da5f1eca014503c4, type: 3}
       propertyPath: m_Name
       value: Audio Manager
       objectReference: {fileID: 0}
@@ -1262,8 +1249,7 @@ MonoBehaviour:
 '
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3a9d11c881c4d6049874e4b4e135fbec, type: 2}
-  m_sharedMaterial: {fileID: 2251000785959839317, guid: 3a9d11c881c4d6049874e4b4e135fbec,
-    type: 2}
+  m_sharedMaterial: {fileID: 2251000785959839317, guid: 3a9d11c881c4d6049874e4b4e135fbec, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1501,112 +1487,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 693471866}
   m_CullTransparentMesh: 1
---- !u!1 &735112577
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 735112580}
-  - component: {fileID: 735112579}
-  - component: {fileID: 735112578}
-  m_Layer: 0
-  m_Name: Truck_0
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!95 &735112578
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 735112577}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 9ef93e8c41c5af747ab977ee1b0921fb, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
---- !u!212 &735112579
-SpriteRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 735112577}
-  m_Enabled: 1
-  m_CastShadows: 0
-  m_ReceiveShadows: 0
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 0
-  m_RayTraceProcedural: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 0
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_Sprite: {fileID: -1955894627, guid: 21c9886165680f2429414b28f89cef99, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 0
-  m_FlipY: 0
-  m_DrawMode: 0
-  m_Size: {x: 2, y: 2}
-  m_AdaptiveModeThreshold: 0.5
-  m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
-  m_SpriteSortPoint: 0
---- !u!4 &735112580
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 735112577}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -687.2362, y: 451.5957, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &768152707
 GameObject:
   m_ObjectHideFlags: 0
@@ -1644,7 +1524,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0.9808536, y: 1}
   m_AnchoredPosition: {x: 0.2800293, y: 0}
-  m_SizeDelta: {x: 1.8372192, y: 959.80365}
+  m_SizeDelta: {x: 1.8372192, y: 1624.817}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &768152709
 MonoBehaviour:
@@ -1810,8 +1690,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 929.7822, y: -1589.2646}
-  m_SizeDelta: {x: 1859.5645, y: 720.98}
+  m_AnchoredPosition: {x: 313.2752, y: -1589.2646}
+  m_SizeDelta: {x: 626.5504, y: 720.98}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &808032836
 MonoBehaviour:
@@ -1833,21 +1713,15 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '<style="H2">Asset Credits</style>
-
-
-    <link="https://www.freepik.com"><style="H3">Freepik</style> </link>
-
-    Flat design pixel art cloud illustration
-
-
-    <link="https://trislin.itch.io/pixel-lands-village"><style="H3">Trislin</style>
-    </link>
-
-    Tileset Village'
+  m_text: "<style=\"H2\">Asset Credits</style>\n\n<link=\"https://www.freepik.com\"><style=\"H3\">Freepik</style>
+    </link>\nFlat design pixel art cloud illustration\n\n<link=\"https://trislin.itch.io/pixel-lands-village\"><style=\"H3\">Trislin</style>
+    </link>\nTileset Village\n\n<link=\"https://pimen.itch.io/smoke-vfx-1\"><style=\"H3\">pimen</style></link>\nSmoke
+    VFX Sprites\r\n\n<link=\"https://nyknck.itch.io/fx071\"><style=\"H3\">NYKNCK</style></link>\nHit
+    Spark\r VFX Sprites\n\n<link=\"https://assetstore.unity.com/packages/audio/music/8bit-music-062022-225623\"><style=\"H3\">GWriterStudio</style></link>\nGame
+    Music Track"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3a9d11c881c4d6049874e4b4e135fbec, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2251000785959839317, guid: 3a9d11c881c4d6049874e4b4e135fbec, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1871,7 +1745,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 55
+  m_fontSize: 28.35
   m_fontSizeBase: 55
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1910,7 +1784,7 @@ MonoBehaviour:
   m_margin: {x: 16.938873, y: 38.681274, z: 10.555298, w: -7.6250305}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 1
+  m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!222 &808032837
@@ -1994,8 +1868,7 @@ MonoBehaviour:
   m_text: Start Game
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3a9d11c881c4d6049874e4b4e135fbec, type: 2}
-  m_sharedMaterial: {fileID: 2251000785959839317, guid: 3a9d11c881c4d6049874e4b4e135fbec,
-    type: 2}
+  m_sharedMaterial: {fileID: 2251000785959839317, guid: 3a9d11c881c4d6049874e4b4e135fbec, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -2106,7 +1979,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: -53.867207, y: 17}
+  m_SizeDelta: {x: -13.800922, y: 17}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &983230843
 MonoBehaviour:
@@ -2464,7 +2337,7 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1028240924}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 0.66668874}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 20}
@@ -2569,8 +2442,7 @@ MonoBehaviour:
 '
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3a9d11c881c4d6049874e4b4e135fbec, type: 2}
-  m_sharedMaterial: {fileID: 2251000785959839317, guid: 3a9d11c881c4d6049874e4b4e135fbec,
-    type: 2}
+  m_sharedMaterial: {fileID: 2251000785959839317, guid: 3a9d11c881c4d6049874e4b4e135fbec, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -3055,8 +2927,7 @@ MonoBehaviour:
   m_text: Tutorial
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3a9d11c881c4d6049874e4b4e135fbec, type: 2}
-  m_sharedMaterial: {fileID: 2251000785959839317, guid: 3a9d11c881c4d6049874e4b4e135fbec,
-    type: 2}
+  m_sharedMaterial: {fileID: 2251000785959839317, guid: 3a9d11c881c4d6049874e4b4e135fbec, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -3214,7 +3085,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 72
+  m_fontSize: 25.65
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -3521,8 +3392,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 929.7822, y: -614.3873}
-  m_SizeDelta: {x: 1859.5645, y: 1228.7747}
+  m_AnchoredPosition: {x: 313.2752, y: -614.3873}
+  m_SizeDelta: {x: 626.5504, y: 1228.7747}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1679859438
 MonoBehaviour:
@@ -3547,27 +3418,28 @@ MonoBehaviour:
   m_text: '<style="H2">Maypole tradition</style>
 
 
-    Traditionally, a maypole is planted the day before or directly on May 1. The decoration
-    of the tree symbolizes at the same time the wealth of the respective place and,
-    by its green top and the winding wreaths, it stands for the fertility and the
-    growth of flora and fauna, which is particularly important in agriculturally characterized
-    areas. Here, however, there is still a reference to old pagan customs - people
-    hoped for protection from any disaster, be it in the form of thunderstorms or
-    vermin.
+    Traditionally, a maypole is
+    planted the day before or directly on May 1. The decoration of the tree symbolizes
+    at the same time the wealth of the respective place and, by its green top and
+    the winding wreaths, it stands for the fertility and the growth of flora and
+    fauna, which is particularly important in agriculturally characterized areas.
+    Here, however, there is still a reference to old pagan customs - people hoped
+    for protection from any disaster, be it in the form of thunderstorms or vermin.
 
 
 
-    Until the actual festival, the decorated tree must be carefully guarded. Boys''
-    associations or other groups from the neighboring communities try to steal the
-    good piece and only give it back if an appropriate release is paid. Most of the
-    time it''s about beer and a good snack. The rules of maypole stealing have only
-    been handed down orally, but their observance is still a matter of honor. Only
-    already felled trees may be stolen, and these only from the village, not already
-    in the forest. After the ransom is paid, the tree must be returned undamaged.
-    Once set up, it is off-limits to thieves.'
+    Until
+    the actual festival, the decorated tree must be carefully guarded. Boys'' associations
+    or other groups from the neighboring communities try to steal the good piece
+    and only give it back if an appropriate release is paid. Most of the time it''s
+    about beer and a good snack. The rules of maypole stealing have only been handed
+    down orally, but their observance is still a matter of honor. Only already felled
+    trees may be stolen, and these only from the village, not already in the forest.
+    After the ransom is paid, the tree must be returned undamaged. Once set up, it
+    is off-limits to thieves.'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3a9d11c881c4d6049874e4b4e135fbec, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2251000785959839317, guid: 3a9d11c881c4d6049874e4b4e135fbec, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -3591,7 +3463,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 55
+  m_fontSize: 22.25
   m_fontSizeBase: 55
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -3736,8 +3608,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1116649736}
   m_HandleRect: {fileID: 1116649735}
   m_Direction: 2
-  m_Value: 1
-  m_Size: 1
+  m_Value: 0.99999994
+  m_Size: 0.33331126
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -3981,7 +3853,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: -53.867207, y: -14}
+  m_SizeDelta: {x: -13.800922, y: -14}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &2083598325
 MonoBehaviour:
@@ -4250,4 +4122,3 @@ SceneRoots:
   - {fileID: 1033994777}
   - {fileID: 1378501294}
   - {fileID: 232430996}
-  - {fileID: 735112580}
