@@ -23,31 +23,18 @@ namespace Maihem.Movements
 
             path = null;
             return false;
-            
-
-            // var offsetLength = MapManager.CellNeighborOffsets.Length;
-            // for (var i = 0; i < 20; i++)
-            // {
-            //     var randomOffsetIndex = Random.Range(0, offsetLength);
-            //     var randomNeighbor = gridPosition + MapManager.CellNeighborOffsets[randomOffsetIndex];
-            //     if (!MapManager.Instance.IsCellBlocking(randomNeighbor) &&
-            //           !MapManager.Instance.IsCellBlockedDiagonal(randomNeighbor, gridPosition) &&
-            //           !GameManager.Instance.CellContainsActor(randomNeighbor))
-            //     {
-            //         path = new List<Vector2Int> { randomNeighbor };
-            //         return true;
-            //     }
-            // } 
-            // path = null;
-            // return false;
         }
         
-        public bool CheckAlert(Vector2Int gridPosition)
+        public bool CheckAlert(Vector2Int gridPosition, Vector2Int facingVector)
         {
             var player = GameManager.Instance.Player;
-            var distance = Vector2Int.Distance(player.GridPosition, gridPosition);
-
-            return distance <= alertRange;
+            var distanceToPlayer = Vector2Int.Distance(player.GridPosition, gridPosition);
+            if (distanceToPlayer > alertRange) return false; // Out of detection range => don't continue
+            
+            var enemyToPlayer = player.transform.position - MapManager.Instance.CellToWorld(gridPosition);
+            var vecFacing = new Vector3(facingVector.x, facingVector.y, 0);
+            var dot = Vector3.Dot(enemyToPlayer, vecFacing);
+            return dot >= 0; // Facing towards player (180° field of vision)
         }
 
         public abstract List<Vector2Int> ActivatedMove(Vector2Int gridPosition, int range);

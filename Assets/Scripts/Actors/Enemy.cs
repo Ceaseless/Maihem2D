@@ -27,7 +27,7 @@ namespace Maihem.Actors
         {
             var player = GameManager.Instance.Player;
             OnTurnStarted();
-            if (attackSystem.CanTargetBeHit(GameManager.Instance.Player.GridPosition))
+            if (movementSystem.IsAlerted && attackSystem.CanTargetBeHit(GameManager.Instance.Player.GridPosition))
             {
                 var dir = new Vector2Int(math.clamp(player.GridPosition.x - GridPosition.x, -1, 1),
                     math.clamp(player.GridPosition.y - GridPosition.y, -1, 1));

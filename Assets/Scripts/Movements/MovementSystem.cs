@@ -13,22 +13,23 @@ namespace Maihem.Movements
         [SerializeField] private MovementStrategy currentStrategy;
         [SerializeField] private VisualEffectSettings detectionEffect;
         [SerializeField] private AudioClip detectionSoundEffect;
-        
+
+        public bool IsAlerted { get; private set; }
+
         private Actor _parentActor;
-        private bool _isActivated;
 
         private void Awake()
         {
             _parentActor = GetComponent<Actor>();
-            _isActivated = false;
+            IsAlerted = false;
         }
 
         private void CheckAlert()
         {
-            if (_isActivated) return;
-            if (currentStrategy.CheckAlert(_parentActor.GridPosition))
+            if (IsAlerted) return;
+            if (currentStrategy.CheckAlert(_parentActor.GridPosition, _parentActor.CurrentFacing.GetFacingVector()))
             {
-                _isActivated = true;
+                IsAlerted = true;
                 var effectPosition = _parentActor.transform.position + Vector3.up;
                 
                 VisualEffectsPool.Instance.PlayVisualEffect(detectionEffect, effectPosition);
@@ -39,7 +40,7 @@ namespace Maihem.Movements
         public bool TryMove(int range, out List<Vector2Int> path)
         {
             CheckAlert();
-            if (!_isActivated)
+            if (!IsAlerted)
             {
                 // Wait instead of trying to idle move
                 if (waitChanceWhileIdle >= Random.Range(0, 1f))
