@@ -29,6 +29,11 @@ namespace Maihem.Pickups
 
           private void OnTriggerEnter2D(Collider2D other)
           {
+              PickUp();
+          }
+
+          public void PickUp()
+          {
               if (IsUsed) return;
               OnPickUp();
           }

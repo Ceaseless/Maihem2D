@@ -252,6 +252,15 @@ namespace Maihem.Managers
         {
             uiManager.TogglePlayerStats(active);
         }
+
+        public void ItemButtonFlash(String color)
+        {
+            uiManager.ItemButtonFlash(color);
+        }
+        public void AttackButtonFlash(String color)
+        {
+            uiManager.AttackButtonFlash(color);
+        }
         
     }
 }
