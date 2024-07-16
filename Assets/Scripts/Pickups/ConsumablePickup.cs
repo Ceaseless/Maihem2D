@@ -9,8 +9,13 @@ namespace Maihem.Pickups
         protected override void OnPickUp()
         {
             var player = GameManager.Instance.Player;
-            if (player.currentConsumable.type != ConsumableType.Empty) return;
-            player.currentConsumable = consumable;
+            if (player.currentConsumable.type != ConsumableType.Empty)
+            {
+                GameManager.Instance.ItemButtonFlash("Red");
+                return; 
+            }
+            player.currentConsumable= consumable;
+            GameManager.Instance.ItemButtonFlash("Green");
             PlayOnPickUpEffects();
             IsUsed = true;
         }

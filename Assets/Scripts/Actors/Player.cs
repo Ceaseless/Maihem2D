@@ -147,6 +147,7 @@ namespace Maihem.Actors
         {
             if (_availableAttacks.Contains(newAttack)) return;
             VisualEffectsPool.Instance.PlayFloatingTextEffect(newAttack.DisplayName+" unlocked", Color.white, transform.position,false);
+            GameManager.Instance.AttackButtonFlash("Green");
             _availableAttacks.Add(newAttack);
         }
 
@@ -357,5 +358,6 @@ namespace Maihem.Actors
         {
             
         }
+        
     }
 }

@@ -17,8 +17,10 @@ namespace Maihem.Managers
 
         [SerializeField] private TextMeshProUGUI distanceCounter;
         [SerializeField] private Image currentAttack;
+        [SerializeField] private Animator attackAnimator;
         [SerializeField] private TextMeshProUGUI attackCost;
         [SerializeField] private Image currentConsumable;
+        [SerializeField] private Animator consumableAnimator;
         
         [SerializeField] private List<Sprite> attackSprites;
 
@@ -143,7 +145,15 @@ namespace Maihem.Managers
             pauseScreen.SetActive(show);
             return true;
         }
-        
+
+        public void ItemButtonFlash(String color)
+        {
+            consumableAnimator.SetTrigger(color);
+        }
+        public void AttackButtonFlash(String color)
+        {
+            attackAnimator.SetTrigger(color);
+        }
     }
    
         
