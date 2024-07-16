@@ -316,6 +316,14 @@ namespace Maihem.Actors
 
             currentConsumable.PlayActivateEffects(transform.position);
             currentConsumable = _emptyConsumable;
+
+            var results = new RaycastHit2D[1]; 
+            GetComponent<Collider2D>().Cast(new Vector2(0,0), results, 0f,true);
+            var pickup = results[0].collider.gameObject.GetComponent<Pickup>();
+            if (pickup)
+            {
+               pickup.PickUp();
+            }
             OnTurnCompleted();
         }
         
