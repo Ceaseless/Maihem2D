@@ -99,11 +99,11 @@ namespace Maihem.Managers
             if (Instance == null)
             {
                 Instance = this;
-                DontDestroyOnLoad(gameObject);
             }
             else
             {
                 Destroy(gameObject);
+                return;
             }
             _mapCollisionLayerMask =  1 << LayerMask.NameToLayer("Map");
             _initialBoundsPath = mapConstraints.GetPath(0);

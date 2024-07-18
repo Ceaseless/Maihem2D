@@ -4,6 +4,7 @@ using Cinemachine;
 using Maihem.Actors;
 using Maihem.Maps;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Maihem.Managers
 {
@@ -42,6 +43,7 @@ namespace Maihem.Managers
             else
             {
                 Destroy(gameObject);
+                return;
             }
 
             
@@ -63,6 +65,11 @@ namespace Maihem.Managers
             _performPostSceneChangeSetup = true;
             PlayerInput.PauseGameAction += PauseGame;
 
+        }
+
+        private void OnDestroy()
+        {
+            PlayerInput.PauseGameAction -= PauseGame;
         }
 
         private void SpawnPlayer()
@@ -219,6 +226,13 @@ namespace Maihem.Managers
             {
                 Player.PausePlayer(toggleValue);
             }
+        }
+
+        public void LoadMainMenu()
+        {
+            PlayerInput.PauseGameAction -= PauseGame;
+            SceneLoadingData.SceneToLoad = SceneLoadingData.LoadableScene.MainMenu;
+            SceneManager.LoadScene(SceneLoadingData.LoadableScene.LoadingScene.ToString());
         }
         
         public void Exit()

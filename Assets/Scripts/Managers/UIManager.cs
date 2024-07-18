@@ -41,8 +41,7 @@ namespace Maihem.Managers
         public void Initialize()
         {
             pauseResumeButton.onClick.AddListener(() => GameManager.Instance.PauseGame(this, EventArgs.Empty));
-            pauseQuitButton.onClick.AddListener(() => GameManager.Instance.Exit());
-            
+            pauseQuitButton.onClick.AddListener(() => GameManager.Instance.LoadMainMenu());
             ResetState();
         }
 
