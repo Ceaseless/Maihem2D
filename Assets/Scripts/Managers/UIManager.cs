@@ -28,19 +28,17 @@ namespace Maihem.Managers
         [SerializeField] private GameObject playerStats;
 
         [SerializeField] private GameOverUI gameOverUI;
-        
+        [SerializeField] private PauseUI pauseUI;
        
-        [SerializeField] private GameObject pauseScreen;
-        [SerializeField] private Button pauseResumeButton;
-        [SerializeField] private Button pauseQuitButton;
         
         private Vector2Int _startingPoint;
         
         
         public void Initialize()
         {
-            pauseResumeButton.onClick.AddListener(() => GameManager.Instance.PauseGame(this, EventArgs.Empty));
-            pauseQuitButton.onClick.AddListener(() => GameManager.Instance.LoadMainMenu());
+            // pauseResumeButton.onClick.AddListener(() => GameManager.Instance.PauseGame(this, EventArgs.Empty));
+            // pauseQuitButton.onClick.AddListener(() => GameManager.Instance.LoadMainMenu());
+            pauseUI.Initialize();
             ResetState();
         }
 
@@ -49,7 +47,7 @@ namespace Maihem.Managers
             _startingPoint = GameManager.Instance.Player.GridPosition;
             GameManager.Instance.Player.OnStatusUpdate += UpdateStatusUI;
             gameOverUI.ResetState();
-            pauseScreen.SetActive(false);
+            pauseUI.ResetState();
             UpdateStatusUI(this, EventArgs.Empty);
         }
        
@@ -109,16 +107,16 @@ namespace Maihem.Managers
 
         public bool TrySetPauseMenuActive(bool show)
         {
-            if (gameOverUI.IsActive() || show == pauseScreen.activeInHierarchy) return false;
-            pauseScreen.SetActive(show);
+            if (gameOverUI.IsActive() || show == pauseUI.IsActive()) return false;
+            pauseUI.ShowPauseUI(show);
             return true;
         }
 
-        public void ItemButtonFlash(String color)
+        public void ItemButtonFlash(string color)
         {
             consumableAnimator.SetTrigger(color);
         }
-        public void AttackButtonFlash(String color)
+        public void AttackButtonFlash(string color)
         {
             attackAnimator.SetTrigger(color);
         }
