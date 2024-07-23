@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2213345307510261926}
   - component: {fileID: 6633896297199098025}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Visual
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -180,7 +180,7 @@ GameObject:
   - component: {fileID: 5697219090502755657}
   - component: {fileID: -6869427483611057616}
   - component: {fileID: 5846330011026430927}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: ShieldConsumable
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -218,7 +218,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   soundEffect: {fileID: 8300000, guid: d1cf18a6f604ec94694a0b7975e780bf, type: 3}
   visualEffect: {fileID: 0}
-  spawnChance: 30
   consumable: {fileID: 11400000, guid: 0cb8fef7adcde554aa7609a7c78a8684, type: 2}
 --- !u!61 &-6869427483611057616
 BoxCollider2D:
