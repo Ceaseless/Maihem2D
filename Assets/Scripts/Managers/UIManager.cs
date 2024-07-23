@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Maihem.UI;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -25,12 +26,10 @@ namespace Maihem.Managers
         [SerializeField] private List<Sprite> attackSprites;
 
         [SerializeField] private GameObject playerStats;
-        
-        [SerializeField] private GameObject winScreen;
-        [SerializeField] private GameObject playerBeatenMsg;
-        [SerializeField] private GameObject playerWonMsg;
-        [SerializeField] private GameObject playerLightMsg;
 
+        [SerializeField] private GameOverUI gameOverUI;
+        
+       
         [SerializeField] private GameObject pauseScreen;
         [SerializeField] private Button pauseResumeButton;
         [SerializeField] private Button pauseQuitButton;
@@ -49,13 +48,8 @@ namespace Maihem.Managers
         {
             _startingPoint = GameManager.Instance.Player.GridPosition;
             GameManager.Instance.Player.OnStatusUpdate += UpdateStatusUI;
-            winScreen.SetActive(false);
+            gameOverUI.ResetState();
             pauseScreen.SetActive(false);
-
-            playerWonMsg.SetActive(true);
-            playerBeatenMsg.SetActive(false);
-            playerLightMsg.SetActive(false);
-            
             UpdateStatusUI(this, EventArgs.Empty);
         }
        
@@ -103,36 +97,11 @@ namespace Maihem.Managers
             
         }
 
-        public void ShowGameOverScreen()
+        public void ShowGameOverUI(GameOverUI.GameOverReason reason)
         {
-            winScreen.SetActive(true);
+            gameOverUI.ShowGameOverUI(reason);
         }
-
-        public void PlayerInLight()
-        {
-            if (playerWonMsg.activeSelf)
-            {
-                playerWonMsg.SetActive(false);
-            }
-            if (playerBeatenMsg.activeSelf)
-            {
-                playerBeatenMsg.SetActive(false);
-            }
-            playerLightMsg.SetActive(true);
-        }
-
-        public void PlayerBeaten()
-        {
-            if (playerWonMsg.activeSelf)
-            {
-                playerWonMsg.SetActive(false);
-            }
-            if (playerLightMsg.activeSelf)
-            {
-                playerLightMsg.SetActive(false);
-            }
-            playerBeatenMsg.SetActive(true);
-        }
+        
         public void TogglePlayerStats(bool active)
         {
             playerStats.SetActive(active);
@@ -140,7 +109,7 @@ namespace Maihem.Managers
 
         public bool TrySetPauseMenuActive(bool show)
         {
-            if (winScreen.activeSelf || show == pauseScreen.activeInHierarchy) return false;
+            if (gameOverUI.IsActive() || show == pauseScreen.activeInHierarchy) return false;
             pauseScreen.SetActive(show);
             return true;
         }

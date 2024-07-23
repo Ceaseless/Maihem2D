@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Cinemachine;
 using Maihem.Actors;
 using Maihem.Maps;
+using Maihem.UI;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -161,7 +162,7 @@ namespace Maihem.Managers
 
         public bool CanTakeTurn()
         {
-            return !_nonPlayerTurn && !_triggerTurnOnNextFrame && enemyManager.AreAllActionsPerformed() && !Player.IsPerformingAction;
+            return !_playerLost && !_nonPlayerTurn && !_triggerTurnOnNextFrame && enemyManager.AreAllActionsPerformed() && !Player.IsPerformingAction;
         }
 
         public IList<Enemy> GetEnemiesInProximity(Vector2Int origin ,int range)
@@ -195,7 +196,7 @@ namespace Maihem.Managers
             boundsController.UpdateBounds();
             if (Player.transform.position.x <= boundsController.transform.position.x)
             {
-                uiManager.PlayerInLight();
+                uiManager.ShowGameOverUI(GameOverUI.GameOverReason.Light);
                 _playerLost = true;
                 GameOver();
                 return;
@@ -213,7 +214,7 @@ namespace Maihem.Managers
             _nonPlayerTurn = false;
             
             if (!Player.IsDead) return;
-            uiManager.PlayerBeaten();
+            uiManager.ShowGameOverUI(GameOverUI.GameOverReason.Health);
             _playerLost = true;
             GameOver();
         }
@@ -248,7 +249,7 @@ namespace Maihem.Managers
                 AudioManager.Instance.StopMusic();
                 AudioManager.Instance.PlaySoundFX(playerLostSound,Player.GridPosition,1f);
             }
-            uiManager.ShowGameOverScreen();
+            uiManager.ShowGameOverUI(GameOverUI.GameOverReason.Win);
         }
 
         public void GoalReached()
@@ -267,11 +268,11 @@ namespace Maihem.Managers
             uiManager.TogglePlayerStats(active);
         }
 
-        public void ItemButtonFlash(String color)
+        public void ItemButtonFlash(string color)
         {
             uiManager.ItemButtonFlash(color);
         }
-        public void AttackButtonFlash(String color)
+        public void AttackButtonFlash(string color)
         {
             uiManager.AttackButtonFlash(color);
         }

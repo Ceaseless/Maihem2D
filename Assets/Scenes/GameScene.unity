@@ -2310,10 +2310,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: ab9c91471dec5564ea9a16a375e9cd28, type: 3}
   - {fileID: 21300000, guid: 324ab63e20299144db11430d0439457d, type: 3}
   playerStats: {fileID: 2080722679}
-  winScreen: {fileID: 1841272244}
-  playerBeatenMsg: {fileID: 1817173810}
-  playerWonMsg: {fileID: 1375544828}
-  playerLightMsg: {fileID: 1620041451}
+  gameOverUI: {fileID: 1841272248}
   pauseScreen: {fileID: 1329368489}
   pauseResumeButton: {fileID: 46712397}
   pauseQuitButton: {fileID: 1906872464}
@@ -4177,6 +4174,7 @@ GameObject:
   - component: {fileID: 1841272245}
   - component: {fileID: 1841272247}
   - component: {fileID: 1841272246}
+  - component: {fileID: 1841272248}
   m_Layer: 5
   m_Name: WinScreen
   m_TagString: Untagged
@@ -4246,6 +4244,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1841272244}
   m_CullTransparentMesh: 1
+--- !u!114 &1841272248
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1841272244}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 790c15bfb3c74f6cb4c01a652d92de29, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  winScreen: {fileID: 1841272244}
+  playerBeatenMsg: {fileID: 1817173810}
+  playerWonMsg: {fileID: 1375544828}
+  playerLightMsg: {fileID: 1620041451}
 --- !u!1 &1874985745
 GameObject:
   m_ObjectHideFlags: 0
