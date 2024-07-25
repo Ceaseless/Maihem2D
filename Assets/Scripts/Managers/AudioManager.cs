@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 
 namespace Maihem.Managers
 {
@@ -8,6 +9,8 @@ namespace Maihem.Managers
     {
         public static AudioManager Instance { get; private set; }
 
+        [SerializeField] private AudioMixer audioMixer;
+        
         [Header("Music Settings")] [SerializeField]
         private AudioSource musicSource;
         
@@ -19,6 +22,10 @@ namespace Maihem.Managers
 
         private List<AudioSource> _sfxSourcePool;
         private float _lastSfxTimestamp;
+
+        private const string MasterVolumeParameter = "masterVolume";
+        private const string EffectVolumeParameter = "effectsVolume";
+        private const string MusicVolumeParameter = "musicVolume";
         
         private void Awake()
         {
@@ -44,6 +51,31 @@ namespace Maihem.Managers
                 var newSource = Instantiate(soundFXSourcePrefab, transform);
                 _sfxSourcePool.Add(newSource);
             }
+        }
+
+        public void SetMasterVolume(float level)
+        {
+            var adjustedLevel = Mathf.Clamp(level, 0.0001f, 1f);
+            audioMixer.SetFloat(MasterVolumeParameter, Mathf.Log10(adjustedLevel) * 20f);
+        }
+        
+        public void SetEffectVolume(float level)
+        {
+            var adjustedLevel = Mathf.Clamp(level, 0.0001f, 1f);
+            audioMixer.SetFloat(EffectVolumeParameter, Mathf.Log10(adjustedLevel) * 20f);
+        }
+        
+        public void SetMusicVolume(float level)
+        {
+            var adjustedLevel = Mathf.Clamp(level, 0.0001f, 1f);
+            audioMixer.SetFloat(MusicVolumeParameter, Mathf.Log10(adjustedLevel) * 20f);
+        }
+
+        public void ResetAudioLevels()
+        {
+            SetMasterVolume(1f);
+            SetEffectVolume(1f);
+            SetMusicVolume(1f);
         }
 
         public void PlayMusic()

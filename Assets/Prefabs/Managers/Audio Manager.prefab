@@ -45,6 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1c7561f7f65406abbfd11032904a714, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  audioMixer: {fileID: 24100000, guid: a4d81de29f01ea84e98592dac658340b, type: 2}
   musicSource: {fileID: 4836779303924377767}
   minimalTimeBetweenSfx: 0.02
   soundFXSourcePrefab: {fileID: 6624374567831465483, guid: f2c0cf0dabf79fe42a541f5c3caa8af0, type: 3}
