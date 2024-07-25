@@ -316,12 +316,14 @@ namespace Maihem.Actors
             currentConsumable.PlayActivateEffects(transform.position);
             currentConsumable = _emptyConsumable;
 
-            var results = new RaycastHit2D[1]; 
-            GetComponent<Collider2D>().Cast(new Vector2(0,0), results, 0f,true);
-            var pickup = results[0].collider.gameObject.GetComponent<Pickup>();
-            if (pickup)
+            var hit = Physics2D.OverlapBox(transform.position, Vector2.one * 0.5f, 0f, 1<<LayerMask.NameToLayer("Pickups"));
+
+            if (hit)
             {
-               pickup.PickUp();
+                if (hit.gameObject.TryGetComponent<Pickup>(out var pickup))
+                {
+                    pickup.PickUp();
+                } 
             }
             OnTurnCompleted();
         }

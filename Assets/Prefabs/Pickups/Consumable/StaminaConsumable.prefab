@@ -96,7 +96,7 @@ GameObject:
   - component: {fileID: 5697219090502755657}
   - component: {fileID: -6869427483611057616}
   - component: {fileID: 6395304254444210624}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: StaminaConsumable
   m_TagString: Untagged
   m_Icon: {fileID: 0}
