@@ -854,8 +854,8 @@ Camera:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 1
-    height: 0.9994834
+    width: 0.99955374
+    height: 1
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 34
@@ -4599,6 +4599,10 @@ PrefabInstance:
       propertyPath: m_AnchorMin.x
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2308594349266366408, guid: e2f075854160842499e76df322a79771, type: 3}
+      propertyPath: affectedMixer
+      value: 
+      objectReference: {fileID: 24100000, guid: a4d81de29f01ea84e98592dac658340b, type: 2}
     - target: {fileID: 3863963420572051807, guid: e2f075854160842499e76df322a79771, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
