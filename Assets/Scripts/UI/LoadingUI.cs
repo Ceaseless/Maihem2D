@@ -1,3 +1,4 @@
+using Maihem.SceneLoading;
 using UnityEngine;
 using UnityEngine.UI;
 

@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Maihem
+namespace Maihem.UI
 {
     public class EnemyHealthDisplay : MonoBehaviour
     {

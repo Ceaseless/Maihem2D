@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Maihem.Managers;
 using Unity.Mathematics;
 using UnityEngine;
 
-namespace Maihem.Attacks
+namespace Maihem.Attacks.Strategies
 {
     [CreateAssetMenu(menuName = "Attack Strategies/Smash Attack")]
     public class SmashAttack : AttackStrategy

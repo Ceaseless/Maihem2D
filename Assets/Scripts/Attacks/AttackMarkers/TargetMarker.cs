@@ -1,7 +1,7 @@
 using TMPro;
 using UnityEngine;
 
-namespace Maihem
+namespace Maihem.Attacks.AttackMarkers
 {
     public class TargetMarker : MonoBehaviour
     {

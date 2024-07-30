@@ -1,13 +1,8 @@
-using System.Collections.Generic;
-using System.Linq;
-using Unity.Collections;
 using UnityEngine;
-using UnityEngine.UI;
 using static UnityEngine.Random;
-using Image = UnityEngine.UIElements.Image;
 
 
-namespace Maihem
+namespace Maihem.UI
 {
     public class ScrollingBackground : MonoBehaviour
     {

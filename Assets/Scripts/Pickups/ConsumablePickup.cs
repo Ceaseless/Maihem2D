@@ -1,3 +1,4 @@
+using Maihem.Enums;
 using Maihem.Managers;
 using UnityEngine;
 

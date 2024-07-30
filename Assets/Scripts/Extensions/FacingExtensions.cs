@@ -1,4 +1,5 @@
 ﻿using System;
+using Maihem.Enums;
 using Unity.Mathematics;
 using UnityEngine;
 

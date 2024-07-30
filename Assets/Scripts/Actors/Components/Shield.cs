@@ -3,7 +3,7 @@ using Maihem.Managers;
 using Unity.Mathematics;
 using UnityEngine;
 
-namespace Maihem
+namespace Maihem.Actors.Components
 {
     public class Shield : MonoBehaviour
     {

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Maihem
+namespace Maihem.Managers
 {
     [CreateAssetMenu(fileName = "Object Bound Settings")]
     public class ObjectBoundSettings : ScriptableObject

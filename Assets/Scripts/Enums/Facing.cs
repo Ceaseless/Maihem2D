@@ -1,4 +1,4 @@
-﻿namespace Maihem
+﻿namespace Maihem.Enums
 {
     public enum Facing
     {

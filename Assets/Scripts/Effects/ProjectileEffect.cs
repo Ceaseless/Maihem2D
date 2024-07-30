@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-namespace Maihem
+namespace Maihem.Effects
 {
     public class ProjectileEffect : MonoBehaviour
     {

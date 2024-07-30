@@ -1,7 +1,10 @@
-﻿using Maihem.Extensions;
+﻿using Maihem.Actors.Components;
+using Maihem.Enums;
+using Maihem.Extensions;
 using Maihem.Managers;
 using Maihem.Movements;
 using Maihem.Pickups;
+using Maihem.UI;
 using Unity.Mathematics;
 using UnityEngine;
 using Random = UnityEngine.Random;

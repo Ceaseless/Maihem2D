@@ -1,4 +1,5 @@
 using Maihem.Effects;
+using Maihem.Enums;
 using Maihem.Managers;
 using UnityEngine;
 

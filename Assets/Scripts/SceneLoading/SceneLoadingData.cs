@@ -1,4 +1,4 @@
-﻿namespace Maihem
+﻿namespace Maihem.SceneLoading
 {
     public static class SceneLoadingData
     {

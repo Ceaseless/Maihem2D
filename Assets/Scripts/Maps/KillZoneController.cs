@@ -1,7 +1,7 @@
 using Maihem.Managers;
 using UnityEngine;
 
-namespace Maihem
+namespace Maihem.Maps
 {
     public class KillZoneController : MonoBehaviour
     {

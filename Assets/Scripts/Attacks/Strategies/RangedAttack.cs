@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
+using Maihem.Effects;
 using Maihem.Managers;
 using UnityEngine;
 
-namespace Maihem.Attacks
+namespace Maihem.Attacks.Strategies
 {
     [CreateAssetMenu(menuName = "Attack Strategies/Ranged Attack")]
     public class RangedAttack : AttackStrategy

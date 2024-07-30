@@ -1,13 +1,8 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.Serialization;
 
-namespace Maihem
+namespace Maihem.UI
 {
     [RequireComponent(typeof(TMP_Text))]
         public class LinkHandler : MonoBehaviour, IPointerClickHandler

@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace Maihem
+namespace Maihem.SceneLoading
 {
     public class LoadTrigger : MonoBehaviour
     {

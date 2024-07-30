@@ -4,7 +4,7 @@ using Maihem.Effects;
 using Unity.Mathematics;
 using UnityEngine;
 
-namespace Maihem
+namespace Maihem.Actors.Components
 {
     public class HealthSystem : MonoBehaviour
     {

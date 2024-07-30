@@ -2,7 +2,7 @@
 using Maihem.Managers;
 using UnityEngine;
 
-namespace Maihem.Attacks
+namespace Maihem.Attacks.Strategies
 {
     [CreateAssetMenu(menuName = "Attack Strategies/Melee Attack", order = 0)]
     public class MeleeAttack : AttackStrategy

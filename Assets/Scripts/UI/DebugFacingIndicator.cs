@@ -1,8 +1,9 @@
 using System;
 using Maihem.Actors;
+using Maihem.Enums;
 using UnityEngine;
 
-namespace Maihem
+namespace Maihem.UI
 {
     public class DebugFacingIndicator : MonoBehaviour
     {

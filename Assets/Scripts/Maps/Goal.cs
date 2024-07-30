@@ -2,7 +2,7 @@ using Maihem.Actors;
 using Maihem.Managers;
 using UnityEngine;
 
-namespace Maihem
+namespace Maihem.Maps
 {
     public class Goal : MonoBehaviour
     {
