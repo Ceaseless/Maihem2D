@@ -13,11 +13,16 @@ namespace Maihem.Actors
 {
     public class Enemy : Actor
     {
-        
+        private static readonly int AnimatorAttack = Animator.StringToHash("Attack");
+
         [SerializeField] private EnemyHealthDisplay healthDisplay;
         [SerializeField] private MovementSystem movementSystem;
-        private static readonly int AnimatorAttack = Animator.StringToHash("Attack");
         public LootTable loot;
+
+        private void OnDestroy()
+        {
+            attackSystem?.HideTargetMarkers();
+        }
 
 
         public override void Initialize()
@@ -26,6 +31,7 @@ namespace Maihem.Actors
             healthDisplay.SetMaxHealth(healthSystem.MaxHealth);
             healthDisplay.SetHealth(healthSystem.CurrentHealth);
         }
+
         public void TakeTurn()
         {
             var player = GameManager.Instance.Player;
@@ -35,7 +41,7 @@ namespace Maihem.Actors
                 var dir = new Vector2Int(math.clamp(player.GridPosition.x - GridPosition.x, -1, 1),
                     math.clamp(player.GridPosition.y - GridPosition.y, -1, 1));
                 UpdateFacing(dir);
-                
+
                 IsPerformingAction = true;
                 animator.SetTrigger(AnimatorAttack);
                 //attackSystem.PerformAttack();
@@ -43,17 +49,15 @@ namespace Maihem.Actors
             }
             else
             {
-                if (!TryMove())
-                {
-                    OnTurnCompleted();
-                }
+                if (!TryMove()) OnTurnCompleted();
             }
+
             attackSystem.UpdateTargetMarkerPositions();
         }
 
         public void ShowAttackMarkers(bool show)
         {
-            if(show)
+            if (show)
                 attackSystem.ShowTargetMarkers();
             else
                 attackSystem.HideTargetMarkers();
@@ -87,17 +91,11 @@ namespace Maihem.Actors
             return false;
         }
 
-      
 
         protected override void OnAnimationEnd()
         {
             IsPerformingAction = false;
             OnTurnCompleted();
-        }
-
-        private void OnDestroy()
-        {
-            attackSystem?.HideTargetMarkers();
         }
 
         private void UpdateFacing(Facing newFacing)
@@ -107,7 +105,7 @@ namespace Maihem.Actors
             animator.SetInteger(AnimatorVertical, newFacingVector.y);
             CurrentFacing = newFacing;
         }
-        
+
         private void UpdateFacing(Vector2Int newFacingVector)
         {
             animator.SetInteger(AnimatorHorizontal, newFacingVector.x);

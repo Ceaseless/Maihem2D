@@ -5,12 +5,12 @@ namespace Maihem.Attacks.AttackMarkers
 {
     public class MarkerPool : MonoBehaviour
     {
-        public static MarkerPool Instance { get; private set;  }
-
         [SerializeField] private GameObject markerPrefab;
         [SerializeField] private int initialPoolSize;
         [SerializeField] private int poolGrowthStep;
         private List<TargetMarker> _markerPool;
+        public static MarkerPool Instance { get; private set; }
+
         private void Awake()
         {
             if (Instance == null)
@@ -38,9 +38,8 @@ namespace Maihem.Attacks.AttackMarkers
         public TargetMarker GetMarker()
         {
             foreach (var marker in _markerPool)
-            {
-                if (!marker.gameObject.activeInHierarchy) return marker;
-            }
+                if (!marker.gameObject.activeInHierarchy)
+                    return marker;
 
             for (var i = 0; i < poolGrowthStep; i++)
             {
@@ -54,7 +53,7 @@ namespace Maihem.Attacks.AttackMarkers
 
         public List<TargetMarker> GetMarkers(int count)
         {
-            if(count == 0) return new List<TargetMarker>(0);
+            if (count == 0) return new List<TargetMarker>(0);
             var markers = new List<TargetMarker>(count);
             foreach (var marker in _markerPool)
             {
@@ -64,8 +63,8 @@ namespace Maihem.Attacks.AttackMarkers
             }
 
             if (markers.Count >= count) return markers;
-            
-            
+
+
             var diff = count - markers.Count;
             for (var i = 0; i < diff; i++)
             {
@@ -81,10 +80,7 @@ namespace Maihem.Attacks.AttackMarkers
 
         public void HideAllMarkers()
         {
-            foreach (var marker in _markerPool)
-            {
-                marker.DisableMarker();
-            }
+            foreach (var marker in _markerPool) marker.DisableMarker();
         }
     }
 }

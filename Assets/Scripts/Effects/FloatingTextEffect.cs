@@ -11,6 +11,6 @@ namespace Maihem.Effects
         {
             textComponent.color = newColor;
             textComponent.text = newText;
-        } 
+        }
     }
 }

@@ -9,6 +9,25 @@ namespace Maihem
     {
         [SerializeField] private InputActionAsset inputActions;
         [SerializeField] private float moveInputBufferWindow = 0.05f;
+        private InputAction _changeAttack;
+        private InputAction _enemyMarkerToggle;
+        private float _lastMoveInput;
+        private InputAction _moveAction, _mousePosition, _toggleAimAction, _toggleDiagonalModeAction, _attackAction;
+        private InputAction _pauseGame;
+        private InputAction _useConsumable;
+
+        public Vector2 BufferedMoveInput { get; private set; }
+
+        private void Awake()
+        {
+            SetupInputActions();
+        }
+
+        private void Update()
+        {
+            if (BufferedMoveInput.sqrMagnitude > 0 && Time.time - _lastMoveInput > moveInputBufferWindow)
+                MoveAction?.Invoke(this, EventArgs.Empty);
+        }
 
         public event EventHandler MoveAction;
         public event EventHandler AttackAction;
@@ -18,19 +37,6 @@ namespace Maihem
         public event EventHandler<ToggleEventArgs> ToggleDiagonalModeAction;
         public event EventHandler<ToggleEventArgs> ToggleEnemyMarkersAction;
         public event EventHandler PauseGameAction;
-        
-        public Vector2 BufferedMoveInput { get; private set; }
-        private float _lastMoveInput;
-        private InputAction _moveAction, _mousePosition, _toggleAimAction, _toggleDiagonalModeAction, _attackAction;
-        private InputAction _changeAttack;
-        private InputAction _enemyMarkerToggle;
-        private InputAction _useConsumable;
-        private InputAction _pauseGame;
-
-        private void Awake()
-        {
-            SetupInputActions();
-        }
 
         private void SetupInputActions()
         {
@@ -58,11 +64,11 @@ namespace Maihem
 
             _pauseGame.performed += _ => PauseGameAction?.Invoke(this, EventArgs.Empty);
             _attackAction.performed += _ => AttackAction?.Invoke(this, EventArgs.Empty);
-            
+
             _changeAttack.performed += AttackChanged;
 
             _useConsumable.performed += _ => ConsumableAction?.Invoke(this, EventArgs.Empty);
-            
+
             _moveAction.Enable();
             _mousePosition.Enable();
             _toggleAimAction.Enable();
@@ -72,15 +78,6 @@ namespace Maihem
             _useConsumable.Enable();
             _enemyMarkerToggle.Enable();
             _pauseGame.Enable();
-        }
-
-        private void Update()
-        {
-            if (BufferedMoveInput.sqrMagnitude > 0 && Time.time - _lastMoveInput > moveInputBufferWindow)
-            {
-                MoveAction?.Invoke(this, EventArgs.Empty);
-            }
-                
         }
 
         private void ToggleAim(InputAction.CallbackContext ctx)
@@ -94,16 +91,16 @@ namespace Maihem
                 case InputActionPhase.Started:
                     break;
                 case InputActionPhase.Performed:
-                    ToggleAimAction?.Invoke(this, new ToggleEventArgs() { ToggleValue = true });
+                    ToggleAimAction?.Invoke(this, new ToggleEventArgs { ToggleValue = true });
                     break;
                 case InputActionPhase.Canceled:
-                    ToggleAimAction?.Invoke(this, new ToggleEventArgs() { ToggleValue = false });
+                    ToggleAimAction?.Invoke(this, new ToggleEventArgs { ToggleValue = false });
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
         }
-        
+
         private void ToggleDiagonalMode(InputAction.CallbackContext ctx)
         {
             switch (ctx.phase)
@@ -115,15 +112,14 @@ namespace Maihem
                 case InputActionPhase.Started:
                     break;
                 case InputActionPhase.Performed:
-                    ToggleDiagonalModeAction?.Invoke(this, new ToggleEventArgs() { ToggleValue = true });
+                    ToggleDiagonalModeAction?.Invoke(this, new ToggleEventArgs { ToggleValue = true });
                     break;
                 case InputActionPhase.Canceled:
-                    ToggleDiagonalModeAction?.Invoke(this, new ToggleEventArgs() { ToggleValue = false });
+                    ToggleDiagonalModeAction?.Invoke(this, new ToggleEventArgs { ToggleValue = false });
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
-            
         }
 
         private void ToggleEnemyMarkers(InputAction.CallbackContext ctx)
@@ -137,10 +133,10 @@ namespace Maihem
                 case InputActionPhase.Started:
                     break;
                 case InputActionPhase.Performed:
-                    ToggleEnemyMarkersAction?.Invoke(this, new ToggleEventArgs() { ToggleValue = true });
+                    ToggleEnemyMarkersAction?.Invoke(this, new ToggleEventArgs { ToggleValue = true });
                     break;
                 case InputActionPhase.Canceled:
-                    ToggleEnemyMarkersAction?.Invoke(this, new ToggleEventArgs() { ToggleValue = false });
+                    ToggleEnemyMarkersAction?.Invoke(this, new ToggleEventArgs { ToggleValue = false });
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -158,9 +154,8 @@ namespace Maihem
             var axisValue = Mathf.RoundToInt(ctx.ReadValue<float>());
             AttackChangeAction?.Invoke(this, new SingleAxisEventArgs { AxisValue = axisValue });
         }
-        
     }
-    
+
     public class ToggleEventArgs : EventArgs
     {
         public bool ToggleValue { get; set; }
@@ -169,10 +164,11 @@ namespace Maihem
     public class SingleAxisEventArgs : EventArgs
     {
         private int _axisValue;
+
         public int AxisValue
         {
             get => _axisValue;
-            set => _axisValue = math.clamp(value, -1,1);
+            set => _axisValue = math.clamp(value, -1, 1);
         }
     }
 }

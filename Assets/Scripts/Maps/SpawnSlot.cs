@@ -1,8 +1,9 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace Maihem.Maps
 {
-    [System.Serializable]
+    [Serializable]
     public class SpawnSlot
     {
         public GameObject[] includeSpawns;

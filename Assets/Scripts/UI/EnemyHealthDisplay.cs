@@ -9,7 +9,7 @@ namespace Maihem.UI
         [SerializeField] private float blipHorizontalPadding = 0.01f;
         [SerializeField] private float blipVerticalPadding = 0.5f;
         private List<GameObject> _activeBlips;
-        
+
         private void Awake()
         {
             _activeBlips = new List<GameObject>();
@@ -30,7 +30,7 @@ namespace Maihem.UI
         public void SetHealth(int newHealth)
         {
             if (newHealth < 0 || newHealth > _activeBlips.Count) return;
-            
+
             var blipsPerRow = (int)(1 / blipHorizontalPadding);
             var half = blipsPerRow / 2;
             var row = 0;
@@ -42,19 +42,19 @@ namespace Maihem.UI
                     row++;
                     count = 0;
                 }
-                _activeBlips[i].transform.localPosition = new Vector3(-half*blipHorizontalPadding + count * blipHorizontalPadding, 0.5f+row*blipVerticalPadding, 0f);
+
+                _activeBlips[i].transform.localPosition = new Vector3(
+                    -half * blipHorizontalPadding + count * blipHorizontalPadding, 0.5f + row * blipVerticalPadding,
+                    0f);
                 _activeBlips[i].SetActive(true);
                 count++;
-
-
             }
 
-            for (var i = newHealth; i < _activeBlips.Count; i++)
-            {
-                _activeBlips[i].SetActive(false);
-            }
+            for (var i = newHealth; i < _activeBlips.Count; i++) _activeBlips[i].SetActive(false);
         }
-        
-        public void HideHealth() {}
+
+        public void HideHealth()
+        {
+        }
     }
 }

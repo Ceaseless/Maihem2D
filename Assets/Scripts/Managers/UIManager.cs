@@ -9,10 +9,9 @@ namespace Maihem.Managers
 {
     public class UIManager : MonoBehaviour
     {
-        
         [SerializeField] private Slider healthBar;
         [SerializeField] private TextMeshProUGUI healthValue;
-        
+
         [SerializeField] private Slider staminaBar;
         [SerializeField] private TextMeshProUGUI staminaValue;
 
@@ -22,18 +21,18 @@ namespace Maihem.Managers
         [SerializeField] private TextMeshProUGUI attackCost;
         [SerializeField] private Image currentConsumable;
         [SerializeField] private Animator consumableAnimator;
-        
+
         [SerializeField] private List<Sprite> attackSprites;
 
         [SerializeField] private GameObject playerStats;
 
         [SerializeField] private GameOverUI gameOverUI;
         [SerializeField] private PauseUI pauseUI;
-       
-        
+
+
         private Vector2Int _startingPoint;
-        
-        
+
+
         public void Initialize()
         {
             // pauseResumeButton.onClick.AddListener(() => GameManager.Instance.PauseGame(this, EventArgs.Empty));
@@ -50,28 +49,29 @@ namespace Maihem.Managers
             pauseUI.ResetState();
             UpdateStatusUI(this, EventArgs.Empty);
         }
-       
-        
+
+
         private void UpdateStatusUI(object sender, EventArgs e)
         {
             var player = GameManager.Instance.Player;
-            
+
             healthBar.maxValue = player.healthSystem.MaxHealth;
             healthBar.value = player.healthSystem.CurrentHealth;
             var healthValueText = player.healthSystem.CurrentHealth + "/" + player.healthSystem.MaxHealth;
             healthValue.text = healthValueText;
-            
+
             staminaBar.maxValue = player.MaxStamina;
             staminaBar.value = player.CurrentStamina;
             var staminaValueText = player.CurrentStamina + "/" + player.MaxStamina;
             staminaValue.text = staminaValueText;
 
             //var distance = Math.Abs(_startingPoint.x - player.GridPosition.x);
-            var distance = Math.Abs(Math.Abs(_startingPoint.x - player.GridPosition.x) + Math.Abs(_startingPoint.y - player.GridPosition.y)/10);
-            var distanceCounterText = "Distance: "+ distance +"m";
+            var distance = Math.Abs(Math.Abs(_startingPoint.x - player.GridPosition.x) +
+                                    Math.Abs(_startingPoint.y - player.GridPosition.y) / 10);
+            var distanceCounterText = "Distance: " + distance + "m";
             distanceCounter.text = distanceCounterText;
 
-            switch(player.CurrentAttack.DisplayName)
+            switch (player.CurrentAttack.DisplayName)
             {
                 case "Kick":
                     currentAttack.sprite = attackSprites[0];
@@ -92,14 +92,13 @@ namespace Maihem.Managers
 
             attackCost.text = player.CurrentAttack.StaminaCost.ToString();
             currentConsumable.sprite = player.currentConsumable.sprite;
-            
         }
 
         public void ShowGameOverUI(GameOverUI.GameOverReason reason)
         {
             gameOverUI.ShowGameOverUI(reason);
         }
-        
+
         public void TogglePlayerStats(bool active)
         {
             playerStats.SetActive(active);
@@ -116,12 +115,10 @@ namespace Maihem.Managers
         {
             consumableAnimator.SetTrigger(color);
         }
+
         public void AttackButtonFlash(string color)
         {
             attackAnimator.SetTrigger(color);
         }
     }
-   
-        
-    }
-
+}

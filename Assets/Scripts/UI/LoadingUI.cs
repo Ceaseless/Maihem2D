@@ -13,7 +13,7 @@ namespace Maihem.UI
         private void LateUpdate()
         {
             var progress = loadTrigger.LoadProgress >= loadingBarFudgeThreshold ? 1f : loadTrigger.LoadProgress;
-            loadingBar.fillAmount = 1f-progress;
+            loadingBar.fillAmount = 1f - progress;
         }
     }
 }

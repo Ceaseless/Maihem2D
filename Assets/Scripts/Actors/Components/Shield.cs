@@ -7,11 +7,13 @@ namespace Maihem.Actors.Components
 {
     public class Shield : MonoBehaviour
     {
+        private static readonly int AnimatorDamageLevel = Animator.StringToHash("Damage Level");
+        private static readonly int Activate = Animator.StringToHash("Activate");
         [SerializeField] private SpriteRenderer spriteRenderer;
         [SerializeField] private Animator animator;
         [SerializeField] private VisualEffectSettings shieldDestroyEffect;
         [SerializeField] private AudioClip shieldDestroySfx;
-        
+
         public int CurrentShield { get; private set; }
         public int MaxShield { get; private set; }
         public int LifeTime { get; private set; }
@@ -20,34 +22,32 @@ namespace Maihem.Actors.Components
 
         public bool IsActive => TurnsActive <= LifeTime && CurrentShield > 0;
 
-        private static readonly int AnimatorDamageLevel = Animator.StringToHash("Damage Level");
-        private static readonly int Activate = Animator.StringToHash("Activate");
-
         private void ResetState()
         {
             CurrentShield = 0;
             MaxShield = 0;
             LifeTime = 0;
             TurnsActive = 0;
-                
-            animator.SetInteger(AnimatorDamageLevel,0);
+
+            animator.SetInteger(AnimatorDamageLevel, 0);
         }
-        
+
         public void Tick()
         {
-            if(LifeTime == 0) return;
+            if (LifeTime == 0) return;
             TurnsActive++;
             var color = spriteRenderer.color;
             if (TurnsActive > LifeTime)
             {
-                VisualEffectsPool.Instance.PlayFloatingTextEffect($"-Shield", Color.cyan, transform.position, false);
+                VisualEffectsPool.Instance.PlayFloatingTextEffect("-Shield", Color.cyan, transform.position, false);
                 color.a = 0;
                 ResetState();
             }
             else
             {
-                color.a = 1f - (float) TurnsActive / LifeTime;
+                color.a = 1f - (float)TurnsActive / LifeTime;
             }
+
             spriteRenderer.color = color;
         }
 
@@ -60,16 +60,16 @@ namespace Maihem.Actors.Components
             CurrentShield = strength;
             MaxShield = strength;
         }
-        
+
         public void ReduceShield(int amount)
         {
-            CurrentShield = math.max(0,CurrentShield-amount);
+            CurrentShield = math.max(0, CurrentShield - amount);
             var damageRatio = (float)CurrentShield / MaxShield;
-            
-            if (damageRatio <= 0.75 && damageRatio > 0.5) animator.SetInteger(AnimatorDamageLevel,1);
-            if (damageRatio <= 0.5 && damageRatio > 0.25) animator.SetInteger(AnimatorDamageLevel,2);
-            if (damageRatio <= 0.25 && damageRatio > 0) animator.SetInteger(AnimatorDamageLevel,3);
-            
+
+            if (damageRatio <= 0.75 && damageRatio > 0.5) animator.SetInteger(AnimatorDamageLevel, 1);
+            if (damageRatio <= 0.5 && damageRatio > 0.25) animator.SetInteger(AnimatorDamageLevel, 2);
+            if (damageRatio <= 0.25 && damageRatio > 0) animator.SetInteger(AnimatorDamageLevel, 3);
+
             var color = spriteRenderer.color;
             if (CurrentShield <= 0)
             {
@@ -78,6 +78,7 @@ namespace Maihem.Actors.Components
                 color.a = 0;
                 ResetState();
             }
+
             spriteRenderer.color = color;
         }
     }

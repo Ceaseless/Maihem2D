@@ -7,9 +7,11 @@ namespace Maihem.UI
     {
         public enum GameOverReason
         {
-            Light, Health, Win
+            Light,
+            Health,
+            Win
         }
-        
+
         [SerializeField] private GameObject winScreen;
         [SerializeField] private GameObject playerBeatenMsg;
         [SerializeField] private GameObject playerWonMsg;
@@ -33,9 +35,10 @@ namespace Maihem.UI
                 default:
                     throw new ArgumentOutOfRangeException(nameof(reason), reason, null);
             }
+
             winScreen.SetActive(true);
         }
-        
+
 
         public void ResetState()
         {
@@ -44,14 +47,14 @@ namespace Maihem.UI
             playerBeatenMsg.SetActive(false);
             playerLightMsg.SetActive(false);
         }
-        
+
         private void LightGameOver()
         {
             playerWonMsg.SetActive(false);
             playerBeatenMsg.SetActive(false);
             playerLightMsg.SetActive(true);
         }
-        
+
         private void HealthGameOver()
         {
             playerWonMsg.SetActive(false);
@@ -66,6 +69,9 @@ namespace Maihem.UI
             playerWonMsg.SetActive(true);
         }
 
-        public bool IsActive() => winScreen.activeInHierarchy;
+        public bool IsActive()
+        {
+            return winScreen.activeInHierarchy;
+        }
     }
 }

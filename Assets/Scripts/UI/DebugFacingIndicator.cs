@@ -9,6 +9,7 @@ namespace Maihem.UI
     {
         private Actor _actor;
         private Facing _lastFrameFacing;
+
         private void Start()
         {
             _actor = GetComponentInParent<Actor>();
@@ -17,6 +18,7 @@ namespace Maihem.UI
                 Destroy(this);
                 return;
             }
+
             UpdateFacingArrow();
         }
 
@@ -24,7 +26,6 @@ namespace Maihem.UI
         {
             if (_lastFrameFacing == _actor.CurrentFacing) return;
             UpdateFacingArrow();
-            
         }
 
         private void UpdateFacingArrow()
@@ -41,7 +42,7 @@ namespace Maihem.UI
                 Facing.NorthWest => 135f,
                 _ => throw new ArgumentOutOfRangeException()
             };
-            transform.rotation = Quaternion.Euler(0f,0f,newZAngle);
+            transform.rotation = Quaternion.Euler(0f, 0f, newZAngle);
             _lastFrameFacing = _actor.CurrentFacing;
         }
     }

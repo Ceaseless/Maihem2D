@@ -13,7 +13,7 @@ namespace Maihem.Attacks.AttackMarkers
             spriteRenderer.color = newColor;
             markerText.text = newText;
         }
-        
+
         public void SetMarkerColor(Color newColor)
         {
             spriteRenderer.color = newColor;
@@ -23,7 +23,7 @@ namespace Maihem.Attacks.AttackMarkers
         {
             markerText.text = newText;
         }
-        
+
         public void ShowMarker()
         {
             gameObject.SetActive(true);

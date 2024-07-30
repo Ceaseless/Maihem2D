@@ -17,17 +17,23 @@ namespace Maihem.Managers
         [SerializeField] private bool periodicSpawn;
         [SerializeField] private PickupManager pickupManager;
 
-        public Action AllEnemiesPerformedTurn;
-        
         private List<Enemy> _aliveEnemies;
+        private Transform _cameraTransform;
         private List<Enemy> _deadEnemies;
+        private bool _dispatchingEnemies;
+        private int _enemiesTakingTurn;
 
         private int _spawnTimer;
-        private int _enemiesTakingTurn;
-        private bool _dispatchingEnemies;
-        private Transform _cameraTransform;
 
-       
+        private float _turnStartTime;
+
+        public Action AllEnemiesPerformedTurn;
+
+        private void OnDestroy()
+        {
+            GameManager.Instance.PlayerInput.ToggleEnemyMarkersAction -= ToggleEnemyMarkers;
+        }
+
 
         public void Initialize()
         {
@@ -37,40 +43,33 @@ namespace Maihem.Managers
             _cameraTransform = Camera.main?.transform;
         }
 
-        private void OnDestroy()
-        {
-            GameManager.Instance.PlayerInput.ToggleEnemyMarkersAction -= ToggleEnemyMarkers;
-        }
-
         private void RegisterEnemy(Enemy newEnemy, bool active = true)
         {
             newEnemy.Died += EnemyDied;
             newEnemy.TurnStarted += EnemyStartedTurn;
             newEnemy.TurnCompleted += EnemyCompletedTurn;
             newEnemy.Initialize();
-            
+
             newEnemy.gameObject.SetActive(active);
             _aliveEnemies.Add(newEnemy);
         }
 
         public void RegisterEnemies(IEnumerable<Enemy> enemies)
         {
-            foreach (var newEnemy in enemies)
-            {
-                RegisterEnemy(newEnemy, false);
-            }
+            foreach (var newEnemy in enemies) RegisterEnemy(newEnemy, false);
         }
 
         public void ResetState()
         {
             _deadEnemies?.Clear();
-            
+
             for (var i = _aliveEnemies.Count - 1; i >= 0; i--)
             {
                 var enemy = _aliveEnemies[i];
                 _aliveEnemies.RemoveAt(i);
                 Destroy(enemy.gameObject);
             }
+
             _aliveEnemies.Clear();
             _spawnTimer = 0;
             _enemiesTakingTurn = 0;
@@ -82,8 +81,8 @@ namespace Maihem.Managers
             var cameraPosition = _cameraTransform.position;
             foreach (var enemy in _aliveEnemies)
             {
-                if(enemy.gameObject.activeInHierarchy) continue;
-                if(!boundSettings.IsInActivateDistance(cameraPosition, enemy.transform.position)) continue;
+                if (enemy.gameObject.activeInHierarchy) continue;
+                if (!boundSettings.IsInActivateDistance(cameraPosition, enemy.transform.position)) continue;
                 enemy.gameObject.SetActive(true);
             }
         }
@@ -92,24 +91,28 @@ namespace Maihem.Managers
         {
             var randomCell = MapManager.Instance.GetFreeCell();
             var randomPosition = MapManager.Instance.CellToWorld(randomCell);
-            var newEnemy = Instantiate(enemyPrefabs[Random.Range(0,enemyPrefabs.Length)], randomPosition, Quaternion.identity, transform).GetComponent<Enemy>();
-            
+            var newEnemy = Instantiate(enemyPrefabs[Random.Range(0, enemyPrefabs.Length)], randomPosition,
+                Quaternion.identity, transform).GetComponent<Enemy>();
+
             RegisterEnemy(newEnemy);
         }
 
-        public bool AreAllActionsPerformed() => !_dispatchingEnemies && _enemiesTakingTurn == 0;
-        
+        public bool AreAllActionsPerformed()
+        {
+            return !_dispatchingEnemies && _enemiesTakingTurn == 0;
+        }
+
         private void CullDeadEnemies()
         {
             foreach (var deadEnemy in _deadEnemies)
-            { 
+            {
                 deadEnemy.Died -= EnemyDied;
                 deadEnemy.TurnStarted -= EnemyStartedTurn;
                 deadEnemy.TurnCompleted -= EnemyCompletedTurn;
                 _aliveEnemies.Remove(deadEnemy);
                 Destroy(deadEnemy.gameObject);
             }
-            
+
             _deadEnemies.Clear();
         }
 
@@ -117,15 +120,10 @@ namespace Maihem.Managers
         {
             var playerPosition = GameManager.Instance.Player.transform.position;
             foreach (var enemy in _aliveEnemies)
-            {
                 if (boundSettings.IsOutsideOfCullDistance(playerPosition, enemy.transform.position))
-                {
                     _deadEnemies.Add(enemy);
-                }
-            }
         }
 
-        private float _turnStartTime;
         public void Tick()
         {
             _turnStartTime = Time.time;
@@ -150,13 +148,10 @@ namespace Maihem.Managers
         {
             var now = Time.time;
             var elapsedTime = now - _turnStartTime;
-            if(elapsedTime > minimalTurnTime) {
+            if (elapsedTime > minimalTurnTime)
                 AllEnemiesPerformedTurn();
-            }
             else
-            {
                 StartCoroutine(WaitTillMinimalTurnTime(minimalTurnTime - elapsedTime));
-            }
         }
 
         private IEnumerator WaitTillMinimalTurnTime(float timeDiff)
@@ -164,58 +159,51 @@ namespace Maihem.Managers
             yield return new WaitForSeconds(timeDiff);
             AllEnemiesPerformedTurn();
         }
-      
+
         private IEnumerator AmortizedEnemyTurn()
         {
             var checkPosition = _cameraTransform.position;
             _dispatchingEnemies = true;
             foreach (var enemy in _aliveEnemies)
             {
-                if (!enemy.gameObject.activeInHierarchy && boundSettings.IsInActivateDistance(checkPosition, enemy.transform.position))
-                {
+                if (!enemy.gameObject.activeInHierarchy &&
+                    boundSettings.IsInActivateDistance(checkPosition, enemy.transform.position))
                     enemy.gameObject.SetActive(true);
-                }
-                if(!boundSettings.IsInUpdateDistance(checkPosition, enemy.transform.position)) continue;
-                
-                if(enemy.gameObject.activeInHierarchy)
+                if (!boundSettings.IsInUpdateDistance(checkPosition, enemy.transform.position)) continue;
+
+                if (enemy.gameObject.activeInHierarchy)
                     enemy.TakeTurn();
                 yield return null;
             }
+
             _dispatchingEnemies = false;
-            if (AreAllActionsPerformed())
-            {
-                TryFinishEnemyTurn();
-            }
-            
+            if (AreAllActionsPerformed()) TryFinishEnemyTurn();
         }
 
         private void EnemyStartedTurn(object sender, EventArgs args)
         {
             _enemiesTakingTurn++;
         }
-        
+
         private void EnemyCompletedTurn(object sender, EventArgs args)
         {
             _enemiesTakingTurn--;
-           
-            if (!_dispatchingEnemies && _enemiesTakingTurn == 0)
-            {
-                TryFinishEnemyTurn();
-            }
+
+            if (!_dispatchingEnemies && _enemiesTakingTurn == 0) TryFinishEnemyTurn();
         }
-        
-        private void EnemyDied(object sender, DeathEventArgs eventArgs )
+
+        private void EnemyDied(object sender, DeathEventArgs eventArgs)
         {
             var enemy = eventArgs.DeadGameObject.GetComponent<Enemy>();
             _deadEnemies.Add(enemy);
             pickupManager.TrySpawnPickup(eventArgs.DeadGameObject.transform.position, enemy.loot);
         }
-        
+
         public bool CellContainsEnemy(Vector2Int gridPosition)
         {
             return _aliveEnemies.Any(enemy => enemy.GridPosition == gridPosition);
-        } 
-        
+        }
+
         public bool TryGetEnemyOnCell(Vector2Int gridPosition, out Enemy enemy)
         {
             foreach (var e in _aliveEnemies)
@@ -224,32 +212,27 @@ namespace Maihem.Managers
                 enemy = e;
                 return true;
             }
+
             enemy = null;
             return false;
         }
 
         public IList<Enemy> GetEnemiesInProximity(Vector2Int origin, int range)
         {
-            return _aliveEnemies.Where(enemy => Vector2Int.Distance(origin,enemy.GridPosition) <= range).ToList();
+            return _aliveEnemies.Where(enemy => Vector2Int.Distance(origin, enemy.GridPosition) <= range).ToList();
         }
 
         private void HideEnemyMarkers()
         {
-            foreach (var e in _aliveEnemies)
-            {
-                e.ShowAttackMarkers(false);
-            }
+            foreach (var e in _aliveEnemies) e.ShowAttackMarkers(false);
         }
-        
+
         private void ToggleEnemyMarkers(object sender, ToggleEventArgs args)
         {
             if (args.ToggleValue)
             {
                 var enemies = GameManager.Instance.GetEnemiesInProximity(GameManager.Instance.Player.GridPosition, 10);
-                foreach (var enemy in enemies)
-                {
-                    enemy.ShowAttackMarkers(true);
-                }
+                foreach (var enemy in enemies) enemy.ShowAttackMarkers(true);
             }
             else
             {

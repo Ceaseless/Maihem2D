@@ -14,10 +14,11 @@ namespace Maihem.Movements
 
             if (shortestPath.Count <= 2)
             {
-                shortestPath.RemoveRange(0,shortestPath.Count-1);
+                shortestPath.RemoveRange(0, shortestPath.Count - 1);
                 return shortestPath;
             }
-            shortestPath.RemoveRange(0,shortestPath.Count-2);
+
+            shortestPath.RemoveRange(0, shortestPath.Count - 2);
             return shortestPath;
         }
     }

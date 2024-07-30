@@ -8,42 +8,51 @@ namespace Maihem.Actors.Components
 {
     public class HealthSystem : MonoBehaviour
     {
-        [SerializeField] private int maxHealth;
-        [SerializeField] private Shield shield;
-        [Header("Flash Effect Settings")]
-        [SerializeField] private SpriteRenderer parentSpriteRenderer;
-        [SerializeField] private float damageFlashDuration = 0.1f;
-        [SerializeField] private float healFlashDuration = 0.2f;
-        [SerializeField][ColorUsage(true,true)] private Color damageFlashColor = Color.red;
-        [SerializeField] [ColorUsage(true, true)] private Color healFlashColor = Color.green;
-        [SerializeField][ColorUsage(true,true)] private Color shieldFlashColor = Color.blue;
-
-        private Material _parentMaterial;
-        private bool _isFlashing;
         private static readonly int FlashAmountID = Shader.PropertyToID("_FlashAmount");
         private static readonly int FlashColorID = Shader.PropertyToID("_FlashColor");
-       
-        public event EventHandler<HealthChangeEvent> OnHealthChange;
+        [SerializeField] private int maxHealth;
+        [SerializeField] private Shield shield;
+
+        [Header("Flash Effect Settings")] [SerializeField]
+        private SpriteRenderer parentSpriteRenderer;
+
+        [SerializeField] private float damageFlashDuration = 0.1f;
+        [SerializeField] private float healFlashDuration = 0.2f;
+
+        [SerializeField] [ColorUsage(true, true)]
+        private Color damageFlashColor = Color.red;
+
+        [SerializeField] [ColorUsage(true, true)]
+        private Color healFlashColor = Color.green;
+
+        [SerializeField] [ColorUsage(true, true)]
+        private Color shieldFlashColor = Color.blue;
+
+        private bool _isFlashing;
+
+        private Material _parentMaterial;
         public bool IsDead => maxHealth == 0 || CurrentHealth <= 0;
         public int CurrentHealth { get; private set; }
         public int MaxHealth => maxHealth;
 
         private void Awake()
         {
-            if(parentSpriteRenderer)
+            if (parentSpriteRenderer)
                 _parentMaterial = parentSpriteRenderer.material;
         }
+
+        public event EventHandler<HealthChangeEvent> OnHealthChange;
 
         public void Tick()
         {
             shield.Tick();
         }
-        
+
         public void RecoverFullHealth()
         {
             var old = CurrentHealth;
             CurrentHealth = maxHealth;
-            OnHealthChange?.Invoke(this, new HealthChangeEvent{ ChangeAmount = CurrentHealth - old });
+            OnHealthChange?.Invoke(this, new HealthChangeEvent { ChangeAmount = CurrentHealth - old });
         }
 
         public void AddShield(int strength, int lifetime)
@@ -60,12 +69,13 @@ namespace Maihem.Actors.Components
                 shield.ReduceShield(1);
                 return;
             }
+
             var old = CurrentHealth;
             CurrentHealth = math.max(0, CurrentHealth - amount);
             Flash(damageFlashColor, damageFlashDuration);
-            
+
             VisualEffectsPool.Instance.PlayFloatingTextEffect($"-{amount}", damageFlashColor, transform.position);
-            OnHealthChange?.Invoke(this, new HealthChangeEvent{ ChangeAmount = old - CurrentHealth });
+            OnHealthChange?.Invoke(this, new HealthChangeEvent { ChangeAmount = old - CurrentHealth });
         }
 
         public void RecoverHealth(int amount)
@@ -73,9 +83,9 @@ namespace Maihem.Actors.Components
             if (amount <= 0) return;
             var old = CurrentHealth;
             CurrentHealth = math.min(maxHealth, CurrentHealth + amount);
-            Flash(healFlashColor,healFlashDuration);
+            Flash(healFlashColor, healFlashDuration);
             VisualEffectsPool.Instance.PlayFloatingTextEffect($"+{amount}HP", healFlashColor, transform.position);
-            OnHealthChange?.Invoke(this, new HealthChangeEvent{ ChangeAmount = CurrentHealth - old });
+            OnHealthChange?.Invoke(this, new HealthChangeEvent { ChangeAmount = CurrentHealth - old });
         }
 
         public void Flash(Color color, float duration)
@@ -96,6 +106,7 @@ namespace Maihem.Actors.Components
                 time += Time.deltaTime;
                 yield return null;
             }
+
             _parentMaterial.SetFloat(FlashAmountID, 1f);
             time = 0f;
             while (time < halfTime)
@@ -104,11 +115,12 @@ namespace Maihem.Actors.Components
                 time += Time.deltaTime;
                 yield return null;
             }
+
             _parentMaterial.SetFloat(FlashAmountID, 0f);
             _isFlashing = false;
         }
     }
-    
+
     public class HealthChangeEvent : EventArgs
     {
         public int ChangeAmount { get; set; }

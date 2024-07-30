@@ -16,7 +16,7 @@ namespace Maihem.Managers
             Info,
             Exit
         }
-        
+
         [SerializeField] private GameObject infoWindow;
         [SerializeField] private Button startButton;
         [SerializeField] private Button tutorialButton;
@@ -24,8 +24,9 @@ namespace Maihem.Managers
         [SerializeField] private Button exitButton;
         [SerializeField] private float delayTime = 0.5f;
         [SerializeField] private AudioClip selectSound;
-        public static bool TutorialActivated { get; private set; }
         private Action _delayedAction;
+        public static bool TutorialActivated { get; private set; }
+
         private void Start()
         {
             AudioManager.Instance.FadeInMusic(2f);
@@ -33,7 +34,6 @@ namespace Maihem.Managers
             tutorialButton.onClick.AddListener(() => ClickButton(MenuButton.Tutorial));
             infoButton.onClick.AddListener(() => ClickButton(MenuButton.Info));
             exitButton.onClick.AddListener(() => ClickButton(MenuButton.Exit));
-            
         }
 
         private void ClickButton(MenuButton clickedButton)
@@ -60,7 +60,6 @@ namespace Maihem.Managers
         {
             TutorialActivated = true;
             LoadGameScene();
-            
         }
 
         private void LoadGameScene()
@@ -84,6 +83,5 @@ namespace Maihem.Managers
             yield return new WaitForSeconds(delayTime);
             _delayedAction.Invoke();
         }
-        
     }
 }

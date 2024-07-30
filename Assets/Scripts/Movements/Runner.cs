@@ -11,8 +11,8 @@ namespace Maihem.Movements
         {
             var player = GameManager.Instance.Player;
             var shortestPath = MapManager.Instance.FindShortestDistance(gridPosition, player.GridPosition);
-            
-            if(shortestPath.Count >0) shortestPath.RemoveRange(0,shortestPath.Count-1);
+
+            if (shortestPath.Count > 0) shortestPath.RemoveRange(0, shortestPath.Count - 1);
             return shortestPath;
         }
     }

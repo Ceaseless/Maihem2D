@@ -6,12 +6,13 @@ namespace Maihem.Maps
     public class KillZoneController : MonoBehaviour
     {
         [SerializeField] private float playerMaxDistance = 20f;
-        [Min(0f)]
-        [SerializeField] private float passiveMoveSpeed = 0.5f;
-        [Min(0f)]
-        [SerializeField] private float activeMoveSpeed = 1f;
+
+        [Min(0f)] [SerializeField] private float passiveMoveSpeed = 0.5f;
+
+        [Min(0f)] [SerializeField] private float activeMoveSpeed = 1f;
 
         public bool stopped;
+
         private void Start()
         {
             transform.position = Vector3.zero;
@@ -22,7 +23,7 @@ namespace Maihem.Maps
             stopped = false;
             transform.position = Vector3.zero;
         }
-        
+
         public void UpdateBounds()
         {
             if (stopped) return;
@@ -30,11 +31,8 @@ namespace Maihem.Maps
             var speed = player.transform.position.x - transform.position.x > playerMaxDistance
                 ? activeMoveSpeed
                 : passiveMoveSpeed;
-            
+
             transform.Translate(Vector3.right * speed);
         }
-        
-
-       
     }
 }

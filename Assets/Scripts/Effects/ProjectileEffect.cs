@@ -9,10 +9,9 @@ namespace Maihem.Effects
         {
             StartCoroutine(ProjectileAnimation(start, end, duration));
         }
-        
+
         private IEnumerator ProjectileAnimation(Vector3 start, Vector3 end, float duration)
         {
-           
             var time = 0f;
             while (time < duration)
             {
@@ -20,6 +19,7 @@ namespace Maihem.Effects
                 time += Time.deltaTime;
                 yield return null;
             }
+
             transform.position = end;
             Destroy(gameObject);
         }

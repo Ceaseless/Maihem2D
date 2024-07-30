@@ -1,4 +1,3 @@
-using Maihem.Effects;
 using Maihem.Managers;
 using UnityEngine;
 
@@ -15,9 +14,8 @@ namespace Maihem.Pickups
             player.healthSystem.RecoverHealth(healthRestored);
             player.RecoverStamina(staminaRestored);
             PlayOnPickUpEffects();
-            
-            
-           
+
+
             IsUsed = true;
         }
     }

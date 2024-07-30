@@ -13,7 +13,6 @@ namespace Maihem.Managers
 {
     public class GameManager : MonoBehaviour
     {
-        public static GameManager Instance { get; private set; }
         [SerializeField] private GameObject playerPrefab;
         [SerializeField] private PlayerInput playerInput;
         [SerializeField] private KillZoneController boundsController;
@@ -24,17 +23,17 @@ namespace Maihem.Managers
         [SerializeField] private CinemachineVirtualCamera followCamera;
         [SerializeField] private CinemachineConfiner2D cameraConfiner;
         [SerializeField] private AudioClip playerLostSound;
-        
+        private bool _gameOver;
+        private bool _nonPlayerTurn;
+        private bool _performPostSceneChangeSetup;
+
+        private bool _playerLost;
+        private bool _triggerTurnOnNextFrame;
+        public static GameManager Instance { get; private set; }
+
         private int TurnCount { get; set; }
         public Player Player { get; private set; }
         public PlayerInput PlayerInput => playerInput;
-
-        private bool _playerLost;
-        private bool _gameOver;
-        private bool _triggerTurnOnNextFrame;
-        private bool _nonPlayerTurn;
-        private bool _performPostSceneChangeSetup;
-        
 
 
         private void Awake()
@@ -46,10 +45,7 @@ namespace Maihem.Managers
             else
             {
                 Destroy(gameObject);
-                return;
             }
-
-            
         }
 
         private void Start()
@@ -67,7 +63,20 @@ namespace Maihem.Managers
             audioManager.FadeInMusic(2f);
             _performPostSceneChangeSetup = true;
             PlayerInput.PauseGameAction += PauseGame;
+        }
 
+
+        private void Update()
+        {
+            if (_performPostSceneChangeSetup)
+            {
+                cameraConfiner.InvalidateCache();
+                followCamera.Follow = Player.transform;
+                _performPostSceneChangeSetup = false;
+            }
+
+            if (_gameOver || !_triggerTurnOnNextFrame) return;
+            TriggerTurn();
         }
 
         private void OnDestroy()
@@ -87,10 +96,8 @@ namespace Maihem.Managers
             Player = playerObject.GetComponent<Player>();
             Player.Initialize();
             Player.TurnCompleted += OnPlayerTurnComplete;
-            
+
             followCamera.Follow = Player.transform;
-            
-            
         }
 
         public void ResetGame()
@@ -110,7 +117,6 @@ namespace Maihem.Managers
             pickupManager.UpdatePickupsActiveState();
             uiManager.ResetState();
             audioManager.ResetMusic();
-            
         }
 
         public void PassMapData(MapData data)
@@ -132,6 +138,7 @@ namespace Maihem.Managers
                 actor = enemy;
                 return true;
             }
+
             actor = null;
             return false;
         }
@@ -143,6 +150,7 @@ namespace Maihem.Managers
                 foundEnemy = enemy;
                 return true;
             }
+
             foundEnemy = null;
             return false;
         }
@@ -164,10 +172,11 @@ namespace Maihem.Managers
 
         public bool CanTakeTurn()
         {
-            return !_playerLost && !_nonPlayerTurn && !_triggerTurnOnNextFrame && enemyManager.AreAllActionsPerformed() && !Player.IsPerformingAction;
+            return !_playerLost && !_nonPlayerTurn && !_triggerTurnOnNextFrame &&
+                   enemyManager.AreAllActionsPerformed() && !Player.IsPerformingAction;
         }
 
-        public IList<Enemy> GetEnemiesInProximity(Vector2Int origin ,int range)
+        public IList<Enemy> GetEnemiesInProximity(Vector2Int origin, int range)
         {
             return enemyManager.GetEnemiesInProximity(origin, range);
         }
@@ -176,20 +185,6 @@ namespace Maihem.Managers
         {
             _nonPlayerTurn = true;
             _triggerTurnOnNextFrame = true;
-        }
-
-        
-        private void Update()
-        {
-            if (_performPostSceneChangeSetup)
-            {
-                cameraConfiner.InvalidateCache();
-                followCamera.Follow = Player.transform;
-                _performPostSceneChangeSetup = false;
-            }
-            
-            if (_gameOver || !_triggerTurnOnNextFrame) return;
-            TriggerTurn();
         }
 
         private void TriggerTurn()
@@ -203,10 +198,11 @@ namespace Maihem.Managers
                 GameOver();
                 return;
             }
+
             pickupManager.Tick();
             enemyManager.Tick();
         }
-        
+
 
         private void OnEnemyTurnCompleted()
         {
@@ -214,7 +210,7 @@ namespace Maihem.Managers
             Player.Tick();
             TurnCount++;
             _nonPlayerTurn = false;
-            
+
             if (!Player.IsDead) return;
             uiManager.ShowGameOverUI(GameOverUI.GameOverReason.Health);
             _playerLost = true;
@@ -225,10 +221,7 @@ namespace Maihem.Managers
         {
             if (!CanTakeTurn() || _gameOver) return;
             var toggleValue = !Player.IsPaused;
-            if (uiManager.TrySetPauseMenuActive(toggleValue))
-            {
-                Player.PausePlayer(toggleValue);
-            }
+            if (uiManager.TrySetPauseMenuActive(toggleValue)) Player.PausePlayer(toggleValue);
         }
 
         public void LoadMainMenu()
@@ -237,7 +230,7 @@ namespace Maihem.Managers
             SceneLoadingData.SceneToLoad = SceneLoadingData.LoadableScene.MainMenu;
             SceneManager.LoadScene(SceneLoadingData.LoadableScene.LoadingScene.ToString());
         }
-        
+
         public void Exit()
         {
             Application.Quit();
@@ -249,8 +242,9 @@ namespace Maihem.Managers
             if (_playerLost)
             {
                 AudioManager.Instance.StopMusic();
-                AudioManager.Instance.PlaySoundFX(playerLostSound,Player.GridPosition,1f);
+                AudioManager.Instance.PlaySoundFX(playerLostSound, Player.GridPosition, 1f);
             }
+
             uiManager.ShowGameOverUI(GameOverUI.GameOverReason.Win);
         }
 
@@ -274,10 +268,10 @@ namespace Maihem.Managers
         {
             uiManager.ItemButtonFlash(color);
         }
+
         public void AttackButtonFlash(string color)
         {
             uiManager.AttackButtonFlash(color);
         }
-        
     }
 }

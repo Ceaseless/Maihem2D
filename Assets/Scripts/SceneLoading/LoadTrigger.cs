@@ -18,18 +18,16 @@ namespace Maihem.SceneLoading
             var loadHandle = SceneManager.LoadSceneAsync(SceneLoadingData.SceneToLoad.ToString());
             if (loadHandle == null)
             {
-                Debug.LogError($"[Load Trigger]: Invalid scene name when loading {SceneLoadingData.SceneToLoad.ToString()}");
+                Debug.LogError(
+                    $"[Load Trigger]: Invalid scene name when loading {SceneLoadingData.SceneToLoad.ToString()}");
                 yield break;
             }
+
             loadHandle.allowSceneActivation = false;
             while (!loadHandle.isDone)
             {
                 LoadProgress = loadHandle.progress;
-                if (loadHandle.progress >= 0.9f)
-                {
-                    loadHandle.allowSceneActivation = true;
-                    
-                }
+                if (loadHandle.progress >= 0.9f) loadHandle.allowSceneActivation = true;
                 yield return null;
             }
         }

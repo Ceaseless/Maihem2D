@@ -6,6 +6,7 @@ namespace Maihem.Tutorial
     public class EnableKillZone : MonoBehaviour
     {
         private bool _triggered;
+
         private void OnTriggerEnter2D(Collider2D other)
         {
             if (_triggered) return;

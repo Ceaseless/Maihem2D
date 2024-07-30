@@ -8,10 +8,12 @@ namespace Maihem.Maps
     {
         [SerializeField] private Animator animator;
         [SerializeField] private AudioClip victory;
+        private static readonly int AnimatorGameOver = Animator.StringToHash("GameOver");
+
         private void OnTriggerEnter2D(Collider2D other)
         {
             if (other.gameObject.GetComponent<Player>() == null) return;
-            animator.SetTrigger("GameOver");
+            animator.SetTrigger(AnimatorGameOver);
             GameManager.Instance.GoalReached();
             AudioManager.Instance.StopMusic();
             AudioManager.Instance.PlaySoundFX(victory, MapManager.Instance.WorldToCell(transform.position), 1f);

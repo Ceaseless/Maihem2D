@@ -6,15 +6,11 @@ namespace Maihem.Effects
     // Have to be set to active from the outside
     public class OneShotParticleEffect : MonoBehaviour
     {
-        [SerializeField]
-        private ParticleSystem effectParticleSystem;
+        [SerializeField] private ParticleSystem effectParticleSystem;
 
         private void Update()
         {
-            if (!effectParticleSystem.isPlaying)
-            {
-                gameObject.SetActive(false);
-            }
+            if (!effectParticleSystem.isPlaying) gameObject.SetActive(false);
         }
     }
 }

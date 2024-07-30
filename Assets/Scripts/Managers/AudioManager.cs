@@ -7,26 +7,26 @@ namespace Maihem.Managers
 {
     public class AudioManager : MonoBehaviour
     {
-        public static AudioManager Instance { get; private set; }
-
-        [SerializeField] private AudioMixer audioMixer;
-        
-        [Header("Music Settings")] [SerializeField]
-        private AudioSource musicSource;
-        
-        [Header("Sound Effects Settings")]
-        [SerializeField] private float minimalTimeBetweenSfx;
-        [SerializeField] private AudioSource soundFXSourcePrefab;
-        [SerializeField] private int initialPoolSize;
-        [SerializeField] private int poolGrowthStep;
-
-        private List<AudioSource> _sfxSourcePool;
-        private float _lastSfxTimestamp;
-
         private const string MasterVolumeParameter = "masterVolume";
         private const string EffectVolumeParameter = "effectsVolume";
         private const string MusicVolumeParameter = "musicVolume";
-        
+
+        [SerializeField] private AudioMixer audioMixer;
+
+        [Header("Music Settings")] [SerializeField]
+        private AudioSource musicSource;
+
+        [Header("Sound Effects Settings")] [SerializeField]
+        private float minimalTimeBetweenSfx;
+
+        [SerializeField] private AudioSource soundFXSourcePrefab;
+        [SerializeField] private int initialPoolSize;
+        [SerializeField] private int poolGrowthStep;
+        private float _lastSfxTimestamp;
+
+        private List<AudioSource> _sfxSourcePool;
+        public static AudioManager Instance { get; private set; }
+
         private void Awake()
         {
             if (Instance == null)
@@ -38,9 +38,8 @@ namespace Maihem.Managers
                 Destroy(gameObject);
                 return;
             }
-            
-            InitializeSfxSourcePool();
 
+            InitializeSfxSourcePool();
         }
 
         private void InitializeSfxSourcePool()
@@ -58,13 +57,13 @@ namespace Maihem.Managers
             var adjustedLevel = Mathf.Clamp(level, 0.0001f, 1f);
             audioMixer.SetFloat(MasterVolumeParameter, Mathf.Log10(adjustedLevel) * 20f);
         }
-        
+
         public void SetEffectVolume(float level)
         {
             var adjustedLevel = Mathf.Clamp(level, 0.0001f, 1f);
             audioMixer.SetFloat(EffectVolumeParameter, Mathf.Log10(adjustedLevel) * 20f);
         }
-        
+
         public void SetMusicVolume(float level)
         {
             var adjustedLevel = Mathf.Clamp(level, 0.0001f, 1f);
@@ -123,6 +122,7 @@ namespace Maihem.Managers
                 PlaySoundFXDelayed(audioClip, sourcePosition, volume, minimalTimeBetweenSfx);
                 return;
             }
+
             var source = GetSfxAudioSource();
             source.transform.position = sourcePosition;
             source.clip = audioClip;
@@ -134,9 +134,8 @@ namespace Maihem.Managers
         private AudioSource GetSfxAudioSource()
         {
             foreach (var potentialSource in _sfxSourcePool)
-            {
-                if (!potentialSource.isPlaying) return potentialSource;
-            }
+                if (!potentialSource.isPlaying)
+                    return potentialSource;
 
             for (var i = 0; i < poolGrowthStep; i++)
             {
@@ -158,9 +157,10 @@ namespace Maihem.Managers
                 time += Time.deltaTime;
                 yield return null;
             }
+
             source.volume = 1f;
         }
-        
+
         private IEnumerator FadeOutAudioSource(AudioSource source, float fadeTime)
         {
             source.volume = 1f;
@@ -172,16 +172,16 @@ namespace Maihem.Managers
                 time += Time.deltaTime;
                 yield return null;
             }
+
             source.volume = 0f;
         }
-        
+
         private IEnumerator DelayedSfx(AudioClip audioClip, Vector3 sourcePosition, float volume, float delay)
         {
             yield return new WaitForSeconds(delay);
-            PlaySoundFX(audioClip, sourcePosition,volume, true);
+            PlaySoundFX(audioClip, sourcePosition, volume, true);
         }
-        
-        
+
 
         private bool IsSfxAllowedToPlay()
         {

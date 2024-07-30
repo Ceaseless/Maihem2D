@@ -5,7 +5,6 @@ using UnityEngine.Tilemaps;
 
 namespace Maihem.Maps
 {
-   
     public class MapChunk : MonoBehaviour
     {
         [field: SerializeField] public Tilemap GroundLayer { get; private set; }

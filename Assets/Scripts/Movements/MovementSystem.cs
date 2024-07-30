@@ -13,9 +13,9 @@ namespace Maihem.Movements
         [SerializeField] private MovementStrategy currentStrategy;
         [SerializeField] private VisualEffectSettings detectionEffect;
         [SerializeField] private AudioClip detectionSoundEffect;
-        
-        private Actor _parentActor;
         private bool _isActivated;
+
+        private Actor _parentActor;
 
         private void Awake()
         {
@@ -30,9 +30,9 @@ namespace Maihem.Movements
             {
                 _isActivated = true;
                 var effectPosition = _parentActor.transform.position + Vector3.up;
-                
+
                 VisualEffectsPool.Instance.PlayVisualEffect(detectionEffect, effectPosition);
-                AudioManager.Instance.PlaySoundFX(detectionSoundEffect, effectPosition,1f);
+                AudioManager.Instance.PlaySoundFX(detectionSoundEffect, effectPosition, 1f);
             }
         }
 
@@ -49,11 +49,9 @@ namespace Maihem.Movements
                 }
 
                 // Idle move found a position
-                if (MovementStrategy.TryIdleMove(_parentActor.GridPosition, _parentActor.CurrentFacing.GetFacingVector(), out path))
-                {
-                    return true;
-                }
-                
+                if (MovementStrategy.TryIdleMove(_parentActor.GridPosition,
+                        _parentActor.CurrentFacing.GetFacingVector(), out path)) return true;
+
                 // Idle move didn't find a position -> Wait
                 path = null;
                 return false;

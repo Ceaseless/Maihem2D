@@ -1,6 +1,6 @@
 namespace Maihem.Enums
 {
-    public enum ConsumableType 
+    public enum ConsumableType
     {
         Health,
         Stamina,

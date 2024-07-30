@@ -1,15 +1,13 @@
 using System.Collections.Generic;
 using Maihem.Managers;
 using UnityEngine;
-using Random = UnityEngine.Random;
-
 
 namespace Maihem.Movements
 {
     public abstract class MovementStrategy : ScriptableObject
     {
         [SerializeField] private float alertRange;
-        
+
         public static bool TryIdleMove(Vector2Int gridPosition, Vector2Int facing, out List<Vector2Int> path)
         {
             var cellInFacingDir = gridPosition + facing;
@@ -23,7 +21,7 @@ namespace Maihem.Movements
 
             path = null;
             return false;
-            
+
 
             // var offsetLength = MapManager.CellNeighborOffsets.Length;
             // for (var i = 0; i < 20; i++)
@@ -41,7 +39,7 @@ namespace Maihem.Movements
             // path = null;
             // return false;
         }
-        
+
         public bool CheckAlert(Vector2Int gridPosition)
         {
             var player = GameManager.Instance.Player;

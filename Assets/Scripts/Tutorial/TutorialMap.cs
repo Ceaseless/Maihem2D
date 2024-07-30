@@ -10,6 +10,5 @@ namespace Maihem.Tutorial
             GameManager.Instance.ToggleKillZone(true);
             GameManager.Instance.TogglePlayerStats(false);
         }
-        
     }
 }
